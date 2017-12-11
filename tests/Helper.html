@@ -28,7 +28,6 @@
 	}
 
     var items = new Map([
-        ['$a', undefined],
         ['null',null],
         ['false',false],
         ['true',true],
@@ -42,7 +41,8 @@
         ['str', 'str'],
         ['[0,1]', [0,1]],
         ['[0]', [0]],
-        ['new Object()', new Object()]
+        ['new Object()', new Object()],
+        ['$a[\'undefined\']', undefined],
     ]);
     
 	var html = '';
