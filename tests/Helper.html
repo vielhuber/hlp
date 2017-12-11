@@ -22,6 +22,8 @@
 		html += ' | <sub>'; try { if( input.length > 0 ) { html += 'true'; } else { html += 'false'; } } catch(e) { html += 'type error'; } html += '</sub>';
 		html += ' | <sub>'; if( input != '' ) { html += 'true'; } else { html += 'false'; } html += '</sub>';
 		html += ' | <sub>'; if( input !== '' ) { html += 'true'; } else { html += 'false'; } html += '</sub>';
+        html += ' | <sub>'; if( !!input ) { html += 'true'; } else { html += 'false'; } html += '</sub>';
+        html += ' | <sub>'; if( Boolean(input) ) { html += 'true'; } else { html += 'false'; } html += '</sub>';
 		html += ' | <sub>'; if( __x(input) ) { html += 'true'; } else { html += 'false'; } html += '</sub>';
 		html += ' |'; 
 		return html;
@@ -41,7 +43,7 @@
         ['str', 'str'],
         ['[0,1]', [0,1]],
         ['[0]', [0]],
-        ['new Object()', new Object()],
+        ['{}', {}],
         ['$a[\'undefined\']', undefined],
     ]);
     
@@ -59,10 +61,12 @@
 	html += '| <sub>length > 0</sub> ';
 	html += '| <sub>!= \'\'</sub> ';
 	html += '| <sub>!== \'\'</sub> ';
+    html += '| <sub>!!</sub> ';
+    html += '| <sub>Boolean()</sub> ';
 	html += '| <sub>__x</sub> ';
 	html += '|';
 	html += '\n';
-	html += '| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |';
+	html += '| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |';
 
 	items.forEach((items__value, items__key) =>
     {
