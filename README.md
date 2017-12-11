@@ -1,6 +1,6 @@
 ## installation
 
-```
+```html
 <script src="/vendor/vielhuber/stringhelper/stringhelper.js"></script> 
 ```
 
@@ -8,19 +8,19 @@
 
 ```js
 
-// on https://tld.com/?foo=bar&bar=baz
+// https://tld.com/?foo=bar&bar=baz
 __get('foo') // foo
 __get('bar') // baz
 __get('baz') // null
 ```
 
 
-### php implementation
+## php implementation
 
 there is also a php implemenation [stringhelperjs](https://github.com/vielhuber/stringhelper) with similiar functions available.
 
 
-### overview of __x
+## overview of __x
 
 | | <sub>!== null</sub> | <sub>!= null</sub> | <sub>!== false</sub> | <sub>!= false</sub> | <sub>=== true</sub> | <sub>== true</sub> | <sub>typeof input !== 'undefined'</sub> | <sub>if/else</sub> | <sub>ternary</sub> | <sub>length > 0</sub> | <sub>!= ''</sub> | <sub>!== ''</sub> | <sub>__x</sub> |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
