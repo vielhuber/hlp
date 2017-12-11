@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+    <title>.</title>
+    <script src="../stringhelper.js"></script>
+    
+    <script type="text/javascript">
+	function outputRow(input)
+    {
+		var html = '';
+		html += '| <sub>'; if( input !== null ) { html += 'true'; } else { html += 'false'; } html += '</sub>';
+		html += ' | <sub>'; if( input != null ) { html += 'true'; } else { html += 'false'; } html += '</sub>';
+		html += ' | <sub>'; if( input !== false ) { html += 'true'; } else { html += 'false'; } html += '</sub>';
+		html += ' | <sub>'; if( input != false ) { html += 'true'; } else { html += 'false'; } html += '</sub>';
+		html += ' | <sub>'; if( input === true ) { html += 'true'; } else { html += 'false'; } html += '</sub>';
+		html += ' | <sub>'; if( input == true ) { html += 'true'; } else { html += 'false'; } html += '</sub>';
+		html += ' | <sub>'; if( typeof input !== 'undefined' ) { html += 'true'; } else { html += 'false'; } html += '</sub>';
+		html += ' | <sub>'; if( input ) { html += 'true'; } else { html += 'false'; } html += '</sub>';
+		html += ' | <sub>'; html += ((input)?('true'):('false')); html += '</sub>';
+		html += ' | <sub>'; try { if( input.length > 0 ) { html += 'true'; } else { html += 'false'; } } catch(e) { html += 'type error'; } html += '</sub>';
+		html += ' | <sub>'; if( input != '' ) { html += 'true'; } else { html += 'false'; } html += '</sub>';
+		html += ' | <sub>'; if( input !== '' ) { html += 'true'; } else { html += 'false'; } html += '</sub>';
+		html += ' | <sub>'; if( __x(input) ) { html += 'true'; } else { html += 'false'; } html += '</sub>';
+		html += ' |'; 
+		return html;
+	}
+
+    var items = new Map([
+        ['$a', undefined],
+        ['null',null],
+        ['false',false],
+        ['true',true],
+        ['[]',[]],
+        ['[\'\']',['']],
+        ['0', 0],
+        ['1', 1],
+        ['-1', -1],
+        ['\'\'', ''],
+        ['\' \'', ' '],
+        ['str', 'str'],
+        ['[0,1]', [0,1]],
+        ['[0]', [0]],
+        ['new Object()', new Object()]
+    ]);
+    
+	var html = '';
+	html += '| ';
+	html += '| <sub>!== null</sub> ';
+	html += '| <sub>!= null</sub> ';
+	html += '| <sub>!== false</sub> ';
+	html += '| <sub>!= false</sub> ';
+	html += '| <sub>=== true</sub> ';
+	html += '| <sub>== true</sub> ';
+	html += '| <sub>typeof input !== \'undefined\'</sub> ';
+	html += '| <sub>if/else</sub> ';
+	html += '| <sub>ternary</sub> ';
+	html += '| <sub>length > 0</sub> ';
+	html += '| <sub>!= \'\'</sub> ';
+	html += '| <sub>!== \'\'</sub> ';
+	html += '| <sub>__x</sub> ';
+	html += '|';
+	html += '\n';
+	html += '| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |';
+
+	items.forEach((items__value, items__key) =>
+    {
+		html += '\n';
+		html += '| <sub>'+items__key+'</sub> ';
+		html += outputRow(items__value);
+	})
+	document.addEventListener('DOMContentLoaded', () =>
+    {
+		document.querySelector('textarea').innerHTML = html;
+	});
+    </script>
+
+    <style type='text/css'>
+    *
+    {
+        box-sizing: border-box;
+        margin:0;
+    }
+    html, body
+    {
+        width:100%;
+        height:100%;
+    }
+    body
+    {
+    }
+    textarea
+    {
+        font-size:9px;
+        font-family:sans-serif;
+        width:100%;
+        height:50%;
+    }
+    </style>
+
+</head>
+<body>
+
+	<textarea></textarea>
+
+</body>
+</html>
