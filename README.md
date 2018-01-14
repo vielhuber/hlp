@@ -1,7 +1,17 @@
 ## installation
 
+```
+yarn init -y && yarn add stringhelperjs
+```
+
+now embed it directly:
 ```html
-<script src="/vendor/vielhuber/stringhelper/stringhelper.js"></script> 
+<script src="stringhelper.js"></script> 
+```
+
+or use it as a module:
+```js
+const stringhelper = require('stringhelperjs');
 ```
 
 ## usage
