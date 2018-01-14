@@ -1,18 +1,19 @@
 ## installation
 
 ```
-yarn init -y && yarn add stringhelperjs
+yarn init -y && yarn add hlp
 ```
 
 now embed it directly:
 ```html
-<script src="stringhelper.js"></script> 
+<script src="hlp.js"></script> 
 ```
 
 or use it as a module:
 ```js
-const stringhelper = require('stringhelperjs');
+const hlp = require('hlp');
 ```
+
 
 ## usage
 

@@ -1,0 +1,8 @@
+{
+  "name": "hlp",
+  "version": "1.0.0",
+  "main": "hlp.js",
+  "repository": "git@github.com:vielhuber/hlp.git",
+  "author": "David Vielhuber <david@vielhuber.de>",
+  "license": "MIT"
+}
