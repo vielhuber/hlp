@@ -49,3 +49,8 @@ function __get(variable) {
     }
     return null;
 }
+
+function __ucfirst(string)
+{
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
