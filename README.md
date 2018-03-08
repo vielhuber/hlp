@@ -11,13 +11,15 @@ now embed it directly:
 
 or use it as a module:
 ```js
-const hlp = require('hlp');
+import hlp from 'hlp';
 ```
 
 
 ## usage
 
 ```js
+// capitalize
+__capitalize('foo') // Foo
 
 // https://tld.com/?foo=bar&bar=baz
 __get('foo') // foo
