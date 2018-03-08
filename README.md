@@ -6,7 +6,7 @@ yarn init -y && yarn add hlp
 
 now embed it directly:
 ```html
-<script src="hlp.js"></script> 
+<script src="hlp.min.js"></script> 
 ```
 
 or use it as a module:
@@ -19,12 +19,12 @@ import hlp from 'hlp';
 
 ```js
 // capitalize
-__capitalize('foo') // Foo
+hlp.capitalize('foo') // Foo
 
 // https://tld.com/?foo=bar&bar=baz
-__get('foo') // foo
-__get('bar') // baz
-__get('baz') // null
+hlp.get('foo') // foo
+hlp.get('bar') // baz
+hlp.get('baz') // null
 ```
 
 

@@ -28,10 +28,10 @@ gulp.task('js', function()
         }))
         .bundle()
         .on('error', function(err) { console.log(err.toString()); this.emit('end'); })
-        .pipe(source('bundle.js'))
+        .pipe(source('hlp.min.js'))
         .pipe(buffer())
         .pipe(uglify())
-        .pipe(gulp.dest('./_build'))
+        .pipe(gulp.dest('.'))
         .pipe(browserSync.reload({stream: true}));
 });
 

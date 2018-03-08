@@ -33,8 +33,8 @@ var hlp = function () {
     }
 
     (0, _createClass3.default)(hlp, null, [{
-        key: '__x',
-        value: function __x(input) {
+        key: 'x',
+        value: function x(input) {
             if (input === null || input === false || typeof input === 'string' && input.trim() == '' || (typeof input === 'undefined' ? 'undefined' : (0, _typeof3.default)(input)) === 'object' && (0, _keys2.default)(input).length === 0 && input.constructor === Object || typeof input === 'undefined' || Array.isArray(input) && input.length === 0) {
                 return false;
             }
@@ -44,23 +44,23 @@ var hlp = function () {
             return true;
         }
     }, {
-        key: '__o',
-        value: function __o() {
+        key: 'o',
+        value: function o() {
             var args = Array.prototype.slice.call(arguments);
-            args = ['__o: '].concat(args);
+            args = ['o: '].concat(args);
             console.log.apply(console, args);
         }
     }, {
-        key: '__cookie_exists',
-        value: function __cookie_exists(cookie_name) {
+        key: 'cookie_exists',
+        value: function cookie_exists(cookie_name) {
             if (document.cookie !== undefined && document.cookie.indexOf(cookie_name) > -1) {
                 return true;
             }
             return false;
         }
     }, {
-        key: '__cookie_get',
-        value: function __cookie_get(cookie_name) {
+        key: 'cookie_get',
+        value: function cookie_get(cookie_name) {
             var cookie_match = document.cookie.match(new RegExp(cookie_name + '=([^;]+)'));
             if (cookie_match) {
                 return decodeURIComponent(cookie_match[1]);
@@ -68,31 +68,31 @@ var hlp = function () {
             return null;
         }
     }, {
-        key: '__cookie_set',
-        value: function __cookie_set(cookie_name, cookie_value, days) {
+        key: 'cookie_set',
+        value: function cookie_set(cookie_name, cookie_value, days) {
             document.cookie = cookie_name + '=' + encodeURIComponent(cookie_value) + '; ' + 'expires=' + new Date(new Date().getTime() + days * 24 * 60 * 60 * 1000).toUTCString() + '; path=/';
         }
     }, {
-        key: '__cookie_delete',
-        value: function __cookie_delete(cookie_name) {
+        key: 'cookie_delete',
+        value: function cookie_delete(cookie_name) {
             document.cookie = cookie_name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';
         }
     }, {
-        key: '__get',
-        value: function __get(variable) {
+        key: 'get',
+        value: function get(variable) {
             var query = window.location.search.substring(1);
             var vars = query.split('&');
             for (var i = 0; i < vars.length; i++) {
                 var pair = vars[i].split('=');
-                if (pair[0] == variable && __x(pair[1])) {
+                if (pair[0] == variable && x(pair[1])) {
                     return pair[1];
                 }
             }
             return null;
         }
     }, {
-        key: '__capitalize',
-        value: function __capitalize() {
+        key: 'capitalize',
+        value: function capitalize() {
             var string = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
             if (string === null) {
@@ -110,11 +110,12 @@ var hlp = function () {
 exports.default = hlp;
 
 
+window.hlp = {};
 (0, _getOwnPropertyNames2.default)(hlp).forEach(function (value, key) {
     if (['length', 'name', 'prototype'].includes(value)) {
         return;
     }
-    window[value] = hlp[value];
+    window.hlp[value] = hlp[value];
 });
 
 },{"babel-runtime/core-js/object/get-own-property-names":4,"babel-runtime/core-js/object/keys":5,"babel-runtime/helpers/classCallCheck":8,"babel-runtime/helpers/createClass":9,"babel-runtime/helpers/typeof":10}],2:[function(require,module,exports){
@@ -126,11 +127,11 @@ var _script2 = _interopRequireDefault(_script);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-test('__capitalize', function () {
-    expect(_script2.default.__capitalize('string')).toBe('String');
-    expect(_script2.default.__capitalize('')).toBe('');
-    expect(_script2.default.__capitalize('STRINGß')).toBe('STRINGß');
-    expect(_script2.default.__capitalize(null)).toBe(null);
+test('capitalize', function () {
+    expect(_script2.default.capitalize('string')).toBe('String');
+    expect(_script2.default.capitalize('')).toBe('');
+    expect(_script2.default.capitalize('STRINGß')).toBe('STRINGß');
+    expect(_script2.default.capitalize(null)).toBe(null);
 });
 
 },{"./../../_js/script":1}],3:[function(require,module,exports){
