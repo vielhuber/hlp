@@ -30,7 +30,7 @@ hlp.get('baz') // null
 
 ## php implementation
 
-there is also a php implemenation [stringhelper](https://github.com/vielhuber/stringhelper) with similiar functions available.
+there is also a php-implemenation [stringhelper](https://github.com/vielhuber/stringhelper) with similiar functions available.
 
 
 ## overview of __x
