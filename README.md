@@ -21,10 +21,35 @@ import hlp from 'hlp';
 // capitalize
 hlp.capitalize('foo') // Foo
 
-// https://tld.com/?foo=bar&bar=baz
-hlp.get('foo') // foo
-hlp.get('bar') // baz
-hlp.get('baz') // null
+// cookies
+hlp.cookieSet('foo', 'bar', 7);
+hlp.cookieGet('foo') // bar
+hlp.cookieDelete('foo')
+hlp.cookieExists('foo') // false
+
+// get parameter (example url: https://tld.com/?foo=bar&bar=baz)
+hlp.getParam('foo') // foo
+hlp.getParam('bar') // baz
+hlp.getParam('baz') // null
+
+// some neat device detection helpers
+hlp.isPhone()
+hlp.isTablet()
+hlp.isDesktop()
+hlp.isMobile()
+hlp.isTouch()
+
+// smooth scrollTo element
+hlp.scrollTo( document.querySelector('.foo'), 1000 )
+
+// data structure
+isObject({}) // true
+isObject({foo: 'bar'}) // true
+isObject(null) // false
+isArray([]) // true
+isArray(['foo','bar']) // true
+isArray(null) // false
+
 ```
 
 

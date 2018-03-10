@@ -41,5 +41,8 @@
     "vinyl-source-stream": "^1.1.0",
     "vue": "^2.5.13",
     "vueify-insert-css": "^1.0.0"
+  },
+  "jest": {
+    "testURL": "https://tld.com/?foo=bar&bar=baz"
   }
 }

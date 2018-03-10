@@ -4,10 +4,32 @@
     <meta charset="utf-8" />
     <title>.</title>
 	<script type="text/javascript" src="hlp.min.js"></script>
-    <script type="text/javascript">
-        alert(hlp.capitalize('foo'));
-    </script>
+    <style type="text/css">
+        #foo
+        {
+            width:500px;
+            height:500px;
+            background-color:blue;
+            margin-bottom:500px;
+        }
+        #bar
+        {
+            width:500px;
+            height:500px;
+            background-color:red;
+        }
+    </style>
 </head>
 <body>
+
+    <div id="foo"></div>
+
+    <div id="bar"></div>
+
+
+    <script type="text/javascript">
+        console.log(hlp.capitalize('foo'));
+        hlp.scrollTo( document.getElementById('bar'), 1000 );
+    </script>
 </body>
 </html>
