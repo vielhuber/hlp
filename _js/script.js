@@ -1,4 +1,4 @@
-export default class hlp2
+export default class hlp
 {
 
     static capitalize(string = null)
@@ -368,11 +368,9 @@ export default class hlp2
 
 }
 
-/*
 window.hlp = {};
 Object.getOwnPropertyNames(hlp).forEach((value, key) =>
 {
     if( ['length','name','prototype'].includes(value) ) { return; }
     window.hlp[value] = hlp[value];
 });
-*/
