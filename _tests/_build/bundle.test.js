@@ -31,12 +31,12 @@ var _createClass3 = _interopRequireDefault(_createClass2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var hlp2 = function () {
-    function hlp2() {
-        (0, _classCallCheck3.default)(this, hlp2);
+var hlp = function () {
+    function hlp() {
+        (0, _classCallCheck3.default)(this, hlp);
     }
 
-    (0, _createClass3.default)(hlp2, null, [{
+    (0, _createClass3.default)(hlp, null, [{
         key: 'capitalize',
         value: function capitalize() {
             var string = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
@@ -397,7 +397,7 @@ var hlp2 = function () {
             return !this.x(input);
         }
     }]);
-    return hlp2;
+    return hlp;
 }();
 
 /*
@@ -410,7 +410,7 @@ Object.getOwnPropertyNames(hlp).forEach((value, key) =>
 */
 
 
-exports.default = hlp2;
+exports.default = hlp;
 
 },{"babel-runtime/core-js/json/stringify":3,"babel-runtime/core-js/object/keys":5,"babel-runtime/core-js/promise":6,"babel-runtime/helpers/classCallCheck":9,"babel-runtime/helpers/createClass":10,"babel-runtime/helpers/typeof":11}],2:[function(require,module,exports){
 'use strict';
