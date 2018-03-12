@@ -1,6 +1,6 @@
 {
   "name": "hlp",
-  "version": "1.0.1",
+  "version": "1.0.7",
   "main": "gulpfile.js",
   "repository": "git@github.com:vielhuber/hlp.git",
   "author": "David Vielhuber <david@vielhuber.de>",
