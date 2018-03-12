@@ -17,13 +17,13 @@ var _typeof2 = require('babel-runtime/helpers/typeof');
 
 var _typeof3 = _interopRequireDefault(_typeof2);
 
-var _promise = require('babel-runtime/core-js/promise');
-
-var _promise2 = _interopRequireDefault(_promise);
-
 var _stringify = require('babel-runtime/core-js/json/stringify');
 
 var _stringify2 = _interopRequireDefault(_stringify);
+
+var _promise = require('babel-runtime/core-js/promise');
+
+var _promise2 = _interopRequireDefault(_promise);
 
 var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
@@ -228,6 +228,18 @@ var hlp = function () {
             } catch (error) {
                 return string;
             }
+        }
+    }, {
+        key: 'loadJS',
+        value: function loadJS(url) {
+            return new _promise2.default(function (resolve, reject) {
+                var script = document.createElement('script');
+                script.src = url;
+                script.onload = function () {
+                    resolve();
+                };
+                document.head.appendChild(script);
+            });
         }
     }, {
         key: 'get',

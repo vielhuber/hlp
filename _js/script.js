@@ -210,6 +210,17 @@ export default class hlp
         }
     }
 
+    static loadJS(url)
+    {
+        return new Promise((resolve, reject) =>
+        {
+            let script = document.createElement('script');
+            script.src = url;
+            script.onload = () => { resolve(); };
+            document.head.appendChild(script);
+        });
+    }
+
     static get(url, success, error, throttle = 0)
     {
         setTimeout(() =>

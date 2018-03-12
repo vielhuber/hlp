@@ -50,6 +50,8 @@ isArray([]) // true
 isArray(['foo','bar']) // true
 isArray(null) // false
 
+// load external js with promise
+hlp.loadJS('https://apis.google.com/js/api.js').then(() => { console.log('done'); });
 ```
 
 

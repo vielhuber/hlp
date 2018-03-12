@@ -30,6 +30,7 @@
     <script type="text/javascript">
         console.log(hlp.capitalize('foo'));
         hlp.scrollTo( document.getElementById('bar'), 1000 );
+        hlp.loadJS('https://apis.google.com/js/api.js').then(() => { alert('done'); });
     </script>
 </body>
 </html>
