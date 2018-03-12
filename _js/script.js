@@ -368,11 +368,9 @@ export default class hlp
 
 }
 
-/*
 window.hlp = {};
 Object.getOwnPropertyNames(hlp).forEach((value, key) =>
 {
     if( ['length','name','prototype'].includes(value) ) { return; }
     window.hlp[value] = hlp[value];
 });
-*/

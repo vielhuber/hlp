@@ -1,6 +1,6 @@
 {
   "name": "hlp",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "main": "hlp.min.js",
   "repository": "git@github.com:vielhuber/hlp.git",
   "author": "David Vielhuber <david@vielhuber.de>",
