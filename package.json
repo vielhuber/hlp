@@ -1,13 +1,13 @@
 {
   "name": "hlp",
-  "version": "1.1.4",
-  "main": "gulpfile.js",
+  "version": "1.1.5",
+  "main": "hlp.min.js",
+  "files": [
+    "hlp.min.js"
+  ],
   "repository": "git@github.com:vielhuber/hlp.git",
   "author": "David Vielhuber <david@vielhuber.de>",
   "license": "MIT",
-  "files": [
-    "hlp.js"
-  ],
   "dependencies": {},
   "devDependencies": {
     "babel-core": "^6.26.0",
