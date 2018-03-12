@@ -30,7 +30,7 @@ gulp.task('js', function()
         .on('error', function(err) { console.log(err.toString()); this.emit('end'); })
         .pipe(source('hlp.min.js'))
         .pipe(buffer())
-        //.pipe(uglify())
+        .pipe(uglify())
         .pipe(gulp.dest('.'))
         .pipe(browserSync.reload({stream: true}));
 });
