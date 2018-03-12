@@ -1,7 +1,7 @@
 {
   "name": "hlp",
-  "version": "1.1.9",
-  "main": "package.json",
+  "version": "1.2.0",
+  "main": "hlp.min.js",
   "repository": "git@github.com:vielhuber/hlp.git",
   "author": "David Vielhuber <david@vielhuber.de>",
   "license": "MIT",
