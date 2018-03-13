@@ -1,6 +1,7 @@
 // include modules
 var gulp = require('gulp'),
     autoprefixer = require('gulp-autoprefixer'),
+    babel = require('gulp-babel'),
     babelify = require('babelify'),
     buffer = require('vinyl-buffer'),
     browserify = require('browserify'),
@@ -16,7 +17,7 @@ var gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     vueify = require('gulp-vueify');
 	
-// js
+// js (browser)
 gulp.task('js', function()
 {
     return browserify({
@@ -28,31 +29,29 @@ gulp.task('js', function()
         }))
         .bundle()
         .on('error', function(err) { console.log(err.toString()); this.emit('end'); })
-        .pipe(source('hlp.min.js'))
+        .pipe(source('hlp.js'))
         .pipe(buffer())
         .pipe(uglify())
         .pipe(gulp.dest('.'))
         .pipe(browserSync.reload({stream: true}));
 });
 
-// tests
-gulp.task('js-test-babel', function()
-{
-    return browserify({
-            entries: ['./_tests/_js/script.js']
-        })
-        .transform(babelify.configure({
-            presets : ['es2015', 'es2017'],
-            plugins : ['transform-runtime']
-        }))
-        .bundle()
-        .on('error', function(err) { console.log(err.toString()); this.emit('end'); })
-        .pipe(source('bundle.test.js'))
-        .pipe(buffer())
-        .pipe(gulp.dest('./_tests/_build'));
-});
-gulp.task('js-test-jest', function()
+// js (tests)
+gulp.task('js-test', function()
 {   
+    browserify({
+        entries: ['./_tests/_js/script.js']
+    })
+    .transform(babelify.configure({
+        presets : ['es2015', 'es2017'],
+        plugins : ['transform-runtime']
+    }))
+    .bundle()
+    .on('error', function(err) { console.log(err.toString()); this.emit('end'); })
+    .pipe(source('bundle.test.js'))
+    .pipe(buffer())
+    .pipe(gulp.dest('./_tests/_build'));
+
     return gulp
         .src('_tests/_build')
         .pipe(jest({
@@ -62,23 +61,27 @@ gulp.task('js-test-jest', function()
             'automock': false
         }));
 });
-gulp.task('js-test', function()
+
+// js (babel)
+gulp.task('js-babel', function()
 {
-    return runSequence('js-test-babel','js-test-jest');
+    /* use this, if you want to export js as a module that
+    can be published on npm and/or imported via "import" */
+    return gulp
+        .src('./_js/*.js')
+        .pipe(babel({
+            presets : ['es2015', 'es2017'],
+            plugins : ['transform-runtime']
+        }))
+        .pipe(gulp.dest('./_js/_build'));
 });
 
 // watch
 gulp.task('watch', function()
 {
-    gulp.watch('./_js/*.js', function()
-    {
-        runSequence('js','js-test');
-    });  
-    gulp.watch('./_tests/_js/*.js', function()
-    {
-        runSequence('js-test');
-    });
+    gulp.watch('./_js/*.js', function() { runSequence('js','js-babel','js-test'); });  
+    gulp.watch('./_tests/_js/*.js', ['js-test']);
 });
 
 // default
-gulp.task('default', ['js','js-test','watch']);
+gulp.task('default', ['js','js-babel','js-test','watch']);

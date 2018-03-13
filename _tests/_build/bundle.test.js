@@ -404,9 +404,10 @@ var hlp = function () {
     return hlp;
 }();
 
+/* expose all functions to window */
+
+
 exports.default = hlp;
-
-
 window.hlp = {};
 (0, _getOwnPropertyNames2.default)(hlp).forEach(function (value, key) {
     if (['length', 'name', 'prototype'].includes(value)) {

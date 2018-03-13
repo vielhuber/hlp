@@ -368,6 +368,7 @@ export default class hlp
 
 }
 
+/* expose all functions to window */
 window.hlp = {};
 Object.getOwnPropertyNames(hlp).forEach((value, key) =>
 {

@@ -3,7 +3,6 @@
 <head>
     <meta charset="utf-8" />
     <title>.</title>
-	<script type="text/javascript" src="hlp.min.js"></script>
     <style type="text/css">
         #foo
         {
@@ -26,9 +25,9 @@
 
     <div id="bar"></div>
 
-
+    <script type="text/javascript" src="hlp.js"></script>
     <script type="text/javascript">
-        console.log(hlp.capitalize('foo'));
+        alert(hlp.capitalize('foo'));
         hlp.scrollTo( document.getElementById('bar'), 1000 );
         hlp.loadJS('https://apis.google.com/js/api.js').then(() => { alert('done'); });
     </script>
