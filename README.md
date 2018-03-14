@@ -32,20 +32,22 @@ hlp.getParam('foo') // foo
 hlp.getParam('bar') // baz
 hlp.getParam('baz') // null
 
-// some neat device detection helpers
+// device detection helpers
 hlp.isPhone()
 hlp.isTablet()
 hlp.isDesktop()
 hlp.isMobile()
 hlp.isTouch()
 
-// smooth scrollTo element
+// smooth scroll to element
 hlp.scrollTo( document.querySelector('.foo'), 1000 )
 
-// data structure
+// check if object
 isObject({}) // true
 isObject({foo: 'bar'}) // true
 isObject(null) // false
+
+// check if array
 isArray([]) // true
 isArray(['foo','bar']) // true
 isArray(null) // false
