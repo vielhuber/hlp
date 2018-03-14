@@ -16,13 +16,21 @@ var _typeof2 = require('babel-runtime/helpers/typeof');
 
 var _typeof3 = _interopRequireDefault(_typeof2);
 
-var _stringify = require('babel-runtime/core-js/json/stringify');
-
-var _stringify2 = _interopRequireDefault(_stringify);
-
 var _promise = require('babel-runtime/core-js/promise');
 
 var _promise2 = _interopRequireDefault(_promise);
+
+var _slicedToArray2 = require('babel-runtime/helpers/slicedToArray');
+
+var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
+
+var _entries = require('babel-runtime/core-js/object/entries');
+
+var _entries2 = _interopRequireDefault(_entries);
+
+var _stringify = require('babel-runtime/core-js/json/stringify');
+
+var _stringify2 = _interopRequireDefault(_stringify);
 
 var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
@@ -175,6 +183,136 @@ var hlp = function () {
             return false;
         }
     }, {
+        key: 'jsonStringToObject',
+        value: function jsonStringToObject(string) {
+            if (this.nx(string) || !this.isString(string)) {
+                return null;
+            }
+            try {
+                return JSON.parse(string);
+            } catch (error) {
+                return null;
+            }
+        }
+    }, {
+        key: 'jsonObjectToString',
+        value: function jsonObjectToString(object) {
+            try {
+                return (0, _stringify2.default)(object);
+            } catch (error) {
+                return null;
+            }
+        }
+    }, {
+        key: 'guid',
+        value: function guid() {
+            function s4() {
+                return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+            }
+            return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+        }
+    }, {
+        key: 'replaceAll',
+        value: function replaceAll(string, search, replace) {
+            return string.split(search).join(replace);
+        }
+
+        /* to test */
+
+    }, {
+        key: 'get',
+        value: function get(url, success, error) {
+            var _this = this;
+
+            var throttle = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
+
+            setTimeout(function () {
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', url, true);
+                xhr.onload = function () {
+                    if (xhr.readyState != 4 || xhr.status != 200 && xhr.status != 304) {
+                        error([xhr.readyState, xhr.status, xhr.statusText]);
+                    }
+                    success(_this.jsonStringToObject(xhr.responseText));
+                };
+                xhr.onerror = function () {
+                    error([xhr.readyState, xhr.status, xhr.statusText]);
+                };
+                xhr.send(null);
+            }, throttle);
+        }
+    }, {
+        key: 'post',
+        value: function post(url) {
+            var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+            var success = arguments[2];
+            var error = arguments[3];
+
+            var _this2 = this;
+
+            var headers = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
+            var throttle = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 0;
+
+            setTimeout(function () {
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', url, true);
+                xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+                xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+                if (_this2.x(headers)) {
+                    (0, _entries2.default)(headers).forEach(function (_ref) {
+                        var _ref2 = (0, _slicedToArray3.default)(_ref, 2),
+                            headers__key = _ref2[0],
+                            headers__value = _ref2[1];
+
+                        xhr.setRequestHeader(headers__key, headers__value);
+                    });
+                }
+                xhr.onload = function () {
+                    if (xhr.readyState != 4 || xhr.status != 200 && xhr.status != 304) {
+                        error(_this2.jsonStringToObject(xhr.statusText));
+                    }
+                    success(_this2.jsonStringToObject(xhr.responseText));
+                };
+                xhr.onerror = function () {
+                    error([xhr.readyState, xhr.status, xhr.statusText]);
+                };
+                xhr.send((0, _stringify2.default)(data));
+            }, throttle);
+        }
+    }, {
+        key: 'getWithPromise',
+        value: function getWithPromise(url) {
+            var _this3 = this;
+
+            var throttle = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
+            return new _promise2.default(function (resolve, reject) {
+                _this3.get(url, function (v) {
+                    resolve(v);
+                }, function (v) {
+                    reject(v);
+                }, throttle);
+            });
+        }
+    }, {
+        key: 'postWithPromise',
+        value: function postWithPromise(url) {
+            var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+            var _this4 = this;
+
+            var headers = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+            var throttle = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
+
+            return new _promise2.default(function (resolve, reject) {
+                _this4.post(url, data, function (v) {
+                    resolve(v);
+                }, function (v) {
+                    reject(v);
+                }, headers, throttle);
+            });
+        }
+    }, {
         key: 'fadeOut',
         value: function fadeOut(el) {
             el.style.opacity = 1;
@@ -253,15 +391,6 @@ var hlp = function () {
             });
         }
     }, {
-        key: 'parseJson',
-        value: function parseJson(string) {
-            try {
-                return JSON.parse(string);
-            } catch (error) {
-                return string;
-            }
-        }
-    }, {
         key: 'loadJS',
         value: function loadJS(url) {
             return new _promise2.default(function (resolve, reject) {
@@ -272,95 +401,6 @@ var hlp = function () {
                 };
                 document.head.appendChild(script);
             });
-        }
-    }, {
-        key: 'get',
-        value: function get(url, success, error) {
-            var _this = this;
-
-            var throttle = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
-
-            setTimeout(function () {
-                var xhr = new XMLHttpRequest();
-                xhr.onload = function () {
-                    if (xhr.readyState != 4 || xhr.status != 200 && xhr.status != 304) {
-                        error([xhr.readyState, xhr.status, xhr.statusText]);
-                    }
-                    success(_this.parseJson(xhr.responseText));
-                };
-                xhr.onerror = function () {
-                    error([xhr.readyState, xhr.status, xhr.statusText]);
-                };
-                xhr.open('GET', url, true);
-                xhr.send(null);
-            }, throttle);
-        }
-    }, {
-        key: 'post',
-        value: function post(url, data, success, error) {
-            var _this2 = this;
-
-            var throttle = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 0;
-
-            setTimeout(function () {
-                var xhr = new XMLHttpRequest();
-                xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-                xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-                xhr.onload = function () {
-                    if (xhr.readyState != 4 || xhr.status != 200 && xhr.status != 304) {
-                        error(_this2.parseJson(xhr.statusText));
-                    }
-                    success(xhr.responseText);
-                };
-                xhr.onerror = function () {
-                    error([xhr.readyState, xhr.status, xhr.statusText]);
-                };
-                xhr.open('POST', url, true);
-                xhr.send((0, _stringify2.default)(data));
-            }, throttle);
-        }
-    }, {
-        key: 'getWithPromise',
-        value: function getWithPromise(url) {
-            var _this3 = this;
-
-            var throttle = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-
-            return new _promise2.default(function (resolve, reject) {
-                _this3.get(url, function (v) {
-                    resolve(v);
-                }, function (v) {
-                    reject(v);
-                }, throttle);
-            });
-        }
-    }, {
-        key: 'postWithPromise',
-        value: function postWithPromise(url, data) {
-            var _this4 = this;
-
-            var throttle = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-
-            return new _promise2.default(function (resolve, reject) {
-                _this4.post(url, data, function (v) {
-                    resolve(v);
-                }, function (v) {
-                    reject(v);
-                }, throttle);
-            });
-        }
-    }, {
-        key: 'guid',
-        value: function guid() {
-            function s4() {
-                return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-            }
-            return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
-        }
-    }, {
-        key: 'replaceAll',
-        value: function replaceAll(string, search, replace) {
-            return string.split(search).join(replace);
         }
     }, {
         key: 'isVisible',

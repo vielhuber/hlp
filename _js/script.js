@@ -147,6 +147,126 @@ export default class hlp
         return false;
     }
 
+    static jsonStringToObject(string)
+    {
+        if( this.nx(string) || !this.isString(string) )
+        {
+            return null;
+        }
+        try
+        {
+            return JSON.parse(string);
+        }
+        catch(error)
+        {
+            return null;
+        }
+    }
+
+    static jsonObjectToString(object)
+    {
+        try
+        {
+            return JSON.stringify(object);
+        }
+        catch(error)
+        {
+            return null;
+        }
+    }
+
+    static guid()
+    {
+        function s4()
+        {
+            return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+        }
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+    }
+
+    static replaceAll(string, search, replace)
+    {
+        return string.split(search).join(replace);
+    }
+
+    /* to test */
+
+    static get(url, success, error, throttle = 0)
+    {
+        setTimeout(() =>
+        {
+            let xhr = new XMLHttpRequest();
+            xhr.open( 'GET', url, true );
+            xhr.onload = () =>
+            { 
+                if(xhr.readyState != 4 || (xhr.status != 200 && xhr.status != 304))
+                {
+                    error([xhr.readyState, xhr.status, xhr.statusText]);
+                }
+                success(this.jsonStringToObject(xhr.responseText));
+            }
+            xhr.onerror = () =>
+            {  
+                error([xhr.readyState, xhr.status, xhr.statusText]);
+            }            
+            xhr.send( null );
+        }, throttle);
+    }
+
+    static post(url, data = null, success, error, headers = null, throttle = 0)
+    {
+        setTimeout(() =>
+        {
+            let xhr = new XMLHttpRequest();
+            xhr.open( 'POST', url, true );
+            xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+            if( this.x(headers) )
+            {
+                Object.entries(headers).forEach(([headers__key, headers__value]) =>
+                {
+                    xhr.setRequestHeader(headers__key, headers__value);
+                });
+            }
+            xhr.onload = () =>
+            {
+                if(xhr.readyState != 4 || (xhr.status != 200 && xhr.status != 304))
+                {
+                    error(this.jsonStringToObject(xhr.statusText));
+                }
+                success(this.jsonStringToObject(xhr.responseText));
+            }
+            xhr.onerror = () =>
+            {  
+                error([xhr.readyState, xhr.status, xhr.statusText]);
+            }            
+            xhr.send( JSON.stringify(data) );
+        }, throttle);
+    }
+
+    static getWithPromise(url, throttle = 0)
+    {
+        return new Promise((resolve, reject) =>
+        {
+            this.get(url, (v) => { resolve(v); }, (v) => { reject(v); }, throttle);
+        });
+    }
+
+    static postWithPromise(url, data = null, headers = null, throttle = 0)
+    {
+        return new Promise((resolve, reject) =>
+        {
+            this.post(url, data, (v) => { resolve(v); }, (v) => { reject(v); }, headers, throttle);
+        });
+    }
+
+
+
+
+
+
+
+    
     static fadeOut(el)
     {
         el.style.opacity = 1;
@@ -236,18 +356,6 @@ export default class hlp
         });
     }
 
-    static parseJson(string)
-    {
-        try
-        {
-            return JSON.parse(string);
-        }
-        catch(error)
-        {
-            return string;
-        }
-    }
-
     static loadJS(url)
     {
         return new Promise((resolve, reject) =>
@@ -257,82 +365,6 @@ export default class hlp
             script.onload = () => { resolve(); };
             document.head.appendChild(script);
         });
-    }
-
-    static get(url, success, error, throttle = 0)
-    {
-        setTimeout(() =>
-        {
-            let xhr = new XMLHttpRequest();
-            xhr.onload = () =>
-            { 
-                if(xhr.readyState != 4 || (xhr.status != 200 && xhr.status != 304))
-                {
-                    error([xhr.readyState, xhr.status, xhr.statusText]);
-                }
-                success(this.parseJson(xhr.responseText));
-            }
-            xhr.onerror = () =>
-            {  
-                error([xhr.readyState, xhr.status, xhr.statusText]);
-            }
-            xhr.open( 'GET', url, true );            
-            xhr.send( null );
-        }, throttle);
-    }
-
-    static post(url, data, success, error, throttle = 0)
-    {
-        setTimeout(() =>
-        {
-            let xhr = new XMLHttpRequest();
-            xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-            xhr.onload = () =>
-            {
-                if(xhr.readyState != 4 || (xhr.status != 200 && xhr.status != 304))
-                {
-                    error(this.parseJson(xhr.statusText));
-                }
-                success(xhr.responseText);
-            }
-            xhr.onerror = () =>
-            {  
-                error([xhr.readyState, xhr.status, xhr.statusText]);
-            }
-            xhr.open( 'POST', url, true );
-            xhr.send( JSON.stringify(data) );
-        }, throttle);
-    }
-
-    static getWithPromise(url, throttle = 0)
-    {
-        return new Promise((resolve, reject) =>
-        {
-            this.get(url, (v) => { resolve(v); }, (v) => { reject(v); }, throttle);
-        });
-    }
-
-    static postWithPromise(url, data, throttle = 0)
-    {
-        return new Promise((resolve, reject) =>
-        {
-            this.post(url, data, (v) => { resolve(v); }, (v) => { reject(v); }, throttle);
-        });
-    }
-
-    static guid()
-    {
-        function s4()
-        {
-            return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-        }
-        return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
-    }
-
-    static replaceAll(string, search, replace)
-    {
-        return string.split(search).join(replace);
     }
 
     static isVisible(el)

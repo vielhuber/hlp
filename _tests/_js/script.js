@@ -114,3 +114,32 @@ test('replaceAll', () =>
     expect( hlp.replaceAll('foo bar baz', ' ', '') ).toBe('foobarbaz');
     expect( hlp.replaceAll('', 'a', 'b') ).toBe('');
 });
+
+test('json', () => 
+{
+    expect( hlp.jsonStringToObject(hlp.jsonObjectToString(['foo','bar','baz'])) ).toEqual(['foo','bar','baz']);
+    expect( hlp.jsonStringToObject(null) ).toBe(null);
+    expect( hlp.jsonStringToObject(false) ).toBe(null);
+    expect( hlp.jsonStringToObject(true) ).toBe(null);
+    expect( hlp.jsonStringToObject('') ).toBe(null);
+    expect( hlp.jsonStringToObject('["foo","bar","baz",]') ).toBe(null);
+    expect( hlp.jsonObjectToString(hlp.jsonStringToObject('["foo","bar","baz"]')) ).toEqual('["foo","bar","baz"]');
+    expect( hlp.jsonObjectToString(null) ).toBe('null');
+    expect( hlp.jsonObjectToString(false) ).toBe('false');
+    expect( hlp.jsonObjectToString(true) ).toBe('true');
+    expect( hlp.jsonObjectToString('') ).toBe('\"\"');
+});
+
+test('get/post', async () =>
+{
+    let data;
+    data = await hlp.getWithPromise('http://httpbin.org/anything');
+    expect( data.method ).toBe( 'GET' );
+    data = await hlp.postWithPromise('http://httpbin.org/anything', { foo: 'bar', bar: 'baz' });
+    expect( data.method ).toBe( 'POST' );
+    expect( data.data ).toBe( hlp.jsonObjectToString({ foo: 'bar', bar: 'baz' }) );
+    data = await hlp.postWithPromise('http://httpbin.org/anything', { foo: 'bar', bar: 'baz' }, { Bar: 'baz' });
+    expect( data.method ).toBe( 'POST' );
+    expect( data.data ).toBe( hlp.jsonObjectToString({ foo: 'bar', bar: 'baz' }) );
+    expect( data.headers.Bar ).toBe( 'baz' );
+});

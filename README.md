@@ -72,6 +72,19 @@ hlp.replaceAll('foo bar baz', 'a', 'b') // 'foo bbr bbz'
 
 // load external js file in dom with promise
 hlp.loadJS('https://apis.google.com/js/api.js').then(() => { console.log('done'); });
+
+// json parsing
+hlp.jsonStringToObject('["foo","bar","baz"]') // ['foo','bar','baz']
+hlp.jsonStringToObject('["foo","bar","baz",]') // null
+hlp.jsonObjectToString(['foo','bar','baz']) // '["foo","bar","baz"]'
+
+// ajax requests
+hlp.get('https://httpbin.org/anything', (data) => { }, (error) => { }) // { "method": "GET", ... }
+hlp.get('https://httpbin.org/anything', (data) => { }, (error) => { }, 1000) // same but with a throttle of 1 second
+hlp.post('https://httpbin.org/anything', ['foo' => 'bar'], (data) => { }, (error) => { }) // { "method": "POST", "data": {"foo": "bar"}, ... }
+hlp.post('https://httpbin.org/anything', ['foo' => 'bar'], (data) => { }, (error) => { }, ['Bar' => 'baz']) // { "method": "POST", "headers" = { "Bar": "baz", ... }, ... }
+hlp.getWithPromise('https://httpbin.org/anything').then((data) => { }).catch((error) => { }); // same but with promise
+hlp.postWithPromise('https://httpbin.org/anything', ['foo' => 'bar']).then((data) => { }) // same but with promise
 ```
 
 
