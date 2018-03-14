@@ -78,7 +78,7 @@ hlp.jsonStringToObject('["foo","bar","baz"]') // ['foo','bar','baz']
 hlp.jsonStringToObject('["foo","bar","baz",]') // null
 hlp.jsonObjectToString(['foo','bar','baz']) // '["foo","bar","baz"]'
 
-// ajax requests
+// easy ajax requests
 hlp.get('https://httpbin.org/anything', (data) => { }, (error) => { }) // { "method": "GET", ... }
 hlp.get('https://httpbin.org/anything', (data) => { }, (error) => { }, 1000) // same but with a throttle of 1 second
 hlp.post('https://httpbin.org/anything', ['foo' => 'bar'], (data) => { }, (error) => { }) // { "method": "POST", "data": {"foo": "bar"}, ... }
@@ -90,7 +90,7 @@ hlp.postWithPromise('https://httpbin.org/anything', ['foo' => 'bar']).then((data
 
 ## php implementation
 
-there is also a php-implemenation [stringhelper](https://github.com/vielhuber/stringhelper) with similiar functions available.
+there is also a php-implemenation of hlp called [stringhelper](https://github.com/vielhuber/stringhelper) with similiar functions available.
 
 
 ## overview of __x
