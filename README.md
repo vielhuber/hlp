@@ -50,6 +50,24 @@ isArray([]) // true
 isArray(['foo','bar']) // true
 isArray(null) // false
 
+// check if string
+isString('foo'); // true
+isString(42); // false
+isString(null); // false
+
+// check if date
+isDate('2018-01-01') // true
+isDate('2018-02-29') // false
+isDate('1700-01-01') // true
+isDate(42) // false
+
+// create guid
+guid() // e86e393c-9788-857b-27c2-f80c8ca1a302
+guid() // 8b25a8f8-9525-bd73-4679-3539321db93b
+
+// replace all occurences
+replaceAll('foo bar baz', 'a', 'b') // 'foo bbr bbz'
+
 // load external js file in dom with promise
 hlp.loadJS('https://apis.google.com/js/api.js').then(() => { console.log('done'); });
 ```

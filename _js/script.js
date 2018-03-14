@@ -109,6 +109,44 @@ export default class hlp
         return (!!a) && (a.constructor === Array);
     }
 
+    static isString(string)
+    {
+        return (typeof string === 'string' || string instanceof String);
+    }
+
+    static isDate(string)
+    {
+        if( this.nx(string) )
+        {
+            return false;
+        }
+        // if string is of object date
+        if( Object.prototype.toString.call(string) === '[object Date]' )
+        {
+            return true;
+        }
+        // if this is not a string
+        if( !this.isString(string) )
+        {
+            return false;
+        }
+        // strong check
+        if( string.split('-').length !== 3 )
+        {
+            return false;
+        }
+        let day = parseInt(string.split('-')[2]),
+            month = parseInt(string.split('-')[1]),
+            year = parseInt(string.split('-')[0]),
+            date = new Date();
+        date.setFullYear(year, month-1, day);
+        if( (date.getFullYear() == year) && (date.getMonth()+1 == month) && (date.getDate() == day) )
+        {
+            return true;
+        }
+        return false;
+    }
+
     static fadeOut(el)
     {
         el.style.opacity = 1;
@@ -292,14 +330,14 @@ export default class hlp
         return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
     }
 
+    static replaceAll(string, search, replace)
+    {
+        return string.split(search).join(replace);
+    }
+
     static isVisible(el)
     {
         return !!( el.offsetWidth || el.offsetHeight || el.getClientRects().length );
-    }
-
-    static isDate(string)
-    {
-        return (new Date(string) !== 'Invalid Date') && !isNaN(new Date(string));
     }
 
     static textareaSetHeight(el)

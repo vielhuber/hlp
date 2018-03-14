@@ -69,3 +69,48 @@ test('isArray', () =>
     expect( hlp.isArray({'foo': 'bar'}) ).toBe(false);
     expect( hlp.isArray(['foo','bar']) ).toBe(true);
 });
+
+test('isString', () =>
+{
+    expect( hlp.isString('foo') ).toBe(true);
+    expect( hlp.isString(42) ).toBe(false);
+    expect( hlp.isString(null) ).toBe(false);
+    expect( hlp.isString(true) ).toBe(false);
+    expect( hlp.isString(false) ).toBe(false);
+    expect( hlp.isString('') ).toBe(true);
+});
+
+test('isDate', () =>
+{
+    expect( hlp.isDate('2018-01-01') ).toBe(true);
+    expect( hlp.isDate('2018-02-29') ).toBe(false);
+    expect( hlp.isDate('1700-01-01') ).toBe(true);
+    expect( hlp.isDate(42) ).toBe(false);
+    expect( hlp.isDate(false) ).toBe(false);
+    expect( hlp.isDate(true) ).toBe(false);
+    expect( hlp.isDate('') ).toBe(false);
+    expect( hlp.isDate(new Date()) ).toBe(true);
+    expect( hlp.isDate(new Date('2018-01-01')) ).toBe(true);
+    expect( hlp.isDate(new Date('2018-02-29')) ).toBe(true);
+    expect( hlp.isDate('&nbsp; 1') ).toBe(false);
+});
+
+test('guid', () =>
+{
+    expect( hlp.guid().split('-').length ).toBe(5);
+    expect( hlp.guid().split('-').join('').length ).toBe(32);
+    expect( hlp.guid().length ).toBe(36);
+    expect( hlp.guid().substring(0,8).indexOf('-') ).toBe(-1);
+    expect( hlp.guid().substring(9,13).indexOf('-') ).toBe(-1);
+    expect( hlp.guid().substring(14,18).indexOf('-') ).toBe(-1);
+    expect( hlp.guid().substring(19,23).indexOf('-') ).toBe(-1);
+    expect( hlp.guid().substring(24,32).indexOf('-') ).toBe(-1);
+});
+
+test('replaceAll', () =>
+{
+    expect( hlp.replaceAll('foo bar baz', 'a', 'b') ).toBe('foo bbr bbz');
+    expect( hlp.replaceAll('foo bar baz', '', 'b') ).toBe('fbobob bbbabrb bbbabz');
+    expect( hlp.replaceAll('foo bar baz', ' ', '') ).toBe('foobarbaz');
+    expect( hlp.replaceAll('', 'a', 'b') ).toBe('');
+});

@@ -143,6 +143,39 @@ var hlp = function () {
             return !!a && a.constructor === Array;
         }
     }, {
+        key: 'isString',
+        value: function isString(string) {
+            return typeof string === 'string' || string instanceof String;
+        }
+    }, {
+        key: 'isDate',
+        value: function isDate(string) {
+            if (this.nx(string)) {
+                return false;
+            }
+            // if string is of object date
+            if (Object.prototype.toString.call(string) === '[object Date]') {
+                return true;
+            }
+            // if this is not a string
+            if (!this.isString(string)) {
+                return false;
+            }
+            // strong check
+            if (string.split('-').length !== 3) {
+                return false;
+            }
+            var day = parseInt(string.split('-')[2]),
+                month = parseInt(string.split('-')[1]),
+                year = parseInt(string.split('-')[0]),
+                date = new Date();
+            date.setFullYear(year, month - 1, day);
+            if (date.getFullYear() == year && date.getMonth() + 1 == month && date.getDate() == day) {
+                return true;
+            }
+            return false;
+        }
+    }, {
         key: 'fadeOut',
         value: function fadeOut(el) {
             el.style.opacity = 1;
@@ -326,14 +359,14 @@ var hlp = function () {
             return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
         }
     }, {
+        key: 'replaceAll',
+        value: function replaceAll(string, search, replace) {
+            return string.split(search).join(replace);
+        }
+    }, {
         key: 'isVisible',
         value: function isVisible(el) {
             return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
-        }
-    }, {
-        key: 'isDate',
-        value: function isDate(string) {
-            return new Date(string) !== 'Invalid Date' && !isNaN(new Date(string));
         }
     }, {
         key: 'textareaSetHeight',
@@ -487,6 +520,47 @@ test('isArray', function () {
     expect(_script2.default.isArray({ foo: 'bar' })).toBe(false);
     expect(_script2.default.isArray({ 'foo': 'bar' })).toBe(false);
     expect(_script2.default.isArray(['foo', 'bar'])).toBe(true);
+});
+
+test('isString', function () {
+    expect(_script2.default.isString('foo')).toBe(true);
+    expect(_script2.default.isString(42)).toBe(false);
+    expect(_script2.default.isString(null)).toBe(false);
+    expect(_script2.default.isString(true)).toBe(false);
+    expect(_script2.default.isString(false)).toBe(false);
+    expect(_script2.default.isString('')).toBe(true);
+});
+
+test('isDate', function () {
+    expect(_script2.default.isDate('2018-01-01')).toBe(true);
+    expect(_script2.default.isDate('2018-02-29')).toBe(false);
+    expect(_script2.default.isDate('1700-01-01')).toBe(true);
+    expect(_script2.default.isDate(42)).toBe(false);
+    expect(_script2.default.isDate(false)).toBe(false);
+    expect(_script2.default.isDate(true)).toBe(false);
+    expect(_script2.default.isDate('')).toBe(false);
+    expect(_script2.default.isDate(new Date())).toBe(true);
+    expect(_script2.default.isDate(new Date('2018-01-01'))).toBe(true);
+    expect(_script2.default.isDate(new Date('2018-02-29'))).toBe(true);
+    expect(_script2.default.isDate('&nbsp; 1')).toBe(false);
+});
+
+test('guid', function () {
+    expect(_script2.default.guid().split('-').length).toBe(5);
+    expect(_script2.default.guid().split('-').join('').length).toBe(32);
+    expect(_script2.default.guid().length).toBe(36);
+    expect(_script2.default.guid().substring(0, 8).indexOf('-')).toBe(-1);
+    expect(_script2.default.guid().substring(9, 13).indexOf('-')).toBe(-1);
+    expect(_script2.default.guid().substring(14, 18).indexOf('-')).toBe(-1);
+    expect(_script2.default.guid().substring(19, 23).indexOf('-')).toBe(-1);
+    expect(_script2.default.guid().substring(24, 32).indexOf('-')).toBe(-1);
+});
+
+test('replaceAll', function () {
+    expect(_script2.default.replaceAll('foo bar baz', 'a', 'b')).toBe('foo bbr bbz');
+    expect(_script2.default.replaceAll('foo bar baz', '', 'b')).toBe('fbobob bbbabrb bbbabz');
+    expect(_script2.default.replaceAll('foo bar baz', ' ', '')).toBe('foobarbaz');
+    expect(_script2.default.replaceAll('', 'a', 'b')).toBe('');
 });
 
 },{"./../../_js/script":1}],3:[function(require,module,exports){
