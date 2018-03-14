@@ -189,8 +189,6 @@ export default class hlp
         return string.split(search).join(replace);
     }
 
-    /* to test */
-
     static get(url, success, error, throttle = 0)
     {
         setTimeout(() =>
@@ -260,12 +258,7 @@ export default class hlp
         });
     }
 
-
-
-
-
-
-
+    /* todo */
     
     static fadeOut(el)
     {
