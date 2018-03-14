@@ -43,32 +43,32 @@ hlp.isTouch()
 hlp.scrollTo( document.querySelector('.foo'), 1000 )
 
 // check if object
-isObject({}) // true
-isObject({foo: 'bar'}) // true
-isObject(null) // false
+hlp.isObject({}) // true
+hlp.isObject({foo: 'bar'}) // true
+hlp.isObject(null) // false
 
 // check if array
-isArray([]) // true
-isArray(['foo','bar']) // true
-isArray(null) // false
+hlp.isArray([]) // true
+hlp.isArray(['foo','bar']) // true
+hlp.isArray(null) // false
 
 // check if string
-isString('foo'); // true
-isString(42); // false
-isString(null); // false
+hlp.isString('foo'); // true
+hlp.isString(42); // false
+hlp.isString(null); // false
 
 // check if date
-isDate('2018-01-01') // true
-isDate('2018-02-29') // false
-isDate('1700-01-01') // true
-isDate(42) // false
+hlp.isDate('2018-01-01') // true
+hlp.isDate('2018-02-29') // false
+hlp.isDate('1700-01-01') // true
+hlp.isDate(42) // false
 
 // create guid
-guid() // e86e393c-9788-857b-27c2-f80c8ca1a302
-guid() // 8b25a8f8-9525-bd73-4679-3539321db93b
+hlp.guid() // e86e393c-9788-857b-27c2-f80c8ca1a302
+hlp.guid() // 8b25a8f8-9525-bd73-4679-3539321db93b
 
 // replace all occurences
-replaceAll('foo bar baz', 'a', 'b') // 'foo bbr bbz'
+hlp.replaceAll('foo bar baz', 'a', 'b') // 'foo bbr bbz'
 
 // load external js file in dom with promise
 hlp.loadJS('https://apis.google.com/js/api.js').then(() => { console.log('done'); });
