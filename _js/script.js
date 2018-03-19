@@ -258,6 +258,45 @@ export default class hlp
         });
     }
 
+
+    static onResizeHorizontal(fun)
+    {
+        let windowWidth = window.innerWidth;
+        window.addEventListener('resize', () =>
+        {
+            let windowWidthNew = window.screen.availWidth||window.innerWidth;
+            if(windowWidthNew != windowWidth)
+            {
+                windowWidth = windowWidthNew;
+                if(timeout) { clearTimeout(timeout); }
+                let timeout = window.setTimeout(() =>
+                {
+                    fun();  
+                }, 250);     
+            }
+        });
+        fun();
+    }
+
+    static onResizeVertical(fun)
+    {
+        let windowHeight = window.innerHeight;
+        window.addEventListener('resize', () =>
+        {
+            let windowHeightNew = window.screen.availHeight||window.innerHeight;
+            if(windowHeightNew != windowHeight)
+            {
+                windowHeight = windowHeightNew;
+                if(timeout) { clearTimeout(timeout); }
+                let timeout = window.setTimeout(() =>
+                {
+                    fun();  
+                }, 250);   
+            }
+        });
+        fun();
+    }
+
     /* todo */
     
     static fadeOut(el)
@@ -319,34 +358,6 @@ export default class hlp
                 requestAnimationFrame(scroll);
             }    
         })();
-    }
-
-    static onResizeHorizontal(fun)
-    {
-        var windowWidth = window.innerWidth;
-        window.addEventListener('resize', () =>
-        {
-            var windowWidthNew = window.innerWidth;
-            if(windowWidthNew != windowWidth)
-            {
-                windowWidth = windowWidthNew;
-                fun();
-            }
-        });
-    }
-
-    static onResizeVertical(fun)
-    {
-        var windowHeight = window.innerHeight;
-        window.addEventListener('resize', () =>
-        {
-            var windowHeightNew = window.innerHeight;
-            if(windowHeightNew != windowHeight)
-            {
-                windowHeight = windowHeightNew;
-                fun();
-            }
-        });
     }
 
     static loadJS(url)

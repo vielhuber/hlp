@@ -216,9 +216,6 @@ var hlp = function () {
         value: function replaceAll(string, search, replace) {
             return string.split(search).join(replace);
         }
-
-        /* to test */
-
     }, {
         key: 'get',
         value: function get(url, success, error) {
@@ -313,6 +310,45 @@ var hlp = function () {
             });
         }
     }, {
+        key: 'onResizeHorizontal',
+        value: function onResizeHorizontal(fun) {
+            var windowWidth = window.innerWidth;
+            window.addEventListener('resize', function () {
+                var windowWidthNew = window.screen.availWidth || window.innerWidth;
+                if (windowWidthNew != windowWidth) {
+                    windowWidth = windowWidthNew;
+                    if (_timeout) {
+                        clearTimeout(_timeout);
+                    }
+                    var _timeout = window.setTimeout(function () {
+                        fun();
+                    }, 250);
+                }
+            });
+            fun();
+        }
+    }, {
+        key: 'onResizeVertical',
+        value: function onResizeVertical(fun) {
+            var windowHeight = window.innerHeight;
+            window.addEventListener('resize', function () {
+                var windowHeightNew = window.screen.availHeight || window.innerHeight;
+                if (windowHeightNew != windowHeight) {
+                    windowHeight = windowHeightNew;
+                    if (_timeout2) {
+                        clearTimeout(_timeout2);
+                    }
+                    var _timeout2 = window.setTimeout(function () {
+                        fun();
+                    }, 250);
+                }
+            });
+            fun();
+        }
+
+        /* todo */
+
+    }, {
         key: 'fadeOut',
         value: function fadeOut(el) {
             el.style.opacity = 1;
@@ -365,30 +401,6 @@ var hlp = function () {
                     requestAnimationFrame(scroll);
                 }
             })();
-        }
-    }, {
-        key: 'onResizeHorizontal',
-        value: function onResizeHorizontal(fun) {
-            var windowWidth = window.innerWidth;
-            window.addEventListener('resize', function () {
-                var windowWidthNew = window.innerWidth;
-                if (windowWidthNew != windowWidth) {
-                    windowWidth = windowWidthNew;
-                    fun();
-                }
-            });
-        }
-    }, {
-        key: 'onResizeVertical',
-        value: function onResizeVertical(fun) {
-            var windowHeight = window.innerHeight;
-            window.addEventListener('resize', function () {
-                var windowHeightNew = window.innerHeight;
-                if (windowHeightNew != windowHeight) {
-                    windowHeight = windowHeightNew;
-                    fun();
-                }
-            });
         }
     }, {
         key: 'loadJS',
