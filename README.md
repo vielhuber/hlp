@@ -87,7 +87,7 @@ hlp.getWithPromise('https://httpbin.org/anything').then((data) => { }).catch((er
 hlp.postWithPromise('https://httpbin.org/anything', ['foo' => 'bar']).then((data) => { }) // same but with promise
 
 // on resize vertically/horizontally
-window.addEventListener('resize', () => {}) // inaccurate, triggers a lot (especially on android/iphone)
+window.addEventListener('resize', () => {}) // inaccurate, triggers too often (especially when scrolling on android/iphone)
 hlp.onResizeHorizontal(() => {}) // only triggers when viewport width changes
 hlp.onResizeVertical(() => {}) // only triggers when viewport height changes
 ```
