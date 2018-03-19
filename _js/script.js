@@ -297,6 +297,94 @@ export default class hlp
         fun();
     }
 
+    static uniqueArray(array)
+    {
+        let seen = {},
+            ret_arr = [];
+        for( let i = 0; i < array.length; i++ )
+        {
+            if( !(array[i] in seen) )
+            {
+                ret_arr.push(array[i]);
+                seen[array[i]] = true;
+            }
+        }
+        return ret_arr;
+    }
+
+    static charToInt(val)
+    {
+        val = val.toUpperCase();
+        let base = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', i, j, result = 0;      
+        for (i = 0, j = val.length - 1; i < val.length; i += 1, j -= 1)
+        {
+            result += Math.pow(base.length, j) * (base.indexOf(val[i]) + 1);
+        }      
+        return result;
+    }
+    
+    static intToChar(num)
+    {
+        for( var ret = '', a = 1, b = 26; (num -= a) >= 0; a = b, b *= 26 )
+        {
+            ret = String.fromCharCode(parseInt((num % b) / a) + 65) + ret;
+        }
+        return ret;
+    }
+
+    static incChar(char, shift = 1)
+    {
+        return this.intToChar(this.charToInt(char)+shift);
+    }
+
+    static decChar(char, shift = 1)
+    {
+        return this.intToChar(this.charToInt(char)-shift);
+    }
+
+    static range(start, end)
+    {
+        let range = [],
+            typeofStart = typeof start,
+            typeofEnd = typeof end,
+            step = 1;
+        if (typeofStart == 'undefined' || typeofEnd == 'undefined' || typeofStart != typeofEnd)
+        {
+            return null;
+        }
+        if (end < start)
+        {
+            step = -step;
+        }
+        if (typeofStart == 'number')
+        {
+            while (step > 0 ? end >= start : end <= start)
+            {
+                range.push(start);
+                start += step;
+            }
+        }
+        else if (typeofStart == 'string')
+        {
+            if (start.length != 1 || end.length != 1)
+            {
+                return null;
+            }
+            start = start.charCodeAt(0);
+            end = end.charCodeAt(0);
+            while (step > 0 ? end >= start : end <= start)
+            {
+                range.push(String.fromCharCode(start));
+                start += step;
+            }
+        }
+        else
+        {
+            return null;
+        }
+        return range;
+    }
+
     /* todo */
     
     static fadeOut(el)
@@ -306,7 +394,7 @@ export default class hlp
         {
             if ((el.style.opacity -= .1) < 0)
             {
-                el.style.display = "none";
+                el.style.display = 'none';
             } else {
                 requestAnimationFrame(fade);
             }
@@ -316,7 +404,7 @@ export default class hlp
     static fadeIn(el)
     {
         el.style.opacity = 0;
-        el.style.display = "block";
+        el.style.display = 'block';
         (function fade()
         {
             var val = parseFloat(el.style.opacity);

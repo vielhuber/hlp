@@ -143,3 +143,48 @@ test('get/post', async () =>
     expect( data.data ).toBe( hlp.jsonObjectToString({ foo: 'bar', bar: 'baz' }) );
     expect( data.headers.Bar ).toBe( 'baz' );
 });
+
+test('uniqueArray', () =>
+{
+    expect( hlp.uniqueArray( ['foo','bar','foo','baz']) ).toEqual( ['foo','bar','baz'] );
+    expect( hlp.uniqueArray( ['foo','bar','baz']) ).toEqual( ['foo','bar','baz'] );
+    expect( hlp.uniqueArray( ['Foo','bar','baz','foo']) ).toEqual( ['Foo','bar','baz','foo'] );
+    expect( hlp.uniqueArray( ['Foo','bar','baz','Foo']) ).toEqual( ['Foo','bar','baz'] );
+    expect( hlp.uniqueArray( ['foo']) ).toEqual( ['foo'] );
+    expect( hlp.uniqueArray( [null,null]) ).toEqual( [null] );
+    expect( hlp.uniqueArray( [null,false]) ).toEqual( [null,false] );
+    expect( hlp.uniqueArray( [false,null]) ).toEqual( [false,null] );
+    expect( hlp.uniqueArray( [false,false]) ).toEqual( [false] );
+    expect( hlp.uniqueArray( [true]) ).toEqual( [true] );
+    expect( hlp.uniqueArray( []) ).toEqual( [] );
+    expect( hlp.uniqueArray( ['','']) ).toEqual( [''] );
+    expect( hlp.uniqueArray( ['']) ).toEqual( [''] );
+});
+
+test('char', () =>
+{
+    expect( hlp.charToInt('D') ).toBe(4);
+    expect( hlp.charToInt('d') ).toBe(4);
+    expect( hlp.charToInt('A') ).toBe(1);
+    expect( hlp.charToInt('Z') ).toBe(26);
+    expect( hlp.charToInt('AA') ).toBe(27);
+    expect( hlp.intToChar(4) ).toBe('D');
+    expect( hlp.intToChar(1) ).toBe('A');
+    expect( hlp.intToChar(26) ).toBe('Z');
+    expect( hlp.intToChar(27) ).toBe('AA');
+    expect( hlp.incChar('D') ).toBe('E');
+    expect( hlp.incChar('Z') ).toBe('AA');
+    expect( hlp.incChar('A',2) ).toBe('C');
+    expect( hlp.decChar('U') ).toBe('T');
+    expect( hlp.decChar('U',2) ).toBe('S');
+    expect( hlp.decChar('A') ).toBe('');
+});
+
+test('range', () =>
+{
+    expect( hlp.range('A','Z') ).toEqual(['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']);
+    expect( hlp.range('C','A') ).toEqual(['C','B','A']);
+    expect( hlp.range(0,10) ).toEqual([0,1,2,3,4,5,6,7,8,9,10]);
+    expect( hlp.range(10,0) ).toEqual([10,9,8,7,6,5,4,3,2,1,0]);
+    expect( hlp.range(0,'A') ).toBe(null);
+});

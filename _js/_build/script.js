@@ -345,6 +345,87 @@ var hlp = function () {
             });
             fun();
         }
+    }, {
+        key: 'uniqueArray',
+        value: function uniqueArray(array) {
+            var seen = {},
+                ret_arr = [];
+            for (var i = 0; i < array.length; i++) {
+                if (!(array[i] in seen)) {
+                    ret_arr.push(array[i]);
+                    seen[array[i]] = true;
+                }
+            }
+            return ret_arr;
+        }
+    }, {
+        key: 'charToInt',
+        value: function charToInt(val) {
+            val = val.toUpperCase();
+            var base = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+                i = void 0,
+                j = void 0,
+                result = 0;
+            for (i = 0, j = val.length - 1; i < val.length; i += 1, j -= 1) {
+                result += Math.pow(base.length, j) * (base.indexOf(val[i]) + 1);
+            }
+            return result;
+        }
+    }, {
+        key: 'intToChar',
+        value: function intToChar(num) {
+            for (var ret = '', a = 1, b = 26; (num -= a) >= 0; a = b, b *= 26) {
+                ret = String.fromCharCode(parseInt(num % b / a) + 65) + ret;
+            }
+            return ret;
+        }
+    }, {
+        key: 'incChar',
+        value: function incChar(char) {
+            var shift = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+
+            return this.intToChar(this.charToInt(char) + shift);
+        }
+    }, {
+        key: 'decChar',
+        value: function decChar(char) {
+            var shift = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+
+            return this.intToChar(this.charToInt(char) - shift);
+        }
+    }, {
+        key: 'range',
+        value: function range(start, end) {
+            var range = [],
+                typeofStart = typeof start === 'undefined' ? 'undefined' : (0, _typeof3.default)(start),
+                typeofEnd = typeof end === 'undefined' ? 'undefined' : (0, _typeof3.default)(end),
+                step = 1;
+            if (typeofStart == 'undefined' || typeofEnd == 'undefined' || typeofStart != typeofEnd) {
+                return null;
+            }
+            if (end < start) {
+                step = -step;
+            }
+            if (typeofStart == 'number') {
+                while (step > 0 ? end >= start : end <= start) {
+                    range.push(start);
+                    start += step;
+                }
+            } else if (typeofStart == 'string') {
+                if (start.length != 1 || end.length != 1) {
+                    return null;
+                }
+                start = start.charCodeAt(0);
+                end = end.charCodeAt(0);
+                while (step > 0 ? end >= start : end <= start) {
+                    range.push(String.fromCharCode(start));
+                    start += step;
+                }
+            } else {
+                return null;
+            }
+            return range;
+        }
 
         /* todo */
 
@@ -354,7 +435,7 @@ var hlp = function () {
             el.style.opacity = 1;
             (function fade() {
                 if ((el.style.opacity -= .1) < 0) {
-                    el.style.display = "none";
+                    el.style.display = 'none';
                 } else {
                     requestAnimationFrame(fade);
                 }
@@ -364,7 +445,7 @@ var hlp = function () {
         key: 'fadeIn',
         value: function fadeIn(el) {
             el.style.opacity = 0;
-            el.style.display = "block";
+            el.style.display = 'block';
             (function fade() {
                 var val = parseFloat(el.style.opacity);
                 if (!((val += .1) > 1)) {

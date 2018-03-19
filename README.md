@@ -90,6 +90,22 @@ hlp.postWithPromise('https://httpbin.org/anything', ['foo' => 'bar']).then((data
 window.addEventListener('resize', () => {}) // inaccurate, triggers too often (especially when scrolling on android/iphone)
 hlp.onResizeHorizontal(() => {}) // only triggers when viewport width changes
 hlp.onResizeVertical(() => {}) // only triggers when viewport height changes
+
+// return unique array (remove duplicate values, order-safe)
+hlp.uniqueArray(['foo','bar','foo','baz']) // ['foo','bar','baz']
+
+// char helpers
+hlp.charToInt('D') // 4
+hlp.intToChar(4) // 'D'
+hlp.incChar('D') // 'E'
+hlp.incChar('Z') // 'AA'
+hlp.incChar('A',2) // 'C'
+hlp.decChar('U') // 'T'
+
+// range
+hlp.range('A','Z') // ['A','B',...,'Z']
+hlp.range(1,42) // [1,2,...,42]
+hlp.range('C','A') // ['C','B','A']
 ```
 
 
