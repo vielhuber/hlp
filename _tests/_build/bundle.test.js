@@ -429,7 +429,12 @@ var hlp = function () {
         }
     }, {
         key: 'weekNumber',
-        value: function weekNumber(d) {
+        value: function weekNumber() {
+            var d = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+            if (d === null) {
+                d = new Date();
+            }
             d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
             d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
             var yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1)),
@@ -813,6 +818,7 @@ test('weekNumber', function () {
     expect(_script2.default.weekNumber(new Date('2018-01-01'))).toBe(1);
     expect(_script2.default.weekNumber(new Date('2021-02-22'))).toBe(8);
     expect(_script2.default.weekNumber(new Date('1980-03-27'))).toBe(13);
+    expect(_script2.default.weekNumber()).toBe(_script2.default.weekNumber(new Date()));
 });
 
 },{"./../../_js/script":1,"babel-runtime/helpers/asyncToGenerator":13,"babel-runtime/regenerator":18}],3:[function(require,module,exports){

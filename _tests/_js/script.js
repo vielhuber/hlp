@@ -194,4 +194,5 @@ test('weekNumber', () =>
     expect( hlp.weekNumber(new Date('2018-01-01')) ).toBe( 1 );
     expect( hlp.weekNumber(new Date('2021-02-22')) ).toBe( 8 );
     expect( hlp.weekNumber(new Date('1980-03-27')) ).toBe( 13 );    
+    expect( hlp.weekNumber() ).toBe( hlp.weekNumber(new Date()) );    
 });

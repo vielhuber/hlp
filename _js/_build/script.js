@@ -428,7 +428,12 @@ var hlp = function () {
         }
     }, {
         key: 'weekNumber',
-        value: function weekNumber(d) {
+        value: function weekNumber() {
+            var d = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+            if (d === null) {
+                d = new Date();
+            }
             d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
             d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
             var yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1)),
