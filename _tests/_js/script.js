@@ -188,3 +188,10 @@ test('range', () =>
     expect( hlp.range(10,0) ).toEqual([10,9,8,7,6,5,4,3,2,1,0]);
     expect( hlp.range(0,'A') ).toBe(null);
 });
+
+test('weekNumber', () =>
+{
+    expect( hlp.weekNumber(new Date('2018-01-01')) ).toBe( 1 );
+    expect( hlp.weekNumber(new Date('2021-02-22')) ).toBe( 8 );
+    expect( hlp.weekNumber(new Date('1980-03-27')) ).toBe( 13 );    
+});

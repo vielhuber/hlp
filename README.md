@@ -63,6 +63,9 @@ hlp.isDate('2018-02-29') // false
 hlp.isDate('1700-01-01') // true
 hlp.isDate(42) // false
 
+// get week number
+hlp.weekNumber(new Date('2021-02-22')) // 8
+
 // create guid
 hlp.guid() // e86e393c-9788-857b-27c2-f80c8ca1a302
 hlp.guid() // 8b25a8f8-9525-bd73-4679-3539321db93b

@@ -427,6 +427,15 @@ var hlp = function () {
             }
             return range;
         }
+    }, {
+        key: 'weekNumber',
+        value: function weekNumber(d) {
+            d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+            d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+            var yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1)),
+                weekNo = Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
+            return weekNo;
+        }
 
         /* todo */
 
@@ -798,6 +807,12 @@ test('range', function () {
     expect(_script2.default.range(0, 10)).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
     expect(_script2.default.range(10, 0)).toEqual([10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]);
     expect(_script2.default.range(0, 'A')).toBe(null);
+});
+
+test('weekNumber', function () {
+    expect(_script2.default.weekNumber(new Date('2018-01-01'))).toBe(1);
+    expect(_script2.default.weekNumber(new Date('2021-02-22'))).toBe(8);
+    expect(_script2.default.weekNumber(new Date('1980-03-27'))).toBe(13);
 });
 
 },{"./../../_js/script":1,"babel-runtime/helpers/asyncToGenerator":13,"babel-runtime/regenerator":18}],3:[function(require,module,exports){
