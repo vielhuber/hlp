@@ -261,18 +261,23 @@ export default class hlp
 
     static onResizeHorizontal(fun)
     {
-        let windowWidth = window.innerWidth;
+        let windowWidth = window.innerWidth,
+            windowWidthNew,
+            timeout;
         window.addEventListener('resize', () =>
         {
-            let windowWidthNew = window.screen.availWidth||window.innerWidth;
+            windowWidthNew = window.innerWidth;
             if(windowWidthNew != windowWidth)
             {
                 windowWidth = windowWidthNew;
-                if(timeout) { clearTimeout(timeout); }
-                let timeout = window.setTimeout(() =>
+                if(timeout)
                 {
-                    fun();  
-                }, 250);     
+                    clearTimeout(timeout);
+                }
+                timeout = window.setTimeout(() =>
+                {
+                    fun();
+                }, 250);
             }
         });
         fun();
@@ -280,18 +285,23 @@ export default class hlp
 
     static onResizeVertical(fun)
     {
-        let windowHeight = window.innerHeight;
-        window.addEventListener('resize', () =>
+        var windowHeight = window.innerHeight,
+            windowHeightNew,
+            timeout;
+        window.addEventListener('resize', function()
         {
-            let windowHeightNew = window.screen.availHeight||window.innerHeight;
+            windowHeightNew = window.innerHeight;
             if(windowHeightNew != windowHeight)
             {
                 windowHeight = windowHeightNew;
-                if(timeout) { clearTimeout(timeout); }
-                let timeout = window.setTimeout(() =>
+                if(timeout)
                 {
-                    fun();  
-                }, 250);   
+                    clearTimeout(timeout);
+                }
+                timeout = window.setTimeout(function()
+                {
+                    fun();
+                }, 250);
             }
         });
         fun();
