@@ -312,15 +312,17 @@ var hlp = function () {
     }, {
         key: 'onResizeHorizontal',
         value: function onResizeHorizontal(fun) {
-            var windowWidth = window.innerWidth;
+            var windowWidth = window.innerWidth,
+                windowWidthNew = void 0,
+                timeout = void 0;
             window.addEventListener('resize', function () {
-                var windowWidthNew = window.screen.availWidth || window.innerWidth;
+                windowWidthNew = window.innerWidth;
                 if (windowWidthNew != windowWidth) {
                     windowWidth = windowWidthNew;
-                    if (_timeout) {
-                        clearTimeout(_timeout);
+                    if (timeout) {
+                        clearTimeout(timeout);
                     }
-                    var _timeout = window.setTimeout(function () {
+                    timeout = window.setTimeout(function () {
                         fun();
                     }, 250);
                 }
@@ -330,15 +332,17 @@ var hlp = function () {
     }, {
         key: 'onResizeVertical',
         value: function onResizeVertical(fun) {
-            var windowHeight = window.innerHeight;
+            var windowHeight = window.innerHeight,
+                windowHeightNew,
+                timeout;
             window.addEventListener('resize', function () {
-                var windowHeightNew = window.screen.availHeight || window.innerHeight;
+                windowHeightNew = window.innerHeight;
                 if (windowHeightNew != windowHeight) {
                     windowHeight = windowHeightNew;
-                    if (_timeout2) {
-                        clearTimeout(_timeout2);
+                    if (timeout) {
+                        clearTimeout(timeout);
                     }
-                    var _timeout2 = window.setTimeout(function () {
+                    timeout = window.setTimeout(function () {
                         fun();
                     }, 250);
                 }
@@ -439,6 +443,13 @@ var hlp = function () {
             var yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1)),
                 weekNo = Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
             return weekNo;
+        }
+    }, {
+        key: 'addDays',
+        value: function addDays(date, days) {
+            var result = new Date(date);
+            result.setDate(result.getDate() + days);
+            return result;
         }
 
         /* todo */

@@ -196,3 +196,9 @@ test('weekNumber', () =>
     expect( hlp.weekNumber(new Date('1980-03-27')) ).toBe( 13 );    
     expect( hlp.weekNumber() ).toBe( hlp.weekNumber(new Date()) );    
 });
+
+test('addDays', () =>
+{
+    expect( hlp.addDays(new Date('2018-01-01'), 7) ).toEqual( new Date('2018-01-08') );
+    expect( hlp.addDays(new Date('2018-02-22'), 658) ).toEqual( new Date('2019-12-12') );
+});
