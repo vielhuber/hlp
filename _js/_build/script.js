@@ -4,13 +4,13 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _getOwnPropertyNames = require('babel-runtime/core-js/object/get-own-property-names');
-
-var _getOwnPropertyNames2 = _interopRequireDefault(_getOwnPropertyNames);
-
 var _keys = require('babel-runtime/core-js/object/keys');
 
 var _keys2 = _interopRequireDefault(_keys);
+
+var _getOwnPropertyNames = require('babel-runtime/core-js/object/get-own-property-names');
+
+var _getOwnPropertyNames2 = _interopRequireDefault(_getOwnPropertyNames);
 
 var _typeof2 = require('babel-runtime/helpers/typeof');
 
@@ -450,6 +450,33 @@ var hlp = function () {
             var result = new Date(date);
             result.setDate(result.getDate() + days);
             return result;
+        }
+    }, {
+        key: 'objectsAreEqual',
+        value: function objectsAreEqual(a, b) {
+            var aProps = (0, _getOwnPropertyNames2.default)(a);
+            var bProps = (0, _getOwnPropertyNames2.default)(b);
+            if (aProps.length != bProps.length) {
+                return false;
+            }
+            for (var i = 0; i < aProps.length; i++) {
+                var propName = aProps[i];
+                if (a[propName] !== b[propName]) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }, {
+        key: 'containsObject',
+        value: function containsObject(obj, list) {
+            var x;
+            for (x in list) {
+                if (list.hasOwnProperty(x) && this.objectsAreEqual(list[x], obj)) {
+                    return true;
+                }
+            }
+            return false;
         }
 
         /* todo */

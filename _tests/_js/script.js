@@ -202,3 +202,17 @@ test('addDays', () =>
     expect( hlp.addDays(new Date('2018-01-01'), 7) ).toEqual( new Date('2018-01-08') );
     expect( hlp.addDays(new Date('2018-02-22'), 658) ).toEqual( new Date('2019-12-12') );
 });
+
+test('objectsAreEqual', () =>
+{
+    expect( hlp.objectsAreEqual({}, {}) ).toBe( true );
+    expect( hlp.objectsAreEqual({ foo: 'bar' }, { foo: 'bar' }) ).toBe( true );
+    expect( hlp.objectsAreEqual({ foo: 'bar' }, { bar: 'baz' }) ).toBe( false );
+});
+
+test('containsObject', () =>
+{
+    expect( hlp.containsObject({ foo: 'bar' }, []) ).toBe( false );
+    expect( hlp.containsObject({ foo: 'bar' }, [{ foo: 'bar' }, { bar: 'baz' }]) ).toBe( true );
+    expect( hlp.containsObject({ foo: 'bar' }, { foo: { foo: 'bar' } }) ).toBe( true );
+});

@@ -5,13 +5,13 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _getOwnPropertyNames = require('babel-runtime/core-js/object/get-own-property-names');
-
-var _getOwnPropertyNames2 = _interopRequireDefault(_getOwnPropertyNames);
-
 var _keys = require('babel-runtime/core-js/object/keys');
 
 var _keys2 = _interopRequireDefault(_keys);
+
+var _getOwnPropertyNames = require('babel-runtime/core-js/object/get-own-property-names');
+
+var _getOwnPropertyNames2 = _interopRequireDefault(_getOwnPropertyNames);
 
 var _typeof2 = require('babel-runtime/helpers/typeof');
 
@@ -452,6 +452,33 @@ var hlp = function () {
             result.setDate(result.getDate() + days);
             return result;
         }
+    }, {
+        key: 'objectsAreEqual',
+        value: function objectsAreEqual(a, b) {
+            var aProps = (0, _getOwnPropertyNames2.default)(a);
+            var bProps = (0, _getOwnPropertyNames2.default)(b);
+            if (aProps.length != bProps.length) {
+                return false;
+            }
+            for (var i = 0; i < aProps.length; i++) {
+                var propName = aProps[i];
+                if (a[propName] !== b[propName]) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }, {
+        key: 'containsObject',
+        value: function containsObject(obj, list) {
+            var x;
+            for (x in list) {
+                if (list.hasOwnProperty(x) && this.objectsAreEqual(list[x], obj)) {
+                    return true;
+                }
+            }
+            return false;
+        }
 
         /* todo */
 
@@ -835,6 +862,18 @@ test('weekNumber', function () {
 test('addDays', function () {
     expect(_script2.default.addDays(new Date('2018-01-01'), 7)).toEqual(new Date('2018-01-08'));
     expect(_script2.default.addDays(new Date('2018-02-22'), 658)).toEqual(new Date('2019-12-12'));
+});
+
+test('objectsAreEqual', function () {
+    expect(_script2.default.objectsAreEqual({}, {})).toBe(true);
+    expect(_script2.default.objectsAreEqual({ foo: 'bar' }, { foo: 'bar' })).toBe(true);
+    expect(_script2.default.objectsAreEqual({ foo: 'bar' }, { bar: 'baz' })).toBe(false);
+});
+
+test('containsObject', function () {
+    expect(_script2.default.containsObject({ foo: 'bar' }, [])).toBe(false);
+    expect(_script2.default.containsObject({ foo: 'bar' }, [{ foo: 'bar' }, { bar: 'baz' }])).toBe(true);
+    expect(_script2.default.containsObject({ foo: 'bar' }, { foo: { foo: 'bar' } })).toBe(true);
 });
 
 },{"./../../_js/script":1,"babel-runtime/helpers/asyncToGenerator":13,"babel-runtime/regenerator":18}],3:[function(require,module,exports){
