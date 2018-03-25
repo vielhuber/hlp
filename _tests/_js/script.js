@@ -189,12 +189,18 @@ test('range', () =>
     expect( hlp.range(0,'A') ).toBe(null);
 });
 
-test('weekNumber', () =>
+test('dateToWeek', () =>
 {
-    expect( hlp.weekNumber(new Date('2018-01-01')) ).toBe( 1 );
-    expect( hlp.weekNumber(new Date('2021-02-22')) ).toBe( 8 );
-    expect( hlp.weekNumber(new Date('1980-03-27')) ).toBe( 13 );    
-    expect( hlp.weekNumber() ).toBe( hlp.weekNumber(new Date()) );    
+    expect( hlp.dateToWeek(new Date('2018-01-01')) ).toBe( 1 );
+    expect( hlp.dateToWeek(new Date('2021-02-22')) ).toBe( 8 );
+    expect( hlp.dateToWeek(new Date('1980-03-27')) ).toBe( 13 );    
+    expect( hlp.dateToWeek() ).toBe( hlp.dateToWeek(new Date()) );    
+});
+
+test('weekToDate', () =>
+{
+    expect( hlp.weekToDate(42,2018) ).toEqual( new Date('2018-10-14') );  
+    expect( hlp.weekToDate(17,2023) ).toEqual( new Date('2023-04-23') );  
 });
 
 test('addDays', () =>
@@ -208,6 +214,7 @@ test('objectsAreEqual', () =>
     expect( hlp.objectsAreEqual({}, {}) ).toBe( true );
     expect( hlp.objectsAreEqual({ foo: 'bar' }, { foo: 'bar' }) ).toBe( true );
     expect( hlp.objectsAreEqual({ foo: 'bar' }, { bar: 'baz' }) ).toBe( false );
+    expect( hlp.objectsAreEqual({ foo: 'bar', bar: [] }, { foo: 'bar', bar: [] }) ).toBe( true );
 });
 
 test('containsObject', () =>

@@ -395,7 +395,7 @@ export default class hlp
         return range;
     }
 
-    static weekNumber(d = null)
+    static dateToWeek(d = null)
     {
         if( d === null )
         {
@@ -408,6 +408,23 @@ export default class hlp
         return weekNo;
     }
 
+    static weekToDate(w, y)
+    {
+        var simple = new Date(y, 0, 1 + (w - 1) * 7),
+            dow = simple.getDay(),
+            ISOweekStart = simple;
+        if (dow <= 4)
+        {
+            ISOweekStart.setDate(simple.getDate() - simple.getDay() + 1);
+        }
+        else
+        {
+            ISOweekStart.setDate(simple.getDate() + 8 - simple.getDay());
+        }
+        ISOweekStart.setUTCHours(0,0,0,0);
+        return ISOweekStart;
+    }
+
     static addDays(date, days)
     {
         var result = new Date(date);
@@ -415,23 +432,21 @@ export default class hlp
         return result;
     }
 
-    static objectsAreEqual(a, b)
+    static objectsAreEqual(x, y)
     {
-        var aProps = Object.getOwnPropertyNames(a);
-        var bProps = Object.getOwnPropertyNames(b);
-        if (aProps.length != bProps.length)
-        {
-            return false;
-        }
-        for (var i = 0; i < aProps.length; i++)
-        {
-            var propName = aProps[i];
-            if (a[propName] !== b[propName])
-            {
-                return false;
-            }
-        }
-        return true;
+        var _this = this;
+        if (x === null || x === undefined || y === null || y === undefined) { return x === y; }
+        if (x.constructor !== y.constructor) { return false; }
+        if (x instanceof Function) { return x === y; }
+        if (x instanceof RegExp) { return x === y; }
+        if (x === y || x.valueOf() === y.valueOf()) { return true; }
+        if (Array.isArray(x) && x.length !== y.length) { return false; }
+        if (x instanceof Date) { return false; }
+        if (!(x instanceof Object)) { return false; }
+        if (!(y instanceof Object)) { return false; }
+        var p = Object.keys(x);
+        return Object.keys(y).every(function (i) { return p.indexOf(i) !== -1; }) &&
+            p.every(function (i) { return _this.objectsAreEqual(x[i], y[i]); });
     }
 
     static containsObject(obj, list)

@@ -5,13 +5,13 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _keys = require('babel-runtime/core-js/object/keys');
-
-var _keys2 = _interopRequireDefault(_keys);
-
 var _getOwnPropertyNames = require('babel-runtime/core-js/object/get-own-property-names');
 
 var _getOwnPropertyNames2 = _interopRequireDefault(_getOwnPropertyNames);
+
+var _keys = require('babel-runtime/core-js/object/keys');
+
+var _keys2 = _interopRequireDefault(_keys);
 
 var _typeof2 = require('babel-runtime/helpers/typeof');
 
@@ -220,7 +220,7 @@ var hlp = function () {
     }, {
         key: 'get',
         value: function get(url, success, error) {
-            var _this = this;
+            var _this2 = this;
 
             var throttle = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
 
@@ -231,7 +231,7 @@ var hlp = function () {
                     if (xhr.readyState != 4 || xhr.status != 200 && xhr.status != 304) {
                         error([xhr.readyState, xhr.status, xhr.statusText]);
                     }
-                    success(_this.jsonStringToObject(xhr.responseText));
+                    success(_this2.jsonStringToObject(xhr.responseText));
                 };
                 xhr.onerror = function () {
                     error([xhr.readyState, xhr.status, xhr.statusText]);
@@ -246,7 +246,7 @@ var hlp = function () {
             var success = arguments[2];
             var error = arguments[3];
 
-            var _this2 = this;
+            var _this3 = this;
 
             var headers = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
             var throttle = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 0;
@@ -256,7 +256,7 @@ var hlp = function () {
                 xhr.open('POST', url, true);
                 xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
                 xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-                if (_this2.x(headers)) {
+                if (_this3.x(headers)) {
                     (0, _entries2.default)(headers).forEach(function (_ref) {
                         var _ref2 = (0, _slicedToArray3.default)(_ref, 2),
                             headers__key = _ref2[0],
@@ -267,9 +267,9 @@ var hlp = function () {
                 }
                 xhr.onload = function () {
                     if (xhr.readyState != 4 || xhr.status != 200 && xhr.status != 304) {
-                        error(_this2.jsonStringToObject(xhr.statusText));
+                        error(_this3.jsonStringToObject(xhr.statusText));
                     }
-                    success(_this2.jsonStringToObject(xhr.responseText));
+                    success(_this3.jsonStringToObject(xhr.responseText));
                 };
                 xhr.onerror = function () {
                     error([xhr.readyState, xhr.status, xhr.statusText]);
@@ -280,12 +280,12 @@ var hlp = function () {
     }, {
         key: 'getWithPromise',
         value: function getWithPromise(url) {
-            var _this3 = this;
+            var _this4 = this;
 
             var throttle = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 
             return new _promise2.default(function (resolve, reject) {
-                _this3.get(url, function (v) {
+                _this4.get(url, function (v) {
                     resolve(v);
                 }, function (v) {
                     reject(v);
@@ -297,13 +297,13 @@ var hlp = function () {
         value: function postWithPromise(url) {
             var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
-            var _this4 = this;
+            var _this5 = this;
 
             var headers = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
             var throttle = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
 
             return new _promise2.default(function (resolve, reject) {
-                _this4.post(url, data, function (v) {
+                _this5.post(url, data, function (v) {
                     resolve(v);
                 }, function (v) {
                     reject(v);
@@ -432,8 +432,8 @@ var hlp = function () {
             return range;
         }
     }, {
-        key: 'weekNumber',
-        value: function weekNumber() {
+        key: 'dateToWeek',
+        value: function dateToWeek() {
             var d = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
             if (d === null) {
@@ -446,6 +446,20 @@ var hlp = function () {
             return weekNo;
         }
     }, {
+        key: 'weekToDate',
+        value: function weekToDate(w, y) {
+            var simple = new Date(y, 0, 1 + (w - 1) * 7),
+                dow = simple.getDay(),
+                ISOweekStart = simple;
+            if (dow <= 4) {
+                ISOweekStart.setDate(simple.getDate() - simple.getDay() + 1);
+            } else {
+                ISOweekStart.setDate(simple.getDate() + 8 - simple.getDay());
+            }
+            ISOweekStart.setUTCHours(0, 0, 0, 0);
+            return ISOweekStart;
+        }
+    }, {
         key: 'addDays',
         value: function addDays(date, days) {
             var result = new Date(date);
@@ -454,19 +468,41 @@ var hlp = function () {
         }
     }, {
         key: 'objectsAreEqual',
-        value: function objectsAreEqual(a, b) {
-            var aProps = (0, _getOwnPropertyNames2.default)(a);
-            var bProps = (0, _getOwnPropertyNames2.default)(b);
-            if (aProps.length != bProps.length) {
+        value: function objectsAreEqual(x, y) {
+            var _this = this;
+            if (x === null || x === undefined || y === null || y === undefined) {
+                return x === y;
+            }
+            if (x.constructor !== y.constructor) {
                 return false;
             }
-            for (var i = 0; i < aProps.length; i++) {
-                var propName = aProps[i];
-                if (a[propName] !== b[propName]) {
-                    return false;
-                }
+            if (x instanceof Function) {
+                return x === y;
             }
-            return true;
+            if (x instanceof RegExp) {
+                return x === y;
+            }
+            if (x === y || x.valueOf() === y.valueOf()) {
+                return true;
+            }
+            if (Array.isArray(x) && x.length !== y.length) {
+                return false;
+            }
+            if (x instanceof Date) {
+                return false;
+            }
+            if (!(x instanceof Object)) {
+                return false;
+            }
+            if (!(y instanceof Object)) {
+                return false;
+            }
+            var p = (0, _keys2.default)(x);
+            return (0, _keys2.default)(y).every(function (i) {
+                return p.indexOf(i) !== -1;
+            }) && p.every(function (i) {
+                return _this.objectsAreEqual(x[i], y[i]);
+            });
         }
     }, {
         key: 'containsObject',
@@ -562,28 +598,28 @@ var hlp = function () {
     }, {
         key: 'textareaSetHeights',
         value: function textareaSetHeights(selector) {
-            var _this5 = this;
+            var _this6 = this;
 
             [].forEach.call(document.querySelectorAll(selector), function (el) {
-                if (_this5.isVisible(el)) {
-                    _this5.textareaSetHeight(el);
+                if (_this6.isVisible(el)) {
+                    _this6.textareaSetHeight(el);
                 }
             });
         }
     }, {
         key: 'textareaAutoHeight',
         value: function textareaAutoHeight(selector) {
-            var _this6 = this;
+            var _this7 = this;
 
             this.textareaSetHeights(selector);
 
             window.addEventListener('resize', function () {
-                _this6.textareaSetHeights(selector);
+                _this7.textareaSetHeights(selector);
             });
 
             document.addEventListener('keyup', function (e) {
                 if (e.target && e.target.tagName === 'TEXTAREA') {
-                    _this6.textareaSetHeight(e.target);
+                    _this7.textareaSetHeight(e.target);
                 }
             });
         }
@@ -852,11 +888,16 @@ test('range', function () {
     expect(_script2.default.range(0, 'A')).toBe(null);
 });
 
-test('weekNumber', function () {
-    expect(_script2.default.weekNumber(new Date('2018-01-01'))).toBe(1);
-    expect(_script2.default.weekNumber(new Date('2021-02-22'))).toBe(8);
-    expect(_script2.default.weekNumber(new Date('1980-03-27'))).toBe(13);
-    expect(_script2.default.weekNumber()).toBe(_script2.default.weekNumber(new Date()));
+test('dateToWeek', function () {
+    expect(_script2.default.dateToWeek(new Date('2018-01-01'))).toBe(1);
+    expect(_script2.default.dateToWeek(new Date('2021-02-22'))).toBe(8);
+    expect(_script2.default.dateToWeek(new Date('1980-03-27'))).toBe(13);
+    expect(_script2.default.dateToWeek()).toBe(_script2.default.dateToWeek(new Date()));
+});
+
+test('weekToDate', function () {
+    expect(_script2.default.weekToDate(42, 2018)).toEqual(new Date('2018-10-14'));
+    expect(_script2.default.weekToDate(17, 2023)).toEqual(new Date('2023-04-23'));
 });
 
 test('addDays', function () {
@@ -868,6 +909,7 @@ test('objectsAreEqual', function () {
     expect(_script2.default.objectsAreEqual({}, {})).toBe(true);
     expect(_script2.default.objectsAreEqual({ foo: 'bar' }, { foo: 'bar' })).toBe(true);
     expect(_script2.default.objectsAreEqual({ foo: 'bar' }, { bar: 'baz' })).toBe(false);
+    expect(_script2.default.objectsAreEqual({ foo: 'bar', bar: [] }, { foo: 'bar', bar: [] })).toBe(true);
 });
 
 test('containsObject', function () {

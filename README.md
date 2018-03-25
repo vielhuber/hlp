@@ -63,9 +63,13 @@ hlp.isDate('2018-02-29') // false
 hlp.isDate('1700-01-01') // true
 hlp.isDate(42) // false
 
-// get week number
-hlp.weekNumber(new Date('2021-02-22')) // 8
-hlp.weekNumber() // hlp.weekNumber(new Date())
+// get week number from date
+hlp.dateToWeek(new Date('2021-02-22')) // 8
+hlp.dateToWeek() // hlp.dateToWeek(new Date())
+
+// get date (of monday) from week number
+hlp.weekToDate(42, 2018) // new Date('2018-10-14')
+hlp.weekToDate(17, 2023) // new Date('2023-04-23')
 
 // add days to date
 hlp.addDays(new Date('2018-01-01'), 7) // new Date('2018-01-08')
