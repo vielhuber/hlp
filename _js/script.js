@@ -462,70 +462,108 @@ export default class hlp
         return false;
     }
 
-    /* todo */
-    
-    static fadeOut(el)
+    static fadeOut(el, speed = 1000)
     {
-        el.style.opacity = 1;
-        (function fade()
+        if( speed <= 25 )
         {
-            if ((el.style.opacity -= .1) < 0)
+            speed = 25;
+        }
+        return new Promise(resolve =>
+        {
+            el.style.opacity = 1;
+            (function fade()
             {
-                el.style.display = 'none';
-            } else {
-                requestAnimationFrame(fade);
-            }
-        })();
+                if((el.style.opacity -= (25/speed)) < 0)
+                {
+                    el.style.display = 'none';
+                    resolve();
+                }
+                else
+                {
+                    requestAnimationFrame(fade);
+                }
+            })();
+        });
     }
 
-    static fadeIn(el)
+    static fadeIn(el, speed = 1000)
     {
-        el.style.opacity = 0;
-        el.style.display = 'block';
-        (function fade()
+        if( speed <= 25 )
         {
-            var val = parseFloat(el.style.opacity);
-            if (!((val += .1) > 1))
+            speed = 25;
+        }
+        return new Promise(resolve =>
+        {
+            el.style.opacity = 0;
+            el.style.display = 'block';
+            (function fade()
             {
-                el.style.opacity = val;
-                requestAnimationFrame(fade);
-            }
-        })();
+                var val = parseFloat(el.style.opacity);
+                if(!((val += (25/speed)) > 1))
+                {
+                    el.style.opacity = val;
+                    requestAnimationFrame(fade);
+                }
+                else
+                {
+                    resolve();
+                }
+            })();
+        });
     }
 
-    static scrollTo(element, duration = 1)
+    static scrollTop()
     {
-        let to = (element.getBoundingClientRect().top + window.pageYOffset - document.documentElement.clientTop),
-            from = ((document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop),
-            by = (to-from),
-            currentIteration = 0,
-            animIterations = Math.round(60 * (duration/1000)); 
-        (function scroll()
-        {
-            let value;
-            // easeInOutCirc
-            let currentIterationTmp = currentIteration;
-            currentIterationTmp /= animIterations/2;
-            if (currentIterationTmp < 1)
-            {
-                value = -by/2 * (Math.sqrt(1 - currentIterationTmp*currentIterationTmp) - 1) + from;
-            }
-            else
-            {
-                currentIterationTmp -= 2;
-                value = by/2 * (Math.sqrt(1 - currentIterationTmp*currentIterationTmp) + 1) + from;
-            }
-            value = Math.round(value);
-            document.documentElement.scrollTop = document.body.scrollTop = value;
-            currentIteration++;
-            if (currentIteration < animIterations)
-            {
-                requestAnimationFrame(scroll);
-            }    
-        })();
+        let doc = document.documentElement;
+        return (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
     }
 
-    static loadJS(url)
+    static scrollLeft()
+    {
+        let doc = document.documentElement;
+        return (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
+    }
+
+    static scrollTo(element, speed = 1000)
+    {
+        return new Promise(resolve =>
+        {
+            let to = (element.getBoundingClientRect().top + window.pageYOffset - document.documentElement.clientTop),
+                from = ((document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop),
+                by = (to-from),
+                currentIteration = 0,
+                animIterations = Math.round(60 * (speed/1000)); 
+            (function scroll()
+            {
+                let value;
+                // easeInOutCirc
+                let currentIterationTmp = currentIteration;
+                currentIterationTmp /= animIterations/2;
+                if (currentIterationTmp < 1)
+                {
+                    value = -by/2 * (Math.sqrt(1 - currentIterationTmp*currentIterationTmp) - 1) + from;
+                }
+                else
+                {
+                    currentIterationTmp -= 2;
+                    value = by/2 * (Math.sqrt(1 - currentIterationTmp*currentIterationTmp) + 1) + from;
+                }
+                value = Math.round(value);
+                document.documentElement.scrollTop = document.body.scrollTop = value;
+                currentIteration++;
+                if (currentIteration < animIterations)
+                {
+                    requestAnimationFrame(scroll);
+                }
+                else
+                {
+                    resolve();
+                } 
+            })();
+        });
+    }
+
+    static loadJs(url)
     {
         return new Promise((resolve, reject) =>
         {
@@ -541,13 +579,27 @@ export default class hlp
         return !!( el.offsetWidth || el.offsetHeight || el.getClientRects().length );
     }
 
-    static textareaSetHeight(el)
+    static textareaAutoHeight(selector = 'textarea')
     {
-        el.style.height = '5px';
-        el.style.height = (el.scrollHeight)+'px';   
+
+        this.textareaSetHeights(selector);
+
+        this.onResizeHorizontal(() =>
+        {
+            this.textareaSetHeights(selector);
+        });
+
+        [].forEach.call(document.querySelectorAll(selector), (el) =>
+        {
+            el.addEventListener('keyup', (e) =>
+            {
+                this.textareaSetHeight(e.target);
+            });
+        });
+        
     }
 
-    static textareaSetHeights(selector)
+    static textareaSetHeights(selector = 'textarea')
     {
         [].forEach.call(document.querySelectorAll(selector), (el) =>
         {
@@ -558,40 +610,30 @@ export default class hlp
         });
     }
 
-    static textareaAutoHeight(selector)
+    static textareaSetHeight(el)
     {
+        el.style.height = '5px';
+        el.style.height = (el.scrollHeight)+'px';   
+    }
 
-        this.textareaSetHeights(selector);
-
-        window.addEventListener('resize', () =>
+    static real100vh(selector)
+    {
+        document.querySelector(selector).style.height = window.innerHeight+'px';
+        this.onResizeHorizontal(() =>
         {
-            this.textareaSetHeights(selector);
+            document.querySelector(selector).style.height = window.innerHeight+'px'
         });
-
-        document.addEventListener('keyup', (e) =>
+        this.onResizeVertical(() =>
         {
-            if(e.target && e.target.tagName === 'TEXTAREA')
+            // don't trigger resize on mobile in top area (when sticky header gets pushed in)
+            if( !this.isMobile() || this.scrollTop() === 0 || this.scrollTop() > 50 )
             {
-                this.textareaSetHeight(e.target);
+                document.querySelector(selector).style.height = window.innerHeight+'px'
             }
         });
-        
     }
 
-    static fixMobileHeightInit()
-    {
-        /* on apple devices fix height bug (https://nicolas-hoizey.com/2015/02/viewport-height-is-taller-than-the-visible-part-of-the-document-in-some-mobile-browsers.html) */
-        if( Helpers.isMobile() || Helpers.isTablet() )
-        {
-            Helpers.fixMobileHeight();
-            Helpers.onResizeHorizontal(Helpers.fixMobileHeight);
-        }
-    }
-    static fixMobileHeight()
-    {
-        // do some manual work here
-        document.querySelector('.full-height-item').style.height = window.innerHeight+'px';
-    }
+    /* todo */
 
     static x(input)
     {

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8" />    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
     <title>.</title>
     <style type="text/css">
         #foo
@@ -17,6 +18,16 @@
             height:500px;
             background-color:red;
         }
+        #baz
+        {
+            width:500px;
+            height:500px;
+            background-color:yellow;
+        }
+        textarea
+        {
+            width:100%;
+        }
     </style>
 </head>
 <body>
@@ -25,13 +36,34 @@
 
     <div id="bar"></div>
 
+    <textarea class="special"></textarea>
+
+    <div id="baz"></div>
+
     <script type="text/javascript" src="hlp.js"></script>
     <script type="text/javascript">
-        alert(hlp.capitalize('foo'));
-        hlp.scrollTo( document.getElementById('bar'), 1000 );
+        console.log(hlp.capitalize('foo'));
+
         hlp.onResizeHorizontal(() => { console.log('triggered onResizeHorizontal'); });
         hlp.onResizeVertical(() => { console.log('triggered onResizeVertical'); });
-        hlp.loadJS('https://apis.google.com/js/api.js').then(() => { alert('done'); });
+
+        hlp.scrollTo( document.getElementById('bar'), 1000 ).then(() =>
+        {
+            hlp.fadeOut( document.getElementById('bar'), 1000 ).then(() =>
+            {
+                console.log(hlp.isVisible(document.getElementById('bar'))); 
+                hlp.fadeIn( document.getElementById('bar'), 1000 ).then(() =>
+                {
+                    console.log(hlp.isVisible(document.getElementById('bar')));
+                });
+            });
+        });
+
+        hlp.loadJs('https://apis.google.com/js/api.js').then(() => { console.log('done'); });
+
+        hlp.textareaAutoHeight('.special');
+
+        hlp.real100vh('#baz');
     </script>
 </body>
 </html>

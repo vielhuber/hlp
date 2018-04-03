@@ -1,3 +1,25 @@
+## motivation
+tired of writing
+
+```js
+TODO
+```
+
+or
+
+```js
+TODO
+```
+
+or
+
+```js
+TODO
+```
+
+?
+
+
 ## installation
 
 ```
@@ -16,6 +38,124 @@ import hlp from 'hlp';
 
 
 ## usage
+
+### existence
+```js
+// check existence
+if( hlp.x(var) )
+{
+
+}
+
+// check non-existence
+if( hlp.nx(var) )
+{
+
+}
+```
+
+### equality
+```js
+// js has a lot of pitfalls, when comparing loosely
+// TODO: https://www.youtube.com/watch?v=MkbR-C3IaPY
+if( 0 == 'true' ) // true
+if( 0 == 'str' ) // true
+if( 'null' == null ) // false
+if( '0' == null ) // false
+if( '0' == true ) // false
+if( '0' == false ) // true
+if( 'false' == true ) // true
+if( 'false' == false ) // false
+if( new stdClass == true ) // true
+if( [] == false ) // true
+if( [] == null ) // true
+if( [''] == [] ) // false
+if( [''] == [0] ) // true
+if( 0 == '' ) // true
+if( 0 == ' ' ) // true
+if( -1 == true ) // true
+if( '-1' == true ) // true
+
+// this non-strict equality is symmetric, but not transitive
+$a = ''; $b = 0; $c = 'oh';
+$a == $b; // true
+$b == $c; // true
+$c == $a; // false
+
+// to overcome this issue, we...
+
+// ...use strict comparison when possible
+if( $var === 'foo' )
+{
+
+}
+
+// ...use loose comparison when appropriate
+if( $_GET['number'] == 1337 )
+{
+
+}
+
+// ...check for truthness / falsiness with these helper methods
+if( __true($var) )
+{
+
+}
+
+if( __false($var) )
+{
+
+}
+
+// be aware, that __true is not always the logic negation of __false
+__true(null) // false
+__false(null) // false
+```
+
+### value
+```php
+// get variable if exists, otherwise null
+__v( $var )
+
+// get variable if exists, otherwise 'default'
+__v( $var, 'default' )
+
+// get first variable that exists, otherwise null
+__v( $var1, $var2, $var3 )
+```
+
+### loop
+```php
+// loop only if exists
+foreach( __i($array) as $array__key=>$array__value )
+{
+
+}
+```
+
+
+### 
+
+```js
+// if you are unsure, if a variable is even set before checking its existence,
+// simply put it inside this helper function
+if( hlp.x(() => var) )
+if( hlp.nx(() => var)  )
+if( hlp.true(() => var) )
+if( hlp.false(() => var)  )
+if( hlp.v(() => var) === 'foo' )
+if( hlp.v(() => var) == 1337 )
+echo hlp.v(() => var)
+foreach( __i(hlp.v(() => var)) as $array__key=>$array__value)
+
+```
+That works because JavaScript only evaluates the content of the inner callback (or closure) when it is actually executed.
+
+
+
+### helpers
+
+there are also some other neat little helpers available.
 
 ```js
 // capitalize
@@ -40,7 +180,26 @@ hlp.isMobile()
 hlp.isTouch()
 
 // smooth scroll to element
-hlp.scrollTo( document.querySelector('.foo'), 1000 )
+hlp.scrollTo( document.querySelector('.foo'), 1000 ).then(() => { console.log('done'); });
+
+// get top/left scroll position
+hlp.scrollTop()
+hlp.scrollLeft()
+
+// set 100vh for dom element (even for ios devices, see https://nicolas-hoizey.com/2015/02/viewport-height-is-taller-than-the-visible-part-of-the-document-in-some-mobile-browsers.html)
+real100vh('.foo')
+
+// fade in/out dom element
+hlp.fadeIn( document.querySelector('.foo'), 1000 ).then(() => { console.log('done'); });
+hlp.fadeOut( document.querySelector('.foo'), 1000 ).then(() => { console.log('done'); });
+
+// check if dom element is visible
+hlp.isVisible( document.querySelector('.foo') )
+
+// automatically change height of all textareas based on content
+textareaAutoHeight()
+textareaAutoHeight('.special')
+textareaSetHeight( document.querySelector('.special') )
 
 // check if object
 hlp.isObject({}) // true
@@ -93,7 +252,7 @@ hlp.guid() // 8b25a8f8-9525-bd73-4679-3539321db93b
 hlp.replaceAll('foo bar baz', 'a', 'b') // 'foo bbr bbz'
 
 // load external js file in dom with promise
-hlp.loadJS('https://apis.google.com/js/api.js').then(() => { console.log('done'); });
+hlp.loadJs('https://apis.google.com/js/api.js').then(() => { console.log('done'); });
 
 // json parsing
 hlp.jsonStringToObject('["foo","bar","baz"]') // ['foo','bar','baz']
@@ -133,10 +292,10 @@ hlp.range('C','A') // ['C','B','A']
 
 ## php implementation
 
-there is also a php-implemenation of hlp called [stringhelper](https://github.com/vielhuber/stringhelper) with similiar functions available.
+there is also a php implemenation [stringhelper](https://github.com/vielhuber/stringhelper) with similiar functions available.
 
 
-## overview of __x
+### existence matrix
 
 | | <sub>!== null</sub> | <sub>!= null</sub> | <sub>!== false</sub> | <sub>!= false</sub> | <sub>=== true</sub> | <sub>== true</sub> | <sub>typeof input !== 'undefined'</sub> | <sub>if/else</sub> | <sub>ternary</sub> | <sub>length > 0</sub> | <sub>!= ''</sub> | <sub>!== ''</sub> | <sub>!!</sub> | <sub>Boolean()</sub> | <sub>__x</sub> |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -155,3 +314,30 @@ there is also a php-implemenation of hlp called [stringhelper](https://github.co
 | <sub>[0]</sub> | <sub>true</sub> | <sub>true</sub> | <sub>true</sub> | <sub>false</sub> | <sub>false</sub> | <sub>false</sub> | <sub>true</sub> | <sub>true</sub> | <sub>true</sub> | <sub>true</sub> | <sub>true</sub> | <sub>true</sub> | <sub>true</sub> | <sub>true</sub> | <sub>true</sub> |
 | <sub>{}</sub> | <sub>true</sub> | <sub>true</sub> | <sub>true</sub> | <sub>true</sub> | <sub>false</sub> | <sub>false</sub> | <sub>true</sub> | <sub>true</sub> | <sub>true</sub> | <sub>false</sub> | <sub>true</sub> | <sub>true</sub> | <sub>true</sub> | <sub>true</sub> | <sub>false</sub> |
 | <sub>undefined</sub> | <sub>true</sub> | <sub>false</sub> | <sub>true</sub> | <sub>true</sub> | <sub>false</sub> | <sub>false</sub> | <sub>false</sub> | <sub>false</sub> | <sub>false</sub> | <sub>type error</sub> | <sub>true</sub> | <sub>true</sub> | <sub>false</sub> | <sub>false</sub> | <sub>false</sub> |
+
+### loose comparison matrix
+
+| <sub>==</sub> | <sub>null</sub> | <sub>false</sub> | <sub>true</sub> | <sub>[]</sub> | <sub>['']</sub> | <sub>0</sub> | <sub>1</sub> | <sub>-1</sub> | <sub>'0'</sub> | <sub>'1'</sub> | <sub>'-1'</sub> | <sub>''</sub> | <sub>' '</sub> | <sub>'null'</sub> | <sub>'false'</sub> | <sub>'true'</sub> | <sub>'str'</sub> | <sub>[0,1]</sub> | <sub>[0]</sub> | <sub>new stdClass</sub> | <sub>$_GET['undefined']</sub> | <sub>@$_GET['undefined']</sub> |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| <sub>null</sub>| <sub>true</sub>| <sub>true</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>error</sub>| <sub>true</sub> |
+| <sub>false</sub>| <sub>true</sub>| <sub>true</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>error</sub>| <sub>true</sub> |
+| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>true</sub>| <sub>true</sub>| <sub>false</sub>| <sub>true</sub>| <sub>true</sub>| <sub>false</sub>| <sub>true</sub>| <sub>true</sub>| <sub>true</sub>| <sub>true</sub>| <sub>true</sub>| <sub>true</sub>| <sub>true</sub>| <sub>true</sub>| <sub>error</sub>| <sub>false</sub> |
+| <sub>[]</sub>| <sub>true</sub>| <sub>true</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>error</sub>| <sub>true</sub> |
+| <sub>['']</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>error</sub>| <sub>false</sub> |
+| <sub>0</sub>| <sub>true</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>true</sub>| <sub>true</sub>| <sub>true</sub>| <sub>true</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>error</sub>| <sub>error</sub>| <sub>true</sub> |
+| <sub>1</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>error</sub>| <sub>error</sub>| <sub>false</sub> |
+| <sub>-1</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>error</sub>| <sub>error</sub>| <sub>false</sub> |
+| <sub>'0'</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>error</sub>| <sub>false</sub> |
+| <sub>'1'</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>error</sub>| <sub>false</sub> |
+| <sub>'-1'</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>error</sub>| <sub>false</sub> |
+| <sub>''</sub>| <sub>true</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>error</sub>| <sub>true</sub> |
+| <sub>' '</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>error</sub>| <sub>false</sub> |
+| <sub>'null'</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>error</sub>| <sub>false</sub> |
+| <sub>'false'</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>error</sub>| <sub>false</sub> |
+| <sub>'true'</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>error</sub>| <sub>false</sub> |
+| <sub>'str'</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>error</sub>| <sub>false</sub> |
+| <sub>[0,1]</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>error</sub>| <sub>false</sub> |
+| <sub>[0]</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>error</sub>| <sub>false</sub> |
+| <sub>new stdClass</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>error</sub>| <sub>error</sub>| <sub>error</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>error</sub>| <sub>false</sub> |
+| <sub>$_GET['undefined']</sub>| <sub>error</sub>| <sub>error</sub>| <sub>error</sub>| <sub>error</sub>| <sub>error</sub>| <sub>error</sub>| <sub>error</sub>| <sub>error</sub>| <sub>error</sub>| <sub>error</sub>| <sub>error</sub>| <sub>error</sub>| <sub>error</sub>| <sub>error</sub>| <sub>error</sub>| <sub>error</sub>| <sub>error</sub>| <sub>error</sub>| <sub>error</sub>| <sub>error</sub>| <sub>error</sub>| <sub>error</sub> |
+| <sub>@$_GET['undefined']</sub>| <sub>true</sub>| <sub>true</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>true</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>false</sub>| <sub>error</sub>| <sub>true</sub> |

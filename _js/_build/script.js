@@ -514,66 +514,96 @@ var hlp = function () {
             }
             return false;
         }
-
-        /* todo */
-
     }, {
         key: 'fadeOut',
         value: function fadeOut(el) {
-            el.style.opacity = 1;
-            (function fade() {
-                if ((el.style.opacity -= .1) < 0) {
-                    el.style.display = 'none';
-                } else {
-                    requestAnimationFrame(fade);
-                }
-            })();
+            var speed = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1000;
+
+            if (speed <= 25) {
+                speed = 25;
+            }
+            return new _promise2.default(function (resolve) {
+                el.style.opacity = 1;
+                (function fade() {
+                    if ((el.style.opacity -= 25 / speed) < 0) {
+                        el.style.display = 'none';
+                        resolve();
+                    } else {
+                        requestAnimationFrame(fade);
+                    }
+                })();
+            });
         }
     }, {
         key: 'fadeIn',
         value: function fadeIn(el) {
-            el.style.opacity = 0;
-            el.style.display = 'block';
-            (function fade() {
-                var val = parseFloat(el.style.opacity);
-                if (!((val += .1) > 1)) {
-                    el.style.opacity = val;
-                    requestAnimationFrame(fade);
-                }
-            })();
+            var speed = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1000;
+
+            if (speed <= 25) {
+                speed = 25;
+            }
+            return new _promise2.default(function (resolve) {
+                el.style.opacity = 0;
+                el.style.display = 'block';
+                (function fade() {
+                    var val = parseFloat(el.style.opacity);
+                    if (!((val += 25 / speed) > 1)) {
+                        el.style.opacity = val;
+                        requestAnimationFrame(fade);
+                    } else {
+                        resolve();
+                    }
+                })();
+            });
+        }
+    }, {
+        key: 'scrollTop',
+        value: function scrollTop() {
+            var doc = document.documentElement;
+            return (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
+        }
+    }, {
+        key: 'scrollLeft',
+        value: function scrollLeft() {
+            var doc = document.documentElement;
+            return (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
         }
     }, {
         key: 'scrollTo',
         value: function scrollTo(element) {
-            var duration = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+            var speed = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1000;
 
-            var to = element.getBoundingClientRect().top + window.pageYOffset - document.documentElement.clientTop,
-                from = document.documentElement && document.documentElement.scrollTop || document.body.scrollTop,
-                by = to - from,
-                currentIteration = 0,
-                animIterations = Math.round(60 * (duration / 1000));
-            (function scroll() {
-                var value = void 0;
-                // easeInOutCirc
-                var currentIterationTmp = currentIteration;
-                currentIterationTmp /= animIterations / 2;
-                if (currentIterationTmp < 1) {
-                    value = -by / 2 * (Math.sqrt(1 - currentIterationTmp * currentIterationTmp) - 1) + from;
-                } else {
-                    currentIterationTmp -= 2;
-                    value = by / 2 * (Math.sqrt(1 - currentIterationTmp * currentIterationTmp) + 1) + from;
-                }
-                value = Math.round(value);
-                document.documentElement.scrollTop = document.body.scrollTop = value;
-                currentIteration++;
-                if (currentIteration < animIterations) {
-                    requestAnimationFrame(scroll);
-                }
-            })();
+            return new _promise2.default(function (resolve) {
+                var to = element.getBoundingClientRect().top + window.pageYOffset - document.documentElement.clientTop,
+                    from = document.documentElement && document.documentElement.scrollTop || document.body.scrollTop,
+                    by = to - from,
+                    currentIteration = 0,
+                    animIterations = Math.round(60 * (speed / 1000));
+                (function scroll() {
+                    var value = void 0;
+                    // easeInOutCirc
+                    var currentIterationTmp = currentIteration;
+                    currentIterationTmp /= animIterations / 2;
+                    if (currentIterationTmp < 1) {
+                        value = -by / 2 * (Math.sqrt(1 - currentIterationTmp * currentIterationTmp) - 1) + from;
+                    } else {
+                        currentIterationTmp -= 2;
+                        value = by / 2 * (Math.sqrt(1 - currentIterationTmp * currentIterationTmp) + 1) + from;
+                    }
+                    value = Math.round(value);
+                    document.documentElement.scrollTop = document.body.scrollTop = value;
+                    currentIteration++;
+                    if (currentIteration < animIterations) {
+                        requestAnimationFrame(scroll);
+                    } else {
+                        resolve();
+                    }
+                })();
+            });
         }
     }, {
-        key: 'loadJS',
-        value: function loadJS(url) {
+        key: 'loadJs',
+        value: function loadJs(url) {
             return new _promise2.default(function (resolve, reject) {
                 var script = document.createElement('script');
                 script.src = url;
@@ -589,54 +619,63 @@ var hlp = function () {
             return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
         }
     }, {
+        key: 'textareaAutoHeight',
+        value: function textareaAutoHeight() {
+            var _this6 = this;
+
+            var selector = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'textarea';
+
+
+            this.textareaSetHeights(selector);
+
+            this.onResizeHorizontal(function () {
+                _this6.textareaSetHeights(selector);
+            });
+
+            [].forEach.call(document.querySelectorAll(selector), function (el) {
+                el.addEventListener('keyup', function (e) {
+                    _this6.textareaSetHeight(e.target);
+                });
+            });
+        }
+    }, {
+        key: 'textareaSetHeights',
+        value: function textareaSetHeights() {
+            var _this7 = this;
+
+            var selector = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'textarea';
+
+            [].forEach.call(document.querySelectorAll(selector), function (el) {
+                if (_this7.isVisible(el)) {
+                    _this7.textareaSetHeight(el);
+                }
+            });
+        }
+    }, {
         key: 'textareaSetHeight',
         value: function textareaSetHeight(el) {
             el.style.height = '5px';
             el.style.height = el.scrollHeight + 'px';
         }
     }, {
-        key: 'textareaSetHeights',
-        value: function textareaSetHeights(selector) {
-            var _this6 = this;
+        key: 'real100vh',
+        value: function real100vh(selector) {
+            var _this8 = this;
 
-            [].forEach.call(document.querySelectorAll(selector), function (el) {
-                if (_this6.isVisible(el)) {
-                    _this6.textareaSetHeight(el);
+            document.querySelector(selector).style.height = window.innerHeight + 'px';
+            this.onResizeHorizontal(function () {
+                document.querySelector(selector).style.height = window.innerHeight + 'px';
+            });
+            this.onResizeVertical(function () {
+                // don't trigger resize on mobile in top area (when sticky header gets pushed in)
+                if (!_this8.isMobile() || _this8.scrollTop() === 0 || _this8.scrollTop() > 50) {
+                    document.querySelector(selector).style.height = window.innerHeight + 'px';
                 }
             });
         }
-    }, {
-        key: 'textareaAutoHeight',
-        value: function textareaAutoHeight(selector) {
-            var _this7 = this;
 
-            this.textareaSetHeights(selector);
+        /* todo */
 
-            window.addEventListener('resize', function () {
-                _this7.textareaSetHeights(selector);
-            });
-
-            document.addEventListener('keyup', function (e) {
-                if (e.target && e.target.tagName === 'TEXTAREA') {
-                    _this7.textareaSetHeight(e.target);
-                }
-            });
-        }
-    }, {
-        key: 'fixMobileHeightInit',
-        value: function fixMobileHeightInit() {
-            /* on apple devices fix height bug (https://nicolas-hoizey.com/2015/02/viewport-height-is-taller-than-the-visible-part-of-the-document-in-some-mobile-browsers.html) */
-            if (Helpers.isMobile() || Helpers.isTablet()) {
-                Helpers.fixMobileHeight();
-                Helpers.onResizeHorizontal(Helpers.fixMobileHeight);
-            }
-        }
-    }, {
-        key: 'fixMobileHeight',
-        value: function fixMobileHeight() {
-            // do some manual work here
-            document.querySelector('.full-height-item').style.height = window.innerHeight + 'px';
-        }
     }, {
         key: 'x',
         value: function x(input) {
