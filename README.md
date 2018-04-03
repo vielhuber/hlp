@@ -134,7 +134,7 @@ foreach( __i($array) as $array__key=>$array__value )
 ```
 
 
-### 
+### try
 
 ```js
 // if you are unsure, if a variable is even set before checking its existence,
@@ -187,7 +187,7 @@ hlp.scrollTop()
 hlp.scrollLeft()
 
 // set 100vh for dom element (even for ios devices, see https://nicolas-hoizey.com/2015/02/viewport-height-is-taller-than-the-visible-part-of-the-document-in-some-mobile-browsers.html)
-real100vh('.foo')
+hlp.real100vh('.foo')
 
 // fade in/out dom element
 hlp.fadeIn( document.querySelector('.foo'), 1000 ).then(() => { console.log('done'); });
@@ -294,6 +294,8 @@ hlp.range('C','A') // ['C','B','A']
 
 there is also a php implemenation [stringhelper](https://github.com/vielhuber/stringhelper) with similiar functions available.
 
+
+## appendix
 
 ### existence matrix
 
