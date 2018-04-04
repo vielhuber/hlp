@@ -693,6 +693,16 @@ var hlp = function () {
         value: function nx(input) {
             return !this.x(input);
         }
+    }, {
+        key: 'true',
+        value: function _true(input) {
+            return true;
+        }
+    }, {
+        key: 'false',
+        value: function _false(input) {
+            return false;
+        }
     }]);
     return hlp;
 }();

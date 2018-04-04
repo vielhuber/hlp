@@ -4,84 +4,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
     <title>.</title>
-    <script src="../hlp.js"></script>
-    
-    <script type="text/javascript">
-	function outputRow(input)
-    {
-		var html = '';
-		html += '| <sub>'; if( input !== null ) { html += 'true'; } else { html += 'false'; } html += '</sub>';
-		html += ' | <sub>'; if( input != null ) { html += 'true'; } else { html += 'false'; } html += '</sub>';
-		html += ' | <sub>'; if( input !== false ) { html += 'true'; } else { html += 'false'; } html += '</sub>';
-		html += ' | <sub>'; if( input != false ) { html += 'true'; } else { html += 'false'; } html += '</sub>';
-		html += ' | <sub>'; if( input === true ) { html += 'true'; } else { html += 'false'; } html += '</sub>';
-		html += ' | <sub>'; if( input == true ) { html += 'true'; } else { html += 'false'; } html += '</sub>';
-		html += ' | <sub>'; if( typeof input !== 'undefined' ) { html += 'true'; } else { html += 'false'; } html += '</sub>';
-		html += ' | <sub>'; if( input ) { html += 'true'; } else { html += 'false'; } html += '</sub>';
-		html += ' | <sub>'; html += ((input)?('true'):('false')); html += '</sub>';
-		html += ' | <sub>'; try { if( input.length > 0 ) { html += 'true'; } else { html += 'false'; } } catch(e) { html += 'type error'; } html += '</sub>';
-		html += ' | <sub>'; if( input != '' ) { html += 'true'; } else { html += 'false'; } html += '</sub>';
-		html += ' | <sub>'; if( input !== '' ) { html += 'true'; } else { html += 'false'; } html += '</sub>';
-        html += ' | <sub>'; if( !!input ) { html += 'true'; } else { html += 'false'; } html += '</sub>';
-        html += ' | <sub>'; if( Boolean(input) ) { html += 'true'; } else { html += 'false'; } html += '</sub>';
-		html += ' | <sub>'; if( __x(input) ) { html += 'true'; } else { html += 'false'; } html += '</sub>';
-		html += ' |'; 
-		return html;
-	}
-
-    var items = new Map([
-        ['null',null],
-        ['false',false],
-        ['true',true],
-        ['[]',[]],
-        ['[\'\']',['']],
-        ['0', 0],
-        ['1', 1],
-        ['-1', -1],
-        ['\'\'', ''],
-        ['\' \'', ' '],
-        ['str', 'str'],
-        ['[0,1]', [0,1]],
-        ['[0]', [0]],
-        ['{}', {}],
-        ['undefined', undefined],
-    ]);
-    
-	var html = '';
-	html += '| ';
-	html += '| <sub>!== null</sub> ';
-	html += '| <sub>!= null</sub> ';
-	html += '| <sub>!== false</sub> ';
-	html += '| <sub>!= false</sub> ';
-	html += '| <sub>=== true</sub> ';
-	html += '| <sub>== true</sub> ';
-	html += '| <sub>typeof input !== \'undefined\'</sub> ';
-	html += '| <sub>if/else</sub> ';
-	html += '| <sub>ternary</sub> ';
-	html += '| <sub>length > 0</sub> ';
-	html += '| <sub>!= \'\'</sub> ';
-	html += '| <sub>!== \'\'</sub> ';
-    html += '| <sub>!!</sub> ';
-    html += '| <sub>Boolean()</sub> ';
-	html += '| <sub>__x</sub> ';
-	html += '|';
-	html += '\n';
-	html += '| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |';
-
-	items.forEach((items__value, items__key) =>
-    {
-		html += '\n';
-		html += '| <sub>'+items__key+'</sub> ';
-		html += outputRow(items__value);
-	})
-	document.addEventListener('DOMContentLoaded', () =>
-    {
-		document.querySelector('textarea').innerHTML = html;
-	});
-    </script>
-
     <style type='text/css'>
-    *
+	*
     {
         box-sizing: border-box;
         margin:0;
@@ -91,9 +15,6 @@
         width:100%;
         height:100%;
     }
-    body
-    {
-    }
     textarea
     {
         font-size:9px;
@@ -102,11 +23,126 @@
         height:50%;
     }
     </style>
-
 </head>
 <body>
+    
+    <script type="text/javascript" src="../hlp.js"></script>
+    <script type="text/javascript">
+        let items = {
+            'null': null,
+            'false': false,
+            'true': true,
+            '[]': [],
+            '[\'\']': [''],
+            '0': 0,
+            '1': 1,
+            '-1': -1,
+            '\'0\'': '0',
+            '\'1\'': '1',
+            '\'-1\'': '-1',
+            '\'\'': '',
+            '\' \'': ' ',
+            '\'null\'': 'null',
+            '\'false\'': 'false',
+            '\'true\'': 'true',
+            '\'str\'': 'str',
+            '[0,1]': [0,1],
+            '[0]': [0],
+            '{}': {},
+            'unknown.sub.property': 'error',
+            '(()=>unknown.sub.property)': '(()=>unknown.sub.property)',
+        };
+        document.write('<textarea>');
+    	function outputRow(input)
+        {
+            document.write(' | <sub>'); if( input === 'error' ) { document.write('error'); } else if( hlp.x(input) ) { document.write('true'); } else { document.write('false'); } document.write('</sub>');
+            document.write(' | <sub>'); if( input === 'error' ) { document.write('error'); } else if( hlp.true(input) ) { document.write('true'); } else { document.write('false'); } document.write('</sub>');
+            document.write(' | <sub>'); if( input === 'error' ) { document.write('error'); } else if( hlp.false(input) ) { document.write('true'); } else { document.write('false'); } document.write('</sub>');
+    		document.write(' | <sub>'); if( input === 'error' ) { document.write('error'); } else if( input !== null ) { document.write('true'); } else { document.write('false'); } document.write('</sub>');
+    		document.write(' | <sub>'); if( input === 'error' ) { document.write('error'); } else if( input != null ) { document.write('true'); } else { document.write('false'); } document.write('</sub>');
+    		document.write(' | <sub>'); if( input === 'error' ) { document.write('error'); } else if( input !== false ) { document.write('true'); } else { document.write('false'); } document.write('</sub>');
+    		document.write(' | <sub>'); if( input === 'error' ) { document.write('error'); } else if( input != false ) { document.write('true'); } else { document.write('false'); } document.write('</sub>');
+    		document.write(' | <sub>'); if( input === 'error' ) { document.write('error'); } else if( input === true ) { document.write('true'); } else { document.write('false'); } document.write('</sub>');
+    		document.write(' | <sub>'); if( input === 'error' ) { document.write('error'); } else if( input == true ) { document.write('true'); } else { document.write('false'); } document.write('</sub>');
+    		document.write(' | <sub>'); if( input === 'error' ) { document.write('error'); } else if( !is_null(input) ) { document.write('true'); } else { document.write('false'); } document.write('</sub>');
+    		document.write(' | <sub>'); if( input === 'error' ) { document.write('false'); } else if( isset(input) ) { document.write('true'); } else { document.write('false'); } document.write('</sub>');
+    		document.write(' | <sub>'); if( input === 'error' ) { document.write('false'); } else if( !empty(input) ) { document.write('true'); } else { document.write('false'); } document.write('</sub>');
+    		document.write(' | <sub>'); if( input === 'error' ) { document.write('error'); } else if( input ) { document.write('true'); } else { document.write('false'); } document.write('</sub>');
+    		document.write(' | <sub>'); if( input === 'error' ) { document.write('error'); } else { document.write(((input)?('true'):('false'))); } document.write('</sub>');
+    		document.write(' | <sub>'); if( input === 'error' ) { document.write('error'); } else if( count(input) > 0 ) { document.write('true'); } else { document.write('false'); } document.write('</sub>');
+    		document.write(' | <sub>'); if( input === 'error' ) { document.write('error'); } else if( input != '' ) { document.write('true'); } else { document.write('false'); } document.write('</sub>');
+    		document.write(' | <sub>'); if( input === 'error' ) { document.write('error'); } else if( input !== '' ) { document.write('true'); } else { document.write('false'); } document.write('</sub>');
+    		document.write(' |');
+    	}
+    	document.write('| ');
+        document.write('| <sub>hlp.x()</sub> ');
+        document.write('| <sub>hlp.true()</sub> ');
+        document.write('| <sub>hlp.false()</sub> ');
+    	document.write('| <sub>!== null</sub> ');
+    	document.write('| <sub>!= null</sub> ');
+    	document.write('| <sub>!== false</sub> ');
+    	document.write('| <sub>!= false</sub> ');
+    	document.write('| <sub>=== true</sub> ');
+        document.write('| <sub>== true</sub> ');        
+    	document.write('| <sub>typeof !== \'undefined\'</sub> ');
+    	document.write('| <sub>!== undefined</sub> ');
+        document.write('| <sub>(/^\s*$/).test()</sub> ');        
+    	document.write('| <sub>if/else</sub> ');
+    	document.write('| <sub>ternary</sub> ');
+    	document.write('| <sub>length > 0</sub> ');
+    	document.write('| <sub>!= \'\'</sub> ');
+        document.write('| <sub>!== \'\'</sub> ');
+    	document.write('|');
+    	document.write('<br/>');
+        document.write('| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |');
+        
+        Object.entries(items).forEach(([items__key, items__value]) =>
+        {
+    		document.write('<br/>');
+            document.write('| <sub>'+items__key+'</sub>');
+    		outputRow(items__value);
+        });
+        document.write('</textarea>');
 
-	<textarea></textarea>
+        document.write('<textarea>');
+        document.write('| <sub>==</sub> ');
+
+        Object.entries(items).forEach(([items__key, items__value]) =>
+        {
+            document.write('| <sub>'+items__key+'</sub> ');
+        });
+        document.write('|');
+        document.write('<br/>');
+        document.write('| --- '+(('| --- ').repeat(items.length))+'|');
+        Object.entries(items).forEach(([items1__key, items1__value]) =>
+        {
+            document.write('<br/>');
+            document.write('| <sub>'+items1__key+'</sub>');
+            Object.entries(items).forEach(([items2__key, items2__value]) =>
+            {
+                document.write('| <sub>');
+                if( (is_object(items1__value) && is_integer(items2__value)) || (is_object(items2__value) && is_integer(items1__value)) )
+                {
+                    document.write('error');
+                }
+                else if( items1__value === 'error' || items2__value === 'error' )
+                {
+                    document.write('error');
+                }
+                else if( items1__value == items2__value )
+                {
+                    document.write('true');
+                }
+                else
+                {
+                    document.write('false');
+                }
+                document.write('</sub>');                
+            });
+            document.write(' |');
+        });
+        document.write('</textarea>');
+    </script>
 
 </body>
 </html>

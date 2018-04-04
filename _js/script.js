@@ -647,6 +647,16 @@ export default class hlp
         return !this.x(input);
     }
 
+    static true(input)
+    {
+        return true;
+    }
+
+    static false(input)
+    {
+        return false;
+    }
+
 }
 
 /* expose all functions to window */
