@@ -66,30 +66,30 @@ if( hlp.nx(vrbl) )
 ### equality
 ```js
 // js has a lot of pitfalls, when comparing loosely
-// TODO: https://www.youtube.com/watch?v=MkbR-C3IaPY
-if( 0 == 'true' ) // true
-if( 0 == 'str' ) // true
-if( 'null' == null ) // false
-if( '0' == null ) // false
-if( '0' == true ) // false
-if( '0' == false ) // true
-if( 'false' == true ) // true
-if( 'false' == false ) // false
-if( new stdClass == true ) // true
+if( '' == [] ) // true
+if( '' == [''] ) // true
+if( '' == 0 ) // true
+if( ' ' == false ) // true
+if( [0] == false ) // true
+if( [0] == '0' ) // true
 if( [] == false ) // true
-if( [] == null ) // true
-if( [''] == [] ) // false
-if( [''] == [0] ) // true
-if( 0 == '' ) // true
-if( 0 == ' ' ) // true
-if( -1 == true ) // true
-if( '-1' == true ) // true
+if( [''] == false ) // true
+if( 0 == false ) // true
+if( 0 == [] ) // true
+if( 0 == [''] ) // true
+if( [0] == false ) // true
+if( [0] == 0 ) // true
+
+// also don't forget those delicacies
+0 === -0 // true
+NaN === NaN // false
+(![]+[])[+[]]+(![]+[])[+!+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]] === 'fail' // true
 
 // this non-strict equality is symmetric, but not transitive
-$a = ''; $b = 0; $c = 'oh';
-$a == $b; // true
-$b == $c; // true
-$c == $a; // false
+a = ''; b = 0; c = [0];
+a == b; // true
+b == c; // true
+c == a; // false
 
 // to overcome this issue, we...
 
