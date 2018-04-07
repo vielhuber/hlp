@@ -8,17 +8,17 @@ var _getOwnPropertyNames = require('babel-runtime/core-js/object/get-own-propert
 
 var _getOwnPropertyNames2 = _interopRequireDefault(_getOwnPropertyNames);
 
-var _keys = require('babel-runtime/core-js/object/keys');
-
-var _keys2 = _interopRequireDefault(_keys);
-
-var _typeof2 = require('babel-runtime/helpers/typeof');
-
-var _typeof3 = _interopRequireDefault(_typeof2);
-
 var _promise = require('babel-runtime/core-js/promise');
 
 var _promise2 = _interopRequireDefault(_promise);
+
+var _stringify = require('babel-runtime/core-js/json/stringify');
+
+var _stringify2 = _interopRequireDefault(_stringify);
+
+var _values = require('babel-runtime/core-js/object/values');
+
+var _values2 = _interopRequireDefault(_values);
 
 var _slicedToArray2 = require('babel-runtime/helpers/slicedToArray');
 
@@ -28,9 +28,13 @@ var _entries = require('babel-runtime/core-js/object/entries');
 
 var _entries2 = _interopRequireDefault(_entries);
 
-var _stringify = require('babel-runtime/core-js/json/stringify');
+var _keys = require('babel-runtime/core-js/object/keys');
 
-var _stringify2 = _interopRequireDefault(_stringify);
+var _keys2 = _interopRequireDefault(_keys);
+
+var _typeof2 = require('babel-runtime/helpers/typeof');
+
+var _typeof3 = _interopRequireDefault(_typeof2);
 
 var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
@@ -48,6 +52,215 @@ var hlp = function () {
     }
 
     (0, _createClass3.default)(hlp, null, [{
+        key: 'x',
+        value: function x(input) {
+            if (typeof input === 'function') {
+                try {
+                    input = input();
+                    return this.x(input);
+                } catch (e) {
+                    return false;
+                }
+            }
+            if (input === null || input === false || typeof input === 'string' && input.trim() == '' || (typeof input === 'undefined' ? 'undefined' : (0, _typeof3.default)(input)) === 'object' && (0, _keys2.default)(input).length === 0 && input.constructor === Object || typeof input === 'undefined' || Array.isArray(input) && input.length === 0 || Array.isArray(input) && input.length === 1 && input[0] === '') {
+                return false;
+            }
+            return true;
+        }
+    }, {
+        key: 'nx',
+        value: function nx(input) {
+            return !this.x(input);
+        }
+    }, {
+        key: 'true',
+        value: function _true(input) {
+            if (typeof input === 'function') {
+                try {
+                    input = input();
+                    return this.true(input);
+                } catch (e) {
+                    return false;
+                }
+            }
+            if (input === null) {
+                return false;
+            }
+            if (input === false) {
+                return false;
+            }
+            if (Array.isArray(input) && input.length === 0) {
+                return false;
+            }
+            if (Array.isArray(input) && hlp.first(input) === '') {
+                return false;
+            }
+            if ((typeof input === 'undefined' ? 'undefined' : (0, _typeof3.default)(input)) === 'object' && (0, _keys2.default)(input).length === 0 && input.constructor === Object) {
+                return false;
+            }
+            if (input === 0) {
+                return false;
+            }
+            if (input === '0') {
+                return false;
+            }
+            if (input === '') {
+                return false;
+            }
+            if (input === ' ') {
+                return false;
+            }
+            if (input === 'null') {
+                return false;
+            }
+            if (input === 'false') {
+                return false;
+            }
+            return true;
+        }
+    }, {
+        key: 'false',
+        value: function _false(input) {
+            if (typeof input === 'function') {
+                try {
+                    input = input();
+                    return this.false(input);
+                } catch (e) {
+                    return false;
+                }
+            }
+            if (input === null) {
+                return false;
+            }
+            if (input === false) {
+                return true;
+            }
+            if (Array.isArray(input) && input.length === 0) {
+                return false;
+            }
+            if (Array.isArray(input) && hlp.first(input) === '') {
+                return false;
+            }
+            if ((typeof input === 'undefined' ? 'undefined' : (0, _typeof3.default)(input)) === 'object' && (0, _keys2.default)(input).length === 0 && input.constructor === Object) {
+                return false;
+            }
+            if (input === 0) {
+                return true;
+            }
+            if (input === '0') {
+                return true;
+            }
+            if (input === '') {
+                return false;
+            }
+            if (input === ' ') {
+                return false;
+            }
+            if (input === 'null') {
+                return false;
+            }
+            if (input === 'false') {
+                return true;
+            }
+            return false;
+        }
+    }, {
+        key: 'v',
+        value: function v() {
+            if (this.nx(arguments)) {
+                return null;
+            }
+            for (var i = 0; i < arguments.length; i++) {
+                if (this.x(arguments[i])) {
+                    return arguments[i];
+                }
+            }
+            return null;
+        }
+    }, {
+        key: 'loop',
+        value: function loop(input, fun) {
+            if (this.nx(input)) {
+                return null;
+            }
+            if (Array.isArray(input)) {
+                input.forEach(function (input__value, input__key) {
+                    fun(input__value, input__key);
+                });
+            }
+            if ((typeof input === 'undefined' ? 'undefined' : (0, _typeof3.default)(input)) === 'object') {
+                (0, _entries2.default)(input).forEach(function (_ref) {
+                    var _ref2 = (0, _slicedToArray3.default)(_ref, 2),
+                        input__key = _ref2[0],
+                        input__value = _ref2[1];
+
+                    fun(input__value, input__key);
+                });
+            }
+        }
+    }, {
+        key: 'first',
+        value: function first(input) {
+            if (Array.isArray(input)) {
+                var ret = null;
+                input.forEach(function (input__value, input__key) {
+                    if (ret === null) {
+                        ret = input__value;
+                    }
+                });
+                return ret;
+            }
+            if ((typeof input === 'undefined' ? 'undefined' : (0, _typeof3.default)(input)) === 'object') {
+                var ret = null;
+                (0, _entries2.default)(input).forEach(function (_ref3) {
+                    var _ref4 = (0, _slicedToArray3.default)(_ref3, 2),
+                        input__key = _ref4[0],
+                        input__value = _ref4[1];
+
+                    if (ret === null) {
+                        ret = input__value;
+                    }
+                });
+                return ret;
+            }
+            return null;
+        }
+    }, {
+        key: 'last',
+        value: function last(input) {
+            if (Array.isArray(input)) {
+                var ret = null;
+                input.forEach(function (input__value, input__key) {
+                    ret = input__value;
+                });
+                return ret;
+            }
+            if ((typeof input === 'undefined' ? 'undefined' : (0, _typeof3.default)(input)) === 'object') {
+                var _ret = null;
+                (0, _entries2.default)(input).forEach(function (_ref5) {
+                    var _ref6 = (0, _slicedToArray3.default)(_ref5, 2),
+                        input__key = _ref6[0],
+                        input__value = _ref6[1];
+
+                    _ret = input__value;
+                });
+                return _ret;
+            }
+            return null;
+        }
+    }, {
+        key: 'rand',
+        value: function rand(input) {
+            if (Array.isArray(input)) {
+                return input[Math.floor(Math.random() * input.length)];
+            }
+            if ((typeof input === 'undefined' ? 'undefined' : (0, _typeof3.default)(input)) === 'object') {
+                var input = (0, _values2.default)(input);
+                return input[Math.floor(Math.random() * input.length)];
+            }
+            return null;
+        }
+    }, {
         key: 'capitalize',
         value: function capitalize() {
             var string = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
@@ -256,10 +469,10 @@ var hlp = function () {
                 xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
                 xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
                 if (_this3.x(headers)) {
-                    (0, _entries2.default)(headers).forEach(function (_ref) {
-                        var _ref2 = (0, _slicedToArray3.default)(_ref, 2),
-                            headers__key = _ref2[0],
-                            headers__value = _ref2[1];
+                    (0, _entries2.default)(headers).forEach(function (_ref7) {
+                        var _ref8 = (0, _slicedToArray3.default)(_ref7, 2),
+                            headers__key = _ref8[0],
+                            headers__value = _ref8[1];
 
                         xhr.setRequestHeader(headers__key, headers__value);
                     });
@@ -672,35 +885,6 @@ var hlp = function () {
                     document.querySelector(selector).style.height = window.innerHeight + 'px';
                 }
             });
-        }
-
-        /* todo */
-
-    }, {
-        key: 'x',
-        value: function x(input) {
-            if (input === null || input === false || typeof input === 'string' && input.trim() == '' || (typeof input === 'undefined' ? 'undefined' : (0, _typeof3.default)(input)) === 'object' && (0, _keys2.default)(input).length === 0 && input.constructor === Object || typeof input === 'undefined' || Array.isArray(input) && input.length === 0) {
-                return false;
-            }
-            if (Array.isArray(input) && input.length === 1 && input[0] === '') {
-                return false;
-            }
-            return true;
-        }
-    }, {
-        key: 'nx',
-        value: function nx(input) {
-            return !this.x(input);
-        }
-    }, {
-        key: 'true',
-        value: function _true(input) {
-            return true;
-        }
-    }, {
-        key: 'false',
-        value: function _false(input) {
-            return false;
         }
     }]);
     return hlp;

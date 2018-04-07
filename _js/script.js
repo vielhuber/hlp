@@ -1,6 +1,194 @@
 export default class hlp
 {
 
+    static x(input)
+    {
+        if( typeof input === 'function' )
+        {
+            try
+            {
+                input = input();
+                return this.x(input);
+            }
+            catch(e)
+            {
+                return false;
+            }
+        }
+        if(
+            (input === null) ||
+            (input === false) ||
+            (typeof input === 'string' && input.trim() == '') ||
+            (typeof input === 'object' && Object.keys(input).length === 0 && input.constructor === Object) ||
+            (typeof input === 'undefined') ||
+            (Array.isArray(input) && input.length === 0) ||
+            (Array.isArray(input) && input.length === 1 && input[0] === '')
+        )
+        {
+            return false;
+        }
+        return true;
+    }
+
+    static nx(input)
+    {
+        return !this.x(input);
+    }
+
+    static true(input)
+    {
+        if( typeof input === 'function' )
+        {
+            try
+            {
+                input = input();
+                return this.true(input);
+            }
+            catch(e)
+            {
+                return false;
+            }
+        }
+        if( input === null ) { return false; }
+        if( input === false ) { return false; }
+        if( Array.isArray(input) && input.length === 0 ) { return false; }
+        if( Array.isArray(input) && hlp.first(input) === '' ) { return false; }
+        if( typeof input === 'object' && Object.keys(input).length === 0 && input.constructor === Object ) { return false; }
+        if( input === 0 ) { return false; }
+        if( input === '0' ) { return false; }
+        if( input === '' ) { return false; }
+        if( input === ' ' ) { return false; }
+        if( input === 'null' ) { return false; }
+        if( input === 'false' ) { return false; }        
+        return true;
+    }
+
+    static false(input)
+    {
+        if( typeof input === 'function' )
+        {
+            try
+            {
+                input = input();
+                return this.false(input);
+            }
+            catch(e)
+            {
+                return false;
+            }
+        }
+        if( input === null ) { return false; }
+        if( input === false ) { return true; }
+        if( Array.isArray(input) && input.length === 0 ) { return false; }
+        if( Array.isArray(input) && hlp.first(input) === '' ) { return false; }
+        if( typeof input === 'object' && Object.keys(input).length === 0 && input.constructor === Object ) { return false; }
+        if( input === 0 ) { return true; }
+        if( input === '0' ) { return true; }
+        if( input === '' ) { return false; }
+        if( input === ' ' ) { return false; }
+        if( input === 'null' ) { return false; }
+        if( input === 'false' ) { return true; }        
+        return false;
+    }
+
+    static v()
+    {
+        if( this.nx(arguments) )
+        {
+            return null;
+        }
+        for( let i = 0; i < arguments.length; i++)
+        {
+            if( this.x(arguments[i]) )
+            {
+                return arguments[i];
+            }
+        }
+        return null;
+    }
+
+    static loop(input, fun)
+    {
+        if( this.nx(input) )
+        {
+            return null;
+        }
+        if( Array.isArray(input) )
+        {
+            input.forEach((input__value, input__key) =>
+            {
+                fun(input__value, input__key);
+            });
+        }
+        if( typeof input === 'object' )
+        {
+            Object.entries(input).forEach(([input__key, input__value]) =>
+            {
+                fun(input__value, input__key);
+            });
+        }
+    }
+
+    static first(input)
+    {
+        if( Array.isArray(input) )
+        {
+            var ret = null;
+            input.forEach((input__value, input__key) =>
+            {
+                if( ret === null ) { ret = input__value; }
+            });
+            return ret;
+        }
+        if( typeof input === 'object' )
+        {
+            var ret = null;
+            Object.entries(input).forEach(([input__key, input__value]) =>
+            {
+                if( ret === null ) { ret = input__value; }
+            });
+            return ret;
+        }
+        return null;
+    }
+
+    static last(input)
+    {
+        if( Array.isArray(input) )
+        {
+            let ret = null;
+            input.forEach((input__value, input__key) =>
+            {
+                ret = input__value;
+            });
+            return ret;
+        }
+        if( typeof input === 'object' )
+        {
+            let ret = null;
+            Object.entries(input).forEach(([input__key, input__value]) =>
+            {
+                ret = input__value;
+            });
+            return ret;
+        }
+        return null;
+    }
+
+    static rand(input)
+    {
+        if( Array.isArray(input) )
+        {
+            return input[Math.floor(Math.random()*input.length)];
+        }
+        if( typeof input === 'object' )
+        {
+            var input =	Object.values(input); 
+            return input[Math.floor(Math.random()*input.length)];
+        }
+        return null;
+    }
+
     static capitalize(string = null)
     {
         if( string === null )
@@ -631,30 +819,6 @@ export default class hlp
                 document.querySelector(selector).style.height = window.innerHeight+'px'
             }
         });
-    }
-
-    /* todo */
-
-    static x(input)
-    {
-        if( input === null || input === false || (typeof input === 'string' && input.trim() == '') || (typeof input === 'object' && Object.keys(input).length === 0 && input.constructor === Object) || (typeof input === 'undefined') || (Array.isArray(input) && input.length === 0) ) { return false; }
-        if( Array.isArray(input) && input.length === 1 && input[0] === '' ) { return false; }
-        return true;
-    }
-
-    static nx(input)
-    {
-        return !this.x(input);
-    }
-
-    static true(input)
-    {
-        return true;
-    }
-
-    static false(input)
-    {
-        return false;
     }
 
 }

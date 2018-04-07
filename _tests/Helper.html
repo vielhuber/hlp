@@ -49,8 +49,8 @@
             '[0,1]': [0,1],
             '[0]': [0],
             '{}': {},
-            'unknown.sub.property': 'error',
-            '(()=>unknown.sub.property)': '(()=>unknown.sub.property)',
+            'un.known.property': 'error',
+            '(()=>un.known.property)': '(()=>un.known.property)',
         };
         document.write('<textarea>');
     	function outputRow(input)
@@ -64,12 +64,12 @@
     		document.write(' | <sub>'); if( input === 'error' ) { document.write('error'); } else if( input != false ) { document.write('true'); } else { document.write('false'); } document.write('</sub>');
     		document.write(' | <sub>'); if( input === 'error' ) { document.write('error'); } else if( input === true ) { document.write('true'); } else { document.write('false'); } document.write('</sub>');
     		document.write(' | <sub>'); if( input === 'error' ) { document.write('error'); } else if( input == true ) { document.write('true'); } else { document.write('false'); } document.write('</sub>');
-    		document.write(' | <sub>'); if( input === 'error' ) { document.write('error'); } else if( !is_null(input) ) { document.write('true'); } else { document.write('false'); } document.write('</sub>');
-    		document.write(' | <sub>'); if( input === 'error' ) { document.write('false'); } else if( isset(input) ) { document.write('true'); } else { document.write('false'); } document.write('</sub>');
-    		document.write(' | <sub>'); if( input === 'error' ) { document.write('false'); } else if( !empty(input) ) { document.write('true'); } else { document.write('false'); } document.write('</sub>');
+    		document.write(' | <sub>'); if( input === 'error' ) { document.write('error'); } else if( typeof input !== 'undefined' ) { document.write('true'); } else { document.write('false'); } document.write('</sub>');
+    		document.write(' | <sub>'); if( input === 'error' ) { document.write('false'); } else if( input != undefined ) { document.write('true'); } else { document.write('false'); } document.write('</sub>');
+    		document.write(' | <sub>'); if( input === 'error' ) { document.write('false'); } else if( input !== undefined ) { document.write('true'); } else { document.write('false'); } document.write('</sub>');
     		document.write(' | <sub>'); if( input === 'error' ) { document.write('error'); } else if( input ) { document.write('true'); } else { document.write('false'); } document.write('</sub>');
     		document.write(' | <sub>'); if( input === 'error' ) { document.write('error'); } else { document.write(((input)?('true'):('false'))); } document.write('</sub>');
-    		document.write(' | <sub>'); if( input === 'error' ) { document.write('error'); } else if( count(input) > 0 ) { document.write('true'); } else { document.write('false'); } document.write('</sub>');
+    		document.write(' | <sub>'); if( input === 'error' || input === null ) { document.write('error'); } else if( input.length > 0 ) { document.write('true'); } else { document.write('false'); } document.write('</sub>');
     		document.write(' | <sub>'); if( input === 'error' ) { document.write('error'); } else if( input != '' ) { document.write('true'); } else { document.write('false'); } document.write('</sub>');
     		document.write(' | <sub>'); if( input === 'error' ) { document.write('error'); } else if( input !== '' ) { document.write('true'); } else { document.write('false'); } document.write('</sub>');
     		document.write(' |');
@@ -85,8 +85,8 @@
     	document.write('| <sub>=== true</sub> ');
         document.write('| <sub>== true</sub> ');        
     	document.write('| <sub>typeof !== \'undefined\'</sub> ');
-    	document.write('| <sub>!== undefined</sub> ');
-        document.write('| <sub>(/^\s*$/).test()</sub> ');        
+    	document.write('| <sub>!= undefined</sub> ');
+        document.write('| <sub>!== undefined</sub> ');        
     	document.write('| <sub>if/else</sub> ');
     	document.write('| <sub>ternary</sub> ');
     	document.write('| <sub>length > 0</sub> ');
@@ -121,11 +121,7 @@
             Object.entries(items).forEach(([items2__key, items2__value]) =>
             {
                 document.write('| <sub>');
-                if( (is_object(items1__value) && is_integer(items2__value)) || (is_object(items2__value) && is_integer(items1__value)) )
-                {
-                    document.write('error');
-                }
-                else if( items1__value === 'error' || items2__value === 'error' )
+                if( items1__value === 'error' || items2__value === 'error' )
                 {
                     document.write('error');
                 }

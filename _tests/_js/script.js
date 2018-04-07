@@ -1,5 +1,165 @@
 import hlp from './../../_js/script';
 
+test('x', () =>
+{
+    expect( hlp.x(null) ).toBe(false);
+    expect( hlp.x(false) ).toBe(false);
+    expect( hlp.x(true) ).toBe(true);
+    expect( hlp.x([]) ).toBe(false);
+    expect( hlp.x(['']) ).toBe(false);
+    expect( hlp.x(0) ).toBe(true);
+    expect( hlp.x(1) ).toBe(true);
+    expect( hlp.x(-1) ).toBe(true);
+    expect( hlp.x('0') ).toBe(true);
+    expect( hlp.x('1') ).toBe(true);
+    expect( hlp.x('-1') ).toBe(true);
+    expect( hlp.x('') ).toBe(false);
+    expect( hlp.x(' ') ).toBe(false);
+    expect( hlp.x('null') ).toBe(true);
+    expect( hlp.x('false') ).toBe(true);
+    expect( hlp.x('true') ).toBe(true);
+    expect( hlp.x('str') ).toBe(true);
+    expect( hlp.x([0,1]) ).toBe(true);
+    expect( hlp.x([0]) ).toBe(true);
+    expect( hlp.x({}) ).toBe(false);
+    expect( hlp.x((()=>un.known.property)) ).toBe(false);
+});
+
+test('nx', () =>
+{
+    expect( hlp.nx(null) ).toBe(true);
+    expect( hlp.nx(false) ).toBe(true);
+    expect( hlp.nx(true) ).toBe(false);
+    expect( hlp.nx([]) ).toBe(true);
+    expect( hlp.nx(['']) ).toBe(true);
+    expect( hlp.nx(0) ).toBe(false);
+    expect( hlp.nx(1) ).toBe(false);
+    expect( hlp.nx(-1) ).toBe(false);
+    expect( hlp.nx('0') ).toBe(false);
+    expect( hlp.nx('1') ).toBe(false);
+    expect( hlp.nx('-1') ).toBe(false);
+    expect( hlp.nx('') ).toBe(true);
+    expect( hlp.nx(' ') ).toBe(true);
+    expect( hlp.nx('null') ).toBe(false);
+    expect( hlp.nx('false') ).toBe(false);
+    expect( hlp.nx('true') ).toBe(false);
+    expect( hlp.nx('str') ).toBe(false);
+    expect( hlp.nx([0,1]) ).toBe(false);
+    expect( hlp.nx([0]) ).toBe(false);
+    expect( hlp.nx({}) ).toBe(true);
+    expect( hlp.nx((()=>un.known.property)) ).toBe(true);
+});
+
+test('true', () =>
+{
+    expect( hlp.true(null) ).toBe(false);
+    expect( hlp.true(false) ).toBe(false);
+    expect( hlp.true(true) ).toBe(true);
+    expect( hlp.true([]) ).toBe(false);
+    expect( hlp.true(['']) ).toBe(false);
+    expect( hlp.true(0) ).toBe(false);
+    expect( hlp.true(1) ).toBe(true);
+    expect( hlp.true(-1) ).toBe(true);
+    expect( hlp.true('0') ).toBe(false);
+    expect( hlp.true('1') ).toBe(true);
+    expect( hlp.true('-1') ).toBe(true);
+    expect( hlp.true('') ).toBe(false);
+    expect( hlp.true(' ') ).toBe(false);
+    expect( hlp.true('null') ).toBe(false);
+    expect( hlp.true('false') ).toBe(false);
+    expect( hlp.true('true') ).toBe(true);
+    expect( hlp.true('str') ).toBe(true);
+    expect( hlp.true([0,1]) ).toBe(true);
+    expect( hlp.true([0]) ).toBe(true);
+    expect( hlp.true({}) ).toBe(false);
+    expect( hlp.true((()=>un.known.property)) ).toBe(false);    
+});
+
+test('false', () =>
+{
+    expect( hlp.false(null) ).toBe(false);
+    expect( hlp.false(false) ).toBe(true);
+    expect( hlp.false(true) ).toBe(false);
+    expect( hlp.false([]) ).toBe(false);
+    expect( hlp.false(['']) ).toBe(false);
+    expect( hlp.false(0) ).toBe(true);
+    expect( hlp.false(1) ).toBe(false);
+    expect( hlp.false(-1) ).toBe(false);
+    expect( hlp.false('0') ).toBe(true);
+    expect( hlp.false('1') ).toBe(false);
+    expect( hlp.false('-1') ).toBe(false);
+    expect( hlp.false('') ).toBe(false);
+    expect( hlp.false(' ') ).toBe(false);
+    expect( hlp.false('null') ).toBe(false);
+    expect( hlp.false('false') ).toBe(true);
+    expect( hlp.false('true') ).toBe(false);
+    expect( hlp.false('str') ).toBe(false);
+    expect( hlp.false([0,1]) ).toBe(false);
+    expect( hlp.false([0]) ).toBe(false);
+    expect( hlp.false({}) ).toBe(false);
+    expect( hlp.false((()=>un.known.property)) ).toBe(false);
+});
+
+test('v', () =>
+{
+    expect( hlp.v('foo') ).toBe('foo');
+    expect( hlp.v(0) ).toBe(0);
+    expect( hlp.v('') ).toBe(null);
+    expect( hlp.v(' ','default') ).toBe('default');
+    expect( hlp.v('',[],'baz') ).toBe('baz');
+    expect( hlp.v('',[],null) ).toBe(null);
+    expect( hlp.v() ).toBe(null);
+});
+
+test('loop', () =>
+{
+    var arr = ['foo', 'bar', 'baz'];
+    hlp.loop(arr, (arr__key, arr__value) =>
+    {
+        if( arr__key === 0 ) { expect(arr__value).toBe('foo'); }
+        if( arr__key === 1 ) { expect(arr__value).toBe('bar'); }
+        if( arr__key === 2 ) { expect(arr__value).toBe('baz'); }
+    });
+    var arr = [];
+    hlp.loop(arr, (arr__key, arr__value) =>
+    {
+        expect(true).toBe(false);
+    });
+    var obj = {bar: 'foo', foo: 'bar', baz: 'baz'};
+    hlp.loop(obj, (obj__key, obj__value) =>
+    {
+        if( obj__key === 'bar' ) { expect(obj__value).toBe('foo'); }
+        if( obj__key === 'foo' ) { expect(obj__value).toBe('bar'); }
+        if( obj__key === 'baz' ) { expect(obj__value).toBe('baz'); }
+    });
+    var obj = {};
+    hlp.loop(obj, (obj__key, obj__value) =>
+    {
+        expect(true).toBe(false);
+    });
+    hlp.loop(null, (key, value) =>
+    {
+        expect(true).toBe(false);
+    });
+});
+
+test('last', () => {
+    expect( hlp.last(['foo', 'bar', 'baz']) ).toBe('baz');
+    expect( hlp.last({ foo: 'bar', bar: 'baz'}) ).toBe('baz');
+    expect( hlp.last(['']) ).toBe('');
+});
+
+test('first', () =>
+{
+    expect( hlp.first(['foo', 'bar', 'baz']) ).toBe('foo');
+    expect( hlp.first({ foo: 'bar', bar: 'baz'}) ).toBe('bar');
+    expect( hlp.first(['']) ).toBe('');
+});
+
+test('random', () => {
+    expect( (['foo', 'bar', 'baz'].indexOf(hlp.rand(['foo', 'bar', 'baz'])) > -1) ).toBe(true);
+});
+
 test('capitalize', () =>
 {
     expect( hlp.capitalize('string') ).toBe('String');
