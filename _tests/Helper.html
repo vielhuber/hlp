@@ -113,7 +113,7 @@
         });
         document.write('|');
         document.write('<br/>');
-        document.write('| --- '+(('| --- ').repeat(items.length))+'|');
+        document.write('| --- '+(('| --- ').repeat(Object.entries(items).length))+'|');
         Object.entries(items).forEach(([items1__key, items1__value]) =>
         {
             document.write('<br/>');
