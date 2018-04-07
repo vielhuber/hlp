@@ -260,7 +260,7 @@ hlp.jsonStringToObject('["foo","bar","baz",]') // null
 hlp.jsonObjectToString(['foo','bar','baz']) // '["foo","bar","baz"]'
 ```
 
-and also for the frontend:
+and also some for the frontend:
 
 ```js
 // cookies
