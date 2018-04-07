@@ -162,7 +162,7 @@ if( hlp.false(() => vrbl)  )
 if( hlp.v(() => vrbl) === 'foo' )
 if( hlp.v(() => vrbl) == 1337 )
 echo hlp.v(() => vrbl)
-foreach( __i(hlp.v(() => vrbl)) as $array__key=>$array__value)
+hlp.loop((() => vrbl), (vrbl__value, vrbl__key) => { })
 
 ```
 that works because javascript only evaluates the content of the inner callback (or closure) when it is actually executed.
@@ -176,46 +176,6 @@ there are also some other neat little helpers available.
 ```js
 // capitalize
 hlp.capitalize('foo') // Foo
-
-// cookies
-hlp.cookieSet('foo', 'bar', 7);
-hlp.cookieGet('foo') // bar
-hlp.cookieDelete('foo')
-hlp.cookieExists('foo') // false
-
-// get parameter (example url: https://tld.com/?foo=bar&bar=baz)
-hlp.getParam('foo') // foo
-hlp.getParam('bar') // baz
-hlp.getParam('baz') // null
-
-// device detection helpers
-hlp.isPhone()
-hlp.isTablet()
-hlp.isDesktop()
-hlp.isMobile()
-hlp.isTouch()
-
-// smooth scroll to element
-hlp.scrollTo( document.querySelector('.foo'), 1000 ).then(() => { console.log('done'); });
-
-// get top/left scroll position
-hlp.scrollTop()
-hlp.scrollLeft()
-
-// set 100vh for dom element (even for ios devices, see https://nicolas-hoizey.com/2015/02/viewport-height-is-taller-than-the-visible-part-of-the-document-in-some-mobile-browsers.html)
-hlp.real100vh('.foo')
-
-// fade in/out dom element
-hlp.fadeIn( document.querySelector('.foo'), 1000 ).then(() => { console.log('done'); });
-hlp.fadeOut( document.querySelector('.foo'), 1000 ).then(() => { console.log('done'); });
-
-// check if dom element is visible
-hlp.isVisible( document.querySelector('.foo') )
-
-// automatically change height of all textareas based on content
-textareaAutoHeight()
-textareaAutoHeight('.special')
-textareaSetHeight( document.querySelector('.special') )
 
 // check if object
 hlp.isObject({}) // true
@@ -267,27 +227,6 @@ hlp.guid() // 8b25a8f8-9525-bd73-4679-3539321db93b
 // replace all occurences
 hlp.replaceAll('foo bar baz', 'a', 'b') // 'foo bbr bbz'
 
-// load external js file in dom with promise
-hlp.loadJs('https://apis.google.com/js/api.js').then(() => { console.log('done'); });
-
-// json parsing
-hlp.jsonStringToObject('["foo","bar","baz"]') // ['foo','bar','baz']
-hlp.jsonStringToObject('["foo","bar","baz",]') // null
-hlp.jsonObjectToString(['foo','bar','baz']) // '["foo","bar","baz"]'
-
-// easy ajax requests
-hlp.get('https://httpbin.org/anything', (data) => { }, (error) => { }) // { "method": "GET", ... }
-hlp.get('https://httpbin.org/anything', (data) => { }, (error) => { }, 1000) // same but with a throttle of 1 second
-hlp.post('https://httpbin.org/anything', ['foo' => 'bar'], (data) => { }, (error) => { }) // { "method": "POST", "data": {"foo": "bar"}, ... }
-hlp.post('https://httpbin.org/anything', ['foo' => 'bar'], (data) => { }, (error) => { }, ['Bar' => 'baz']) // { "method": "POST", "headers" = { "Bar": "baz", ... }, ... }
-hlp.getWithPromise('https://httpbin.org/anything').then((data) => { }).catch((error) => { }); // same but with promise
-hlp.postWithPromise('https://httpbin.org/anything', ['foo' => 'bar']).then((data) => { }) // same but with promise
-
-// on resize vertically/horizontally
-window.addEventListener('resize', () => {}) // inaccurate, triggers too often (especially when scrolling on android/iphone)
-hlp.onResizeHorizontal(() => {}) // only triggers when viewport width changes
-hlp.onResizeVertical(() => {}) // only triggers when viewport height changes
-
 // return unique array (remove duplicate values, order-safe)
 hlp.uniqueArray(['foo','bar','foo','baz']) // ['foo','bar','baz']
 
@@ -314,6 +253,71 @@ hlp.first({ foo: 'bar', bar: 'baz'}) // 'bar'
 
 // get random element from object/array
 hlp.rand(['foo', 'bar', 'baz']) // 'bar'
+
+// json parsing
+hlp.jsonStringToObject('["foo","bar","baz"]') // ['foo','bar','baz']
+hlp.jsonStringToObject('["foo","bar","baz",]') // null
+hlp.jsonObjectToString(['foo','bar','baz']) // '["foo","bar","baz"]'
+```
+
+and also for the frontend:
+
+```js
+// cookies
+hlp.cookieSet('foo', 'bar', 7);
+hlp.cookieGet('foo') // bar
+hlp.cookieDelete('foo')
+hlp.cookieExists('foo') // false
+
+// get parameter (example url: https://tld.com/?foo=bar&bar=baz)
+hlp.getParam('foo') // foo
+hlp.getParam('bar') // baz
+hlp.getParam('baz') // null
+
+// device detection helpers
+hlp.isPhone()
+hlp.isTablet()
+hlp.isDesktop()
+hlp.isMobile()
+hlp.isTouch()
+
+// smooth scroll to element
+hlp.scrollTo( document.querySelector('.foo'), 1000 ).then(() => { console.log('done'); });
+
+// get top/left scroll position
+hlp.scrollTop()
+hlp.scrollLeft()
+
+// set 100vh for dom element (even for ios devices, see https://nicolas-hoizey.com/2015/02/viewport-height-is-taller-than-the-visible-part-of-the-document-in-some-mobile-browsers.html)
+hlp.real100vh('.foo')
+
+// fade in/out dom element
+hlp.fadeIn( document.querySelector('.foo'), 1000 ).then(() => { console.log('done'); });
+hlp.fadeOut( document.querySelector('.foo'), 1000 ).then(() => { console.log('done'); });
+
+// check if dom element is visible
+hlp.isVisible( document.querySelector('.foo') )
+
+// automatically change height of all textareas based on content
+hlp.textareaAutoHeight()
+hlp.textareaAutoHeight('.special')
+hlp.textareaSetHeight( document.querySelector('.special') )
+
+// load external js file in dom with promise
+hlp.loadJs('https://apis.google.com/js/api.js').then(() => { console.log('done'); });
+
+// easy ajax requests
+hlp.get('https://httpbin.org/anything', (data) => { }, (error) => { }) // { "method": "GET", ... }
+hlp.get('https://httpbin.org/anything', (data) => { }, (error) => { }, 1000) // same but with a throttle of 1 second
+hlp.post('https://httpbin.org/anything', ['foo' => 'bar'], (data) => { }, (error) => { }) // { "method": "POST", "data": {"foo": "bar"}, ... }
+hlp.post('https://httpbin.org/anything', ['foo' => 'bar'], (data) => { }, (error) => { }, ['Bar' => 'baz']) // { "method": "POST", "headers" = { "Bar": "baz", ... }, ... }
+hlp.getWithPromise('https://httpbin.org/anything').then((data) => { }).catch((error) => { }); // same but with promise
+hlp.postWithPromise('https://httpbin.org/anything', ['foo' => 'bar']).then((data) => { }) // same but with promise
+
+// on resize vertically/horizontally
+window.addEventListener('resize', () => {}) // inaccurate, triggers too often (especially when scrolling on android/iphone)
+hlp.onResizeHorizontal(() => {}) // only triggers when viewport width changes
+hlp.onResizeVertical(() => {}) // only triggers when viewport height changes
 ```
 
 

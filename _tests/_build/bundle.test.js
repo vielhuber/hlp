@@ -1070,6 +1070,11 @@ test('loop', function () {
     _script2.default.loop(null, function (key, value) {
         expect(true).toBe(false);
     });
+    _script2.default.loop(function () {
+        return vrbl;
+    }, function (vrbl__value, vrbl__key) {
+        expect(true).toBe(false);
+    });
 });
 
 test('last', function () {

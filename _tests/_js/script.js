@@ -141,6 +141,10 @@ test('loop', () =>
     {
         expect(true).toBe(false);
     });
+    hlp.loop((() => vrbl), (vrbl__value, vrbl__key) =>
+    {
+        expect(true).toBe(false);
+    })
 });
 
 test('last', () => {
