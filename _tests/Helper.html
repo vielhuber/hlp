@@ -93,12 +93,12 @@
     	document.write('| <sub>!= \'\'</sub> ');
         document.write('| <sub>!== \'\'</sub> ');
     	document.write('|');
-    	document.write('<br/>');
+    	document.write("\n");
         document.write('| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |');
         
         Object.entries(items).forEach(([items__key, items__value]) =>
         {
-    		document.write('<br/>');
+    		document.write("\n");
             document.write('| <sub>'+items__key+'</sub>');
     		outputRow(items__value);
         });
@@ -112,11 +112,11 @@
             document.write('| <sub>'+items__key+'</sub> ');
         });
         document.write('|');
-        document.write('<br/>');
+        document.write("\n");
         document.write('| --- '+(('| --- ').repeat(Object.entries(items).length))+'|');
         Object.entries(items).forEach(([items1__key, items1__value]) =>
         {
-            document.write('<br/>');
+            document.write("\n");
             document.write('| <sub>'+items1__key+'</sub> ');
             Object.entries(items).forEach(([items2__key, items2__value]) =>
             {
