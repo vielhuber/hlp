@@ -220,6 +220,13 @@ hlp.containsObject({ foo: 'bar' }, []) // false
 hlp.containsObject({ foo: 'bar' }, [{ foo: 'bar' }, { bar: 'baz' }]) // true
 hlp.containsObject({ foo: 'bar' }, { foo: { foo: 'bar' } }) // true
 
+// deep clone object/array/date/regex
+hlp.deepClone({ foo: 'bar' })
+hlp.deepClone(['foo','bar'])
+hlp.deepClone(new Date())
+hlp.deepClone(new Date('2018-01-01'))
+hlp.deepClone(new RegExp('ab+c', 'i'))
+
 // create guid
 hlp.guid() // e86e393c-9788-857b-27c2-f80c8ca1a302
 hlp.guid() // 8b25a8f8-9525-bd73-4679-3539321db93b

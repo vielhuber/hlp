@@ -16,6 +16,34 @@ var _stringify = require('babel-runtime/core-js/json/stringify');
 
 var _stringify2 = _interopRequireDefault(_stringify);
 
+var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
+
+var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+
+var _assign = require('babel-runtime/core-js/object/assign');
+
+var _assign2 = _interopRequireDefault(_assign);
+
+var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
+var _from = require('babel-runtime/core-js/array/from');
+
+var _from2 = _interopRequireDefault(_from);
+
+var _map = require('babel-runtime/core-js/map');
+
+var _map2 = _interopRequireDefault(_map);
+
+var _create = require('babel-runtime/core-js/object/create');
+
+var _create2 = _interopRequireDefault(_create);
+
+var _weakMap = require('babel-runtime/core-js/weak-map');
+
+var _weakMap2 = _interopRequireDefault(_weakMap);
+
 var _values = require('babel-runtime/core-js/object/values');
 
 var _values2 = _interopRequireDefault(_values);
@@ -396,6 +424,26 @@ var hlp = function () {
             return false;
         }
     }, {
+        key: 'deepClone',
+        value: function deepClone(obj) {
+            var hash = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : new _weakMap2.default();
+
+            if (Object(obj) !== obj) return obj; // primitives
+            if (hash.has(obj)) return hash.get(obj); // cyclic reference
+            var result = obj instanceof Date ? new Date(obj) : obj instanceof RegExp ? new RegExp(obj.source, obj.flags) : obj.constructor ? new obj.constructor() : (0, _create2.default)(null);
+            hash.set(obj, result);
+            if (obj instanceof _map2.default) (0, _from2.default)(obj, function (_ref7) {
+                var _ref8 = (0, _slicedToArray3.default)(_ref7, 2),
+                    key = _ref8[0],
+                    val = _ref8[1];
+
+                return result.set(key, hlp.deepClone(val, hash));
+            });
+            return _assign2.default.apply(Object, [result].concat((0, _toConsumableArray3.default)((0, _keys2.default)(obj).map(function (key) {
+                return (0, _defineProperty3.default)({}, key, hlp.deepClone(obj[key], hash));
+            }))));
+        }
+    }, {
         key: 'jsonStringToObject',
         value: function jsonStringToObject(string) {
             if (this.nx(string) || !this.isString(string)) {
@@ -469,10 +517,10 @@ var hlp = function () {
                 xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
                 xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
                 if (_this3.x(headers)) {
-                    (0, _entries2.default)(headers).forEach(function (_ref7) {
-                        var _ref8 = (0, _slicedToArray3.default)(_ref7, 2),
-                            headers__key = _ref8[0],
-                            headers__value = _ref8[1];
+                    (0, _entries2.default)(headers).forEach(function (_ref10) {
+                        var _ref11 = (0, _slicedToArray3.default)(_ref10, 2),
+                            headers__key = _ref11[0],
+                            headers__value = _ref11[1];
 
                         xhr.setRequestHeader(headers__key, headers__value);
                     });
