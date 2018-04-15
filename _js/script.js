@@ -335,7 +335,7 @@ export default class hlp
         return false;
     }
 
-    static deepClone(obj, hash = new WeakMap())
+    static deepCopy(obj, hash = new WeakMap())
     {
         if (Object(obj) !== obj) return obj; // primitives
         if (hash.has(obj)) return hash.get(obj); // cyclic reference
@@ -345,9 +345,9 @@ export default class hlp
                      : Object.create(null);
         hash.set(obj, result);
         if (obj instanceof Map)
-            Array.from(obj, ([key, val]) => result.set(key, hlp.deepClone(val, hash)) );
+            Array.from(obj, ([key, val]) => result.set(key, hlp.deepCopy(val, hash)) );
         return Object.assign(result, ...Object.keys(obj).map (
-            key => ({ [key]: hlp.deepClone(obj[key], hash) }) ));
+            key => ({ [key]: hlp.deepCopy(obj[key], hash) }) ));
     }
 
     static jsonStringToObject(string)

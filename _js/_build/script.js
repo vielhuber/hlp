@@ -424,8 +424,8 @@ var hlp = function () {
             return false;
         }
     }, {
-        key: 'deepClone',
-        value: function deepClone(obj) {
+        key: 'deepCopy',
+        value: function deepCopy(obj) {
             var hash = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : new _weakMap2.default();
 
             if (Object(obj) !== obj) return obj; // primitives
@@ -437,10 +437,10 @@ var hlp = function () {
                     key = _ref8[0],
                     val = _ref8[1];
 
-                return result.set(key, hlp.deepClone(val, hash));
+                return result.set(key, hlp.deepCopy(val, hash));
             });
             return _assign2.default.apply(Object, [result].concat((0, _toConsumableArray3.default)((0, _keys2.default)(obj).map(function (key) {
-                return (0, _defineProperty3.default)({}, key, hlp.deepClone(obj[key], hash));
+                return (0, _defineProperty3.default)({}, key, hlp.deepCopy(obj[key], hash));
             }))));
         }
     }, {

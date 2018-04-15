@@ -395,10 +395,10 @@ test('isNumeric', () =>
     expect( hlp.isNumeric('a') ).toBe( false );
 });
 
-test('deepClone', () =>
+test('deepCopy', () =>
 {
-    expect( hlp.deepClone({ foo: 'bar' }) ).toEqual({ foo: 'bar' });
-    expect( hlp.deepClone(['foo','bar']) ).toEqual(['foo','bar']);
-    expect( hlp.deepClone(new Date('2018-01-01')) ).toEqual(new Date('2018-01-01'));
-    expect( hlp.deepClone(new RegExp('ab+c', 'i')) ).toEqual(new RegExp('ab+c', 'i'));
+    expect( hlp.deepCopy({ foo: 'bar' }) ).toEqual({ foo: 'bar' });
+    expect( hlp.deepCopy(['foo','bar']) ).toEqual(['foo','bar']);
+    expect( hlp.deepCopy(new Date('2018-01-01')) ).toEqual(new Date('2018-01-01'));
+    expect( hlp.deepCopy(new RegExp('ab+c', 'i')) ).toEqual(new RegExp('ab+c', 'i'));
 });

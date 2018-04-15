@@ -425,8 +425,8 @@ var hlp = function () {
             return false;
         }
     }, {
-        key: 'deepClone',
-        value: function deepClone(obj) {
+        key: 'deepCopy',
+        value: function deepCopy(obj) {
             var hash = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : new _weakMap2.default();
 
             if (Object(obj) !== obj) return obj; // primitives
@@ -438,10 +438,10 @@ var hlp = function () {
                     key = _ref8[0],
                     val = _ref8[1];
 
-                return result.set(key, hlp.deepClone(val, hash));
+                return result.set(key, hlp.deepCopy(val, hash));
             });
             return _assign2.default.apply(Object, [result].concat((0, _toConsumableArray3.default)((0, _keys2.default)(obj).map(function (key) {
-                return (0, _defineProperty3.default)({}, key, hlp.deepClone(obj[key], hash));
+                return (0, _defineProperty3.default)({}, key, hlp.deepCopy(obj[key], hash));
             }))));
         }
     }, {
@@ -1395,11 +1395,11 @@ test('isNumeric', function () {
     expect(_script2.default.isNumeric('a')).toBe(false);
 });
 
-test('deepClone', function () {
-    expect(_script2.default.deepClone({ foo: 'bar' })).toEqual({ foo: 'bar' });
-    expect(_script2.default.deepClone(['foo', 'bar'])).toEqual(['foo', 'bar']);
-    expect(_script2.default.deepClone(new Date('2018-01-01'))).toEqual(new Date('2018-01-01'));
-    expect(_script2.default.deepClone(new RegExp('ab+c', 'i'))).toEqual(new RegExp('ab+c', 'i'));
+test('deepCopy', function () {
+    expect(_script2.default.deepCopy({ foo: 'bar' })).toEqual({ foo: 'bar' });
+    expect(_script2.default.deepCopy(['foo', 'bar'])).toEqual(['foo', 'bar']);
+    expect(_script2.default.deepCopy(new Date('2018-01-01'))).toEqual(new Date('2018-01-01'));
+    expect(_script2.default.deepCopy(new RegExp('ab+c', 'i'))).toEqual(new RegExp('ab+c', 'i'));
 });
 
 },{"./../../_js/script":1,"babel-runtime/helpers/asyncToGenerator":19,"babel-runtime/regenerator":26}],3:[function(require,module,exports){
