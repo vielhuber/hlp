@@ -220,7 +220,7 @@ hlp.containsObject({ foo: 'bar' }, []) // false
 hlp.containsObject({ foo: 'bar' }, [{ foo: 'bar' }, { bar: 'baz' }]) // true
 hlp.containsObject({ foo: 'bar' }, { foo: { foo: 'bar' } }) // true
 
-// deep clone object/array/date/regex
+// deep clone reference types (object/array/date/regex)
 hlp.deepClone({ foo: 'bar' })
 hlp.deepClone(['foo','bar'])
 hlp.deepClone(new Date())
