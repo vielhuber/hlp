@@ -294,6 +294,10 @@ hlp.scrollTo( document.querySelector('.foo'), 1000 ).then(() => { console.log('d
 hlp.scrollTop()
 hlp.scrollLeft()
 
+// get top/left offset of element
+hlp.offsetTop( document.querySelector('.foo') )
+hlp.offsetLeft( document.querySelector('.foo') )
+
 // set 100vh for dom element (even for ios devices, see https://nicolas-hoizey.com/2015/02/viewport-height-is-taller-than-the-visible-part-of-the-document-in-some-mobile-browsers.html)
 hlp.real100vh('.foo')
 

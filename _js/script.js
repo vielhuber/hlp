@@ -712,6 +712,16 @@ export default class hlp
         return (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
     }
 
+    static offsetTop(el)
+    {
+        return (el.getBoundingClientRect().top + window.pageYOffset - document.documentElement.clientTop);
+    }
+
+    static offsetLeft()
+    {
+        return (el.getBoundingClientRect().left + window.pageXOffset - document.documentElement.clientLeft);
+    }
+
     static scrollTo(to, speed = 1000)
     {
         return new Promise(resolve =>
