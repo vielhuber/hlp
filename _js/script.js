@@ -717,7 +717,7 @@ export default class hlp
         return (el.getBoundingClientRect().top + window.pageYOffset - document.documentElement.clientTop);
     }
 
-    static offsetLeft()
+    static offsetLeft(el)
     {
         return (el.getBoundingClientRect().left + window.pageXOffset - document.documentElement.clientLeft);
     }

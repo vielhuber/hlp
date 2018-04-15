@@ -783,6 +783,16 @@ var hlp = function () {
             return (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
         }
     }, {
+        key: 'offsetTop',
+        value: function offsetTop(el) {
+            return el.getBoundingClientRect().top + window.pageYOffset - document.documentElement.clientTop;
+        }
+    }, {
+        key: 'offsetLeft',
+        value: function offsetLeft(el) {
+            return el.getBoundingClientRect().left + window.pageXOffset - document.documentElement.clientLeft;
+        }
+    }, {
         key: 'scrollTo',
         value: function scrollTo(to) {
             var speed = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1000;
