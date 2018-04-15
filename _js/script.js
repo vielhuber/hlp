@@ -712,12 +712,15 @@ export default class hlp
         return (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
     }
 
-    static scrollTo(element, speed = 1000)
+    static scrollTo(to, speed = 1000)
     {
         return new Promise(resolve =>
         {
-            let to = (element.getBoundingClientRect().top + window.pageYOffset - document.documentElement.clientTop),
-                from = ((document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop),
+            if( !hlp.isNumeric(to) )
+            {
+                to = to.getBoundingClientRect().top + window.pageYOffset - document.documentElement.clientTop
+            }
+            let from = ((document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop),
                 by = (to-from),
                 currentIteration = 0,
                 animIterations = Math.round(60 * (speed/1000)); 
@@ -819,6 +822,11 @@ export default class hlp
                 document.querySelector(selector).style.height = window.innerHeight+'px'
             }
         });
+    }
+
+    static isNumeric(n)
+    {
+        return !isNaN(parseFloat(n)) && isFinite(n);
     }
 
 }

@@ -783,12 +783,14 @@ var hlp = function () {
         }
     }, {
         key: 'scrollTo',
-        value: function scrollTo(element) {
+        value: function scrollTo(to) {
             var speed = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1000;
 
             return new _promise2.default(function (resolve) {
-                var to = element.getBoundingClientRect().top + window.pageYOffset - document.documentElement.clientTop,
-                    from = document.documentElement && document.documentElement.scrollTop || document.body.scrollTop,
+                if (!hlp.isNumeric(to)) {
+                    to = to.getBoundingClientRect().top + window.pageYOffset - document.documentElement.clientTop;
+                }
+                var from = document.documentElement && document.documentElement.scrollTop || document.body.scrollTop,
                     by = to - from,
                     currentIteration = 0,
                     animIterations = Math.round(60 * (speed / 1000));
@@ -885,6 +887,11 @@ var hlp = function () {
                     document.querySelector(selector).style.height = window.innerHeight + 'px';
                 }
             });
+        }
+    }, {
+        key: 'isNumeric',
+        value: function isNumeric(n) {
+            return !isNaN(parseFloat(n)) && isFinite(n);
         }
     }]);
     return hlp;

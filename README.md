@@ -230,6 +230,11 @@ hlp.replaceAll('foo bar baz', 'a', 'b') // 'foo bbr bbz'
 // return unique array (remove duplicate values, order-safe)
 hlp.uniqueArray(['foo','bar','foo','baz']) // ['foo','bar','baz']
 
+// check if variable is numeric
+hlp.isNumeric(1337) // true
+hlp.isNumeric('42') // true
+hlp.isNumeric('a') // false
+
 // char helpers
 hlp.charToInt('D') // 4
 hlp.intToChar(4) // 'D'
@@ -281,7 +286,8 @@ hlp.isDesktop()
 hlp.isMobile()
 hlp.isTouch()
 
-// smooth scroll to element
+// smooth scroll to position / element
+hlp.scrollTo( 0, 1000 ).then(() => { console.log('done'); });
 hlp.scrollTo( document.querySelector('.foo'), 1000 ).then(() => { console.log('done'); });
 
 // get top/left scroll position

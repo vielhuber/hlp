@@ -387,3 +387,10 @@ test('containsObject', () =>
     expect( hlp.containsObject({ foo: 'bar' }, [{ foo: 'bar' }, { bar: 'baz' }]) ).toBe( true );
     expect( hlp.containsObject({ foo: 'bar' }, { foo: { foo: 'bar' } }) ).toBe( true );
 });
+
+test('isNumeric', () =>
+{
+    expect( hlp.isNumeric(1337) ).toBe( true );
+    expect( hlp.isNumeric('42') ).toBe( true );
+    expect( hlp.isNumeric('a') ).toBe( false );
+});
