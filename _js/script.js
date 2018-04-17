@@ -491,7 +491,7 @@ export default class hlp
         var windowHeight = window.innerHeight,
             windowHeightNew,
             timeout;
-        window.addEventListener('resize', function()
+        window.addEventListener('resize', () =>
         {
             windowHeightNew = window.innerHeight;
             if(windowHeightNew != windowHeight)
@@ -501,7 +501,7 @@ export default class hlp
                 {
                     clearTimeout(timeout);
                 }
-                timeout = window.setTimeout(function()
+                timeout = window.setTimeout(() =>
                 {
                     fun();
                 }, 250);
@@ -835,17 +835,10 @@ export default class hlp
     static real100vh(selector)
     {
         document.querySelector(selector).style.height = window.innerHeight+'px';
-        this.onResizeHorizontal(() =>
+        // onResizeHorizontal does not work, we really have to trigger on every resize
+        window.addEventListener('resize', () =>
         {
             document.querySelector(selector).style.height = window.innerHeight+'px'
-        });
-        this.onResizeVertical(() =>
-        {
-            // don't trigger resize on mobile in top area (when sticky header gets pushed in)
-            if( !this.isMobile() || this.scrollTop() === 0 || this.scrollTop() > 50 )
-            {
-                document.querySelector(selector).style.height = window.innerHeight+'px'
-            }
         });
     }
 

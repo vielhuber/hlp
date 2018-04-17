@@ -933,17 +933,10 @@ var hlp = function () {
     }, {
         key: 'real100vh',
         value: function real100vh(selector) {
-            var _this8 = this;
-
             document.querySelector(selector).style.height = window.innerHeight + 'px';
-            this.onResizeHorizontal(function () {
+            // onResizeHorizontal does not work, we really have to trigger on every resize
+            window.addEventListener('resize', function () {
                 document.querySelector(selector).style.height = window.innerHeight + 'px';
-            });
-            this.onResizeVertical(function () {
-                // don't trigger resize on mobile in top area (when sticky header gets pushed in)
-                if (!_this8.isMobile() || _this8.scrollTop() === 0 || _this8.scrollTop() > 50) {
-                    document.querySelector(selector).style.height = window.innerHeight + 'px';
-                }
             });
         }
     }, {
