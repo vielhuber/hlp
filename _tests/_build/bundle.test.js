@@ -216,8 +216,7 @@ var hlp = function () {
                 input.forEach(function (input__value, input__key) {
                     fun(input__value, input__key);
                 });
-            }
-            if ((typeof input === 'undefined' ? 'undefined' : (0, _typeof3.default)(input)) === 'object') {
+            } else if ((typeof input === 'undefined' ? 'undefined' : (0, _typeof3.default)(input)) === 'object') {
                 (0, _entries2.default)(input).forEach(function (_ref) {
                     var _ref2 = (0, _slicedToArray3.default)(_ref, 2),
                         input__key = _ref2[0],
@@ -882,10 +881,10 @@ var hlp = function () {
                 urls = [urls];
             }
             var promises = [];
-            hlp.loop(promises, function (vrbl__value) {
+            hlp.loop(urls, function (urls__value, urls__key) {
                 promises.push(new _promise2.default(function (resolve, reject) {
                     var script = document.createElement('script');
-                    script.src = url;
+                    script.src = urls__value;
                     script.onload = function () {
                         resolve();
                     };

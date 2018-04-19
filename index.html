@@ -61,7 +61,12 @@
         });
 
         hlp.loadJs('https://apis.google.com/js/api.js').then(() => { console.log('done'); });
-
+        
+        hlp.loadJs([
+            'https://apis.google.com/js/api.js',
+            'https://apis.google.com/js/api.js'
+        ]).then(() => { console.log('done2'); });
+        
         hlp.textareaAutoHeight('.special');
 
         hlp.real100vh('#baz');

@@ -120,7 +120,7 @@ export default class hlp
                 fun(input__value, input__key);
             });
         }
-        if( typeof input === 'object' )
+        else if( typeof input === 'object' )
         {
             Object.entries(input).forEach(([input__key, input__value]) =>
             {
@@ -786,12 +786,12 @@ export default class hlp
             urls = [urls];
         }
         let promises = [];
-        hlp.loop(promises, (vrbl__value) =>
+        hlp.loop(urls, (urls__value, urls__key) =>
         {
             promises.push(new Promise((resolve, reject) =>
             {
                 let script = document.createElement('script');
-                script.src = url;
+                script.src = urls__value;
                 script.onload = () => { resolve(); };
                 document.head.appendChild(script);
             }));
