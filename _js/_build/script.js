@@ -876,15 +876,22 @@ var hlp = function () {
         }
     }, {
         key: 'loadJs',
-        value: function loadJs(url) {
-            return new _promise2.default(function (resolve, reject) {
-                var script = document.createElement('script');
-                script.src = url;
-                script.onload = function () {
-                    resolve();
-                };
-                document.head.appendChild(script);
+        value: function loadJs(urls) {
+            if (!hlp.isArray(urls)) {
+                urls = [urls];
+            }
+            var promises = [];
+            hlp.loop(promises, function (vrbl__value) {
+                promises.push(new _promise2.default(function (resolve, reject) {
+                    var script = document.createElement('script');
+                    script.src = url;
+                    script.onload = function () {
+                        resolve();
+                    };
+                    document.head.appendChild(script);
+                }));
             });
+            return _promise2.default.all(promises);
         }
     }, {
         key: 'isVisible',

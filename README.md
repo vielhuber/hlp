@@ -136,6 +136,10 @@ hlp.v( vrbl1, vrbl2, vrbl3 )
 ### loop
 ```js
 // loop over arrays/objects only if possible
+hlp.loop(['foo','bar','baz'], (vrbl__value) =>
+{
+
+});
 hlp.loop(['foo','bar','baz'], (vrbl__value, vrbl__key) =>
 {
 
@@ -322,6 +326,11 @@ hlp.textareaSetHeight( document.querySelector('.special') )
 
 // load external js file in dom with promise
 hlp.loadJs('https://apis.google.com/js/api.js').then(() => { console.log('done'); });
+hlp.loadJs([
+    'https://www.tld.com/1.js',
+    'https://www.tld.com/2.js',
+    'https://www.tld.com/3.js'
+]).then(() => { console.log('done'); });
 
 // easy ajax requests
 hlp.get('https://httpbin.org/anything', (data) => { }, (error) => { }) // { "method": "GET", ... }

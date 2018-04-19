@@ -779,15 +779,24 @@ export default class hlp
         });
     }
 
-    static loadJs(url)
+    static loadJs(urls)
     {
-        return new Promise((resolve, reject) =>
+        if( !hlp.isArray(urls) )
         {
-            let script = document.createElement('script');
-            script.src = url;
-            script.onload = () => { resolve(); };
-            document.head.appendChild(script);
+            urls = [urls];
+        }
+        let promises = [];
+        hlp.loop(promises, (vrbl__value) =>
+        {
+            promises.push(new Promise((resolve, reject) =>
+            {
+                let script = document.createElement('script');
+                script.src = url;
+                script.onload = () => { resolve(); };
+                document.head.appendChild(script);
+            }));
         });
+        return Promise.all(promises);
     }
 
     static isVisible(el)

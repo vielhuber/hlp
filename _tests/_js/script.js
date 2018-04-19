@@ -114,6 +114,10 @@ test('v', () =>
 test('loop', () =>
 {
     var arr = ['foo', 'bar', 'baz'];
+    hlp.loop(arr, (arr__value) =>
+    {
+        expect(['foo', 'bar', 'baz'].includes(arr__value)).toBe(true);
+    });
     hlp.loop(arr, (arr__key, arr__value) =>
     {
         if( arr__key === 0 ) { expect(arr__value).toBe('foo'); }
