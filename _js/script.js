@@ -773,6 +773,7 @@ export default class hlp
                 }
                 else
                 {
+                    document.documentElement.scrollTop = document.body.scrollTop = to;
                     resolve();
                 } 
             })();
