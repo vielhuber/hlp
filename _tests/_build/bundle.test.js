@@ -1,4 +1,4 @@
-(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+(function(){function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s}return e})()({1:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -8,6 +8,18 @@ Object.defineProperty(exports, "__esModule", {
 var _getOwnPropertyNames = require('babel-runtime/core-js/object/get-own-property-names');
 
 var _getOwnPropertyNames2 = _interopRequireDefault(_getOwnPropertyNames);
+
+var _regenerator = require('babel-runtime/regenerator');
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _getIterator2 = require('babel-runtime/core-js/get-iterator');
+
+var _getIterator3 = _interopRequireDefault(_getIterator2);
+
+var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+
+var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
 var _promise = require('babel-runtime/core-js/promise');
 
@@ -894,6 +906,91 @@ var hlp = function () {
             return _promise2.default.all(promises);
         }
     }, {
+        key: 'loadJsSequentially',
+        value: function () {
+            var _ref12 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(urls) {
+                var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, urls__value;
+
+                return _regenerator2.default.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                if (!hlp.isArray(urls)) {
+                                    urls = [urls];
+                                }
+                                _iteratorNormalCompletion = true;
+                                _didIteratorError = false;
+                                _iteratorError = undefined;
+                                _context.prev = 4;
+                                _iterator = (0, _getIterator3.default)(urls);
+
+                            case 6:
+                                if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
+                                    _context.next = 13;
+                                    break;
+                                }
+
+                                urls__value = _step.value;
+                                _context.next = 10;
+                                return hlp.loadJs(urls__value);
+
+                            case 10:
+                                _iteratorNormalCompletion = true;
+                                _context.next = 6;
+                                break;
+
+                            case 13:
+                                _context.next = 19;
+                                break;
+
+                            case 15:
+                                _context.prev = 15;
+                                _context.t0 = _context['catch'](4);
+                                _didIteratorError = true;
+                                _iteratorError = _context.t0;
+
+                            case 19:
+                                _context.prev = 19;
+                                _context.prev = 20;
+
+                                if (!_iteratorNormalCompletion && _iterator.return) {
+                                    _iterator.return();
+                                }
+
+                            case 22:
+                                _context.prev = 22;
+
+                                if (!_didIteratorError) {
+                                    _context.next = 25;
+                                    break;
+                                }
+
+                                throw _iteratorError;
+
+                            case 25:
+                                return _context.finish(22);
+
+                            case 26:
+                                return _context.finish(19);
+
+                            case 27:
+                                return _context.abrupt('return');
+
+                            case 28:
+                            case 'end':
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, this, [[4, 15, 19, 27], [20,, 22, 26]]);
+            }));
+
+            function loadJsSequentially(_x17) {
+                return _ref12.apply(this, arguments);
+            }
+
+            return loadJsSequentially;
+        }()
+    }, {
         key: 'isVisible',
         value: function isVisible(el) {
             return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
@@ -967,7 +1064,7 @@ window.hlp = {};
     window.hlp[value] = hlp[value];
 });
 
-},{"babel-runtime/core-js/array/from":3,"babel-runtime/core-js/json/stringify":6,"babel-runtime/core-js/map":7,"babel-runtime/core-js/object/assign":8,"babel-runtime/core-js/object/create":9,"babel-runtime/core-js/object/entries":11,"babel-runtime/core-js/object/get-own-property-names":12,"babel-runtime/core-js/object/keys":13,"babel-runtime/core-js/object/values":14,"babel-runtime/core-js/promise":15,"babel-runtime/core-js/weak-map":18,"babel-runtime/helpers/classCallCheck":20,"babel-runtime/helpers/createClass":21,"babel-runtime/helpers/defineProperty":22,"babel-runtime/helpers/slicedToArray":23,"babel-runtime/helpers/toConsumableArray":24,"babel-runtime/helpers/typeof":25}],2:[function(require,module,exports){
+},{"babel-runtime/core-js/array/from":3,"babel-runtime/core-js/get-iterator":4,"babel-runtime/core-js/json/stringify":6,"babel-runtime/core-js/map":7,"babel-runtime/core-js/object/assign":8,"babel-runtime/core-js/object/create":9,"babel-runtime/core-js/object/entries":11,"babel-runtime/core-js/object/get-own-property-names":12,"babel-runtime/core-js/object/keys":13,"babel-runtime/core-js/object/values":14,"babel-runtime/core-js/promise":15,"babel-runtime/core-js/weak-map":18,"babel-runtime/helpers/asyncToGenerator":19,"babel-runtime/helpers/classCallCheck":20,"babel-runtime/helpers/createClass":21,"babel-runtime/helpers/defineProperty":22,"babel-runtime/helpers/slicedToArray":23,"babel-runtime/helpers/toConsumableArray":24,"babel-runtime/helpers/typeof":25,"babel-runtime/regenerator":26}],2:[function(require,module,exports){
 'use strict';
 
 var _regenerator = require('babel-runtime/regenerator');
@@ -2202,7 +2299,7 @@ module.exports = function (NAME, wrapper, methods, common, IS_MAP, IS_WEAK) {
 };
 
 },{"./_an-instance":45,"./_array-methods":49,"./_descriptors":62,"./_export":66,"./_fails":67,"./_for-of":68,"./_global":69,"./_hide":71,"./_is-object":78,"./_meta":86,"./_object-dp":91,"./_redefine-all":106,"./_set-to-string-tag":111}],58:[function(require,module,exports){
-var core = module.exports = { version: '2.5.5' };
+var core = module.exports = { version: '2.5.3' };
 if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 
 },{}],59:[function(require,module,exports){
@@ -2287,7 +2384,6 @@ var global = require('./_global');
 var core = require('./_core');
 var ctx = require('./_ctx');
 var hide = require('./_hide');
-var has = require('./_has');
 var PROTOTYPE = 'prototype';
 
 var $export = function (type, name, source) {
@@ -2305,7 +2401,7 @@ var $export = function (type, name, source) {
   for (key in source) {
     // contains in native
     own = !IS_FORCED && target && target[key] !== undefined;
-    if (own && has(exports, key)) continue;
+    if (own && key in exports) continue;
     // export native or passed
     out = own ? target[key] : source[key];
     // prevent global pollution for namespaces
@@ -2346,7 +2442,7 @@ $export.U = 64;  // safe
 $export.R = 128; // real proto method for `library`
 module.exports = $export;
 
-},{"./_core":58,"./_ctx":60,"./_global":69,"./_has":70,"./_hide":71}],67:[function(require,module,exports){
+},{"./_core":58,"./_ctx":60,"./_global":69,"./_hide":71}],67:[function(require,module,exports){
 module.exports = function (exec) {
   try {
     return !!exec();
@@ -2498,6 +2594,7 @@ var LIBRARY = require('./_library');
 var $export = require('./_export');
 var redefine = require('./_redefine');
 var hide = require('./_hide');
+var has = require('./_has');
 var Iterators = require('./_iterators');
 var $iterCreate = require('./_iter-create');
 var setToStringTag = require('./_set-to-string-tag');
@@ -2524,7 +2621,7 @@ module.exports = function (Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCE
   var VALUES_BUG = false;
   var proto = Base.prototype;
   var $native = proto[ITERATOR] || proto[FF_ITERATOR] || DEFAULT && proto[DEFAULT];
-  var $default = $native || getMethod(DEFAULT);
+  var $default = (!BUGGY && $native) || getMethod(DEFAULT);
   var $entries = DEFAULT ? !DEF_VALUES ? $default : getMethod('entries') : undefined;
   var $anyNative = NAME == 'Array' ? proto.entries || $native : $native;
   var methods, key, IteratorPrototype;
@@ -2535,7 +2632,7 @@ module.exports = function (Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCE
       // Set @@toStringTag to native iterators
       setToStringTag(IteratorPrototype, TAG, true);
       // fix for some old engines
-      if (!LIBRARY && typeof IteratorPrototype[ITERATOR] != 'function') hide(IteratorPrototype, ITERATOR, returnThis);
+      if (!LIBRARY && !has(IteratorPrototype, ITERATOR)) hide(IteratorPrototype, ITERATOR, returnThis);
     }
   }
   // fix Array#{values, @@iterator}.name in V8 / FF
@@ -2563,7 +2660,7 @@ module.exports = function (Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCE
   return methods;
 };
 
-},{"./_export":66,"./_hide":71,"./_iter-create":80,"./_iterators":84,"./_library":85,"./_object-gpo":97,"./_redefine":107,"./_set-to-string-tag":111,"./_wks":127}],82:[function(require,module,exports){
+},{"./_export":66,"./_has":70,"./_hide":71,"./_iter-create":80,"./_iterators":84,"./_library":85,"./_object-gpo":97,"./_redefine":107,"./_set-to-string-tag":111,"./_wks":127}],82:[function(require,module,exports){
 var ITERATOR = require('./_wks')('iterator');
 var SAFE_CLOSING = false;
 
@@ -3540,7 +3637,7 @@ var notify = function (promise, isReject) {
       var resolve = reaction.resolve;
       var reject = reaction.reject;
       var domain = reaction.domain;
-      var result, then, exited;
+      var result, then;
       try {
         if (handler) {
           if (!ok) {
@@ -3550,11 +3647,8 @@ var notify = function (promise, isReject) {
           if (handler === true) result = value;
           else {
             if (domain) domain.enter();
-            result = handler(value); // may throw
-            if (domain) {
-              domain.exit();
-              exited = true;
-            }
+            result = handler(value);
+            if (domain) domain.exit();
           }
           if (result === reaction.promise) {
             reject(TypeError('Promise-chain cycle'));
@@ -3563,7 +3657,6 @@ var notify = function (promise, isReject) {
           } else resolve(result);
         } else reject(value);
       } catch (e) {
-        if (domain && !exited) domain.exit();
         reject(e);
       }
     };

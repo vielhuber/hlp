@@ -331,6 +331,11 @@ hlp.loadJs([
     'https://www.tld.com/2.js',
     'https://www.tld.com/3.js'
 ]).then(() => { console.log('done'); });
+hlp.loadJsSequentially([
+    'https://www.tld.com/1.js',
+    'https://www.tld.com/2.js',
+    'https://www.tld.com/3.js'
+]).then(() => { console.log('done'); });
 
 // easy ajax requests
 hlp.get('https://httpbin.org/anything', (data) => { }, (error) => { }) // { "method": "GET", ... }

@@ -799,6 +799,19 @@ export default class hlp
         return Promise.all(promises);
     }
 
+    static async loadJsSequentially(urls)
+    {
+        if( !hlp.isArray(urls) )
+        {
+            urls = [urls];
+        }
+        for(let urls__value of urls)
+        {
+            await hlp.loadJs(urls__value);
+        }
+        return;
+    }
+
     static isVisible(el)
     {
         return !!( el.offsetWidth || el.offsetHeight || el.getClientRects().length );

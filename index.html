@@ -66,6 +66,11 @@
             'https://apis.google.com/js/api.js',
             'https://apis.google.com/js/api.js'
         ]).then(() => { console.log('done2'); });
+
+        hlp.loadJsSequentially([
+            'https://apis.google.com/js/api.js',
+            'https://apis.google.com/js/api.js'
+        ]).then(() => { console.log('done3'); });
         
         hlp.textareaAutoHeight('.special');
 
