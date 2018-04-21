@@ -870,7 +870,7 @@ export default class hlp
         return !isNaN(parseFloat(n)) && isFinite(n);
     }
 
-    animate(el, animation)
+    static animate(el, animation)
     {
         return new Promise(resolve =>
         {
@@ -892,7 +892,7 @@ export default class hlp
             });
 
             content.classList.add('animation--'+animation);
-            this.addEventListenerOnce(content, 'animationend', (event) =>
+            hlp.addEventListenerOnce(content, 'animationend', (event) =>
             {                  
                 if( event.animationName === animation )
                 {
@@ -902,7 +902,7 @@ export default class hlp
         });
     }
 
-    addEventListenerOnce(target, type, listener, addOptions, removeOptions)
+    static addEventListenerOnce(target, type, listener, addOptions, removeOptions)
     {
         target.addEventListener(type, function fn(event)
         {
