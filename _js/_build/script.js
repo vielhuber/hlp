@@ -880,6 +880,7 @@ var hlp = function () {
                     if (currentIteration < animIterations) {
                         requestAnimationFrame(scroll);
                     } else {
+                        document.documentElement.scrollTop = document.body.scrollTop = to;
                         resolve();
                     }
                 })();
