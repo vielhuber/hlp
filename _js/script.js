@@ -870,6 +870,47 @@ export default class hlp
         return !isNaN(parseFloat(n)) && isFinite(n);
     }
 
+    animate(el, animation)
+    {
+        return new Promise(resolve =>
+        {
+            if( el.classList.contains(animation) )
+            {
+                resolve();
+            }
+            let remove = [];
+            el.classList.forEach((class__value) =>
+            {
+                if( class__value.indexOf('animation--') > -1 )
+                {
+                    remove.push(class__value);
+                }
+            });
+            remove.forEach((class__value) =>
+            {
+                el.classList.remove(class__value);
+            });
+
+            content.classList.add('animation--'+animation);
+            this.addEventListenerOnce(content, 'animationend', (event) =>
+            {                  
+                if( event.animationName === animation )
+                {
+                    resolve();
+                }
+            });
+        });
+    }
+
+    addEventListenerOnce(target, type, listener, addOptions, removeOptions)
+    {
+        target.addEventListener(type, function fn(event)
+        {
+            target.removeEventListener(type, fn, removeOptions);
+            listener.apply(this, arguments, addOptions);
+        });
+    }
+
 }
 
 /* expose all functions to window */

@@ -349,6 +349,48 @@ hlp.postWithPromise('https://httpbin.org/anything', ['foo' => 'bar']).then((data
 window.addEventListener('resize', () => {}) // inaccurate, triggers too often (especially when scrolling on android/iphone)
 hlp.onResizeHorizontal(() => {}) // only triggers when viewport width changes
 hlp.onResizeVertical(() => {}) // only triggers when viewport height changes
+
+// add event listener once
+hlp.addEventListenerOnce(
+    document.getElementById('foo'),
+    'click',
+    (event) => { alert('this gets called only once'); }
+);
+
+// animate via css animations
+
+    // add this css
+    .animation--out-left
+    {    
+        animation: out-left 1s ease-in-out 0s 1 normal forwards;
+    }
+    .animation--in-right
+    {    
+        animation: in-right 1s ease-in-out 0s 1 normal forwards;
+    }
+    @keyframes out-left
+    {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-100%); }
+    }
+    @keyframes in-right
+    {
+        0% { transform: translateX(100%); }
+        100% { transform: translateX(0); }
+    }
+
+    // now have some fun
+    async ani()
+    {
+        let container = document.getElementById('container');
+        await this.animate(container, 'out-left');
+        await this.animate(container, 'in-right');
+        await this.animate(container, 'out-left');
+        await this.animate(container, 'in-right');
+        alert('finished');
+    }
+
+
 ```
 
 
