@@ -28,6 +28,15 @@
         {
             width:100%;
         }
+        .animation--out-left
+        {    
+            animation: out-left 1s ease-in-out 0s 1 normal forwards;
+        }
+        @keyframes out-left
+        {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
     </style>
 </head>
 <body>
@@ -55,7 +64,13 @@
                 hlp.fadeIn( document.getElementById('bar'), 1000 ).then(() =>
                 {
                     console.log(hlp.isVisible(document.getElementById('bar')));
-                    hlp.scrollTo(0, 100 );
+                    hlp.scrollTo(0, 100).then(() =>
+                    {
+                        hlp.animate(
+                            document.getElementById('foo'),
+                            'out-left'
+                        ).then(() => { alert('done'); });
+                    });
                 });
             });
         });

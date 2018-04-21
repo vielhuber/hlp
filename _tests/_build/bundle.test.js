@@ -21,6 +21,10 @@ var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
+var _promise = require('babel-runtime/core-js/promise');
+
+var _promise2 = _interopRequireDefault(_promise);
+
 var _stringify = require('babel-runtime/core-js/json/stringify');
 
 var _stringify2 = _interopRequireDefault(_stringify);
@@ -73,10 +77,6 @@ var _typeof2 = require('babel-runtime/helpers/typeof');
 
 var _typeof3 = _interopRequireDefault(_typeof2);
 
-var _promise = require('babel-runtime/core-js/promise');
-
-var _promise2 = _interopRequireDefault(_promise);
-
 var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
@@ -92,42 +92,7 @@ var hlp = function () {
         (0, _classCallCheck3.default)(this, hlp);
     }
 
-    (0, _createClass3.default)(hlp, [{
-        key: 'animate',
-        value: function animate(el, animation) {
-            var _this2 = this;
-
-            return new _promise2.default(function (resolve) {
-                if (el.classList.contains(animation)) {
-                    resolve();
-                }
-                var remove = [];
-                el.classList.forEach(function (class__value) {
-                    if (class__value.indexOf('animation--') > -1) {
-                        remove.push(class__value);
-                    }
-                });
-                remove.forEach(function (class__value) {
-                    el.classList.remove(class__value);
-                });
-
-                content.classList.add('animation--' + animation);
-                _this2.addEventListenerOnce(content, 'animationend', function (event) {
-                    if (event.animationName === animation) {
-                        resolve();
-                    }
-                });
-            });
-        }
-    }, {
-        key: 'addEventListenerOnce',
-        value: function addEventListenerOnce(target, type, listener, addOptions, removeOptions) {
-            target.addEventListener(type, function fn(event) {
-                target.removeEventListener(type, fn, removeOptions);
-                listener.apply(this, arguments, addOptions);
-            });
-        }
-    }], [{
+    (0, _createClass3.default)(hlp, null, [{
         key: 'x',
         value: function x(input) {
             if (typeof input === 'function') {
@@ -527,7 +492,7 @@ var hlp = function () {
     }, {
         key: 'get',
         value: function get(url, success, error) {
-            var _this3 = this;
+            var _this2 = this;
 
             var throttle = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
 
@@ -538,7 +503,7 @@ var hlp = function () {
                     if (xhr.readyState != 4 || xhr.status != 200 && xhr.status != 304) {
                         error([xhr.readyState, xhr.status, xhr.statusText]);
                     }
-                    success(_this3.jsonStringToObject(xhr.responseText));
+                    success(_this2.jsonStringToObject(xhr.responseText));
                 };
                 xhr.onerror = function () {
                     error([xhr.readyState, xhr.status, xhr.statusText]);
@@ -553,7 +518,7 @@ var hlp = function () {
             var success = arguments[2];
             var error = arguments[3];
 
-            var _this4 = this;
+            var _this3 = this;
 
             var headers = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
             var throttle = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 0;
@@ -563,7 +528,7 @@ var hlp = function () {
                 xhr.open('POST', url, true);
                 xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
                 xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-                if (_this4.x(headers)) {
+                if (_this3.x(headers)) {
                     (0, _entries2.default)(headers).forEach(function (_ref10) {
                         var _ref11 = (0, _slicedToArray3.default)(_ref10, 2),
                             headers__key = _ref11[0],
@@ -574,9 +539,9 @@ var hlp = function () {
                 }
                 xhr.onload = function () {
                     if (xhr.readyState != 4 || xhr.status != 200 && xhr.status != 304) {
-                        error(_this4.jsonStringToObject(xhr.statusText));
+                        error(_this3.jsonStringToObject(xhr.statusText));
                     }
-                    success(_this4.jsonStringToObject(xhr.responseText));
+                    success(_this3.jsonStringToObject(xhr.responseText));
                 };
                 xhr.onerror = function () {
                     error([xhr.readyState, xhr.status, xhr.statusText]);
@@ -587,12 +552,12 @@ var hlp = function () {
     }, {
         key: 'getWithPromise',
         value: function getWithPromise(url) {
-            var _this5 = this;
+            var _this4 = this;
 
             var throttle = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 
             return new _promise2.default(function (resolve, reject) {
-                _this5.get(url, function (v) {
+                _this4.get(url, function (v) {
                     resolve(v);
                 }, function (v) {
                     reject(v);
@@ -604,13 +569,13 @@ var hlp = function () {
         value: function postWithPromise(url) {
             var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
-            var _this6 = this;
+            var _this5 = this;
 
             var headers = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
             var throttle = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
 
             return new _promise2.default(function (resolve, reject) {
-                _this6.post(url, data, function (v) {
+                _this5.post(url, data, function (v) {
                     resolve(v);
                 }, function (v) {
                     reject(v);
@@ -1034,7 +999,7 @@ var hlp = function () {
     }, {
         key: 'textareaAutoHeight',
         value: function textareaAutoHeight() {
-            var _this7 = this;
+            var _this6 = this;
 
             var selector = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'textarea';
 
@@ -1042,25 +1007,25 @@ var hlp = function () {
             this.textareaSetHeights(selector);
 
             this.onResizeHorizontal(function () {
-                _this7.textareaSetHeights(selector);
+                _this6.textareaSetHeights(selector);
             });
 
             [].forEach.call(document.querySelectorAll(selector), function (el) {
                 el.addEventListener('keyup', function (e) {
-                    _this7.textareaSetHeight(e.target);
+                    _this6.textareaSetHeight(e.target);
                 });
             });
         }
     }, {
         key: 'textareaSetHeights',
         value: function textareaSetHeights() {
-            var _this8 = this;
+            var _this7 = this;
 
             var selector = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'textarea';
 
             [].forEach.call(document.querySelectorAll(selector), function (el) {
-                if (_this8.isVisible(el)) {
-                    _this8.textareaSetHeight(el);
+                if (_this7.isVisible(el)) {
+                    _this7.textareaSetHeight(el);
                 }
             });
         }
@@ -1083,6 +1048,39 @@ var hlp = function () {
         key: 'isNumeric',
         value: function isNumeric(n) {
             return !isNaN(parseFloat(n)) && isFinite(n);
+        }
+    }, {
+        key: 'animate',
+        value: function animate(el, animation) {
+            return new _promise2.default(function (resolve) {
+                if (el.classList.contains(animation)) {
+                    resolve();
+                }
+                var remove = [];
+                el.classList.forEach(function (class__value) {
+                    if (class__value.indexOf('animation--') > -1) {
+                        remove.push(class__value);
+                    }
+                });
+                remove.forEach(function (class__value) {
+                    el.classList.remove(class__value);
+                });
+
+                el.classList.add('animation--' + animation);
+                hlp.addEventListenerOnce(el, 'animationend', function (event) {
+                    if (event.animationName === animation) {
+                        resolve();
+                    }
+                });
+            });
+        }
+    }, {
+        key: 'addEventListenerOnce',
+        value: function addEventListenerOnce(target, type, listener, addOptions, removeOptions) {
+            target.addEventListener(type, function fn(event) {
+                target.removeEventListener(type, fn, removeOptions);
+                listener.apply(this, arguments, addOptions);
+            });
         }
     }]);
     return hlp;

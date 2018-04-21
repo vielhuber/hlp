@@ -891,8 +891,8 @@ export default class hlp
                 el.classList.remove(class__value);
             });
 
-            content.classList.add('animation--'+animation);
-            hlp.addEventListenerOnce(content, 'animationend', (event) =>
+            el.classList.add('animation--'+animation);
+            hlp.addEventListenerOnce(el, 'animationend', (event) =>
             {                  
                 if( event.animationName === animation )
                 {
