@@ -303,6 +303,12 @@ test('json', () =>
     expect( hlp.isJsonString('["foo","bar","baz"]') ).toBe(true);
 });
 
+test('htmlencode/decode', () =>
+{
+    expect( hlp.htmlEncode('&<>"`\'') ).toBe('&amp;&lt;&gt;&quot;&#96;&#x27;');
+    expect( hlp.htmlDecode('&amp;&lt;&gt;&quot;&#96;&#x27;') ).toBe('&<>"`\'');
+});
+
 test('get/post', async () =>
 {
     let data;

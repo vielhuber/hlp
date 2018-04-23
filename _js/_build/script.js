@@ -1107,6 +1107,18 @@ var hlp = function () {
                 listener.apply(this, arguments, addOptions);
             });
         }
+    }, {
+        key: 'htmlDecode',
+        value: function htmlDecode(value) {
+            var tmp = document.createElement('textarea');
+            tmp.innerHTML = value;
+            return tmp.value;
+        }
+    }, {
+        key: 'htmlEncode',
+        value: function htmlEncode(value) {
+            return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#x27;').replace(/`/g, '&#96;');
+        }
     }]);
     return hlp;
 }();

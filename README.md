@@ -274,9 +274,12 @@ hlp.rand(['foo', 'bar', 'baz']) // 'bar'
 hlp.jsonStringToObject('["foo","bar","baz"]') // ['foo','bar','baz']
 hlp.jsonStringToObject('["foo","bar","baz",]') // null
 hlp.jsonObjectToString(['foo','bar','baz']) // '["foo","bar","baz"]'
-
 hlp.isJsonString('["foo","bar","baz",]') // false
 hlp.isJsonString('["foo","bar","baz"]') // true
+
+// html entity encode/decode
+hlp.htmlEncode('&<>"`\'') // &amp;&lt;&gt;&quot;&#96;&#x27;
+hlp.htmlDecode('&amp;&lt;&gt;&quot;&#96;&#x27;') // &<>"`'
 ```
 
 and also some for the frontend:

@@ -1108,6 +1108,18 @@ var hlp = function () {
                 listener.apply(this, arguments, addOptions);
             });
         }
+    }, {
+        key: 'htmlDecode',
+        value: function htmlDecode(value) {
+            var tmp = document.createElement('textarea');
+            tmp.innerHTML = value;
+            return tmp.value;
+        }
+    }, {
+        key: 'htmlEncode',
+        value: function htmlEncode(value) {
+            return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#x27;').replace(/`/g, '&#96;');
+        }
     }]);
     return hlp;
 }();
@@ -1439,6 +1451,11 @@ test('json', function () {
     expect(_script2.default.isJsonString('["foo","bar","baz",]')).toBe(false);
     expect(_script2.default.isJsonString(null)).toBe(false);
     expect(_script2.default.isJsonString('["foo","bar","baz"]')).toBe(true);
+});
+
+test('htmlencode/decode', function () {
+    expect(_script2.default.htmlEncode('&<>"`\'')).toBe('&amp;&lt;&gt;&quot;&#96;&#x27;');
+    expect(_script2.default.htmlDecode('&amp;&lt;&gt;&quot;&#96;&#x27;')).toBe('&<>"`\'');
 });
 
 test('get/post', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {

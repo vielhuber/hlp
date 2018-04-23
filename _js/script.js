@@ -950,6 +950,24 @@ export default class hlp
         });
     }
 
+    static htmlDecode(value)
+    {
+        let tmp = document.createElement('textarea');
+        tmp.innerHTML = value;
+        return tmp.value;
+    }
+
+    static htmlEncode(value)
+    {
+        return value
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#x27;')
+            .replace(/`/g, '&#96;');
+    }
+
 }
 
 /* expose all functions to window */
