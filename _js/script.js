@@ -366,6 +366,23 @@ export default class hlp
         }
     }
 
+    static isJsonString(string)
+    {
+        if( this.nx(string) || !this.isString(string) )
+        {
+            return false;
+        }
+        try
+        {
+           let json = JSON.parse(string);
+           return true;
+        }
+        catch(error)
+        {
+           return false;
+        }
+    }
+
     static jsonObjectToString(object)
     {
         try
@@ -404,7 +421,15 @@ export default class hlp
                 {
                     error([xhr.readyState, xhr.status, xhr.statusText]);
                 }
-                success(this.jsonStringToObject(xhr.responseText));
+
+                if( this.isJsonString(xhr.responseText) )
+                {
+                    success( this.jsonStringToObject(xhr.responseText) );
+                }
+                else
+                {
+                    success( xhr.responseText );
+                }
             }
             xhr.onerror = () =>
             {  
@@ -433,9 +458,23 @@ export default class hlp
             {
                 if(xhr.readyState != 4 || (xhr.status != 200 && xhr.status != 304))
                 {
-                    error(this.jsonStringToObject(xhr.statusText));
+                    if( this.isJsonString(xhr.statusText) )
+                    {
+                        error( this.jsonStringToObject(xhr.statusText) );
+                    }
+                    else
+                    {
+                        error( xhr.statusText );
+                    }
                 }
-                success(this.jsonStringToObject(xhr.responseText));
+                if( this.isJsonString(xhr.responseText) )
+                {
+                    success( this.jsonStringToObject(xhr.responseText) );
+                }
+                else
+                {
+                    success( xhr.responseText );
+                }
             }
             xhr.onerror = () =>
             {  

@@ -274,6 +274,9 @@ hlp.rand(['foo', 'bar', 'baz']) // 'bar'
 hlp.jsonStringToObject('["foo","bar","baz"]') // ['foo','bar','baz']
 hlp.jsonStringToObject('["foo","bar","baz",]') // null
 hlp.jsonObjectToString(['foo','bar','baz']) // '["foo","bar","baz"]'
+
+hlp.isJsonString('["foo","bar","baz",]') // false
+hlp.isJsonString('["foo","bar","baz"]') // true
 ```
 
 and also some for the frontend:

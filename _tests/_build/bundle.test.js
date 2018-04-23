@@ -468,6 +468,19 @@ var hlp = function () {
             }
         }
     }, {
+        key: 'isJsonString',
+        value: function isJsonString(string) {
+            if (this.nx(string) || !this.isString(string)) {
+                return false;
+            }
+            try {
+                var json = JSON.parse(string);
+                return true;
+            } catch (error) {
+                return false;
+            }
+        }
+    }, {
         key: 'jsonObjectToString',
         value: function jsonObjectToString(object) {
             try {
@@ -503,7 +516,12 @@ var hlp = function () {
                     if (xhr.readyState != 4 || xhr.status != 200 && xhr.status != 304) {
                         error([xhr.readyState, xhr.status, xhr.statusText]);
                     }
-                    success(_this2.jsonStringToObject(xhr.responseText));
+
+                    if (_this2.isJsonString(xhr.responseText)) {
+                        success(_this2.jsonStringToObject(xhr.responseText));
+                    } else {
+                        success(xhr.responseText);
+                    }
                 };
                 xhr.onerror = function () {
                     error([xhr.readyState, xhr.status, xhr.statusText]);
@@ -539,9 +557,17 @@ var hlp = function () {
                 }
                 xhr.onload = function () {
                     if (xhr.readyState != 4 || xhr.status != 200 && xhr.status != 304) {
-                        error(_this3.jsonStringToObject(xhr.statusText));
+                        if (_this3.isJsonString(xhr.statusText)) {
+                            error(_this3.jsonStringToObject(xhr.statusText));
+                        } else {
+                            error(xhr.statusText);
+                        }
                     }
-                    success(_this3.jsonStringToObject(xhr.responseText));
+                    if (_this3.isJsonString(xhr.responseText)) {
+                        success(_this3.jsonStringToObject(xhr.responseText));
+                    } else {
+                        success(xhr.responseText);
+                    }
                 };
                 xhr.onerror = function () {
                     error([xhr.readyState, xhr.status, xhr.statusText]);
@@ -1408,6 +1434,11 @@ test('json', function () {
     expect(_script2.default.jsonObjectToString(false)).toBe('false');
     expect(_script2.default.jsonObjectToString(true)).toBe('true');
     expect(_script2.default.jsonObjectToString('')).toBe('\"\"');
+
+    expect(_script2.default.isJsonString('')).toBe(false);
+    expect(_script2.default.isJsonString('["foo","bar","baz",]')).toBe(false);
+    expect(_script2.default.isJsonString(null)).toBe(false);
+    expect(_script2.default.isJsonString('["foo","bar","baz"]')).toBe(true);
 });
 
 test('get/post', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {

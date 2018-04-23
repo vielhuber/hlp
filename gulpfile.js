@@ -90,4 +90,4 @@ gulp.task('watch', function()
 });
 
 // default
-gulp.task('default', ['js','js-babel','js-test','watch']);
+gulp.task('default', function() { runSequence('js','js-babel','js-test','watch'); });

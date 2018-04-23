@@ -296,6 +296,11 @@ test('json', () =>
     expect( hlp.jsonObjectToString(false) ).toBe('false');
     expect( hlp.jsonObjectToString(true) ).toBe('true');
     expect( hlp.jsonObjectToString('') ).toBe('\"\"');
+
+    expect( hlp.isJsonString('') ).toBe(false);
+    expect( hlp.isJsonString('["foo","bar","baz",]') ).toBe(false);
+    expect( hlp.isJsonString(null) ).toBe(false);
+    expect( hlp.isJsonString('["foo","bar","baz"]') ).toBe(true);
 });
 
 test('get/post', async () =>
