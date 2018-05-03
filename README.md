@@ -315,6 +315,10 @@ hlp.scrollLeft()
 hlp.offsetTop( document.querySelector('.foo') )
 hlp.offsetLeft( document.querySelector('.foo') )
 
+// closest/matches polyfills for ie11
+hlp.closest( document.querySelector('.children'), '.parent' )
+hlp.matches( document.querySelector('.parent'), '.parent' ) // true
+
 // set 100vh for dom element (even for ios devices, see https://nicolas-hoizey.com/2015/02/viewport-height-is-taller-than-the-visible-part-of-the-document-in-some-mobile-browsers.html)
 hlp.real100vh('.foo')
 

@@ -49,8 +49,12 @@
 
     <div id="baz"></div>
 
+    <div class="parent"><div><div><div><div><div class="child"></div></div></div></div></div></div>
+
     <script type="text/javascript" src="hlp.js"></script>
     <script type="text/javascript">
+        console.log(hlp.closest( document.querySelector('.child'), '.parent' ));
+
         console.log(hlp.capitalize('foo'));
 
         hlp.onResizeHorizontal(() => { console.log('triggered onResizeHorizontal'); });

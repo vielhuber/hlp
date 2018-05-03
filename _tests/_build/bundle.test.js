@@ -1120,6 +1120,29 @@ var hlp = function () {
         value: function htmlEncode(value) {
             return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#x27;').replace(/`/g, '&#96;');
         }
+    }, {
+        key: 'closest',
+        value: function closest(el, selector) {
+            if (!document.documentElement.contains(el)) {
+                return null;
+            }
+            do {
+                if (this.matches(el, selector)) {
+                    return el;
+                }
+                el = el.parentElement || el.parentNode;
+            } while (el !== null && el.nodeType === 1);
+            return null;
+        }
+    }, {
+        key: 'matches',
+        value: function matches(el, selector) {
+            var node = el,
+                nodes = (node.parentNode || node.document).querySelectorAll(selector),
+                i = -1;
+            while (nodes[++i] && nodes[i] != node) {}
+            return !!nodes[i];
+        }
     }]);
     return hlp;
 }();

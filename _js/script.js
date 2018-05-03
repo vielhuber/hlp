@@ -968,6 +968,33 @@ export default class hlp
             .replace(/`/g, '&#96;');
     }
 
+    static closest(el, selector)
+    {
+        if(!document.documentElement.contains(el))
+        {
+            return null;
+        }
+        do
+        {
+            if(this.matches(el, selector))
+            {
+                return el;
+            }
+            el = el.parentElement || el.parentNode;
+        }
+        while(el !== null && el.nodeType === 1); 
+        return null;
+    }
+
+    static matches(el, selector)
+    {
+        let node = el,
+            nodes = (node.parentNode || node.document).querySelectorAll(selector),
+            i = -1;
+        while(nodes[++i] && nodes[i] != node);
+        return !!nodes[i];
+    }
+
 }
 
 /* expose all functions to window */
