@@ -1129,7 +1129,7 @@ var hlp = function () {
 exports.default = hlp;
 window.hlp = {};
 (0, _getOwnPropertyNames2.default)(hlp).forEach(function (value, key) {
-    if (['length', 'name', 'prototype'].includes(value)) {
+    if (value === 'length' || value === 'name' || value === 'prototype' || value === 'caller' || value === 'arguments') {
         return;
     }
     window.hlp[value] = hlp[value];
