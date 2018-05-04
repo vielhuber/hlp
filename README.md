@@ -303,6 +303,12 @@ hlp.isDesktop()
 hlp.isMobile()
 hlp.isTouch()
 
+// os detection helpers
+hlp.getOs() // ['windows','mac','linux']
+hlp.isWindows()
+hlp.isMac()
+hlp.isLinux()
+
 // smooth scroll to position / element
 hlp.scrollTo( 0, 1000 ).then(() => { console.log('done'); });
 hlp.scrollTo( document.querySelector('.foo'), 1000 ).then(() => { console.log('done'); });

@@ -392,6 +392,45 @@ var hlp = function () {
             return 'ontouchstart' in window || navigator.maxTouchPoints || false;
         }
     }, {
+        key: 'isMac',
+        value: function isMac() {
+            return hlp.getOs() === 'mac';
+        }
+    }, {
+        key: 'isLinux',
+        value: function isLinux() {
+            return hlp.getOs() === 'linux';
+        }
+    }, {
+        key: 'isWindows',
+        value: function isWindows() {
+            return hlp.getOs() === 'windows';
+        }
+    }, {
+        key: 'getOs',
+        value: function getOs() {
+            var userAgent = window.navigator.userAgent,
+                platform = window.navigator.platform,
+                macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
+                windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'],
+                iosPlatforms = ['iPhone', 'iPad', 'iPod'],
+                os = null;
+
+            if (macosPlatforms.indexOf(platform) !== -1) {
+                os = 'mac';
+            } else if (iosPlatforms.indexOf(platform) !== -1) {
+                os = 'mac';
+            } else if (windowsPlatforms.indexOf(platform) !== -1) {
+                os = 'windows';
+            } else if (/Android/.test(userAgent)) {
+                os = 'linux';
+            } else if (!os && /Linux/.test(platform)) {
+                os = 'linux';
+            }
+
+            return os;
+        }
+    }, {
         key: 'isObject',
         value: function isObject(a) {
             return !!a && a.constructor === Object;
