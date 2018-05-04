@@ -297,6 +297,7 @@ hlp.getParam('bar') // baz
 hlp.getParam('baz') // null
 
 // device detection helpers
+hlp.getDevice() // ['phone','tablet','desktop']
 hlp.isPhone()
 hlp.isTablet()
 hlp.isDesktop()
@@ -304,10 +305,13 @@ hlp.isMobile()
 hlp.isTouch()
 
 // os detection helpers
-hlp.getOs() // ['windows','mac','linux']
+hlp.getOs() // ['windows','mac','linux','unknown']
 hlp.isWindows()
 hlp.isMac()
 hlp.isLinux()
+
+// browser detection helpers
+hlp.getBrowser() // ['ie','edge','firefox','chrome','safari','opera','unknown']
 
 // smooth scroll to position / element
 hlp.scrollTo( 0, 1000 ).then(() => { console.log('done'); });

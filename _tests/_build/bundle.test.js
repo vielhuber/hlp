@@ -358,6 +358,17 @@ var hlp = function () {
             return null;
         }
     }, {
+        key: 'getDevice',
+        value: function getDevice() {
+            if (this.isPhone()) {
+                return 'phone';
+            }
+            if (this.isTablet()) {
+                return 'tablet';
+            }
+            return 'desktop';
+        }
+    }, {
         key: 'isPhone',
         value: function isPhone() {
             // based on detectmobilebrowsers.com
@@ -415,7 +426,7 @@ var hlp = function () {
                 macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
                 windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'],
                 iosPlatforms = ['iPhone', 'iPad', 'iPod'],
-                os = null;
+                os = 'unknown';
 
             if (macosPlatforms.indexOf(platform) !== -1) {
                 os = 'mac';
@@ -430,6 +441,32 @@ var hlp = function () {
             }
 
             return os;
+        }
+    }, {
+        key: 'getBrowser',
+        value: function getBrowser() {
+            var browser_name = '',
+                isIE = /*@cc_on!@*/false || !!document.documentMode,
+                isEdge = !isIE && !!window.StyleMedia;
+
+            if (navigator.userAgent.indexOf('Opera') != -1 || navigator.userAgent.indexOf('OPR') != -1) {
+                browser_name = 'opera';
+            } else if (navigator.userAgent.indexOf('Chrome') != -1 && !isEdge) {
+                browser_name = 'chrome';
+            } else if (navigator.userAgent.indexOf('Safari') != -1 && !isEdge) {
+                browser_name = 'safari';
+            } else if (navigator.userAgent.indexOf('Firefox') != -1) {
+                browser_name = 'firefox';
+            } else if (navigator.userAgent.indexOf('MSIE') != -1 || !!document.documentMode == true) //IF IE > 10
+                {
+                    browser_name = 'ie';
+                } else if (isEdge) {
+                browser_name = 'edge';
+            } else {
+                browser_name = 'unknown';
+            }
+
+            return browser_name;
         }
     }, {
         key: 'isObject',
