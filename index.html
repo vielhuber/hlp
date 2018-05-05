@@ -73,7 +73,11 @@
                         hlp.animate(
                             document.getElementById('foo'),
                             'out-left'
-                        ).then(() => { alert('done'); });
+                        ).then(() => {
+                            hlp.on('click', '.dynamic', (e) => { alert('clicked'); e.preventDefault(); });
+                            document.querySelector('#bar').innerHTML = '<a href="#" class="dynamic">dynamic</a>';
+                            alert('done');
+                        });
                     });
                 });
             });

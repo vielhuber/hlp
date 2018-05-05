@@ -1227,6 +1227,18 @@ var hlp = function () {
             while (nodes[++i] && nodes[i] != node) {}
             return !!nodes[i];
         }
+    }, {
+        key: 'on',
+        value: function on(event, selector, callback) {
+            var scope = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : document;
+
+            scope.addEventListener(event, function (e) {
+                var el = e.target.closest(selector);
+                if (el) {
+                    callback(e, el);
+                }
+            }, false);
+        }
     }]);
     return hlp;
 }();
