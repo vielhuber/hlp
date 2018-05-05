@@ -1245,6 +1245,16 @@ var hlp = function () {
                 }
             }, false);
         }
+    }, {
+        key: 'url',
+        value: function url() {
+            return window.location.protocol + '//' + window.location.host + window.location.pathname;
+        }
+    }, {
+        key: 'urlWithHash',
+        value: function urlWithHash() {
+            return window.location.protocol + '//' + window.location.host + window.location.pathname + window.location.hash;
+        }
     }]);
     return hlp;
 }();
