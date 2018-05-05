@@ -955,37 +955,40 @@ var hlp = function () {
     }, {
         key: 'scrollTo',
         value: function scrollTo(to) {
-            var speed = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1000;
+            var duration = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1000;
 
             return new _promise2.default(function (resolve) {
                 if (!hlp.isNumeric(to)) {
                     to = to.getBoundingClientRect().top + window.pageYOffset - document.documentElement.clientTop;
                 }
-                var from = document.documentElement && document.documentElement.scrollTop || document.body.scrollTop,
-                    by = to - from,
-                    currentIteration = 0,
-                    animIterations = Math.round(60 * (speed / 1000));
-                (function scroll() {
-                    var value = void 0;
-                    // easeInOutCirc
-                    var currentIterationTmp = currentIteration;
-                    currentIterationTmp /= animIterations / 2;
-                    if (currentIterationTmp < 1) {
-                        value = -by / 2 * (Math.sqrt(1 - currentIterationTmp * currentIterationTmp) - 1) + from;
+
+                var element = document.documentElement,
+                    start = element.scrollTop,
+                    change = to - start,
+                    startDate = +new Date(),
+
+                // t = current time
+                // b = start value
+                // c = change in value
+                // d = duration
+                easeInOutQuad = function easeInOutQuad(t, b, c, d) {
+                    t /= d / 2;
+                    if (t < 1) return c / 2 * t * t + b;
+                    t--;
+                    return -c / 2 * (t * (t - 2) - 1) + b;
+                },
+                    animateScroll = function animateScroll() {
+                    var currentDate = +new Date();
+                    var currentTime = currentDate - startDate;
+                    element.scrollTop = parseInt(easeInOutQuad(currentTime, start, change, duration));
+                    if (currentTime < duration) {
+                        requestAnimationFrame(animateScroll);
                     } else {
-                        currentIterationTmp -= 2;
-                        value = by / 2 * (Math.sqrt(1 - currentIterationTmp * currentIterationTmp) + 1) + from;
-                    }
-                    value = Math.round(value);
-                    document.documentElement.scrollTop = document.body.scrollTop = value;
-                    currentIteration++;
-                    if (currentIteration < animIterations) {
-                        requestAnimationFrame(scroll);
-                    } else {
-                        document.documentElement.scrollTop = document.body.scrollTop = to;
+                        element.scrollTop = to;
                         resolve();
                     }
-                })();
+                };
+                animateScroll();
             });
         }
     }, {

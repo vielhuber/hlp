@@ -875,7 +875,7 @@ export default class hlp
         return (el.getBoundingClientRect().left + window.pageXOffset - document.documentElement.clientLeft);
     }
 
-    static scrollTo(to, speed = 1000)
+    static scrollTo(to, duration = 1000)
     {
         return new Promise(resolve =>
         {
@@ -883,38 +883,38 @@ export default class hlp
             {
                 to = to.getBoundingClientRect().top + window.pageYOffset - document.documentElement.clientTop
             }
-            let from = ((document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop),
-                by = (to-from),
-                currentIteration = 0,
-                animIterations = Math.round(60 * (speed/1000)); 
-            (function scroll()
-            {
-                let value;
-                // easeInOutCirc
-                let currentIterationTmp = currentIteration;
-                currentIterationTmp /= animIterations/2;
-                if (currentIterationTmp < 1)
+
+            const
+                element = document.documentElement,
+                start = element.scrollTop,
+                change = to - start,
+                startDate = +new Date(),
+                // t = current time
+                // b = start value
+                // c = change in value
+                // d = duration
+                easeInOutQuad = function(t, b, c, d)
                 {
-                    value = -by/2 * (Math.sqrt(1 - currentIterationTmp*currentIterationTmp) - 1) + from;
-                }
-                else
+                    t /= d/2;
+                    if (t < 1) return c/2*t*t + b;
+                    t--;
+                    return -c/2 * (t*(t-2) - 1) + b;
+                },
+                animateScroll = function()
                 {
-                    currentIterationTmp -= 2;
-                    value = by/2 * (Math.sqrt(1 - currentIterationTmp*currentIterationTmp) + 1) + from;
-                }
-                value = Math.round(value);
-                document.documentElement.scrollTop = document.body.scrollTop = value;
-                currentIteration++;
-                if (currentIteration < animIterations)
-                {
-                    requestAnimationFrame(scroll);
-                }
-                else
-                {
-                    document.documentElement.scrollTop = document.body.scrollTop = to;
-                    resolve();
-                } 
-            })();
+                    const currentDate = +new Date();
+                    const currentTime = currentDate - startDate;
+                    element.scrollTop = parseInt(easeInOutQuad(currentTime, start, change, duration));
+                    if(currentTime < duration) {
+                        requestAnimationFrame(animateScroll);
+                    }
+                    else {
+                        element.scrollTop = to;
+                        resolve();
+                    }
+                };
+                animateScroll();
+
         });
     }
 
