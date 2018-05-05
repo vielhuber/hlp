@@ -331,7 +331,7 @@ hlp.matches( document.querySelector('.parent'), '.parent' ) // true
 
 // on delegate
 hlp.on('click', '.selector', (e) => { });
-hlp.on('click', '.selector', (e) => { }, '.parent');
+hlp.on('click', '.selector', '.scope', (e) => { });
 
 // set 100vh for dom element (even for ios devices, see https://nicolas-hoizey.com/2015/02/viewport-height-is-taller-than-the-visible-part-of-the-document-in-some-mobile-browsers.html)
 hlp.real100vh('.foo')

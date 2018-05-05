@@ -1229,9 +1229,15 @@ var hlp = function () {
         }
     }, {
         key: 'on',
-        value: function on(event, selector, callback) {
-            var scope = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : document;
+        value: function on(event, selector, scope) {
+            var callback = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
 
+            if (callback === null) {
+                callback = scope;
+                scope = document;
+            } else {
+                scope = document.querySelector(scope);
+            }
             scope.addEventListener(event, function (e) {
                 var el = e.target.closest(selector);
                 if (el) {

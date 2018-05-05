@@ -74,7 +74,7 @@
                             document.getElementById('foo'),
                             'out-left'
                         ).then(() => {
-                            hlp.on('click', '.dynamic', (e) => { alert('clicked'); e.preventDefault(); });
+                            hlp.on('click', '.dynamic', '#bar', (e) => { alert('clicked'); e.preventDefault(); });
                             document.querySelector('#bar').innerHTML = '<a href="#" class="dynamic">dynamic</a>';
                             alert('done');
                         });
