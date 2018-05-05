@@ -1103,8 +1103,17 @@ export default class hlp
         return !!nodes[i];
     }
 
-    static on(event, selector, callback, scope = document)
+    static on(event, selector, scope, callback = null)
     {
+        if( callback === null )
+        {
+            callback = scope;
+            scope = document;
+        }
+        else
+        {
+            scope = document.querySelector(scope);
+        }
         scope.addEventListener(event, (e) =>
         {
             var el = e.target.closest(selector); 
