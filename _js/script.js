@@ -885,7 +885,7 @@ export default class hlp
             }
 
             const
-                element = document.documentElement,
+                element = document.scrollingElement || document.documentElement,
                 start = element.scrollTop,
                 change = to - start,
                 startDate = +new Date(),
@@ -912,10 +912,12 @@ export default class hlp
                     const currentDate = +new Date();
                     const currentTime = currentDate - startDate;
                     element.scrollTop = parseInt(easeInOutCirc(currentTime, start, change, duration));
-                    if(currentTime < duration) {
+                    if(currentTime < duration)
+                    {
                         requestAnimationFrame(animateScroll);
                     }
-                    else {
+                    else
+                    {
                         element.scrollTop = to;
                         resolve();
                     }

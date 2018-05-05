@@ -963,7 +963,7 @@ var hlp = function () {
                     to = to.getBoundingClientRect().top + window.pageYOffset - document.documentElement.clientTop;
                 }
 
-                var element = document.documentElement,
+                var element = document.scrollingElement || document.documentElement,
                     start = element.scrollTop,
                     change = to - start,
                     startDate = +new Date(),
