@@ -977,10 +977,16 @@ var hlp = function () {
                     t--;
                     return -c / 2 * (t * (t - 2) - 1) + b;
                 },
+                    easeInOutCirc = function easeInOutCirc(t, b, c, d) {
+                    t /= d / 2;
+                    if (t < 1) return -c / 2 * (Math.sqrt(1 - t * t) - 1) + b;
+                    t -= 2;
+                    return c / 2 * (Math.sqrt(1 - t * t) + 1) + b;
+                },
                     animateScroll = function animateScroll() {
                     var currentDate = +new Date();
                     var currentTime = currentDate - startDate;
-                    element.scrollTop = parseInt(easeInOutQuad(currentTime, start, change, duration));
+                    element.scrollTop = parseInt(easeInOutCirc(currentTime, start, change, duration));
                     if (currentTime < duration) {
                         requestAnimationFrame(animateScroll);
                     } else {
