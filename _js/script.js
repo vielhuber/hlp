@@ -1124,6 +1124,16 @@ export default class hlp
         }, false);
     }
 
+    static url()
+    {
+        return window.location.protocol + '//' + window.location.host + window.location.pathname;
+    }
+
+    static urlWithHash()
+    {
+        return window.location.protocol + '//' + window.location.host + window.location.pathname + window.location.hash;
+    }
+
 }
 
 /* expose all functions to window */
