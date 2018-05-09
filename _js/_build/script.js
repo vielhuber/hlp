@@ -953,6 +953,16 @@ var hlp = function () {
             return el.getBoundingClientRect().left + window.pageXOffset - document.documentElement.clientLeft;
         }
     }, {
+        key: 'offsetRight',
+        value: function offsetRight(el) {
+            return el.getBoundingClientRect().top + window.pageYOffset - document.documentElement.clientTop + box.offsetWidth;
+        }
+    }, {
+        key: 'offsetBottom',
+        value: function offsetBottom(el) {
+            return el.getBoundingClientRect().left + window.pageXOffset - document.documentElement.clientLeft + el.offsetHeight;
+        }
+    }, {
         key: 'scrollTo',
         value: function scrollTo(to) {
             var duration = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1000;

@@ -321,9 +321,11 @@ hlp.scrollTo( document.querySelector('.foo'), 1000 ).then(() => { console.log('d
 hlp.scrollTop()
 hlp.scrollLeft()
 
-// get top/left offset of element
+// get offset of element (excluding margin)
 hlp.offsetTop( document.querySelector('.foo') )
 hlp.offsetLeft( document.querySelector('.foo') )
+hlp.offsetRight( document.querySelector('.foo') )
+hlp.offsetBottom( document.querySelector('.foo') )
 
 // closest/matches polyfills for ie11
 hlp.closest( document.querySelector('.children'), '.parent' )
