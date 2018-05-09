@@ -877,12 +877,12 @@ export default class hlp
 
     static offsetRight(el)
     {
-        return (el.getBoundingClientRect().top + window.pageYOffset - document.documentElement.clientTop) + box.offsetWidth;
+        return (el.getBoundingClientRect().left + window.pageXOffset - document.documentElement.clientLeft) + el.offsetWidth;
     }
 
     static offsetBottom(el)
     {
-        return (el.getBoundingClientRect().left + window.pageXOffset - document.documentElement.clientLeft) + el.offsetHeight;
+        return (el.getBoundingClientRect().top + window.pageYOffset - document.documentElement.clientTop) + el.offsetHeight;
     }
 
     static scrollTo(to, duration = 1000)
