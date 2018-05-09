@@ -955,12 +955,12 @@ var hlp = function () {
     }, {
         key: 'offsetRight',
         value: function offsetRight(el) {
-            return el.getBoundingClientRect().top + window.pageYOffset - document.documentElement.clientTop + box.offsetWidth;
+            return el.getBoundingClientRect().left + window.pageXOffset - document.documentElement.clientLeft + el.offsetWidth;
         }
     }, {
         key: 'offsetBottom',
         value: function offsetBottom(el) {
-            return el.getBoundingClientRect().left + window.pageXOffset - document.documentElement.clientLeft + el.offsetHeight;
+            return el.getBoundingClientRect().top + window.pageYOffset - document.documentElement.clientTop + el.offsetHeight;
         }
     }, {
         key: 'scrollTo',
