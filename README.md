@@ -392,9 +392,21 @@ hlp.addEventListenerOnce(
     (event) => { alert('this gets called only once'); }
 );
 
-// simple animations (via css animations)
-hlp.animate( document.getElementById('.foo'), 'transform: translateX(0)', 'transform: translateX(-100%)', 'ease-in-out', 1000).then(() => { console.log('done'); });
-hlp.animate( document.querySelectorAll('.foo'), 'opacity: 1; pointer-events:auto', 'opacity: 0; pointer-events:none', 'ease-in-out', 1000).then(() => { console.log('done'); });
+// simple animations (via css transitions)
+hlp.animate(
+    document.getElementById('.single'),
+    'transform: translateX(0)',
+    'transform: translateX(-100%)',
+    'ease-in-out',
+    1000
+).then(() => { console.log('done'); });
+hlp.animate(
+    document.querySelectorAll('.multiple'),
+    'opacity: 1; pointer-events:auto',
+    'opacity: 0; pointer-events:none',
+    'linear',
+    5000
+).then(() => { console.log('done'); });
 ```
 
 
