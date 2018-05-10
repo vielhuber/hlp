@@ -1193,7 +1193,7 @@ var hlp = function () {
                 var transition = [];
                 from.split(';').forEach(function (from__value) {
                     var properties__value = from__value.split(':')[0].trim();
-                    transition.push(properties__value + ' ' + Math.round(duration / 1000) + 's ' + easing);
+                    transition.push(properties__value + ' ' + Math.round(duration / 1000 * 10) / 10 + 's ' + easing);
                 });
                 transition = 'transition: ' + transition.join(', ') + ';';
 
@@ -1224,9 +1224,8 @@ var hlp = function () {
                         els__value.setAttribute('style', els__value.getAttribute('style').replace(from + ';', '') + to + ';');
 
                         hlp.addEventListenerOnce(els__value, 'transitionend', function (event) {
-                            // reset (this is important) and remove previous styles property
-                            style.innerHTML = 'all 0s ease 0s';
-                            //document.head.removeChild(style);
+                            // remove previous styles property
+                            document.head.removeChild(style);
 
                             // remove random class
                             els__value.classList.remove(random_class);
