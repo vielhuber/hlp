@@ -1072,31 +1072,35 @@ export default class hlp
                 // set from style inline (remove previous style)
                 els__value.setAttribute('style', from+';');
 
-                // add transition property
-                let style = document.createElement('style');
-                style.appendChild(document.createTextNode('.'+random_class+' { '+transition+' }'));
-                document.head.appendChild(style);
+                window.requestAnimationFrame(() =>
+                {
+                    // add transition property
+                    let style = document.createElement('style');
+                    style.innerHTML = '.'+random_class+' { '+transition+' }';
+                    document.head.appendChild(style);
+                    
+                    // set last style inline
+                    els__value.setAttribute('style', els__value.getAttribute('style').replace(from+';','')+to+';');
 
-                // set last style inline
-                els__value.setAttribute('style', els__value.getAttribute('style').replace(from+';','')+to+';');
+                    hlp.addEventListenerOnce(els__value, 'transitionend', (event) =>
+                    {      
+                        // reset (this is important) and remove previous styles property
+                        style.innerHTML = 'all 0s ease 0s';
+                        //document.head.removeChild(style);
 
-                hlp.addEventListenerOnce(els__value, 'transitionend', (event) =>
-                {      
-                    // remove previous styles property
-                    document.head.removeChild(style);
+                        // remove random class
+                        els__value.classList.remove(random_class);
 
-                    // remove random class
-                    els__value.classList.remove(random_class);
-
-                    // resolve promise when last is finished
-                    toFinish--;
-                    if( toFinish <= 0 )
-                    {
-                        setTimeout(() =>
+                        // resolve promise when last is finished
+                        toFinish--;
+                        if( toFinish <= 0 )
                         {
-                            resolve();
-                        },0);
-                    }
+                            window.requestAnimationFrame(() =>
+                            {
+                                resolve();
+                            });
+                        }
+                    });
                 });
             });
         });
