@@ -300,6 +300,22 @@ var hlp = function () {
             return null;
         }
     }, {
+        key: 'random_string',
+        value: function random_string() {
+            var length = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 8;
+            var chars = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+            if (chars === null) {
+                chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            }
+            var chars_length = chars.length,
+                random_string = '';
+            for (var i = 0; i < length; i++) {
+                random_string += chars[~~(Math.random() * (chars_length - 1 - 0 + 1)) + 0];
+            }
+            return random_string;
+        }
+    }, {
         key: 'capitalize',
         value: function capitalize() {
             var string = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
@@ -1105,7 +1121,7 @@ var hlp = function () {
                 }, _callee, this, [[4, 15, 19, 27], [20,, 22, 26]]);
             }));
 
-            function loadJsSequentially(_x17) {
+            function loadJsSequentially(_x19) {
                 return _ref12.apply(this, arguments);
             }
 
@@ -1171,26 +1187,49 @@ var hlp = function () {
         }
     }, {
         key: 'animate',
-        value: function animate(el, animation) {
+        value: function animate(el, from, to, easing, duration) {
             return new _promise2.default(function (resolve) {
-                if (el.classList.contains(animation)) {
-                    resolve();
-                }
-                var remove = [];
-                el.classList.forEach(function (class__value) {
-                    if (class__value.indexOf('animation--') > -1) {
-                        remove.push(class__value);
-                    }
+                var transition = [];
+                from.split(';').forEach(function (from__value) {
+                    var properties__value = from__value.split(':')[0].trim();
+                    transition.push(properties__value + ' ' + Math.round(duration / 1000) + 's ' + easing);
                 });
-                remove.forEach(function (class__value) {
-                    el.classList.remove(class__value);
-                });
+                transition = 'transition: ' + transition.join(', ') + ';';
 
-                el.classList.add('animation--' + animation);
-                hlp.addEventListenerOnce(el, 'animationend', function (event) {
-                    if (event.animationName === animation) {
-                        resolve();
-                    }
+                var els = null;
+                if (NodeList.prototype.isPrototypeOf(el)) {
+                    els = (0, _from2.default)(el);
+                } else {
+                    els = [el];
+                }
+                els.forEach(function (els__value, els__key) {
+                    // add random class
+                    var random_class = hlp.random_string(10, 'abcdefghijklmnopqrstuvwxyz');
+                    els__value.classList.add(random_class);
+
+                    // set from style inline
+                    els__value.setAttribute('style', (els__value.getAttribute('style') === null ? '' : els__value.getAttribute('style') + ';') + from + ';');
+
+                    // add transition property
+                    var style = document.createElement('style');
+                    style.appendChild(document.createTextNode('.' + random_class + ' { ' + transition + ' }'));
+                    document.head.appendChild(style);
+
+                    // set last style inline
+                    els__value.setAttribute('style', els__value.getAttribute('style').replace(from + ';', '') + to + ';');
+
+                    hlp.addEventListenerOnce(els__value, 'transitionend', function (event) {
+                        // remove previous styles property
+                        document.head.removeChild(style);
+
+                        // remove random class
+                        els__value.classList.remove(random_class);
+
+                        // if this is first item, resolve promise (despite the fast that they all run parallel)
+                        if (els__key === 0) {
+                            resolve();
+                        }
+                    });
                 });
             });
         }

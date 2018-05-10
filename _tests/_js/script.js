@@ -166,6 +166,9 @@ test('first', () =>
 
 test('random', () => {
     expect( (['foo', 'bar', 'baz'].indexOf(hlp.rand(['foo', 'bar', 'baz'])) > -1) ).toBe(true);
+    expect( (hlp.random_string()).length ).toBe( 8 );
+    expect( (hlp.random_string(10)).length ).toBe( 10 );
+    expect( (hlp.random_string(16, 'idkfa')).length ).toBe( 16 );
 });
 
 test('capitalize', () =>

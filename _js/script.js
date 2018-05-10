@@ -189,6 +189,18 @@ export default class hlp
         return null;
     }
 
+    static random_string(length = 8, chars = null)
+    {
+        if( chars === null ) { chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'; }
+        let chars_length = chars.length,
+            random_string = '';
+        for(let i = 0; i < length; i++)
+        {
+            random_string += chars[~~(Math.random()*(chars_length-1-0+1))+0];
+        }
+        return random_string;
+    }
+
     static capitalize(string = null)
     {
         if( string === null )
@@ -1027,34 +1039,58 @@ export default class hlp
         return !isNaN(parseFloat(n)) && isFinite(n);
     }
 
-    static animate(el, animation)
+    static animate(el, from, to, easing, duration)
     {
         return new Promise(resolve =>
         {
-            if( el.classList.contains(animation) )
+            let transition = [];
+            from.split(';').forEach((from__value) =>
             {
-                resolve();
-            }
-            let remove = [];
-            el.classList.forEach((class__value) =>
-            {
-                if( class__value.indexOf('animation--') > -1 )
-                {
-                    remove.push(class__value);
-                }
+                let properties__value = from__value.split(':')[0].trim();
+                transition.push( properties__value+' '+Math.round(duration/1000)+'s '+easing );
             });
-            remove.forEach((class__value) =>
-            {
-                el.classList.remove(class__value);
-            });
+            transition = 'transition: '+transition.join(', ')+';';
 
-            el.classList.add('animation--'+animation);
-            hlp.addEventListenerOnce(el, 'animationend', (event) =>
-            {                  
-                if( event.animationName === animation )
-                {
-                    resolve();
-                }
+            let els = null;
+            if( NodeList.prototype.isPrototypeOf(el) )
+            {
+                els = Array.from(el);
+            }
+            else
+            {
+                els = [el];
+            }
+            els.forEach((els__value, els__key) =>
+            {               
+                // add random class
+                let random_class = hlp.random_string(10,'abcdefghijklmnopqrstuvwxyz');
+                els__value.classList.add(random_class);
+                
+                // set from style inline
+                els__value.setAttribute('style', ((els__value.getAttribute('style') === null)?(''):(els__value.getAttribute('style')+';'))+from+';');
+
+                // add transition property
+                let style = document.createElement('style');
+                style.appendChild(document.createTextNode('.'+random_class+' { '+transition+' }'));
+                document.head.appendChild(style);
+
+                // set last style inline
+                els__value.setAttribute('style', els__value.getAttribute('style').replace(from+';','')+to+';');
+
+                hlp.addEventListenerOnce(els__value, 'transitionend', (event) =>
+                {      
+                    // remove previous styles property
+                    document.head.removeChild(style);
+
+                    // remove random class
+                    els__value.classList.remove(random_class);
+
+                    // if this is first item, resolve promise (despite the fast that they all run parallel)
+                    if( els__key === 0 )
+                    {
+                        resolve();
+                    }
+                });
             });
         });
     }

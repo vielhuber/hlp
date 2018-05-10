@@ -270,6 +270,11 @@ hlp.first({ foo: 'bar', bar: 'baz'}) // 'bar'
 // get random element from object/array
 hlp.rand(['foo', 'bar', 'baz']) // 'bar'
 
+// generate a random string
+hlp.random_string() // edPhi34d
+hlp.random_string(10) // abCa321aC6
+hlp.random_string(16, 'idkfa') // idifafafifaifafk
+
 // json parsing
 hlp.jsonStringToObject('["foo","bar","baz"]') // ['foo','bar','baz']
 hlp.jsonStringToObject('["foo","bar","baz",]') // null
@@ -387,40 +392,9 @@ hlp.addEventListenerOnce(
     (event) => { alert('this gets called only once'); }
 );
 
-// animate via css animations
-
-    // add this css
-    .animation--out-left
-    {    
-        animation: out-left 1s ease-in-out 0s 1 normal forwards;
-    }
-    .animation--in-right
-    {    
-        animation: in-right 1s ease-in-out 0s 1 normal forwards;
-    }
-    @keyframes out-left
-    {
-        0% { transform: translateX(0); }
-        100% { transform: translateX(-100%); }
-    }
-    @keyframes in-right
-    {
-        0% { transform: translateX(100%); }
-        100% { transform: translateX(0); }
-    }
-
-    // now have some fun
-    async ani()
-    {
-        let container = document.getElementById('container');
-        await this.animate(container, 'out-left');
-        await this.animate(container, 'in-right');
-        await this.animate(container, 'out-left');
-        await this.animate(container, 'in-right');
-        alert('finished');
-    }
-
-
+// simple animations (via css animations)
+hlp.animate( document.getElementById('.foo'), 'transform: translateX(0)', 'transform: translateX(-100%)', 'ease-in-out', 1000).then(() => { console.log('done'); });
+hlp.animate( document.querySelectorAll('.foo'), 'opacity: 1; pointer-events:auto', 'opacity: 0; pointer-events:none', 'ease-in-out', 1000).then(() => { console.log('done'); });
 ```
 
 
