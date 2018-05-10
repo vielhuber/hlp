@@ -1203,13 +1203,16 @@ var hlp = function () {
                 } else {
                     els = [el];
                 }
+
+                var toFinish = els.length;
+
                 els.forEach(function (els__value, els__key) {
                     // add random class
                     var random_class = hlp.random_string(10, 'abcdefghijklmnopqrstuvwxyz');
                     els__value.classList.add(random_class);
 
-                    // set from style inline
-                    els__value.setAttribute('style', (els__value.getAttribute('style') === null ? '' : els__value.getAttribute('style') + ';') + from + ';');
+                    // set from style inline (remove previous style)
+                    els__value.setAttribute('style', from + ';');
 
                     // add transition property
                     var style = document.createElement('style');
@@ -1226,9 +1229,12 @@ var hlp = function () {
                         // remove random class
                         els__value.classList.remove(random_class);
 
-                        // if this is first item, resolve promise (despite the fast that they all run parallel)
-                        if (els__key === 0) {
-                            resolve();
+                        // resolve promise when last is finished
+                        toFinish--;
+                        if (toFinish <= 0) {
+                            setTimeout(function () {
+                                resolve();
+                            }, 0);
                         }
                     });
                 });

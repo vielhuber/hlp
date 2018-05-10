@@ -93,9 +93,17 @@
                                 'transform: translateX(0); pointer-events: auto; opacity: 1',
                                 'transform: translateX(500px); pointer-events: none; opacity: 0.1',
                                 'ease-in-out',
-                                10000
+                                3000
                             ).then(() => {
-                                alert('done');
+                                hlp.animate(
+                                    document.querySelectorAll('.animate div'),
+                                    'transform: translateX(500px); pointer-events: none; opacity: 0.1',
+                                    'transform: translateX(0); pointer-events: auto; opacity: 1',
+                                    'ease-in-out',
+                                    3000
+                                ).then(() => {
+                                    //alert('done');
+                                });
                             });
                         });
                     });
