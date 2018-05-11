@@ -1214,42 +1214,46 @@ var hlp = function () {
                     var random_class = hlp.random_string(10, 'abcdefghijklmnopqrstuvwxyz');
                     els__value.classList.add(random_class);
 
-                    // set from style inline (don't fully remove previous style)
-                    var new_style = [];
-                    var prev_style = els__value.getAttribute('style');
-                    if (prev_style !== null) {
-                        prev_style.split(';').forEach(function (prev_style__value) {
-                            if (!properties.includes(prev_style__value.split(':')[0].trim())) {
-                                new_style.push(prev_style__value);
-                            }
-                        });
-                    }
-                    new_style = new_style.join(';') + from + ';';
-                    els__value.setAttribute('style', new_style);
-
                     window.requestAnimationFrame(function () {
-                        // add transition property
-                        var style = document.createElement('style');
-                        style.innerHTML = '.' + random_class + ' { ' + transition + ' }';
-                        document.head.appendChild(style);
+                        // set from style inline (don't fully remove previous style)
+                        var new_style = [];
+                        var prev_style = els__value.getAttribute('style');
+                        if (prev_style !== null) {
+                            prev_style.split(';').forEach(function (prev_style__value) {
+                                if (!properties.includes(prev_style__value.split(':')[0].trim())) {
+                                    new_style.push(prev_style__value);
+                                }
+                            });
+                        }
+                        new_style = new_style.join(';') + from + ';';
+                        els__value.setAttribute('style', new_style);
 
-                        // set last style inline
-                        els__value.setAttribute('style', els__value.getAttribute('style').replace(from + ';', '') + to + ';');
+                        window.requestAnimationFrame(function () {
+                            // add transition property
+                            var style = document.createElement('style');
+                            style.innerHTML = '.' + random_class + ' { ' + transition + ' }';
+                            document.head.appendChild(style);
 
-                        hlp.addEventListenerOnce(els__value, 'transitionend', function (event) {
-                            // remove previous styles property
-                            document.head.removeChild(style);
+                            window.requestAnimationFrame(function () {
+                                // set last style inline
+                                els__value.setAttribute('style', els__value.getAttribute('style').replace(from + ';', '') + to + ';');
 
-                            // remove random class
-                            els__value.classList.remove(random_class);
+                                hlp.addEventListenerOnce(els__value, 'transitionend', function (event) {
+                                    // remove previous styles property
+                                    document.head.removeChild(style);
 
-                            // resolve promise when last is finished
-                            toFinish--;
-                            if (toFinish <= 0) {
-                                window.requestAnimationFrame(function () {
-                                    resolve();
+                                    // remove random class
+                                    els__value.classList.remove(random_class);
+
+                                    // resolve promise when last is finished
+                                    toFinish--;
+                                    if (toFinish <= 0) {
+                                        window.requestAnimationFrame(function () {
+                                            resolve();
+                                        });
+                                    }
                                 });
-                            }
+                            });
                         });
                     });
                 });
