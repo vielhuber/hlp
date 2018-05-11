@@ -1182,6 +1182,11 @@ export default class hlp
         return !!nodes[i];
     }
 
+    static remove(el)
+    {
+        el.parentNode.removeChild(el);
+    }
+
     static on(event, selector, scope, callback = null)
     {
         if( callback === null )

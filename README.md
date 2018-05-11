@@ -332,9 +332,10 @@ hlp.offsetLeft( document.querySelector('.foo') )
 hlp.offsetRight( document.querySelector('.foo') )
 hlp.offsetBottom( document.querySelector('.foo') )
 
-// closest/matches polyfills for ie11
+// polyfills for ie11
 hlp.closest( document.querySelector('.children'), '.parent' )
 hlp.matches( document.querySelector('.parent'), '.parent' ) // true
+hlp.remove( document.querySelector('.foo') );
 
 // on delegate
 hlp.on('click', '.selector', (e, el) => { });
