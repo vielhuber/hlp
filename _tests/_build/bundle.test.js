@@ -1303,6 +1303,11 @@ var hlp = function () {
             return !!nodes[i];
         }
     }, {
+        key: 'remove',
+        value: function remove(el) {
+            el.parentNode.removeChild(el);
+        }
+    }, {
         key: 'on',
         value: function on(event, selector, scope) {
             var callback = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;

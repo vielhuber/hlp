@@ -1182,7 +1182,7 @@ export default class hlp
         return !!nodes[i];
     }
 
-    static delete(el)
+    static remove(el)
     {
         el.parentNode.removeChild(el);
     }
