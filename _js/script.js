@@ -1073,49 +1073,52 @@ export default class hlp
                 let random_class = hlp.random_string(10,'abcdefghijklmnopqrstuvwxyz');
                 els__value.classList.add(random_class);
                 
-                // set from style inline (don't fully remove previous style)
-                let new_style = [];
-                let prev_style = els__value.getAttribute('style');
-                if( prev_style !== null )
-                {
-                    prev_style.split(';').forEach((prev_style__value) =>
-                    {
-                        if( !properties.includes( prev_style__value.split(':')[0].trim() ) )
-                        {
-                            new_style.push( prev_style__value );
-                        }
-                    });
-                }
-                new_style = new_style.join(';')+from+';';
-                els__value.setAttribute('style', new_style);
-
                 window.requestAnimationFrame(() =>
-                {
-                    // add transition property
-                    let style = document.createElement('style');
-                    style.innerHTML = '.'+random_class+' { '+transition+' }';
-                    document.head.appendChild(style);
-                    
-                    // set last style inline
-                    els__value.setAttribute('style', els__value.getAttribute('style').replace(from+';','')+to+';');
-
-                    hlp.addEventListenerOnce(els__value, 'transitionend', (event) =>
-                    {      
-                        // remove previous styles property
-                        document.head.removeChild(style);
-
-                        // remove random class
-                        els__value.classList.remove(random_class);
-
-                        // resolve promise when last is finished
-                        toFinish--;
-                        if( toFinish <= 0 )
+                {                
+                    // set from style inline (don't fully remove previous style)
+                    let new_style = [];
+                    let prev_style = els__value.getAttribute('style');
+                    if( prev_style !== null )
+                    {
+                        prev_style.split(';').forEach((prev_style__value) =>
                         {
-                            window.requestAnimationFrame(() =>
+                            if( !properties.includes( prev_style__value.split(':')[0].trim() ) )
                             {
-                                resolve();
-                            });
-                        }
+                                new_style.push( prev_style__value );
+                            }
+                        });
+                    }
+                    new_style = new_style.join(';')+from+';';
+                    els__value.setAttribute('style', new_style);
+
+                    window.requestAnimationFrame(() =>
+                    {
+                        // add transition property
+                        let style = document.createElement('style');
+                        style.innerHTML = '.'+random_class+' { '+transition+' }';
+                        document.head.appendChild(style);
+                        
+                        // set last style inline
+                        els__value.setAttribute('style', els__value.getAttribute('style').replace(from+';','')+to+';');
+
+                        hlp.addEventListenerOnce(els__value, 'transitionend', (event) =>
+                        {      
+                            // remove previous styles property
+                            document.head.removeChild(style);
+
+                            // remove random class
+                            els__value.classList.remove(random_class);
+
+                            // resolve promise when last is finished
+                            toFinish--;
+                            if( toFinish <= 0 )
+                            {
+                                window.requestAnimationFrame(() =>
+                                {
+                                    resolve();
+                                });
+                            }
+                        });
                     });
                 });
             });
