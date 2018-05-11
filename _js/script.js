@@ -1043,10 +1043,14 @@ export default class hlp
     {
         return new Promise(resolve =>
         {
-            let transition = [];
+            let properties = [];
             from.split(';').forEach((from__value) =>
             {
-                let properties__value = from__value.split(':')[0].trim();
+                properties.push( from__value.split(':')[0].trim() );
+            });
+            let transition = [];
+            properties.forEach((properties__value) =>
+            {
                 transition.push( properties__value+' '+(Math.round(duration/1000*10)/10)+'s '+easing );
             });
             transition = 'transition: '+transition.join(', ')+';';
@@ -1069,8 +1073,21 @@ export default class hlp
                 let random_class = hlp.random_string(10,'abcdefghijklmnopqrstuvwxyz');
                 els__value.classList.add(random_class);
                 
-                // set from style inline (remove previous style)
-                els__value.setAttribute('style', from+';');
+                // set from style inline (don't fully remove previous style)
+                let new_style = [];
+                let prev_style = els__value.getAttribute('style');
+                if( prev_style !== null )
+                {
+                    prev_style.split(';').forEach((prev_style__value) =>
+                    {
+                        if( !properties.includes( prev_style__value.split(':')[0].trim() ) )
+                        {
+                            new_style.push( prev_style__value );
+                        }
+                    });
+                }
+                new_style = new_style.join(';')+from+';';
+                els__value.setAttribute('style', new_style);
 
                 window.requestAnimationFrame(() =>
                 {

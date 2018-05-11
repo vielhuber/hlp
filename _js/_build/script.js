@@ -1189,9 +1189,12 @@ var hlp = function () {
         key: 'animate',
         value: function animate(el, from, to, easing, duration) {
             return new _promise2.default(function (resolve) {
-                var transition = [];
+                var properties = [];
                 from.split(';').forEach(function (from__value) {
-                    var properties__value = from__value.split(':')[0].trim();
+                    properties.push(from__value.split(':')[0].trim());
+                });
+                var transition = [];
+                properties.forEach(function (properties__value) {
                     transition.push(properties__value + ' ' + Math.round(duration / 1000 * 10) / 10 + 's ' + easing);
                 });
                 transition = 'transition: ' + transition.join(', ') + ';';
@@ -1210,8 +1213,18 @@ var hlp = function () {
                     var random_class = hlp.random_string(10, 'abcdefghijklmnopqrstuvwxyz');
                     els__value.classList.add(random_class);
 
-                    // set from style inline (remove previous style)
-                    els__value.setAttribute('style', from + ';');
+                    // set from style inline (don't fully remove previous style)
+                    var new_style = [];
+                    var prev_style = els__value.getAttribute('style');
+                    if (prev_style !== null) {
+                        prev_style.split(';').forEach(function (prev_style__value) {
+                            if (!properties.includes(prev_style__value.split(':')[0].trim())) {
+                                new_style.push(prev_style__value);
+                            }
+                        });
+                    }
+                    new_style = new_style.join(';') + from + ';';
+                    els__value.setAttribute('style', new_style);
 
                     window.requestAnimationFrame(function () {
                         // add transition property
