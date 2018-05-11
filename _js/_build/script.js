@@ -1197,7 +1197,7 @@ var hlp = function () {
                 properties.forEach(function (properties__value) {
                     transition.push(properties__value + ' ' + Math.round(duration / 1000 * 10) / 10 + 's ' + easing);
                 });
-                transition = 'transition: ' + transition.join(', ') + ';';
+                transition = 'transition: ' + transition.join(', ') + ' !important;';
 
                 var els = null;
                 if (NodeList.prototype.isPrototypeOf(el)) {

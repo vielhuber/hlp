@@ -1053,7 +1053,7 @@ export default class hlp
             {
                 transition.push( properties__value+' '+(Math.round(duration/1000*10)/10)+'s '+easing );
             });
-            transition = 'transition: '+transition.join(', ')+';';
+            transition = 'transition: '+transition.join(', ')+' !important;';
 
             let els = null;
             if( NodeList.prototype.isPrototypeOf(el) )
