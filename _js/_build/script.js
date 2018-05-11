@@ -1313,7 +1313,7 @@ var hlp = function () {
                 scope = document.querySelector(scope);
             }
             scope.addEventListener(event, function (e) {
-                var el = e.target.closest(selector);
+                var el = hlp.closest(e.target, selector);
                 if (el) {
                     callback(e, el);
                 }

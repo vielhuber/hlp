@@ -1195,7 +1195,7 @@ export default class hlp
         }
         scope.addEventListener(event, (e) =>
         {
-            var el = e.target.closest(selector); 
+            var el = hlp.closest(e.target, selector);
             if(el)
             { 
                 callback(e, el); 
