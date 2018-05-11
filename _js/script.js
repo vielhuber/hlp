@@ -1097,27 +1097,30 @@ export default class hlp
                         let style = document.createElement('style');
                         style.innerHTML = '.'+random_class+' { '+transition+' }';
                         document.head.appendChild(style);
-                        
-                        // set last style inline
-                        els__value.setAttribute('style', els__value.getAttribute('style').replace(from+';','')+to+';');
 
-                        hlp.addEventListenerOnce(els__value, 'transitionend', (event) =>
-                        {      
-                            // remove previous styles property
-                            document.head.removeChild(style);
+                        window.requestAnimationFrame(() =>
+                        {                        
+                            // set last style inline
+                            els__value.setAttribute('style', els__value.getAttribute('style').replace(from+';','')+to+';');
 
-                            // remove random class
-                            els__value.classList.remove(random_class);
+                            hlp.addEventListenerOnce(els__value, 'transitionend', (event) =>
+                            {      
+                                // remove previous styles property
+                                document.head.removeChild(style);
 
-                            // resolve promise when last is finished
-                            toFinish--;
-                            if( toFinish <= 0 )
-                            {
-                                window.requestAnimationFrame(() =>
+                                // remove random class
+                                els__value.classList.remove(random_class);
+
+                                // resolve promise when last is finished
+                                toFinish--;
+                                if( toFinish <= 0 )
                                 {
-                                    resolve();
-                                });
-                            }
+                                    window.requestAnimationFrame(() =>
+                                    {
+                                        resolve();
+                                    });
+                                }
+                            });
                         });
                     });
                 });
