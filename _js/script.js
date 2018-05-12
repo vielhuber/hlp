@@ -1060,6 +1060,11 @@ export default class hlp
             {
                 els = Array.from(el);
             }
+            else if( el === null )
+            {
+                console.log('cannot animate element '+el+' because it does not exist');
+                return;
+            }
             else
             {
                 els = [el];
