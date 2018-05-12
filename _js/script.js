@@ -1062,7 +1062,7 @@ export default class hlp
             }
             else if( el === null )
             {
-                console.log('cannot animate element '+el+' because it does not exist');
+                console.log('cannot animate element from '+from+' to '+to+' because it does not exist');
                 return;
             }
             else

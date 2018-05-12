@@ -1204,7 +1204,7 @@ var hlp = function () {
                 if (NodeList.prototype.isPrototypeOf(el)) {
                     els = (0, _from2.default)(el);
                 } else if (el === null) {
-                    console.log('cannot animate element ' + el + ' because it does not exist');
+                    console.log('cannot animate element from ' + from + ' to ' + to + ' because it does not exist');
                     return;
                 } else {
                     els = [el];
