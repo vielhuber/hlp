@@ -600,12 +600,13 @@ var hlp = function () {
             var _this2 = this;
 
             var throttle = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
+            var allow_error = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
 
             setTimeout(function () {
                 var xhr = new XMLHttpRequest();
                 xhr.open('GET', url, true);
                 xhr.onload = function () {
-                    if (xhr.readyState != 4 || xhr.status != 200 && xhr.status != 304) {
+                    if (xhr.readyState != 4 || allow_error === false && xhr.status != 200 && xhr.status != 304) {
                         error([xhr.readyState, xhr.status, xhr.statusText]);
                     }
 
@@ -627,11 +628,12 @@ var hlp = function () {
             var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
             var success = arguments[2];
             var error = arguments[3];
+            var headers = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
 
             var _this3 = this;
 
-            var headers = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
             var throttle = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 0;
+            var allow_error = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : false;
 
             setTimeout(function () {
                 var xhr = new XMLHttpRequest();
@@ -648,7 +650,7 @@ var hlp = function () {
                     });
                 }
                 xhr.onload = function () {
-                    if (xhr.readyState != 4 || xhr.status != 200 && xhr.status != 304) {
+                    if (xhr.readyState != 4 || allow_error === false && xhr.status != 200 && xhr.status != 304) {
                         if (_this3.isJsonString(xhr.statusText)) {
                             error(_this3.jsonStringToObject(xhr.statusText));
                         } else {
@@ -673,31 +675,33 @@ var hlp = function () {
             var _this4 = this;
 
             var throttle = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+            var allow_error = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
             return new _promise2.default(function (resolve, reject) {
                 _this4.get(url, function (v) {
                     resolve(v);
                 }, function (v) {
                     reject(v);
-                }, throttle);
+                }, throttle, allow_error);
             });
         }
     }, {
         key: 'postWithPromise',
         value: function postWithPromise(url) {
             var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+            var headers = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
             var _this5 = this;
 
-            var headers = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
             var throttle = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
+            var allow_error = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
 
             return new _promise2.default(function (resolve, reject) {
                 _this5.post(url, data, function (v) {
                     resolve(v);
                 }, function (v) {
                     reject(v);
-                }, headers, throttle);
+                }, headers, throttle, allow_error);
             });
         }
     }, {
@@ -1122,7 +1126,7 @@ var hlp = function () {
                 }, _callee, this, [[4, 15, 19, 27], [20,, 22, 26]]);
             }));
 
-            function loadJsSequentially(_x19) {
+            function loadJsSequentially(_x23) {
                 return _ref12.apply(this, arguments);
             }
 
