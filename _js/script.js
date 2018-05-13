@@ -520,7 +520,7 @@ export default class hlp
         return string.split(search).join(replace);
     }
 
-    static get(url, success, error, throttle = 0)
+    static get(url, success, error, throttle = 0, allow_error = false)
     {
         setTimeout(() =>
         {
@@ -528,7 +528,7 @@ export default class hlp
             xhr.open( 'GET', url, true );
             xhr.onload = () =>
             { 
-                if(xhr.readyState != 4 || (xhr.status != 200 && xhr.status != 304))
+                if(xhr.readyState != 4 || (allow_error === false && xhr.status != 200 && xhr.status != 304))
                 {
                     error([xhr.readyState, xhr.status, xhr.statusText]);
                 }
@@ -550,7 +550,7 @@ export default class hlp
         }, throttle);
     }
 
-    static post(url, data = null, success, error, headers = null, throttle = 0)
+    static post(url, data = null, success, error, headers = null, throttle = 0, allow_error = false)
     {
         setTimeout(() =>
         {
@@ -567,7 +567,7 @@ export default class hlp
             }
             xhr.onload = () =>
             {
-                if(xhr.readyState != 4 || (xhr.status != 200 && xhr.status != 304))
+                if(xhr.readyState != 4 || (allow_error === false && xhr.status != 200 && xhr.status != 304))
                 {
                     if( this.isJsonString(xhr.statusText) )
                     {
@@ -595,19 +595,19 @@ export default class hlp
         }, throttle);
     }
 
-    static getWithPromise(url, throttle = 0)
+    static getWithPromise(url, throttle = 0, allow_error = false)
     {
         return new Promise((resolve, reject) =>
         {
-            this.get(url, (v) => { resolve(v); }, (v) => { reject(v); }, throttle);
+            this.get(url, (v) => { resolve(v); }, (v) => { reject(v); }, throttle, allow_error);
         });
     }
 
-    static postWithPromise(url, data = null, headers = null, throttle = 0)
+    static postWithPromise(url, data = null, headers = null, throttle = 0, allow_error = false)
     {
         return new Promise((resolve, reject) =>
         {
-            this.post(url, data, (v) => { resolve(v); }, (v) => { reject(v); }, headers, throttle);
+            this.post(url, data, (v) => { resolve(v); }, (v) => { reject(v); }, headers, throttle, allow_error);
         });
     }
 
