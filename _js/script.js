@@ -1034,6 +1034,17 @@ export default class hlp
         });
     }
 
+    static iOsRemoveHover()
+    {
+        if( hlp.getBrowser() === 'safari' && hlp.getDevice() !== 'desktop' )
+        {
+            hlp.on('touchend', 'a', (e, el) =>
+            {
+                el.click();
+            });
+        }
+    }
+
     static isNumeric(n)
     {
         return !isNaN(parseFloat(n)) && isFinite(n);

@@ -348,6 +348,9 @@ hlp.urlWithHash() // https://github.com/vielhuber/hlp#foo
 // set 100vh for dom element (even for ios devices, see https://nicolas-hoizey.com/2015/02/viewport-height-is-taller-than-the-visible-part-of-the-document-in-some-mobile-browsers.html)
 hlp.real100vh('.foo')
 
+// remove hover states on ios to prevent double clicks (see https://stackoverflow.com/questions/47802530/a-click-in-ios-safari-triggers-a-hover-state-on-element-underneath-where-you-t);
+hlp.iOsRemoveHover();
+
 // fade in/out dom element
 hlp.fadeIn( document.querySelector('.foo'), 1000 ).then(() => { console.log('done'); });
 hlp.fadeOut( document.querySelector('.foo'), 1000 ).then(() => { console.log('done'); });

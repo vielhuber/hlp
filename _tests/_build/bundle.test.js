@@ -1186,6 +1186,15 @@ var hlp = function () {
             });
         }
     }, {
+        key: 'iOsRemoveHover',
+        value: function iOsRemoveHover() {
+            if (hlp.getBrowser() === 'safari' && hlp.getDevice() !== 'desktop') {
+                hlp.on('touchend', 'a', function (e, el) {
+                    el.click();
+                });
+            }
+        }
+    }, {
         key: 'isNumeric',
         value: function isNumeric(n) {
             return !isNaN(parseFloat(n)) && isFinite(n);
