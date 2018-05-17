@@ -360,8 +360,9 @@ hlp.isVisible( document.querySelector('.foo') )
 
 // wait until a dom element has a certain css property
 // this is quite useful when working with async loaded stylesheets like loadCSS
-hlp.waitUntil('#foo','background-color').then(() => { });
-hlp.waitUntil('#foo','position','relative').then(() => { });
+// .beacon is an element below the fold populated by the stylesheet
+hlp.waitUntil('.beacon','position').then(() => { });
+hlp.waitUntil('.beacon','position','relative').then(() => { });
 
 // automatically change height of all textareas based on content
 hlp.textareaAutoHeight()
