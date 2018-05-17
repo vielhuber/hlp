@@ -1234,6 +1234,27 @@ export default class hlp
         return window.location.protocol + '//' + window.location.host + window.location.pathname + window.location.hash;
     }
 
+    static waitUntil(selector, css_option, css_value = null)
+    {
+        return new Promise((resolve, reject) =>
+        {
+            let timeout = setInterval(() =>
+            {
+                if(
+                    document.querySelector(selector) !== null &&
+                    (
+                        (css_value === null && window.getComputedStyle(document.querySelector(selector))[css_option] !== undefined && window.getComputedStyle(document.querySelector(selector))[css_option] != '' ) ||
+                        (css_value !== null && window.getComputedStyle(document.querySelector(selector))[css_option] === css_value)
+                    )
+                )
+                {
+                    window.clearInterval(timeout);
+                    resolve();
+                }
+            }, 30 );
+        });
+    }
+
 }
 
 /* expose all functions to window */

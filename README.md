@@ -358,6 +358,11 @@ hlp.fadeOut( document.querySelector('.foo'), 1000 ).then(() => { console.log('do
 // check if dom element is visible
 hlp.isVisible( document.querySelector('.foo') )
 
+// wait until a dom element has a certain css property
+// this is quite useful when working with async loaded stylesheets like loadCSS
+hlp.waitUntil('#foo','background-color').then(() => { });
+hlp.waitUntil('#foo','position','relative').then(() => { });
+
 // automatically change height of all textareas based on content
 hlp.textareaAutoHeight()
 hlp.textareaAutoHeight('.special')

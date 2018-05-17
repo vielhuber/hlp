@@ -11,6 +11,7 @@
             height:500px;
             background-color:blue;
             margin-bottom:500px;
+            position:relative;
         }
         #bar
         {
@@ -64,6 +65,15 @@
         console.log(hlp.closest( document.querySelector('.child'), '.parent' ));
 
         console.log(hlp.capitalize('foo'));
+
+        hlp.waitUntil('#foo','background-color').then(() =>
+        {
+            alert('background color loaded');
+        });
+        hlp.waitUntil('#foo','position','relative').then(() =>
+        {
+            alert('position relative loaded');
+        });
 
         hlp.onResizeHorizontal(() => { console.log('triggered onResizeHorizontal'); });
         hlp.onResizeVertical(() => { console.log('triggered onResizeVertical'); });
