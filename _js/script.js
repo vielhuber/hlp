@@ -346,7 +346,7 @@ export default class hlp
         {
             os = 'linux';
         }
-        else if (!os && /Linux/.test(platform))
+        else if (/Linux/.test(platform))
         {
             os = 'linux';
         }

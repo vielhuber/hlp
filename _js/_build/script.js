@@ -451,7 +451,7 @@ var hlp = function () {
                 os = 'windows';
             } else if (/Android/.test(userAgent)) {
                 os = 'linux';
-            } else if (!os && /Linux/.test(platform)) {
+            } else if (/Linux/.test(platform)) {
                 os = 'linux';
             }
 
