@@ -285,7 +285,13 @@ hlp.isJsonString('["foo","bar","baz"]') // true
 // html entity encode/decode
 hlp.htmlEncode('&<>"`\'') // &amp;&lt;&gt;&quot;&#96;&#x27;
 hlp.htmlDecode('&amp;&lt;&gt;&quot;&#96;&#x27;') // &<>"`'
-```
+
+// easy floating point math
+hlp.fmath('*', 0.1, 0.2) // 0.02
+hlp.fmath('+', 0.1, 0.2) // 0.3
+hlp.fmath('-', 0.1, 0.2) // -0.1
+hlp.fmath('/', 0.2, 0.1) // 2
+hlp.fmath('/', 0.39, 100, 12) // 0.0039 (precision of 12)
 
 and also some for the frontend:
 

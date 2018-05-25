@@ -420,3 +420,12 @@ test('deepCopy', () =>
     expect( hlp.deepCopy(new Date('2018-01-01')) ).toEqual(new Date('2018-01-01'));
     expect( hlp.deepCopy(new RegExp('ab+c', 'i')) ).toEqual(new RegExp('ab+c', 'i'));
 });
+
+test('fmath', () =>
+{
+    expect( hlp.fmath('*', 0.1, 0.2) ).toEqual(0.02);
+    expect( hlp.fmath('+', 0.1, 0.2) ).toEqual(0.3);
+    expect( hlp.fmath('-', 0.1, 0.2) ).toEqual(-0.1);
+    expect( hlp.fmath('/', 0.2, 0.1) ).toEqual(2);
+    expect( hlp.fmath('/', 0.39, 100, 12) ).toEqual(0.0039);
+});

@@ -1255,6 +1255,17 @@ export default class hlp
         });
     }
 
+    static fmath(op, x, y, precision = 8)
+    {
+        let n = {
+            '*': x * y,
+            '-': x - y,
+            '+': x + y,
+            '/': x / y
+        }[op];
+        return Math.round(n * 10 * Math.pow(10,precision))/(10 * Math.pow(10,precision));
+    }
+
 }
 
 /* expose all functions to window */

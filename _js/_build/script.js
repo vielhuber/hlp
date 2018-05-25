@@ -1364,6 +1364,19 @@ var hlp = function () {
                 }, 30);
             });
         }
+    }, {
+        key: 'fmath',
+        value: function fmath(op, x, y) {
+            var precision = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 8;
+
+            var n = {
+                '*': x * y,
+                '-': x - y,
+                '+': x + y,
+                '/': x / y
+            }[op];
+            return Math.round(n * 10 * Math.pow(10, precision)) / (10 * Math.pow(10, precision));
+        }
     }]);
     return hlp;
 }();
