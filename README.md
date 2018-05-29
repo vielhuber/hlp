@@ -175,7 +175,7 @@ that works because javascript only evaluates the content of the inner callback (
 
 ### helpers
 
-there are also some other neat little helpers available.
+there are also some other neat little helpers available:
 
 ```js
 // capitalize
@@ -293,7 +293,11 @@ hlp.fmath('-', 0.1, 0.2) // -0.1
 hlp.fmath('/', 0.2, 0.1) // 2
 hlp.fmath('/', 0.39, 100, 12) // 0.0039 (precision of 12)
 
-and also some for the frontend:
+// create lexicographically ordered string ids like in firebase 
+hlp.pushId() -LDiDooGs9PyGHmghk5i
+hlp.pushId() -LDiDooGs9PyGHmghk5j
+
+check out also the following helpers for the frontend:
 
 ```js
 // cookies

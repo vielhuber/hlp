@@ -429,3 +429,9 @@ test('fmath', () =>
     expect( hlp.fmath('/', 0.2, 0.1) ).toEqual(2);
     expect( hlp.fmath('/', 0.39, 100, 12) ).toEqual(0.0039);
 });
+
+test('pushId', () =>
+{
+    expect( hlp.pushId().length > 3 ).toEqual( true );
+    expect( hlp.pushId().length > 3 ).toEqual( true );
+});

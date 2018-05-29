@@ -1266,6 +1266,77 @@ export default class hlp
         return Math.round(n * 10 * Math.pow(10,precision))/(10 * Math.pow(10,precision));
     }
 
+    static pushId()
+    {
+        /* source https://gist.github.com/mikelehen/3596a30bd69384624c11 */
+        let pushIdData = null;
+        // browser
+        if( window !== undefined )
+        {
+            if( window.pushIdDataGlobal === undefined )
+            {
+                window.pushIdDataGlobal = {};
+            }
+            pushIdData = window.pushIdDataGlobal;
+        }
+        // node.js
+        if( global !== undefined )
+        {
+            if( global.pushIdDataGlobal === undefined )
+            {
+                global.pushIdDataGlobal = {};
+            }
+            pushIdData = global.pushIdDataGlobal;
+        }
+        // first run
+        if( hlp.objectsAreEqual(pushIdData,{}) )
+        {
+            pushIdData.lastPushTime = 0;
+            pushIdData.lastRandChars = [];
+            pushIdData.PUSH_CHARS = '-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz';
+        }
+
+        let now = new Date().getTime(),
+            duplicateTime = (now === pushIdData.lastPushTime);
+        pushIdData.lastPushTime = now;
+
+        let timeStampChars = new Array(8);
+        for(var i = 7; i >= 0; i--)
+        {
+            timeStampChars[i] = pushIdData.PUSH_CHARS.charAt(now % 64);
+            now = Math.floor(now / 64);
+        }
+        if(now !== 0)
+        {
+            throw new Error();
+        }
+        let id = timeStampChars.join('');
+        if(!duplicateTime)
+        {
+            for(i = 0; i < 12; i++) {
+                pushIdData.lastRandChars[i] = Math.floor(Math.random() * 64);
+            }
+        }
+        else
+        {
+            for(i = 11; i >= 0 && pushIdData.lastRandChars[i] === 63; i--)
+            {
+                pushIdData.lastRandChars[i] = 0;
+            }
+            pushIdData.lastRandChars[i]++;
+        }
+        for(i = 0; i < 12; i++)
+        {
+            id += pushIdData.PUSH_CHARS.charAt(pushIdData.lastRandChars[i]);
+        }
+        if(id.length != 20)
+        {
+            throw new Error();
+        }
+        return id;
+    }
+
+
 }
 
 /* expose all functions to window */

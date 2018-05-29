@@ -1,4 +1,5 @@
-(function(){function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s}return e})()({1:[function(require,module,exports){
+(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+(function (global){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1378,6 +1379,63 @@ var hlp = function () {
             }[op];
             return Math.round(n * 10 * Math.pow(10, precision)) / (10 * Math.pow(10, precision));
         }
+    }, {
+        key: 'pushId',
+        value: function pushId() {
+            /* source https://gist.github.com/mikelehen/3596a30bd69384624c11 */
+            var pushIdData = null;
+            // browser
+            if (window !== undefined) {
+                if (window.pushIdDataGlobal === undefined) {
+                    window.pushIdDataGlobal = {};
+                }
+                pushIdData = window.pushIdDataGlobal;
+            }
+            // node.js
+            if (global !== undefined) {
+                if (global.pushIdDataGlobal === undefined) {
+                    global.pushIdDataGlobal = {};
+                }
+                pushIdData = global.pushIdDataGlobal;
+            }
+            // first run
+            if (hlp.objectsAreEqual(pushIdData, {})) {
+                pushIdData.lastPushTime = 0;
+                pushIdData.lastRandChars = [];
+                pushIdData.PUSH_CHARS = '-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz';
+            }
+
+            var now = new Date().getTime(),
+                duplicateTime = now === pushIdData.lastPushTime;
+            pushIdData.lastPushTime = now;
+
+            var timeStampChars = new Array(8);
+            for (var i = 7; i >= 0; i--) {
+                timeStampChars[i] = pushIdData.PUSH_CHARS.charAt(now % 64);
+                now = Math.floor(now / 64);
+            }
+            if (now !== 0) {
+                throw new Error();
+            }
+            var id = timeStampChars.join('');
+            if (!duplicateTime) {
+                for (i = 0; i < 12; i++) {
+                    pushIdData.lastRandChars[i] = Math.floor(Math.random() * 64);
+                }
+            } else {
+                for (i = 11; i >= 0 && pushIdData.lastRandChars[i] === 63; i--) {
+                    pushIdData.lastRandChars[i] = 0;
+                }
+                pushIdData.lastRandChars[i]++;
+            }
+            for (i = 0; i < 12; i++) {
+                id += pushIdData.PUSH_CHARS.charAt(pushIdData.lastRandChars[i]);
+            }
+            if (id.length != 20) {
+                throw new Error();
+            }
+            return id;
+        }
     }]);
     return hlp;
 }();
@@ -1394,6 +1452,7 @@ window.hlp = {};
     window.hlp[value] = hlp[value];
 });
 
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"babel-runtime/core-js/array/from":3,"babel-runtime/core-js/get-iterator":4,"babel-runtime/core-js/json/stringify":6,"babel-runtime/core-js/map":7,"babel-runtime/core-js/object/assign":8,"babel-runtime/core-js/object/create":9,"babel-runtime/core-js/object/entries":11,"babel-runtime/core-js/object/get-own-property-names":12,"babel-runtime/core-js/object/keys":13,"babel-runtime/core-js/object/values":14,"babel-runtime/core-js/promise":15,"babel-runtime/core-js/weak-map":18,"babel-runtime/helpers/asyncToGenerator":19,"babel-runtime/helpers/classCallCheck":20,"babel-runtime/helpers/createClass":21,"babel-runtime/helpers/defineProperty":22,"babel-runtime/helpers/slicedToArray":23,"babel-runtime/helpers/toConsumableArray":24,"babel-runtime/helpers/typeof":25,"babel-runtime/regenerator":26}],2:[function(require,module,exports){
 'use strict';
 
@@ -1850,6 +1909,11 @@ test('fmath', function () {
     expect(_script2.default.fmath('-', 0.1, 0.2)).toEqual(-0.1);
     expect(_script2.default.fmath('/', 0.2, 0.1)).toEqual(2);
     expect(_script2.default.fmath('/', 0.39, 100, 12)).toEqual(0.0039);
+});
+
+test('pushId', function () {
+    expect(_script2.default.pushId().length > 3).toEqual(true);
+    expect(_script2.default.pushId().length > 3).toEqual(true);
 });
 
 },{"./../../_js/script":1,"babel-runtime/helpers/asyncToGenerator":19,"babel-runtime/regenerator":26}],3:[function(require,module,exports){

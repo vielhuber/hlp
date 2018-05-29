@@ -1,6 +1,6 @@
 {
   "name": "hlp",
-  "version": "1.9.6",
+  "version": "1.9.7",
   "main": "_js/_build/script.js",
   "files": [
     "_js/_build/*.js",
@@ -10,7 +10,7 @@
   "author": "David Vielhuber <david@vielhuber.de>",
   "license": "MIT",
   "dependencies": {
-    "npm": "^5.8.0"
+    "npm": "^5.10.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
