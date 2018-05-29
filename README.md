@@ -296,6 +296,7 @@ hlp.fmath('/', 0.39, 100, 12) // 0.0039 (precision of 12)
 // create lexicographically ordered string ids like in firebase 
 hlp.pushId() -LDiDooGs9PyGHmghk5i
 hlp.pushId() -LDiDooGs9PyGHmghk5j
+```
 
 check out also the following helpers for the frontend:
 
