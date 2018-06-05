@@ -397,10 +397,10 @@ hlp.loadJsSequentially([
 hlp.get('https://httpbin.org/anything').then((data) => { }).catch((error) => { }) // { "method": "GET", ... }
 hlp.get('https://httpbin.org/anything', 1000).then((data) => { }).catch((error) => { }) // same but with a throttle of 1 second
 hlp.get('https://httpbin.org/anything', 0, true).then((data) => { }).catch((error) => { }) // allow 404 and other status codes as a response
-hlp.post('https://httpbin.org/anything', ['foo' => 'bar']).then((data) => { }).catch((error) => { }) // { "method": "POST", "data": {"foo": "bar"}, ... }
-hlp.post('https://httpbin.org/anything', ['foo' => 'bar'], ['Bar' => 'baz']).then((data) => { }).catch((error) => { }) // { "method": "POST", "headers" = { "Bar": "baz", ... }, ... }
+hlp.post('https://httpbin.org/anything', { foo: 'bar' }).then((data) => { }).catch((error) => { }) // { "method": "POST", "data": {"foo": "bar"}, ... }
+hlp.post('https://httpbin.org/anything', { foo: 'bar' }, { Bar: 'baz' }).then((data) => { }).catch((error) => { }) // { "method": "POST", "headers" = { "Bar": "baz", ... }, ... }
 hlp.getWithCallback('https://httpbin.org/anything', (data) => { }, (error) => { }) // same but with callback
-hlp.postWithCallback('https://httpbin.org/anything', ['foo' => 'bar'], (data) => { }, (error) => { }) // same but with callback
+hlp.postWithCallback('https://httpbin.org/anything', { foo: 'bar' }, (data) => { }, (error) => { }) // same but with callback
 
 // on resize vertically/horizontally
 window.addEventListener('resize', () => {}) // inaccurate, triggers too often (especially when scrolling on android/iphone)
