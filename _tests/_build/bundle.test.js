@@ -604,13 +604,19 @@ var hlp = function () {
             var allow_error = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
 
             setTimeout(function () {
+                if (url.indexOf('http') !== 0) {
+                    url = hlp.baseUrl() + '/' + url;
+                }
                 var xhr = new XMLHttpRequest();
                 xhr.open('GET', url, true);
                 xhr.onload = function () {
                     if (xhr.readyState != 4 || allow_error === false && xhr.status != 200 && xhr.status != 304) {
-                        error([xhr.readyState, xhr.status, xhr.statusText]);
+                        if (_this2.isJsonString(xhr.responseText)) {
+                            error(_this2.jsonStringToObject(xhr.responseText));
+                        } else {
+                            error(xhr.responseText);
+                        }
                     }
-
                     if (_this2.isJsonString(xhr.responseText)) {
                         success(_this2.jsonStringToObject(xhr.responseText));
                     } else {
@@ -637,6 +643,9 @@ var hlp = function () {
             var allow_error = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : false;
 
             setTimeout(function () {
+                if (url.indexOf('http') !== 0) {
+                    url = hlp.baseUrl() + '/' + url;
+                }
                 var xhr = new XMLHttpRequest();
                 xhr.open('POST', url, true);
                 xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
@@ -652,10 +661,10 @@ var hlp = function () {
                 }
                 xhr.onload = function () {
                     if (xhr.readyState != 4 || allow_error === false && xhr.status != 200 && xhr.status != 304) {
-                        if (_this3.isJsonString(xhr.statusText)) {
-                            error(_this3.jsonStringToObject(xhr.statusText));
+                        if (_this3.isJsonString(xhr.responseText)) {
+                            error(_this3.jsonStringToObject(xhr.responseText));
                         } else {
-                            error(xhr.statusText);
+                            error(xhr.responseText);
                         }
                     }
                     if (_this3.isJsonString(xhr.responseText)) {
@@ -1351,6 +1360,11 @@ var hlp = function () {
         key: 'urlWithHash',
         value: function urlWithHash() {
             return window.location.protocol + '//' + window.location.host + window.location.pathname + window.location.hash;
+        }
+    }, {
+        key: 'baseUrl',
+        value: function baseUrl() {
+            return window.location.protocol + '//' + window.location.host;
         }
     }, {
         key: 'waitUntil',
