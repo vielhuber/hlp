@@ -520,7 +520,7 @@ export default class hlp
         return string.split(search).join(replace);
     }
 
-    static get(url, success, error, throttle = 0, allow_error = false)
+    static getWithCallback(url, success, error, throttle = 0, allow_error = false)
     {
         setTimeout(() =>
         {
@@ -550,7 +550,7 @@ export default class hlp
         }, throttle);
     }
 
-    static post(url, data = null, success, error, headers = null, throttle = 0, allow_error = false)
+    static postWithCallback(url, data = null, success, error, headers = null, throttle = 0, allow_error = false)
     {
         setTimeout(() =>
         {
@@ -595,22 +595,21 @@ export default class hlp
         }, throttle);
     }
 
-    static getWithPromise(url, throttle = 0, allow_error = false)
+    static get(url, throttle = 0, allow_error = false)
     {
         return new Promise((resolve, reject) =>
         {
-            this.get(url, (v) => { resolve(v); }, (v) => { reject(v); }, throttle, allow_error);
+            this.getWithCallback(url, (v) => { resolve(v); }, (v) => { reject(v); }, throttle, allow_error);
         });
     }
 
-    static postWithPromise(url, data = null, headers = null, throttle = 0, allow_error = false)
+    static post(url, data = null, headers = null, throttle = 0, allow_error = false)
     {
         return new Promise((resolve, reject) =>
         {
-            this.post(url, data, (v) => { resolve(v); }, (v) => { reject(v); }, headers, throttle, allow_error);
+            this.postWithCallback(url, data, (v) => { resolve(v); }, (v) => { reject(v); }, headers, throttle, allow_error);
         });
     }
-
 
     static onResizeHorizontal(fun)
     {

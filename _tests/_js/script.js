@@ -315,12 +315,12 @@ test('htmlencode/decode', () =>
 test('get/post', async () =>
 {
     let data;
-    data = await hlp.getWithPromise('http://httpbin.org/anything');
+    data = await hlp.get('http://httpbin.org/anything');
     expect( data.method ).toBe( 'GET' );
-    data = await hlp.postWithPromise('http://httpbin.org/anything', { foo: 'bar', bar: 'baz' });
+    data = await hlp.post('http://httpbin.org/anything', { foo: 'bar', bar: 'baz' });
     expect( data.method ).toBe( 'POST' );
     expect( data.data ).toBe( hlp.jsonObjectToString({ foo: 'bar', bar: 'baz' }) );
-    data = await hlp.postWithPromise('http://httpbin.org/anything', { foo: 'bar', bar: 'baz' }, { Bar: 'baz' });
+    data = await hlp.post('http://httpbin.org/anything', { foo: 'bar', bar: 'baz' }, { Bar: 'baz' });
     expect( data.method ).toBe( 'POST' );
     expect( data.data ).toBe( hlp.jsonObjectToString({ foo: 'bar', bar: 'baz' }) );
     expect( data.headers.Bar ).toBe( 'baz' );

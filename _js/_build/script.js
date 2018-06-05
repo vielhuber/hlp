@@ -594,8 +594,8 @@ var hlp = function () {
             return string.split(search).join(replace);
         }
     }, {
-        key: 'get',
-        value: function get(url, success, error) {
+        key: 'getWithCallback',
+        value: function getWithCallback(url, success, error) {
             var _this2 = this;
 
             var throttle = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
@@ -622,8 +622,8 @@ var hlp = function () {
             }, throttle);
         }
     }, {
-        key: 'post',
-        value: function post(url) {
+        key: 'postWithCallback',
+        value: function postWithCallback(url) {
             var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
             var success = arguments[2];
             var error = arguments[3];
@@ -669,15 +669,15 @@ var hlp = function () {
             }, throttle);
         }
     }, {
-        key: 'getWithPromise',
-        value: function getWithPromise(url) {
+        key: 'get',
+        value: function get(url) {
             var _this4 = this;
 
             var throttle = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
             var allow_error = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
             return new _promise2.default(function (resolve, reject) {
-                _this4.get(url, function (v) {
+                _this4.getWithCallback(url, function (v) {
                     resolve(v);
                 }, function (v) {
                     reject(v);
@@ -685,8 +685,8 @@ var hlp = function () {
             });
         }
     }, {
-        key: 'postWithPromise',
-        value: function postWithPromise(url) {
+        key: 'post',
+        value: function post(url) {
             var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
             var headers = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
@@ -696,7 +696,7 @@ var hlp = function () {
             var allow_error = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
 
             return new _promise2.default(function (resolve, reject) {
-                _this5.post(url, data, function (v) {
+                _this5.postWithCallback(url, data, function (v) {
                     resolve(v);
                 }, function (v) {
                     reject(v);
