@@ -1233,6 +1233,11 @@ export default class hlp
         return window.location.protocol + '//' + window.location.host + window.location.pathname + window.location.hash;
     }
 
+    static baseUrl()
+    {
+        return window.location.protocol + '//' + window.location.host;
+    }
+
     static waitUntil(selector, css_option, css_value = null)
     {
         return new Promise((resolve, reject) =>
