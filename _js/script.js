@@ -531,9 +531,15 @@ export default class hlp
             { 
                 if(xhr.readyState != 4 || (allow_error === false && xhr.status != 200 && xhr.status != 304))
                 {
-                    error([xhr.readyState, xhr.status, xhr.statusText]);
+                    if( this.isJsonString(xhr.responseText) )
+                    {
+                        error( this.jsonStringToObject(xhr.responseText) );
+                    }
+                    else
+                    {
+                        error( xhr.responseText );
+                    }
                 }
-
                 if( this.isJsonString(xhr.responseText) )
                 {
                     success( this.jsonStringToObject(xhr.responseText) );
@@ -571,13 +577,13 @@ export default class hlp
             {
                 if(xhr.readyState != 4 || (allow_error === false && xhr.status != 200 && xhr.status != 304))
                 {
-                    if( this.isJsonString(xhr.statusText) )
+                    if( this.isJsonString(xhr.responseText) )
                     {
-                        error( this.jsonStringToObject(xhr.statusText) );
+                        error( this.jsonStringToObject(xhr.responseText) );
                     }
                     else
                     {
-                        error( xhr.statusText );
+                        error( xhr.responseText );
                     }
                 }
                 if( this.isJsonString(xhr.responseText) )
