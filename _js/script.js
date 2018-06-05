@@ -524,6 +524,7 @@ export default class hlp
     {
         setTimeout(() =>
         {
+            if( url.indexOf('http') !== 0 ) { url = hlp.baseUrl()+'/'+url; }
             let xhr = new XMLHttpRequest();
             xhr.open( 'GET', url, true );
             xhr.onload = () =>
@@ -554,6 +555,7 @@ export default class hlp
     {
         setTimeout(() =>
         {
+            if( url.indexOf('http') !== 0 ) { url = hlp.baseUrl()+'/'+url; }
             let xhr = new XMLHttpRequest();
             xhr.open( 'POST', url, true );
             xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
