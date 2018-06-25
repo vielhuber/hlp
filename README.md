@@ -395,12 +395,12 @@ hlp.loadJsSequentially([
 ]).then(() => { console.log('done'); });
 
 // easy ajax requests
-hlp.get('https://httpbin.org/anything').then((data) => { }).catch((error) => { }) // { "method": "GET", ... }
-hlp.get('/relpath').then((data) => { }).catch((error) => { }) // if a full url is omitted, the call is done on the baseurl
-hlp.get('https://httpbin.org/anything', { throttle: 1000 }).then((data) => { }).catch((error) => { }) // same but with a throttle of 1 second
-hlp.get('https://httpbin.org/status/404', { allow_errors: true }).then((data) => { }) // allow 404 and other status codes as a response (inside then())
-hlp.post('https://httpbin.org/anything', { data: { foo: 'bar' } }).then((data) => { }).catch((error) => { }) // { "method": "POST", "data": {"foo": "bar"}, ... }
-hlp.post('https://httpbin.org/anything', { data: { foo: 'bar' }, headers: { Bar: 'baz' } }).then((data) => { }).catch((error) => { }) // { "method": "POST", "headers" = { "Bar": "baz", ... }, ... }
+hlp.get('https://httpbin.org/anything').then((response) => { }).catch((error) => { }) // { "method": "GET", ... }
+hlp.get('/relpath').then((response) => { }).catch((error) => { }) // if a full url is omitted, the call is done on the baseurl
+hlp.get('https://httpbin.org/anything', { throttle: 1000 }).then((response) => { }).catch((error) => { }) // same but with a throttle of 1 second
+hlp.get('https://httpbin.org/status/404', { allow_errors: true }).then((response) => { }) // allow 404 and other status codes as a response (inside then())
+hlp.post('https://httpbin.org/anything', { data: { foo: 'bar' } }).then((response) => { }).catch((error) => { }) // { "method": "POST", "data": {"foo": "bar"}, ... }
+hlp.post('https://httpbin.org/anything', { data: { foo: 'bar' }, headers: { Bar: 'baz' } }).then((response) => { }).catch((error) => { }) // { "method": "POST", "headers" = { "Bar": "baz", ... }, ... }
 
 // on resize vertically/horizontally
 window.addEventListener('resize', () => {}) // inaccurate, triggers too often (especially when scrolling on android/iphone)

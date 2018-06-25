@@ -1755,36 +1755,36 @@ test('htmlencode/decode', function () {
 });
 
 test('get/post', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
-    var data;
+    var response;
     return _regenerator2.default.wrap(function _callee$(_context) {
         while (1) {
             switch (_context.prev = _context.next) {
                 case 0:
-                    data = void 0;
+                    response = void 0;
                     _context.next = 3;
                     return _script2.default.get('http://httpbin.org/anything');
 
                 case 3:
-                    data = _context.sent;
+                    response = _context.sent;
 
-                    expect(data.method).toBe('GET');
+                    expect(response.method).toBe('GET');
                     _context.next = 7;
                     return _script2.default.post('http://httpbin.org/anything', { data: { foo: 'bar', bar: 'baz' } });
 
                 case 7:
-                    data = _context.sent;
+                    response = _context.sent;
 
-                    expect(data.method).toBe('POST');
-                    expect(data.data).toBe(_script2.default.jsonObjectToString({ foo: 'bar', bar: 'baz' }));
+                    expect(response.method).toBe('POST');
+                    expect(response.data).toBe(_script2.default.jsonObjectToString({ foo: 'bar', bar: 'baz' }));
                     _context.next = 12;
                     return _script2.default.post('http://httpbin.org/anything', { data: { foo: 'bar', bar: 'baz' }, headers: { Bar: 'baz' } });
 
                 case 12:
-                    data = _context.sent;
+                    response = _context.sent;
 
-                    expect(data.method).toBe('POST');
-                    expect(data.data).toBe(_script2.default.jsonObjectToString({ foo: 'bar', bar: 'baz' }));
-                    expect(data.headers.Bar).toBe('baz');
+                    expect(response.method).toBe('POST');
+                    expect(response.data).toBe(_script2.default.jsonObjectToString({ foo: 'bar', bar: 'baz' }));
+                    expect(response.headers.Bar).toBe('baz');
                     _context.next = 18;
                     return _script2.default.get('https://httpbin.org/status/404', { throttle: 0, allow_errors: false }).then(function () {
                         expect(true).toBe(false);

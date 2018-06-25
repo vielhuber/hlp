@@ -314,16 +314,16 @@ test('htmlencode/decode', () =>
 
 test('get/post', async () =>
 {
-    let data;
-    data = await hlp.get('http://httpbin.org/anything');
-    expect( data.method ).toBe( 'GET' );
-    data = await hlp.post('http://httpbin.org/anything', { data: { foo: 'bar', bar: 'baz' } });
-    expect( data.method ).toBe( 'POST' );
-    expect( data.data ).toBe( hlp.jsonObjectToString({ foo: 'bar', bar: 'baz' }) );
-    data = await hlp.post('http://httpbin.org/anything', { data: { foo: 'bar', bar: 'baz' }, headers: { Bar: 'baz' } });
-    expect( data.method ).toBe( 'POST' );
-    expect( data.data ).toBe( hlp.jsonObjectToString({ foo: 'bar', bar: 'baz' }) );
-    expect( data.headers.Bar ).toBe( 'baz' );
+    let response;
+    response = await hlp.get('http://httpbin.org/anything');
+    expect( response.method ).toBe( 'GET' );
+    response = await hlp.post('http://httpbin.org/anything', { data: { foo: 'bar', bar: 'baz' } });
+    expect( response.method ).toBe( 'POST' );
+    expect( response.data ).toBe( hlp.jsonObjectToString({ foo: 'bar', bar: 'baz' }) );
+    response = await hlp.post('http://httpbin.org/anything', { data: { foo: 'bar', bar: 'baz' }, headers: { Bar: 'baz' } });
+    expect( response.method ).toBe( 'POST' );
+    expect( response.data ).toBe( hlp.jsonObjectToString({ foo: 'bar', bar: 'baz' }) );
+    expect( response.headers.Bar ).toBe( 'baz' );
     await hlp.get('https://httpbin.org/status/404', { throttle: 0, allow_errors: false }).then(() => { expect(true).toBe(false); }).catch(() => { expect(true).toBe(true); });
     await hlp.get('https://httpbin.org/status/404', { throttle: 0, allow_errors: true }).then(() => { expect(true).toBe(true); }).catch(() => { expect(true).toBe(false); });
 });
