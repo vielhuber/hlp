@@ -317,15 +317,15 @@ test('get/post', async () =>
     let data;
     data = await hlp.get('http://httpbin.org/anything');
     expect( data.method ).toBe( 'GET' );
-    data = await hlp.post('http://httpbin.org/anything', { foo: 'bar', bar: 'baz' });
+    data = await hlp.post('http://httpbin.org/anything', { data: { foo: 'bar', bar: 'baz' } });
     expect( data.method ).toBe( 'POST' );
     expect( data.data ).toBe( hlp.jsonObjectToString({ foo: 'bar', bar: 'baz' }) );
-    data = await hlp.post('http://httpbin.org/anything', { foo: 'bar', bar: 'baz' }, { Bar: 'baz' });
+    data = await hlp.post('http://httpbin.org/anything', { data: { foo: 'bar', bar: 'baz' }, headers: { Bar: 'baz' } });
     expect( data.method ).toBe( 'POST' );
     expect( data.data ).toBe( hlp.jsonObjectToString({ foo: 'bar', bar: 'baz' }) );
     expect( data.headers.Bar ).toBe( 'baz' );
-    await hlp.get('https://httpbin.org/status/404', 0, false).then(() => { expect(true).toBe(false); }).catch(() => { expect(true).toBe(true); });
-    await hlp.get('https://httpbin.org/status/404', 0, true).then(() => { expect(true).toBe(true); }).catch(() => { expect(true).toBe(false); });
+    await hlp.get('https://httpbin.org/status/404', { throttle: 0, allow_errors: false }).then(() => { expect(true).toBe(false); }).catch(() => { expect(true).toBe(true); });
+    await hlp.get('https://httpbin.org/status/404', { throttle: 0, allow_errors: true }).then(() => { expect(true).toBe(true); }).catch(() => { expect(true).toBe(false); });
 });
 
 test('uniqueArray', () =>

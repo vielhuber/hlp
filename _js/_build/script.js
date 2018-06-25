@@ -594,122 +594,82 @@ var hlp = function () {
             return string.split(search).join(replace);
         }
     }, {
-        key: 'getWithCallback',
-        value: function getWithCallback(url, success, error) {
-            var _this2 = this;
-
-            var throttle = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
-            var allow_error = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
-
-            setTimeout(function () {
-                if (url.indexOf('http') !== 0) {
-                    url = hlp.baseUrl() + '/' + url;
-                }
-                var xhr = new XMLHttpRequest();
-                xhr.open('GET', url, true);
-                xhr.onload = function () {
-                    if (xhr.readyState != 4 || allow_error === false && xhr.status != 200 && xhr.status != 304) {
-                        if (_this2.isJsonString(xhr.responseText)) {
-                            error(_this2.jsonStringToObject(xhr.responseText));
-                        } else {
-                            error(xhr.responseText);
-                        }
-                    }
-                    if (_this2.isJsonString(xhr.responseText)) {
-                        success(_this2.jsonStringToObject(xhr.responseText));
-                    } else {
-                        success(xhr.responseText);
-                    }
-                };
-                xhr.onerror = function () {
-                    error([xhr.readyState, xhr.status, xhr.statusText]);
-                };
-                xhr.send(null);
-            }, throttle);
-        }
-    }, {
-        key: 'postWithCallback',
-        value: function postWithCallback(url) {
-            var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-            var success = arguments[2];
-            var error = arguments[3];
-            var headers = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
-
-            var _this3 = this;
-
-            var throttle = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 0;
-            var allow_error = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : false;
-
-            setTimeout(function () {
-                if (url.indexOf('http') !== 0) {
-                    url = hlp.baseUrl() + '/' + url;
-                }
-                var xhr = new XMLHttpRequest();
-                xhr.open('POST', url, true);
-                xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-                xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-                if (_this3.x(headers)) {
-                    (0, _entries2.default)(headers).forEach(function (_ref10) {
-                        var _ref11 = (0, _slicedToArray3.default)(_ref10, 2),
-                            headers__key = _ref11[0],
-                            headers__value = _ref11[1];
-
-                        xhr.setRequestHeader(headers__key, headers__value);
-                    });
-                }
-                xhr.onload = function () {
-                    if (xhr.readyState != 4 || allow_error === false && xhr.status != 200 && xhr.status != 304) {
-                        if (_this3.isJsonString(xhr.responseText)) {
-                            error(_this3.jsonStringToObject(xhr.responseText));
-                        } else {
-                            error(xhr.responseText);
-                        }
-                    }
-                    if (_this3.isJsonString(xhr.responseText)) {
-                        success(_this3.jsonStringToObject(xhr.responseText));
-                    } else {
-                        success(xhr.responseText);
-                    }
-                };
-                xhr.onerror = function () {
-                    error([xhr.readyState, xhr.status, xhr.statusText]);
-                };
-                xhr.send((0, _stringify2.default)(data));
-            }, throttle);
-        }
-    }, {
         key: 'get',
         value: function get(url) {
-            var _this4 = this;
+            var args = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
-            var throttle = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-            var allow_error = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-
-            return new _promise2.default(function (resolve, reject) {
-                _this4.getWithCallback(url, function (v) {
-                    resolve(v);
-                }, function (v) {
-                    reject(v);
-                }, throttle, allow_error);
-            });
+            return this.call('GET', url, args);
         }
     }, {
         key: 'post',
         value: function post(url) {
-            var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-            var headers = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+            var args = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
-            var _this5 = this;
+            return this.call('POST', url, args);
+        }
+    }, {
+        key: 'call',
+        value: function call(method, url) {
+            var _this2 = this;
 
-            var throttle = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
-            var allow_error = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
+            var args = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
+            if (args === null) {
+                args = {};
+            }
+            if (!('data' in args)) {
+                args.data = {};
+            }
+            if (!('headers' in args)) {
+                args.headers = null;
+            }
+            if (!('throttle' in args)) {
+                args.throttle = 0;
+            }
             return new _promise2.default(function (resolve, reject) {
-                _this5.postWithCallback(url, data, function (v) {
-                    resolve(v);
-                }, function (v) {
-                    reject(v);
-                }, headers, throttle, allow_error);
+                setTimeout(function () {
+                    if (url.indexOf('http') !== 0) {
+                        url = hlp.baseUrl() + '/' + url;
+                    }
+                    var xhr = new XMLHttpRequest();
+                    xhr.open(method, url, true);
+                    if (method === 'POST') {
+                        xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+                        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+                    }
+                    if (_this2.x(args.headers)) {
+                        (0, _entries2.default)(args.headers).forEach(function (_ref10) {
+                            var _ref11 = (0, _slicedToArray3.default)(_ref10, 2),
+                                headers__key = _ref11[0],
+                                headers__value = _ref11[1];
+
+                            xhr.setRequestHeader(headers__key, headers__value);
+                        });
+                    }
+                    xhr.onload = function () {
+                        if (xhr.readyState != 4 || args.allow_errors !== true && xhr.status != 200 && xhr.status != 304) {
+                            if (_this2.isJsonString(xhr.responseText)) {
+                                reject(_this2.jsonStringToObject(xhr.responseText));
+                            } else {
+                                reject(xhr.responseText);
+                            }
+                        }
+                        if (_this2.isJsonString(xhr.responseText)) {
+                            resolve(_this2.jsonStringToObject(xhr.responseText));
+                        } else {
+                            resolve(xhr.responseText);
+                        }
+                    };
+                    xhr.onerror = function () {
+                        reject([xhr.readyState, xhr.status, xhr.statusText]);
+                    };
+                    if (method === 'GET') {
+                        xhr.send(null);
+                    }
+                    if (method === 'POST') {
+                        xhr.send((0, _stringify2.default)(args.data));
+                    }
+                }, args.throttle);
             });
         }
     }, {
@@ -1134,7 +1094,7 @@ var hlp = function () {
                 }, _callee, this, [[4, 15, 19, 27], [20,, 22, 26]]);
             }));
 
-            function loadJsSequentially(_x23) {
+            function loadJsSequentially(_x14) {
                 return _ref12.apply(this, arguments);
             }
 
@@ -1148,7 +1108,7 @@ var hlp = function () {
     }, {
         key: 'textareaAutoHeight',
         value: function textareaAutoHeight() {
-            var _this6 = this;
+            var _this3 = this;
 
             var selector = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'textarea';
 
@@ -1156,25 +1116,25 @@ var hlp = function () {
             this.textareaSetHeights(selector);
 
             this.onResizeHorizontal(function () {
-                _this6.textareaSetHeights(selector);
+                _this3.textareaSetHeights(selector);
             });
 
             [].forEach.call(document.querySelectorAll(selector), function (el) {
                 el.addEventListener('keyup', function (e) {
-                    _this6.textareaSetHeight(e.target);
+                    _this3.textareaSetHeight(e.target);
                 });
             });
         }
     }, {
         key: 'textareaSetHeights',
         value: function textareaSetHeights() {
-            var _this7 = this;
+            var _this4 = this;
 
             var selector = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'textarea';
 
             [].forEach.call(document.querySelectorAll(selector), function (el) {
-                if (_this7.isVisible(el)) {
-                    _this7.textareaSetHeight(el);
+                if (_this4.isVisible(el)) {
+                    _this4.textareaSetHeight(el);
                 }
             });
         }

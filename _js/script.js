@@ -520,102 +520,76 @@ export default class hlp
         return string.split(search).join(replace);
     }
 
-    static getWithCallback(url, success, error, throttle = 0, allow_error = false)
+    static get(url, args = null)
     {
-        setTimeout(() =>
+        return this.call('GET', url, args);
+    }
+
+    static post(url, args = null)
+    {
+        return this.call('POST', url, args);
+    }
+
+    static call(method, url, args = null)
+    {
+        if( args === null ) { args = {}; }
+        if(!('data' in args)) { args.data = {}; }
+        if(!('headers' in args)) { args.headers = null; }
+        if(!('throttle' in args)) { args.throttle = 0; }
+        return new Promise((resolve, reject) =>
         {
-            if( url.indexOf('http') !== 0 ) { url = hlp.baseUrl()+'/'+url; }
-            let xhr = new XMLHttpRequest();
-            xhr.open( 'GET', url, true );
-            xhr.onload = () =>
-            { 
-                if(xhr.readyState != 4 || (allow_error === false && xhr.status != 200 && xhr.status != 304))
+            setTimeout(() =>
+            {
+                if( url.indexOf('http') !== 0 ) { url = hlp.baseUrl()+'/'+url; }
+                let xhr = new XMLHttpRequest();
+                xhr.open( method, url, true );
+                if( method === 'POST' )
                 {
+                    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+                    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+                }
+                if( this.x(args.headers) )
+                {
+                    Object.entries(args.headers).forEach(([headers__key, headers__value]) =>
+                    {
+                        xhr.setRequestHeader(headers__key, headers__value);
+                    });
+                }
+                xhr.onload = () =>
+                {
+                    if(xhr.readyState != 4 || (args.allow_errors !== true && xhr.status != 200 && xhr.status != 304))
+                    {
+                        if( this.isJsonString(xhr.responseText) )
+                        {
+                            reject( this.jsonStringToObject(xhr.responseText) );
+                        }
+                        else
+                        {
+                            reject( xhr.responseText );
+                        }
+                    }
                     if( this.isJsonString(xhr.responseText) )
                     {
-                        error( this.jsonStringToObject(xhr.responseText) );
+                        resolve( this.jsonStringToObject(xhr.responseText) );
                     }
                     else
                     {
-                        error( xhr.responseText );
+                        resolve( xhr.responseText );
                     }
                 }
-                if( this.isJsonString(xhr.responseText) )
+                xhr.onerror = () =>
+                {  
+                    reject([xhr.readyState, xhr.status, xhr.statusText]);
+                }      
+                if( method === 'GET' )
                 {
-                    success( this.jsonStringToObject(xhr.responseText) );
+                    xhr.send( null );
                 }
-                else
+                if( method === 'POST' )
                 {
-                    success( xhr.responseText );
-                }
-            }
-            xhr.onerror = () =>
-            {  
-                error([xhr.readyState, xhr.status, xhr.statusText]);
-            }            
-            xhr.send( null );
-        }, throttle);
-    }
-
-    static postWithCallback(url, data = null, success, error, headers = null, throttle = 0, allow_error = false)
-    {
-        setTimeout(() =>
-        {
-            if( url.indexOf('http') !== 0 ) { url = hlp.baseUrl()+'/'+url; }
-            let xhr = new XMLHttpRequest();
-            xhr.open( 'POST', url, true );
-            xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-            if( this.x(headers) )
-            {
-                Object.entries(headers).forEach(([headers__key, headers__value]) =>
-                {
-                    xhr.setRequestHeader(headers__key, headers__value);
-                });
-            }
-            xhr.onload = () =>
-            {
-                if(xhr.readyState != 4 || (allow_error === false && xhr.status != 200 && xhr.status != 304))
-                {
-                    if( this.isJsonString(xhr.responseText) )
-                    {
-                        error( this.jsonStringToObject(xhr.responseText) );
-                    }
-                    else
-                    {
-                        error( xhr.responseText );
-                    }
-                }
-                if( this.isJsonString(xhr.responseText) )
-                {
-                    success( this.jsonStringToObject(xhr.responseText) );
-                }
-                else
-                {
-                    success( xhr.responseText );
-                }
-            }
-            xhr.onerror = () =>
-            {  
-                error([xhr.readyState, xhr.status, xhr.statusText]);
-            }            
-            xhr.send( JSON.stringify(data) );
-        }, throttle);
-    }
-
-    static get(url, throttle = 0, allow_error = false)
-    {
-        return new Promise((resolve, reject) =>
-        {
-            this.getWithCallback(url, (v) => { resolve(v); }, (v) => { reject(v); }, throttle, allow_error);
-        });
-    }
-
-    static post(url, data = null, headers = null, throttle = 0, allow_error = false)
-    {
-        return new Promise((resolve, reject) =>
-        {
-            this.postWithCallback(url, data, (v) => { resolve(v); }, (v) => { reject(v); }, headers, throttle, allow_error);
+                    xhr.send( JSON.stringify(args.data) );
+                }      
+            }, args.throttle );
         });
     }
 
