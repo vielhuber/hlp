@@ -37,7 +37,7 @@ yarn init -y && yarn add hlp
 
 now embed it directly:
 ```html
-<script src="hlp.min.js"></script> 
+<script src="hlp.js"></script> 
 ```
 
 or use it as a module:
