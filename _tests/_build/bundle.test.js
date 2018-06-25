@@ -1823,8 +1823,22 @@ test('get/post', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.def
                     expect(data.method).toBe('POST');
                     expect(data.data).toBe(_script2.default.jsonObjectToString({ foo: 'bar', bar: 'baz' }));
                     expect(data.headers.Bar).toBe('baz');
+                    _context.next = 18;
+                    return _script2.default.get('https://httpbin.org/status/404', 0, false).then(function () {
+                        expect(true).toBe(false);
+                    }).catch(function () {
+                        expect(true).toBe(true);
+                    });
 
-                case 16:
+                case 18:
+                    _context.next = 20;
+                    return _script2.default.get('https://httpbin.org/status/404', 0, true).then(function () {
+                        expect(true).toBe(true);
+                    }).catch(function () {
+                        expect(true).toBe(false);
+                    });
+
+                case 20:
                 case 'end':
                     return _context.stop();
             }
