@@ -346,7 +346,7 @@ hlp.offsetBottom( document.querySelector('.foo') )
 // polyfills for ie11
 hlp.closest( document.querySelector('.children'), '.parent' )
 hlp.matches( document.querySelector('.parent'), '.parent' ) // true
-hlp.remove( document.querySelector('.foo') );
+hlp.remove( document.querySelector('.foo') ); // also works if .foo does not exist
 
 // on delegate
 hlp.on('click', '.selector', (e, el) => { });

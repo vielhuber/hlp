@@ -1331,7 +1331,9 @@ var hlp = function () {
     }, {
         key: 'remove',
         value: function remove(el) {
-            el.parentNode.removeChild(el);
+            if (el !== null) {
+                el.parentNode.removeChild(el);
+            }
         }
     }, {
         key: 'on',
