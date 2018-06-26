@@ -169,6 +169,19 @@ test('random', () => {
     expect( (hlp.random_string()).length ).toBe( 8 );
     expect( (hlp.random_string(10)).length ).toBe( 10 );
     expect( (hlp.random_string(16, 'idkfa')).length ).toBe( 16 );
+    expect( hlp.random_int(1,1) ).toBe( 1 );
+    expect( hlp.random_int(42,42) ).toBe( 42 );
+    expect( hlp.random_int(42,42) ).toBe( 42 );
+    expect( hlp.isInteger(hlp.random_int()) ).toBe( true );
+    expect( hlp.isInteger(hlp.random_int(42)) ).toBe( true );
+    expect( hlp.isInteger(hlp.random_int(7,42)) ).toBe( true );
+});
+
+test('isInteger', () =>
+{
+    expect( hlp.isInteger(42) ).toBe( true );
+    expect( hlp.isInteger('foo') ).toBe( false );
+    expect( hlp.isInteger('42') ).toBe( false );
 });
 
 test('capitalize', () =>

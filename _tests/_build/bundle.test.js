@@ -318,6 +318,27 @@ var hlp = function () {
             return random_string;
         }
     }, {
+        key: 'isInteger',
+        value: function isInteger(val) {
+            return val === parseInt(val, 10);
+        }
+    }, {
+        key: 'random_int',
+        value: function random_int() {
+            var min = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+            var max = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 99999;
+
+            if (!this.isInteger(min) || !this.isInteger(max)) {
+                return false;
+            }
+            if (min > max) {
+                var _ref7 = [max, min];
+                min = _ref7[0];
+                max = _ref7[1];
+            }
+            return ~~(Math.random() * (max - min + 1)) + min;
+        }
+    }, {
         key: 'capitalize',
         value: function capitalize() {
             var string = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
@@ -537,10 +558,10 @@ var hlp = function () {
             if (hash.has(obj)) return hash.get(obj); // cyclic reference
             var result = obj instanceof Date ? new Date(obj) : obj instanceof RegExp ? new RegExp(obj.source, obj.flags) : obj.constructor ? new obj.constructor() : (0, _create2.default)(null);
             hash.set(obj, result);
-            if (obj instanceof _map2.default) (0, _from2.default)(obj, function (_ref7) {
-                var _ref8 = (0, _slicedToArray3.default)(_ref7, 2),
-                    key = _ref8[0],
-                    val = _ref8[1];
+            if (obj instanceof _map2.default) (0, _from2.default)(obj, function (_ref8) {
+                var _ref9 = (0, _slicedToArray3.default)(_ref8, 2),
+                    key = _ref9[0],
+                    val = _ref9[1];
 
                 return result.set(key, hlp.deepCopy(val, hash));
             });
@@ -643,10 +664,10 @@ var hlp = function () {
                         xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
                     }
                     if (_this2.x(args.headers)) {
-                        (0, _entries2.default)(args.headers).forEach(function (_ref10) {
-                            var _ref11 = (0, _slicedToArray3.default)(_ref10, 2),
-                                headers__key = _ref11[0],
-                                headers__value = _ref11[1];
+                        (0, _entries2.default)(args.headers).forEach(function (_ref11) {
+                            var _ref12 = (0, _slicedToArray3.default)(_ref11, 2),
+                                headers__key = _ref12[0],
+                                headers__value = _ref12[1];
 
                             xhr.setRequestHeader(headers__key, headers__value);
                         });
@@ -1023,7 +1044,7 @@ var hlp = function () {
     }, {
         key: 'loadJsSequentially',
         value: function () {
-            var _ref12 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(urls) {
+            var _ref13 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(urls) {
                 var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, urls__value;
 
                 return _regenerator2.default.wrap(function _callee$(_context) {
@@ -1099,8 +1120,8 @@ var hlp = function () {
                 }, _callee, this, [[4, 15, 19, 27], [20,, 22, 26]]);
             }));
 
-            function loadJsSequentially(_x14) {
-                return _ref12.apply(this, arguments);
+            function loadJsSequentially(_x16) {
+                return _ref13.apply(this, arguments);
             }
 
             return loadJsSequentially;
@@ -1626,6 +1647,18 @@ test('random', function () {
     expect(_script2.default.random_string().length).toBe(8);
     expect(_script2.default.random_string(10).length).toBe(10);
     expect(_script2.default.random_string(16, 'idkfa').length).toBe(16);
+    expect(_script2.default.random_int(1, 1)).toBe(1);
+    expect(_script2.default.random_int(42, 42)).toBe(42);
+    expect(_script2.default.random_int(42, 42)).toBe(42);
+    expect(_script2.default.isInteger(_script2.default.random_int())).toBe(true);
+    expect(_script2.default.isInteger(_script2.default.random_int(42))).toBe(true);
+    expect(_script2.default.isInteger(_script2.default.random_int(7, 42))).toBe(true);
+});
+
+test('isInteger', function () {
+    expect(_script2.default.isInteger(42)).toBe(true);
+    expect(_script2.default.isInteger('foo')).toBe(false);
+    expect(_script2.default.isInteger('42')).toBe(false);
 });
 
 test('capitalize', function () {

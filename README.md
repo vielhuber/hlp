@@ -275,6 +275,15 @@ hlp.random_string() // edPhi34d
 hlp.random_string(10) // abCa321aC6
 hlp.random_string(16, 'idkfa') // idifafafifaifafk
 
+// generate a random integer
+hlp.random_int() // 42
+hlp.random_int(7,42) // 17
+
+// check if variable is integer
+hlp.isInteger(42) // true
+hlp.isInteger('foo') // false
+hlp.isInteger('42') // false
+
 // json parsing
 hlp.jsonStringToObject('["foo","bar","baz"]') // ['foo','bar','baz']
 hlp.jsonStringToObject('["foo","bar","baz",]') // null

@@ -201,6 +201,18 @@ export default class hlp
         return random_string;
     }
 
+    static isInteger(val)
+    {
+        return (val === parseInt(val, 10));
+    }
+
+    static random_int(min = 0, max = 99999)
+    {
+        if( !this.isInteger(min) || !this.isInteger(max) ) { return false; }
+        if( min > max ) { [min, max] = [max, min]; }
+        return ~~(Math.random()*(max-min+1))+min;
+    }
+
     static capitalize(string = null)
     {
         if( string === null )
