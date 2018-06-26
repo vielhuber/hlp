@@ -536,6 +536,7 @@ export default class hlp
         if(!('data' in args)) { args.data = {}; }
         if(!('headers' in args)) { args.headers = null; }
         if(!('throttle' in args)) { args.throttle = 0; }
+        if(!('allow_errors' in args)) { args.allow_errors = true; }
         return new Promise((resolve, reject) =>
         {
             setTimeout(() =>

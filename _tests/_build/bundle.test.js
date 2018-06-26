@@ -628,6 +628,9 @@ var hlp = function () {
             if (!('throttle' in args)) {
                 args.throttle = 0;
             }
+            if (!('allow_errors' in args)) {
+                args.allow_errors = true;
+            }
             return new _promise2.default(function (resolve, reject) {
                 setTimeout(function () {
                     if (url.indexOf('http') !== 0) {
@@ -1801,6 +1804,14 @@ test('get/post', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.def
                     });
 
                 case 20:
+                    _context.next = 22;
+                    return _script2.default.get('https://httpbin.org/status/404', { throttle: 0 }).then(function () {
+                        expect(true).toBe(true);
+                    }).catch(function () {
+                        expect(true).toBe(false);
+                    });
+
+                case 22:
                 case 'end':
                     return _context.stop();
             }

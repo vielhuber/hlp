@@ -394,11 +394,11 @@ hlp.loadJsSequentially([
     'https://www.tld.com/3.js'
 ]).then(() => { console.log('done'); });
 
-// easy ajax requests
+// easy ajax requests (without the fetch api; also works in ie11)
 hlp.get('https://httpbin.org/anything').then((response) => { }).catch((error) => { }) // { "method": "GET", ... }
 hlp.get('/relpath').then((response) => { }).catch((error) => { }) // if a full url is omitted, the call is done on the baseurl
 hlp.get('https://httpbin.org/anything', { throttle: 1000 }).then((response) => { }).catch((error) => { }) // same but with a throttle of 1 second
-hlp.get('https://httpbin.org/status/404', { allow_errors: true }).then((response) => { }) // allow 404 and other status codes as a response (inside then())
+hlp.get('https://httpbin.org/status/404', { allow_errors: false }).then((response) => { }) // deny 404 and other status codes as a response (inside catch())
 hlp.post('https://httpbin.org/anything', { data: { foo: 'bar' } }).then((response) => { }).catch((error) => { }) // { "method": "POST", "data": {"foo": "bar"}, ... }
 hlp.post('https://httpbin.org/anything', { data: { foo: 'bar' }, headers: { Bar: 'baz' } }).then((response) => { }).catch((error) => { }) // { "method": "POST", "headers" = { "Bar": "baz", ... }, ... }
 

@@ -326,6 +326,7 @@ test('get/post', async () =>
     expect( response.headers.Bar ).toBe( 'baz' );
     await hlp.get('https://httpbin.org/status/404', { throttle: 0, allow_errors: false }).then(() => { expect(true).toBe(false); }).catch(() => { expect(true).toBe(true); });
     await hlp.get('https://httpbin.org/status/404', { throttle: 0, allow_errors: true }).then(() => { expect(true).toBe(true); }).catch(() => { expect(true).toBe(false); });
+    await hlp.get('https://httpbin.org/status/404', { throttle: 0 }).then(() => { expect(true).toBe(true); }).catch(() => { expect(true).toBe(false); });
 });
 
 test('uniqueArray', () =>

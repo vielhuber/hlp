@@ -626,6 +626,9 @@ var hlp = function () {
             if (!('throttle' in args)) {
                 args.throttle = 0;
             }
+            if (!('allow_errors' in args)) {
+                args.allow_errors = true;
+            }
             return new _promise2.default(function (resolve, reject) {
                 setTimeout(function () {
                     if (url.indexOf('http') !== 0) {
