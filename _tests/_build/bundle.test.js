@@ -1444,13 +1444,15 @@ var hlp = function () {
 
 
 exports.default = hlp;
-window.hlp = {};
-(0, _getOwnPropertyNames2.default)(hlp).forEach(function (value, key) {
-    if (value === 'length' || value === 'name' || value === 'prototype' || value === 'caller' || value === 'arguments') {
-        return;
-    }
-    window.hlp[value] = hlp[value];
-});
+if (typeof window !== 'undefined') {
+    window.hlp = {};
+    (0, _getOwnPropertyNames2.default)(hlp).forEach(function (value, key) {
+        if (value === 'length' || value === 'name' || value === 'prototype' || value === 'caller' || value === 'arguments') {
+            return;
+        }
+        window.hlp[value] = hlp[value];
+    });
+}
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"babel-runtime/core-js/array/from":3,"babel-runtime/core-js/get-iterator":4,"babel-runtime/core-js/json/stringify":6,"babel-runtime/core-js/map":7,"babel-runtime/core-js/object/assign":8,"babel-runtime/core-js/object/create":9,"babel-runtime/core-js/object/entries":11,"babel-runtime/core-js/object/get-own-property-names":12,"babel-runtime/core-js/object/keys":13,"babel-runtime/core-js/object/values":14,"babel-runtime/core-js/promise":15,"babel-runtime/core-js/weak-map":18,"babel-runtime/helpers/asyncToGenerator":19,"babel-runtime/helpers/classCallCheck":20,"babel-runtime/helpers/createClass":21,"babel-runtime/helpers/defineProperty":22,"babel-runtime/helpers/slicedToArray":23,"babel-runtime/helpers/toConsumableArray":24,"babel-runtime/helpers/typeof":25,"babel-runtime/regenerator":26}],2:[function(require,module,exports){
