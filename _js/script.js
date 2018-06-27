@@ -1342,9 +1342,12 @@ export default class hlp
 }
 
 /* expose all functions to window */
-window.hlp = {};
-Object.getOwnPropertyNames(hlp).forEach((value, key) =>
+if(typeof window !== 'undefined')
 {
-    if( value === 'length' || value === 'name' || value === 'prototype' || value === 'caller' || value === 'arguments' ) { return; }
-    window.hlp[value] = hlp[value];
-});
+    window.hlp = {};
+    Object.getOwnPropertyNames(hlp).forEach((value, key) =>
+    {
+        if( value === 'length' || value === 'name' || value === 'prototype' || value === 'caller' || value === 'arguments' ) { return; }
+        window.hlp[value] = hlp[value];
+    });
+}
