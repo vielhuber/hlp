@@ -451,3 +451,13 @@ test('pushId', () =>
     expect( hlp.pushId().length > 3 ).toEqual( true );
     expect( hlp.pushId().length > 3 ).toEqual( true );
 });
+
+test('getProp', () =>
+{
+    expect( hlp.getProp({ a: 1, b: { a: 3, b: 3 }, c: { a: { a: 7 } }}, 'a') ).toEqual( 1 );
+    expect( hlp.getProp({ a: 1, b: { a: 3, b: 3 }, c: { a: { a: 7 } }}, 'b.a') ).toEqual( 3 );
+    expect( hlp.getProp({ a: 1, b: { a: 3, b: 3 }, c: { a: { a: 7 } }}, 'b.b') ).toEqual( 3 );
+    expect( hlp.getProp({ a: 1, b: { a: 3, b: 3 }, c: { a: { a: 7 } }}, 'b') ).toEqual({ a: 3, b: 3 });
+    expect( hlp.getProp({ a: 1, b: { a: 3, b: 3 }, c: { a: { a: 7 } }}, 'c.a.a') ).toEqual( 7 );
+    expect( hlp.getProp({ a: 1, b: { a: 3, b: 3 }, c: { a: { a: 7 } }}, 'd.e.f') ).toEqual( undefined );
+});

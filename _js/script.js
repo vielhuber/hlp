@@ -1338,6 +1338,12 @@ export default class hlp
         return id;
     }
 
+    static getProp(obj, desc)
+    {
+        let arr = desc.split('.');
+        while(arr.length && (obj = obj[arr.shift()]));
+        return obj;
+    }
 
 }
 

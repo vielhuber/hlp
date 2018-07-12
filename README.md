@@ -305,6 +305,13 @@ hlp.fmath('/', 0.39, 100, 12) // 0.0039 (precision of 12)
 // create lexicographically ordered string ids like in firebase 
 hlp.pushId() // -LDiDooGs9PyGHmghk5i
 hlp.pushId() // -LDiDooGs9PyGHmghk5j
+
+// access object properties with dot notation
+hlp.getProp({
+    a: 1,
+    b: { a: 3, b: 3 },
+    c: { a: { a: 7 } }
+}, 'c.a.a') // 7
 ```
 
 check out also the following helpers for the frontend:

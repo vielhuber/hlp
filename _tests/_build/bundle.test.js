@@ -1436,6 +1436,13 @@ var hlp = function () {
             }
             return id;
         }
+    }, {
+        key: 'getProp',
+        value: function getProp(obj, desc) {
+            var arr = desc.split('.');
+            while (arr.length && (obj = obj[arr.shift()])) {}
+            return obj;
+        }
     }]);
     return hlp;
 }();
@@ -1950,6 +1957,15 @@ test('fmath', function () {
 test('pushId', function () {
     expect(_script2.default.pushId().length > 3).toEqual(true);
     expect(_script2.default.pushId().length > 3).toEqual(true);
+});
+
+test('getProp', function () {
+    expect(_script2.default.getProp({ a: 1, b: { a: 3, b: 3 }, c: { a: { a: 7 } } }, 'a')).toEqual(1);
+    expect(_script2.default.getProp({ a: 1, b: { a: 3, b: 3 }, c: { a: { a: 7 } } }, 'b.a')).toEqual(3);
+    expect(_script2.default.getProp({ a: 1, b: { a: 3, b: 3 }, c: { a: { a: 7 } } }, 'b.b')).toEqual(3);
+    expect(_script2.default.getProp({ a: 1, b: { a: 3, b: 3 }, c: { a: { a: 7 } } }, 'b')).toEqual({ a: 3, b: 3 });
+    expect(_script2.default.getProp({ a: 1, b: { a: 3, b: 3 }, c: { a: { a: 7 } } }, 'c.a.a')).toEqual(7);
+    expect(_script2.default.getProp({ a: 1, b: { a: 3, b: 3 }, c: { a: { a: 7 } } }, 'd.e.f')).toEqual(undefined);
 });
 
 },{"./../../_js/script":1,"babel-runtime/helpers/asyncToGenerator":19,"babel-runtime/regenerator":26}],3:[function(require,module,exports){

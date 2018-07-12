@@ -1434,6 +1434,13 @@ var hlp = function () {
             }
             return id;
         }
+    }, {
+        key: 'getProp',
+        value: function getProp(obj, desc) {
+            var arr = desc.split('.');
+            while (arr.length && (obj = obj[arr.shift()])) {}
+            return obj;
+        }
     }]);
     return hlp;
 }();
