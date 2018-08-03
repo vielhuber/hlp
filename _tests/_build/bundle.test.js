@@ -604,12 +604,17 @@ var hlp = function () {
             }
         }
     }, {
-        key: 'guid',
-        value: function guid() {
+        key: 'uuid',
+        value: function uuid() {
             function s4() {
                 return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
             }
             return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+        }
+    }, {
+        key: 'guid',
+        value: function guid() {
+            return this.uuid();
         }
     }, {
         key: 'replaceAll',
@@ -1757,15 +1762,15 @@ test('isDate', function () {
     expect(_script2.default.isDate('&nbsp; 1')).toBe(false);
 });
 
-test('guid', function () {
-    expect(_script2.default.guid().split('-').length).toBe(5);
-    expect(_script2.default.guid().split('-').join('').length).toBe(32);
-    expect(_script2.default.guid().length).toBe(36);
-    expect(_script2.default.guid().substring(0, 8).indexOf('-')).toBe(-1);
-    expect(_script2.default.guid().substring(9, 13).indexOf('-')).toBe(-1);
-    expect(_script2.default.guid().substring(14, 18).indexOf('-')).toBe(-1);
-    expect(_script2.default.guid().substring(19, 23).indexOf('-')).toBe(-1);
-    expect(_script2.default.guid().substring(24, 32).indexOf('-')).toBe(-1);
+test('uuid', function () {
+    expect(_script2.default.uuid().split('-').length).toBe(5);
+    expect(_script2.default.uuid().split('-').join('').length).toBe(32);
+    expect(_script2.default.uuid().length).toBe(36);
+    expect(_script2.default.uuid().substring(0, 8).indexOf('-')).toBe(-1);
+    expect(_script2.default.uuid().substring(9, 13).indexOf('-')).toBe(-1);
+    expect(_script2.default.uuid().substring(14, 18).indexOf('-')).toBe(-1);
+    expect(_script2.default.uuid().substring(19, 23).indexOf('-')).toBe(-1);
+    expect(_script2.default.uuid().substring(24, 32).indexOf('-')).toBe(-1);
 });
 
 test('replaceAll', function () {

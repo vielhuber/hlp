@@ -279,16 +279,16 @@ test('isDate', () =>
     expect( hlp.isDate('&nbsp; 1') ).toBe(false);
 });
 
-test('guid', () =>
+test('uuid', () =>
 {
-    expect( hlp.guid().split('-').length ).toBe(5);
-    expect( hlp.guid().split('-').join('').length ).toBe(32);
-    expect( hlp.guid().length ).toBe(36);
-    expect( hlp.guid().substring(0,8).indexOf('-') ).toBe(-1);
-    expect( hlp.guid().substring(9,13).indexOf('-') ).toBe(-1);
-    expect( hlp.guid().substring(14,18).indexOf('-') ).toBe(-1);
-    expect( hlp.guid().substring(19,23).indexOf('-') ).toBe(-1);
-    expect( hlp.guid().substring(24,32).indexOf('-') ).toBe(-1);
+    expect( hlp.uuid().split('-').length ).toBe(5);
+    expect( hlp.uuid().split('-').join('').length ).toBe(32);
+    expect( hlp.uuid().length ).toBe(36);
+    expect( hlp.uuid().substring(0,8).indexOf('-') ).toBe(-1);
+    expect( hlp.uuid().substring(9,13).indexOf('-') ).toBe(-1);
+    expect( hlp.uuid().substring(14,18).indexOf('-') ).toBe(-1);
+    expect( hlp.uuid().substring(19,23).indexOf('-') ).toBe(-1);
+    expect( hlp.uuid().substring(24,32).indexOf('-') ).toBe(-1);
 });
 
 test('replaceAll', () =>

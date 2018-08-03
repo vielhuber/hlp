@@ -231,9 +231,9 @@ hlp.deepCopy(new Date())
 hlp.deepCopy(new Date('2018-01-01'))
 hlp.deepCopy(new RegExp('ab+c', 'i'))
 
-// create guid
-hlp.guid() // e86e393c-9788-857b-27c2-f80c8ca1a302
-hlp.guid() // 8b25a8f8-9525-bd73-4679-3539321db93b
+// generate uuid/guid v4
+hlp.uuid() // e86e393c-9788-857b-27c2-f80c8ca1a302
+hlp.uuid() // 8b25a8f8-9525-bd73-4679-3539321db93b
 
 // replace all occurences
 hlp.replaceAll('foo bar baz', 'a', 'b') // 'foo bbr bbz'
