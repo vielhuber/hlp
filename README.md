@@ -291,6 +291,14 @@ hlp.jsonObjectToString(['foo','bar','baz']) // '["foo","bar","baz"]'
 hlp.isJsonString('["foo","bar","baz",]') // false
 hlp.isJsonString('["foo","bar","baz"]') // true
 
+// fun with blob
+hlp.stringtoblob(string)
+hlp.stringtoblob(string, 'image/png')
+hlp.blobtostring(blob).then((string) => { })
+hlp.blobtobase64(blob).then((base64) => { })
+hlp.base64toblob(base64)
+hlp.base64toblob(base64, 'image/png')
+
 // html entity encode/decode
 hlp.htmlEncode('&<>"`\'') // &amp;&lt;&gt;&quot;&#96;&#x27;
 hlp.htmlDecode('&amp;&lt;&gt;&quot;&#96;&#x27;') // &<>"`'

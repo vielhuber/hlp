@@ -461,3 +461,27 @@ test('getProp', () =>
     expect( hlp.getProp({ a: 1, b: { a: 3, b: 3 }, c: { a: { a: 7 } }}, 'c.a.a') ).toEqual( 7 );
     expect( hlp.getProp({ a: 1, b: { a: 3, b: 3 }, c: { a: { a: 7 } }}, 'd.e.f') ).toEqual( undefined );
 });
+
+test('blobs', async () => {
+    let string, blob, base64, response;
+
+    string = await hlp.get('http://httpbin.org/image/png');
+
+    blob = hlp.stringtoblob(string);
+    response = await hlp.blobtostring(blob);
+    expect(response).toEqual(string);
+
+    blob = hlp.stringtoblob(string, 'image/png');
+    response = await hlp.blobtostring(blob);
+    expect(response).toEqual(string);
+
+    blob = hlp.stringtoblob(string);
+    response = await hlp.blobtobase64(blob);
+    response = hlp.base64toblob(response);
+    expect(response).toEqual(blob);
+
+    blob = hlp.stringtoblob(string, 'image/png');
+    response = await hlp.blobtobase64(blob);
+    response = hlp.base64toblob(response, 'image/png');
+    expect(response).toEqual(blob);
+});

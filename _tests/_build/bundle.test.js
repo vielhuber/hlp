@@ -1448,6 +1448,60 @@ var hlp = function () {
             while (arr.length && (obj = obj[arr.shift()])) {}
             return obj;
         }
+    }, {
+        key: 'base64toblob',
+        value: function base64toblob(base64) {
+            var contentType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+
+            var sliceSize = 512,
+                byteCharacters = atob(base64),
+                byteArrays = [];
+
+            for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+                var slice = byteCharacters.slice(offset, offset + sliceSize),
+                    byteNumbers = new Array(slice.length);
+                for (var i = 0; i < slice.length; i++) {
+                    byteNumbers[i] = slice.charCodeAt(i);
+                }
+                var byteArray = new Uint8Array(byteNumbers);
+                byteArrays.push(byteArray);
+            }
+
+            var blob = new Blob(byteArrays, { type: contentType });
+            return blob;
+        }
+    }, {
+        key: 'blobtobase64',
+        value: function blobtobase64(blob) {
+            return new _promise2.default(function (resolve) {
+                var reader = new FileReader();
+                reader.onload = function () {
+                    var dataUrl = reader.result;
+                    var base64 = dataUrl.split(',')[1];
+                    resolve(base64);
+                };
+                reader.readAsDataURL(blob);
+            });
+        }
+    }, {
+        key: 'stringtoblob',
+        value: function stringtoblob(string) {
+            var contentType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+
+            var blob = new Blob([string], { type: contentType });
+            return blob;
+        }
+    }, {
+        key: 'blobtostring',
+        value: function blobtostring(blob) {
+            return new _promise2.default(function (resolve) {
+                var reader = new FileReader();
+                reader.onload = function () {
+                    resolve(reader.result);
+                };
+                reader.readAsText(blob);
+            });
+        }
     }]);
     return hlp;
 }();
@@ -1972,6 +2026,66 @@ test('getProp', function () {
     expect(_script2.default.getProp({ a: 1, b: { a: 3, b: 3 }, c: { a: { a: 7 } } }, 'c.a.a')).toEqual(7);
     expect(_script2.default.getProp({ a: 1, b: { a: 3, b: 3 }, c: { a: { a: 7 } } }, 'd.e.f')).toEqual(undefined);
 });
+
+test('blobs', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
+    var string, blob, base64, response;
+    return _regenerator2.default.wrap(function _callee2$(_context2) {
+        while (1) {
+            switch (_context2.prev = _context2.next) {
+                case 0:
+                    string = void 0, blob = void 0, base64 = void 0, response = void 0;
+                    _context2.next = 3;
+                    return _script2.default.get('http://httpbin.org/image/png');
+
+                case 3:
+                    string = _context2.sent;
+
+
+                    blob = _script2.default.stringtoblob(string);
+                    _context2.next = 7;
+                    return _script2.default.blobtostring(blob);
+
+                case 7:
+                    response = _context2.sent;
+
+                    expect(response).toEqual(string);
+
+                    blob = _script2.default.stringtoblob(string, 'image/png');
+                    _context2.next = 12;
+                    return _script2.default.blobtostring(blob);
+
+                case 12:
+                    response = _context2.sent;
+
+                    expect(response).toEqual(string);
+
+                    blob = _script2.default.stringtoblob(string);
+                    _context2.next = 17;
+                    return _script2.default.blobtobase64(blob);
+
+                case 17:
+                    response = _context2.sent;
+
+                    response = _script2.default.base64toblob(response);
+                    expect(response).toEqual(blob);
+
+                    blob = _script2.default.stringtoblob(string, 'image/png');
+                    _context2.next = 23;
+                    return _script2.default.blobtobase64(blob);
+
+                case 23:
+                    response = _context2.sent;
+
+                    response = _script2.default.base64toblob(response, 'image/png');
+                    expect(response).toEqual(blob);
+
+                case 26:
+                case 'end':
+                    return _context2.stop();
+            }
+        }
+    }, _callee2, undefined);
+})));
 
 },{"./../../_js/script":1,"babel-runtime/helpers/asyncToGenerator":19,"babel-runtime/regenerator":26}],3:[function(require,module,exports){
 module.exports = { "default": require("core-js/library/fn/array/from"), __esModule: true };

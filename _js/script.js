@@ -1350,6 +1350,60 @@ export default class hlp
         return obj;
     }
 
+    static base64toblob(base64, contentType = '')
+    {
+        let sliceSize = 512,
+            byteCharacters = atob(base64),
+            byteArrays = [];
+      
+        for (let offset = 0; offset < byteCharacters.length; offset += sliceSize)
+        {
+            let slice = byteCharacters.slice(offset, offset + sliceSize),
+                byteNumbers = new Array(slice.length);
+            for (let i = 0; i < slice.length; i++)
+            {
+                byteNumbers[i] = slice.charCodeAt(i);
+            }
+            let byteArray = new Uint8Array(byteNumbers);
+            byteArrays.push(byteArray);
+        }
+
+        let blob = new Blob(byteArrays, {type: contentType});
+        return blob;
+    }
+
+    static blobtobase64(blob)
+    {
+        return new Promise(resolve =>
+        {
+            let reader = new FileReader();
+            reader.onload = () => {
+                var dataUrl = reader.result;
+                var base64 = dataUrl.split(',')[1];
+                resolve(base64);
+            };
+            reader.readAsDataURL(blob);
+        });
+    }
+
+    static stringtoblob(string, contentType = '')
+    {
+        let blob = new Blob([string], { type: contentType });
+        return blob;
+    }
+
+    static blobtostring(blob)
+    {
+        return new Promise(resolve =>
+        {
+            let reader = new FileReader();
+            reader.onload = () => {
+                resolve(reader.result);
+            }
+            reader.readAsText(blob);
+        });
+    }
+
 }
 
 /* expose all functions to window */

@@ -1446,6 +1446,60 @@ var hlp = function () {
             while (arr.length && (obj = obj[arr.shift()])) {}
             return obj;
         }
+    }, {
+        key: 'base64toblob',
+        value: function base64toblob(base64) {
+            var contentType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+
+            var sliceSize = 512,
+                byteCharacters = atob(base64),
+                byteArrays = [];
+
+            for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+                var slice = byteCharacters.slice(offset, offset + sliceSize),
+                    byteNumbers = new Array(slice.length);
+                for (var i = 0; i < slice.length; i++) {
+                    byteNumbers[i] = slice.charCodeAt(i);
+                }
+                var byteArray = new Uint8Array(byteNumbers);
+                byteArrays.push(byteArray);
+            }
+
+            var blob = new Blob(byteArrays, { type: contentType });
+            return blob;
+        }
+    }, {
+        key: 'blobtobase64',
+        value: function blobtobase64(blob) {
+            return new _promise2.default(function (resolve) {
+                var reader = new FileReader();
+                reader.onload = function () {
+                    var dataUrl = reader.result;
+                    var base64 = dataUrl.split(',')[1];
+                    resolve(base64);
+                };
+                reader.readAsDataURL(blob);
+            });
+        }
+    }, {
+        key: 'stringtoblob',
+        value: function stringtoblob(string) {
+            var contentType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+
+            var blob = new Blob([string], { type: contentType });
+            return blob;
+        }
+    }, {
+        key: 'blobtostring',
+        value: function blobtostring(blob) {
+            return new _promise2.default(function (resolve) {
+                var reader = new FileReader();
+                reader.onload = function () {
+                    resolve(reader.result);
+                };
+                reader.readAsText(blob);
+            });
+        }
     }]);
     return hlp;
 }();
