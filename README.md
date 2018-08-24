@@ -291,7 +291,7 @@ hlp.jsonObjectToString(['foo','bar','baz']) // '["foo","bar","baz"]'
 hlp.isJsonString('["foo","bar","baz",]') // false
 hlp.isJsonString('["foo","bar","baz"]') // true
 
-// fun with blob
+// fun with blobs
 hlp.stringtoblob(string)
 hlp.stringtoblob(string, 'image/png')
 hlp.blobtostring(blob).then((string) => { })
