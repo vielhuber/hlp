@@ -1500,6 +1500,20 @@ var hlp = function () {
                 reader.readAsText(blob);
             });
         }
+    }, {
+        key: 'filetobase64',
+        value: function filetobase64(file) {
+            return new _promise2.default(function (resolve, reject) {
+                var reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = function () {
+                    return resolve(reader.result);
+                };
+                reader.onerror = function (error) {
+                    return reject(error);
+                };
+            });
+        }
     }]);
     return hlp;
 }();

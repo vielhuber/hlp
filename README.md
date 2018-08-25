@@ -298,6 +298,7 @@ hlp.blobtostring(blob).then((string) => { })
 hlp.blobtobase64(blob).then((base64) => { })
 hlp.base64toblob(base64)
 hlp.base64toblob(base64, 'image/png')
+hlp.filetobase64(file).then((base64) => { })
 
 // html entity encode/decode
 hlp.htmlEncode('&<>"`\'') // &amp;&lt;&gt;&quot;&#96;&#x27;
