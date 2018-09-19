@@ -1356,6 +1356,23 @@ var hlp = function () {
             return window.location.protocol + '//' + window.location.host;
         }
     }, {
+        key: 'urlOfScript',
+        value: function urlOfScript() {
+            if (document.currentScript) {
+                return document.currentScript.src;
+            } else {
+                var scripts = document.getElementsByTagName('script');
+                return scripts[scripts.length - 1].src;
+            }
+        }
+    }, {
+        key: 'pathOfScript',
+        value: function pathOfScript() {
+            var script = this.urlOfScript(),
+                path = script.substring(0, script.lastIndexOf('/'));
+            return path;
+        }
+    }, {
         key: 'waitUntil',
         value: function waitUntil(selector, css_option) {
             var css_value = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
@@ -1507,7 +1524,7 @@ var hlp = function () {
                 var reader = new FileReader();
                 reader.readAsDataURL(file);
                 reader.onload = function () {
-                    return resolve(reader.result);
+                    return resolve(reader.result.split(',')[1]);
                 };
                 reader.onerror = function (error) {
                     return reject(error);

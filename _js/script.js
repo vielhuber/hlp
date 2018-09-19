@@ -1241,6 +1241,26 @@ export default class hlp
         return window.location.protocol + '//' + window.location.host;
     }
 
+    static urlOfScript()
+    {
+        if (document.currentScript)
+        {
+            return document.currentScript.src;
+        }
+        else
+        {
+            let scripts = document.getElementsByTagName('script');
+            return scripts[scripts.length-1].src;
+        }
+    }
+
+    static pathOfScript()
+    {
+        let script = this.urlOfScript(),
+            path = script.substring(0, script.lastIndexOf('/'));
+        return path;
+    }
+
     static waitUntil(selector, css_option, css_value = null)
     {
         return new Promise((resolve, reject) =>
