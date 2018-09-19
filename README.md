@@ -382,7 +382,7 @@ hlp.url() // https://github.com/vielhuber/hlp
 hlp.urlWithHash() // https://github.com/vielhuber/hlp#foo
 hlp.baseUrl() // https://github.com
 
-// get url of current script
+// get url of current running script
 hlp.urlOfScript(); // https://tld.com/wp-content/themes/dummy/script.js
 hlp.pathOfScript(); // https://tld.com/wp-content/themes/dummy
 
