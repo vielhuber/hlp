@@ -776,6 +776,13 @@ var hlp = function () {
             return ret;
         }
     }, {
+        key: 'slugify',
+        value: function slugify(text) {
+            return text.toString().toLowerCase().trim().split('ä').join('ae').split('ö').join('oe').split('ü').join('ue').split('ß').join('ss').replace(/[^\w\s-]/g, '') // remove non-word [a-z0-9_], non-whitespace, non-hyphen characters
+            .replace(/[\s_-]+/g, '-') // swap any length of whitespace, underscore, hyphen characters with a single -
+            .replace(/^-+|-+$/g, ''); // remove leading, trailing -
+        }
+    }, {
         key: 'incChar',
         value: function incChar(char) {
             var shift = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;

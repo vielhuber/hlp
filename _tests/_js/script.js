@@ -378,6 +378,14 @@ test('char', () =>
     expect( hlp.decChar('A') ).toBe('');
 });
 
+test('slugify', () =>
+{
+    expect( hlp.slugify('that röcks!') ).toBe('that-roecks');
+    expect( hlp.slugify('') ).toBe('');
+    expect( hlp.slugify('foo        bar') ).toBe('foo-bar');
+    expect( hlp.slugify('äöüßÄÖÜ') ).toBe('aeoeuessaeoeue');
+});
+
 test('range', () =>
 {
     expect( hlp.range('A','Z') ).toEqual(['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']);

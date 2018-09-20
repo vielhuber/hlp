@@ -254,6 +254,9 @@ hlp.incChar('Z') // 'AA'
 hlp.incChar('A',2) // 'C'
 hlp.decChar('U') // 'T'
 
+// slugify / sanitize string
+hlp.slugify('That röcks!') // that-roecks
+
 // range
 hlp.range('A','Z') // ['A','B',...,'Z']
 hlp.range(1,42) // [1,2,...,42]
