@@ -380,6 +380,18 @@ hlp.remove( document.querySelector('.foo') ); // also works if .foo does not exi
 hlp.on('click', '.selector', (e, el) => { });
 hlp.on('click', '.selector', '.scope', (e, el) => { });
 
+// classic debounce
+let el = document.querySelector('textarea');
+el.addEventListener('input', hlp.debounce(() => {
+    console.log('debounce at '+el.value);
+}, 1000));
+
+// classic throttle
+let el = document.querySelector('textarea');
+el.addEventListener('input', hlp.throttle(() => {
+    console.log('throttle at '+el.value);
+}, 1000));
+
 // get current url
 hlp.url() // https://github.com/vielhuber/hlp
 hlp.urlWithHash() // https://github.com/vielhuber/hlp#foo

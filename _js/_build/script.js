@@ -493,10 +493,10 @@ var hlp = function () {
                 browser_name = 'safari';
             } else if (navigator.userAgent.indexOf('Firefox') != -1) {
                 browser_name = 'firefox';
-            } else if (navigator.userAgent.indexOf('MSIE') != -1 || !!document.documentMode == true) //IF IE > 10
-                {
-                    browser_name = 'ie';
-                } else if (isEdge) {
+            } else if (navigator.userAgent.indexOf('MSIE') != -1 || !!document.documentMode == true) {
+                //IF IE > 10
+                browser_name = 'ie';
+            } else if (isEdge) {
                 browser_name = 'edge';
             } else {
                 browser_name = 'unknown';
@@ -1148,7 +1148,6 @@ var hlp = function () {
 
             var selector = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'textarea';
 
-
             this.textareaSetHeights(selector);
 
             this.onResizeHorizontal(function () {
@@ -1537,6 +1536,72 @@ var hlp = function () {
                     return reject(error);
                 };
             });
+        }
+    }, {
+        key: 'debounce',
+        value: function debounce(func, wait, immediate) {
+            var _this5 = this,
+                _arguments = arguments;
+
+            var timeout = void 0;
+            return function () {
+                var context = _this5,
+                    args = _arguments,
+                    later = function later() {
+                    timeout = null;
+                    if (!immediate) func.apply(context, args);
+                },
+                    callNow = immediate && !timeout;
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+                if (callNow) {
+                    func.apply(context, args);
+                }
+            };
+        }
+    }, {
+        key: 'throttle',
+        value: function throttle(func, wait, options) {
+            var _this6 = this,
+                _arguments2 = arguments;
+
+            var context = void 0,
+                args = void 0,
+                result = void 0,
+                timeout = null,
+                previous = 0;
+            if (!options) {
+                options = {};
+            }
+            var later = function later() {
+                previous = options.leading === false ? 0 : Date.now();
+                timeout = null;
+                result = func.apply(context, args);
+                if (!timeout) {
+                    context = args = null;
+                }
+            };
+            return function () {
+                var now = Date.now();
+                if (!previous && options.leading === false) {
+                    previous = now;
+                }
+                var remaining = wait - (now - previous);
+                context = _this6;
+                args = _arguments2;
+                if (remaining <= 0 || remaining > wait) {
+                    if (timeout) {
+                        clearTimeout(timeout);
+                        timeout = null;
+                    }
+                    previous = now;
+                    result = func.apply(context, args);
+                    if (!timeout) context = args = null;
+                } else if (!timeout && options.trailing !== false) {
+                    timeout = setTimeout(later, remaining);
+                }
+                return result;
+            };
         }
     }]);
     return hlp;
