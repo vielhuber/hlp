@@ -146,13 +146,8 @@
         
         hlp.textareaAutoHeight('.special');
 
-        let el = document.querySelector('.special');
-        el.addEventListener('input', hlp.debounce(() => {
-            console.log('debounce at '+el.value);
-        }, 1000));
-        el.addEventListener('input', hlp.throttle(() => {
-            console.log('throttle at '+el.value);
-        }, 1000));
+        document.querySelector('.special').addEventListener('input', hlp.debounce((e) => { console.log('debounce at '+e.target.value); }, 1000));
+        document.querySelector('.special').addEventListener('input', hlp.throttle((e) => { console.log('throttle at '+e.target.value); }, 1000));
 
         hlp.real100vh('#baz');
     </script>

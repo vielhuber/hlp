@@ -1540,55 +1540,39 @@ var hlp = function () {
     }, {
         key: 'debounce',
         value: function debounce(func, wait, immediate) {
-            var _this5 = this,
-                _arguments = arguments;
-
-            var timeout = void 0;
+            var timeout;
             return function () {
-                var context = _this5,
-                    args = _arguments,
-                    later = function later() {
+                var context = this,
+                    args = arguments;
+                var later = function later() {
                     timeout = null;
                     if (!immediate) func.apply(context, args);
-                },
-                    callNow = immediate && !timeout;
+                };
+                var callNow = immediate && !timeout;
                 clearTimeout(timeout);
                 timeout = setTimeout(later, wait);
-                if (callNow) {
-                    func.apply(context, args);
-                }
+                if (callNow) func.apply(context, args);
             };
         }
     }, {
         key: 'throttle',
         value: function throttle(func, wait, options) {
-            var _this6 = this,
-                _arguments2 = arguments;
-
-            var context = void 0,
-                args = void 0,
-                result = void 0,
-                timeout = null,
-                previous = 0;
-            if (!options) {
-                options = {};
-            }
+            var context, args, result;
+            var timeout = null;
+            var previous = 0;
+            if (!options) options = {};
             var later = function later() {
                 previous = options.leading === false ? 0 : Date.now();
                 timeout = null;
                 result = func.apply(context, args);
-                if (!timeout) {
-                    context = args = null;
-                }
+                if (!timeout) context = args = null;
             };
             return function () {
                 var now = Date.now();
-                if (!previous && options.leading === false) {
-                    previous = now;
-                }
+                if (!previous && options.leading === false) previous = now;
                 var remaining = wait - (now - previous);
-                context = _this6;
-                args = _arguments2;
+                context = this;
+                args = arguments;
                 if (remaining <= 0 || remaining > wait) {
                     if (timeout) {
                         clearTimeout(timeout);

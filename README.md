@@ -381,16 +381,12 @@ hlp.on('click', '.selector', (e, el) => { });
 hlp.on('click', '.selector', '.scope', (e, el) => { });
 
 // classic debounce
-let el = document.querySelector('textarea');
-el.addEventListener('input', hlp.debounce(() => {
-    console.log('debounce at '+el.value);
-}, 1000));
+window.addEventListener('resize', hlp.debounce(() => { console.log('debounce at resize') }, 1000));
+document.querySelector('.container').addEventListener('input', hlp.debounce((e) => { console.log('debounce at '+e.target.value); }, 1000));
 
 // classic throttle
-let el = document.querySelector('textarea');
-el.addEventListener('input', hlp.throttle(() => {
-    console.log('throttle at '+el.value);
-}, 1000));
+window.addEventListener('resize', hlp.throttle(() => { console.log('throttle at resize') }, 1000));
+document.querySelector('.container').addEventListener('input', hlp.throttle((e) => { console.log('throttle at '+e.target.value); }, 1000));
 
 // get current url
 hlp.url() // https://github.com/vielhuber/hlp

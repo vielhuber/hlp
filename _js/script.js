@@ -1251,58 +1251,47 @@ export default class hlp {
     }
 
     static debounce(func, wait, immediate) {
-        let timeout;
-        return () => {
-            let context = this,
-                args = arguments,
-                later = () => {
-                    timeout = null;
-                    if (!immediate) func.apply(context, args);
-                },
-                callNow = immediate && !timeout;
+        var timeout;
+        return function() {
+            var context = this, args = arguments;
+            var later = function() {
+                timeout = null;
+                if (!immediate) func.apply(context, args);
+            };
+            var callNow = immediate && !timeout;
             clearTimeout(timeout);
             timeout = setTimeout(later, wait);
-            if (callNow) {
-                func.apply(context, args);
-            }
+            if (callNow) func.apply(context, args);
         };
     }
 
     static throttle(func, wait, options) {
-        let context,
-            args,
-            result,
-            timeout = null,
-            previous = 0;
-        if (!options) {
-            options = {};
-        }
-        let later = () => {
+        var context, args, result;
+        var timeout = null;
+        var previous = 0;
+        if (!options) options = {};
+        var later = function() {
             previous = options.leading === false ? 0 : Date.now();
             timeout = null;
             result = func.apply(context, args);
-            if (!timeout) {
-                context = args = null;
-            }
+            if (!timeout) context = args = null;
         };
-        return () => {
-            let now = Date.now();
-            if (!previous && options.leading === false) {
-                previous = now;
-            }
-            let remaining = wait - (now - previous);
+        return function() {
+            var now = Date.now();
+            if (!previous && options.leading === false) previous = now;
+            var remaining = wait - (now - previous);
             context = this;
             args = arguments;
             if (remaining <= 0 || remaining > wait) {
-                if (timeout) {
-                    clearTimeout(timeout);
-                    timeout = null;
-                }
-                previous = now;
-                result = func.apply(context, args);
-                if (!timeout) context = args = null;
+            if (timeout) {
+                clearTimeout(timeout);
+                timeout = null;
+            }
+            previous = now;
+            result = func.apply(context, args);
+            if (!timeout) context = args = null;
             } else if (!timeout && options.trailing !== false) {
-                timeout = setTimeout(later, remaining);
+            timeout = setTimeout(later, remaining);
             }
             return result;
         };
