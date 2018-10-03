@@ -69,6 +69,10 @@
         console.log(hlp.pushId());
         console.log(hlp.pushId());
 
+        hlp.waitUntil('#foo').then(() =>
+        {
+            alert('#foo available');
+        });
         hlp.waitUntil('#foo','background-color').then(() =>
         {
             alert('background color loaded');

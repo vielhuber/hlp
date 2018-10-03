@@ -413,6 +413,7 @@ hlp.isVisible( document.querySelector('.foo') )
 // wait until a dom element has a certain css property
 // this is quite useful when working with async loaded stylesheets like loadCSS
 // .beacon is an element below the fold populated by the stylesheet
+hlp.waitUntil('.beacon').then(() => { });
 hlp.waitUntil('.beacon','position').then(() => { });
 hlp.waitUntil('.beacon','position','relative').then(() => { });
 

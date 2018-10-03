@@ -1106,15 +1106,28 @@ export default class hlp {
         return path;
     }
 
-    static waitUntil(selector, css_option, css_value = null) {
+    static waitUntil(selector, css_option = null, css_value = null) {
         return new Promise((resolve, reject) => {
             let timeout = setInterval(() => {
                 if (
-                    document.querySelector(selector) !== null &&
-                    ((css_value === null &&
-                        window.getComputedStyle(document.querySelector(selector))[css_option] !== undefined &&
-                        window.getComputedStyle(document.querySelector(selector))[css_option] != '') ||
-                        (css_value !== null && window.getComputedStyle(document.querySelector(selector))[css_option] === css_value))
+                    document.querySelector(selector) !== null
+                    &&
+                    (
+                        css_option === null
+                        ||
+                        (
+                            (
+                                css_value === null &&
+                                window.getComputedStyle(document.querySelector(selector))[css_option] !== undefined &&
+                                window.getComputedStyle(document.querySelector(selector))[css_option] != ''
+                            )
+                            ||
+                            (
+                                css_value !== null &&
+                                window.getComputedStyle(document.querySelector(selector))[css_option] === css_value
+                            )
+                        )
+                    )
                 ) {
                     window.clearInterval(timeout);
                     resolve();

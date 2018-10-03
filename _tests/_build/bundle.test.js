@@ -1382,12 +1382,13 @@ var hlp = function () {
         }
     }, {
         key: 'waitUntil',
-        value: function waitUntil(selector, css_option) {
+        value: function waitUntil(selector) {
+            var css_option = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
             var css_value = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
             return new _promise2.default(function (resolve, reject) {
                 var timeout = setInterval(function () {
-                    if (document.querySelector(selector) !== null && (css_value === null && window.getComputedStyle(document.querySelector(selector))[css_option] !== undefined && window.getComputedStyle(document.querySelector(selector))[css_option] != '' || css_value !== null && window.getComputedStyle(document.querySelector(selector))[css_option] === css_value)) {
+                    if (document.querySelector(selector) !== null && (css_option === null || css_value === null && window.getComputedStyle(document.querySelector(selector))[css_option] !== undefined && window.getComputedStyle(document.querySelector(selector))[css_option] != '' || css_value !== null && window.getComputedStyle(document.querySelector(selector))[css_option] === css_value)) {
                         window.clearInterval(timeout);
                         resolve();
                     }
