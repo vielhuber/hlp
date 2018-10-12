@@ -1588,6 +1588,21 @@ var hlp = function () {
                 return result;
             };
         }
+    }, {
+        key: 'shuffle',
+        value: function shuffle(array) {
+            var currentIndex = array.length,
+                temporaryValue = void 0,
+                randomIndex = void 0;
+            while (0 !== currentIndex) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex -= 1;
+                temporaryValue = array[currentIndex];
+                array[currentIndex] = array[randomIndex];
+                array[randomIndex] = temporaryValue;
+            }
+            return array;
+        }
     }]);
     return hlp;
 }();

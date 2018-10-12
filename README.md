@@ -241,6 +241,12 @@ hlp.replaceAll('foo bar baz', 'a', 'b') // 'foo bbr bbz'
 // return unique array (remove duplicate values, order-safe)
 hlp.uniqueArray(['foo','bar','foo','baz']) // ['foo','bar','baz']
 
+// shuffle array
+hlp.shuffle(['foo','bar']) // ['foo','bar']
+hlp.shuffle(['foo','bar']) // ['foo','bar']
+hlp.shuffle(['foo','bar']) // ['foo','bar'] (yikes)
+hlp.shuffle(['foo','bar']) // ['bar','foo']
+
 // check if variable is numeric
 hlp.isNumeric(1337) // true
 hlp.isNumeric('42') // true

@@ -493,3 +493,14 @@ test('blobs', async () => {
     response = hlp.base64toblob(response, 'image/png');
     expect(response).toEqual(blob);
 });
+
+test('shuffle', () =>
+{
+    expect( hlp.shuffle([]) ).toEqual([]);
+    expect( hlp.shuffle(['foo']) ).toEqual(['foo']);
+    for(let i = 0; i < 50; i++)
+    {
+        let shuffle = hlp.shuffle(['foo','bar']);
+        expect(shuffle.toString() == ['foo','bar'].toString() || shuffle.toString() == ['bar','foo'].toString()).toBe(true);
+    }
+});

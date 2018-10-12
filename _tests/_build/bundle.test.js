@@ -1590,6 +1590,21 @@ var hlp = function () {
                 return result;
             };
         }
+    }, {
+        key: 'shuffle',
+        value: function shuffle(array) {
+            var currentIndex = array.length,
+                temporaryValue = void 0,
+                randomIndex = void 0;
+            while (0 !== currentIndex) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex -= 1;
+                temporaryValue = array[currentIndex];
+                array[currentIndex] = array[randomIndex];
+                array[randomIndex] = temporaryValue;
+            }
+            return array;
+        }
     }]);
     return hlp;
 }();
@@ -2181,6 +2196,15 @@ test('blobs', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.defaul
         }
     }, _callee2, undefined);
 })));
+
+test('shuffle', function () {
+    expect(_script2.default.shuffle([])).toEqual([]);
+    expect(_script2.default.shuffle(['foo'])).toEqual(['foo']);
+    for (var i = 0; i < 50; i++) {
+        var shuffle = _script2.default.shuffle(['foo', 'bar']);
+        expect(shuffle.toString() == ['foo', 'bar'].toString() || shuffle.toString() == ['bar', 'foo'].toString()).toBe(true);
+    }
+});
 
 },{"./../../_js/script":1,"babel-runtime/helpers/asyncToGenerator":19,"babel-runtime/regenerator":26}],3:[function(require,module,exports){
 module.exports = { "default": require("core-js/library/fn/array/from"), __esModule: true };
