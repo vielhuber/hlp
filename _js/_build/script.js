@@ -317,8 +317,9 @@ var hlp = function () {
         }
     }, {
         key: 'isInteger',
-        value: function isInteger(val) {
-            return val === parseInt(val, 10);
+        value: function isInteger(value) {
+            var x = void 0;
+            return isNaN(value) ? !1 : (x = parseFloat(value), (0 | x) === x);
         }
     }, {
         key: 'random_int',

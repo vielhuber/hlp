@@ -179,9 +179,28 @@ test('random', () => {
 
 test('isInteger', () =>
 {
-    expect( hlp.isInteger(42) ).toBe( true );
     expect( hlp.isInteger('foo') ).toBe( false );
-    expect( hlp.isInteger('42') ).toBe( false );
+    expect( hlp.isInteger(42) ).toBe( true );
+    expect( hlp.isInteger('42') ).toBe( true );
+    expect( hlp.isInteger(4e2) ).toBe( true );
+    expect( hlp.isInteger('4e2') ).toBe( true );
+    expect( hlp.isInteger(' 1 ') ).toBe( true );
+    expect( hlp.isInteger('') ).toBe( false );
+    expect( hlp.isInteger('  ') ).toBe( false );
+    expect( hlp.isInteger(42.1) ).toBe( false );
+    expect( hlp.isInteger('1a') ).toBe( false );
+    expect( hlp.isInteger('4e2a') ).toBe( false );
+    expect( hlp.isInteger(null) ).toBe( false );
+    expect( hlp.isInteger(undefined) ).toBe( false );
+    expect( hlp.isInteger(NaN) ).toBe( false );
+});
+
+test('isNumeric', () =>
+{
+    expect( hlp.isNumeric(1337) ).toBe( true );
+    expect( hlp.isNumeric('42') ).toBe( true );
+    expect( hlp.isNumeric('42.7') ).toBe( true );
+    expect( hlp.isNumeric('a') ).toBe( false );
 });
 
 test('capitalize', () =>
@@ -428,13 +447,6 @@ test('containsObject', () =>
     expect( hlp.containsObject({ foo: 'bar' }, []) ).toBe( false );
     expect( hlp.containsObject({ foo: 'bar' }, [{ foo: 'bar' }, { bar: 'baz' }]) ).toBe( true );
     expect( hlp.containsObject({ foo: 'bar' }, { foo: { foo: 'bar' } }) ).toBe( true );
-});
-
-test('isNumeric', () =>
-{
-    expect( hlp.isNumeric(1337) ).toBe( true );
-    expect( hlp.isNumeric('42') ).toBe( true );
-    expect( hlp.isNumeric('a') ).toBe( false );
 });
 
 test('deepCopy', () =>

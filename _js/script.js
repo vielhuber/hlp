@@ -206,8 +206,9 @@ export default class hlp {
         return random_string;
     }
 
-    static isInteger(val) {
-        return val === parseInt(val, 10);
+    static isInteger(value) {
+        let x;
+        return isNaN(value) ? !1 : (x = parseFloat(value), (0 | x) === x);
     }
 
     static random_int(min = 0, max = 99999) {

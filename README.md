@@ -247,11 +247,6 @@ hlp.shuffle(['foo','bar']) // ['foo','bar']
 hlp.shuffle(['foo','bar']) // ['foo','bar'] (yikes)
 hlp.shuffle(['foo','bar']) // ['bar','foo']
 
-// check if variable is numeric
-hlp.isNumeric(1337) // true
-hlp.isNumeric('42') // true
-hlp.isNumeric('a') // false
-
 // char helpers
 hlp.charToInt('D') // 4
 hlp.intToChar(4) // 'D'
@@ -289,9 +284,26 @@ hlp.random_int() // 42
 hlp.random_int(7,42) // 17
 
 // check if variable is integer
-hlp.isInteger(42) // true
 hlp.isInteger('foo') // false
-hlp.isInteger('42') // false
+hlp.isInteger(42) // true
+hlp.isInteger('42') // true
+hlp.isInteger(4e2) // true
+hlp.isInteger('4e2') // true
+hlp.isInteger(' 1 ') // true
+hlp.isInteger('') // false
+hlp.isInteger('  ') // false
+hlp.isInteger(42.1) // false
+hlp.isInteger('1a') // false
+hlp.isInteger('4e2a') // false
+hlp.isInteger(null) // false
+hlp.isInteger(undefined) // false
+hlp.isInteger(NaN) // false
+
+// check if variable is numeric
+hlp.isNumeric(1337) // true
+hlp.isNumeric('42') // true
+hlp.isNumeric('42.7') // true
+hlp.isNumeric('a') // false
 
 // json parsing
 hlp.jsonStringToObject('["foo","bar","baz"]') // ['foo','bar','baz']

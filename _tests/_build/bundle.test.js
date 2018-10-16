@@ -319,8 +319,9 @@ var hlp = function () {
         }
     }, {
         key: 'isInteger',
-        value: function isInteger(val) {
-            return val === parseInt(val, 10);
+        value: function isInteger(value) {
+            var x = void 0;
+            return isNaN(value) ? !1 : (x = parseFloat(value), (0 | x) === x);
         }
     }, {
         key: 'random_int',
@@ -1827,9 +1828,27 @@ test('random', function () {
 });
 
 test('isInteger', function () {
-    expect(_script2.default.isInteger(42)).toBe(true);
     expect(_script2.default.isInteger('foo')).toBe(false);
-    expect(_script2.default.isInteger('42')).toBe(false);
+    expect(_script2.default.isInteger(42)).toBe(true);
+    expect(_script2.default.isInteger('42')).toBe(true);
+    expect(_script2.default.isInteger(4e2)).toBe(true);
+    expect(_script2.default.isInteger('4e2')).toBe(true);
+    expect(_script2.default.isInteger(' 1 ')).toBe(true);
+    expect(_script2.default.isInteger('')).toBe(false);
+    expect(_script2.default.isInteger('  ')).toBe(false);
+    expect(_script2.default.isInteger(42.1)).toBe(false);
+    expect(_script2.default.isInteger('1a')).toBe(false);
+    expect(_script2.default.isInteger('4e2a')).toBe(false);
+    expect(_script2.default.isInteger(null)).toBe(false);
+    expect(_script2.default.isInteger(undefined)).toBe(false);
+    expect(_script2.default.isInteger(NaN)).toBe(false);
+});
+
+test('isNumeric', function () {
+    expect(_script2.default.isNumeric(1337)).toBe(true);
+    expect(_script2.default.isNumeric('42')).toBe(true);
+    expect(_script2.default.isNumeric('42.7')).toBe(true);
+    expect(_script2.default.isNumeric('a')).toBe(false);
 });
 
 test('capitalize', function () {
@@ -2100,12 +2119,6 @@ test('containsObject', function () {
     expect(_script2.default.containsObject({ foo: 'bar' }, [])).toBe(false);
     expect(_script2.default.containsObject({ foo: 'bar' }, [{ foo: 'bar' }, { bar: 'baz' }])).toBe(true);
     expect(_script2.default.containsObject({ foo: 'bar' }, { foo: { foo: 'bar' } })).toBe(true);
-});
-
-test('isNumeric', function () {
-    expect(_script2.default.isNumeric(1337)).toBe(true);
-    expect(_script2.default.isNumeric('42')).toBe(true);
-    expect(_script2.default.isNumeric('a')).toBe(false);
 });
 
 test('deepCopy', function () {
