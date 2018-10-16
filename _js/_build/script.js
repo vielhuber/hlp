@@ -318,8 +318,7 @@ var hlp = function () {
     }, {
         key: 'isInteger',
         value: function isInteger(value) {
-            var x = void 0;
-            return isNaN(value) ? !1 : (x = parseFloat(value), (0 | x) === x);
+            return !isNaN(value) && parseInt(Number(value)) == value && !isNaN(parseInt(value, 10));
         }
     }, {
         key: 'random_int',

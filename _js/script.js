@@ -207,8 +207,7 @@ export default class hlp {
     }
 
     static isInteger(value) {
-        let x;
-        return isNaN(value) ? !1 : (x = parseFloat(value), (0 | x) === x);
+        return !isNaN(value) && parseInt(Number(value)) == value && !isNaN(parseInt(value, 10));
     }
 
     static random_int(min = 0, max = 99999) {
