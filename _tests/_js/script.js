@@ -516,3 +516,10 @@ test('shuffle', () =>
         expect(shuffle.toString() == ['foo','bar'].toString() || shuffle.toString() == ['bar','foo'].toString()).toBe(true);
     }
 });
+
+test('findRecursiveInObject', () =>
+{
+    expect(hlp.findRecursiveInObject({ foo: { id: 42 }, bar: { foo: { id: 7 } }, baz: { id1: 42, id2: 7 } }, 'id')).toEqual(['foo', 'bar.foo']);
+    expect(hlp.findRecursiveInObject({ foo: { id: 42 }, bar: { foo: { id: 7 } }, baz: { id1: 42, id2: 7 } }, 'id', 42)).toEqual(['foo']);
+    expect(hlp.findRecursiveInObject({ foo: { id: 42 }, bar: { foo: { id: 7 } }, baz: { id1: 42, id2: 7 } }, null, 7)).toEqual(['bar.foo', 'baz']);
+});

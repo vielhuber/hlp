@@ -1605,6 +1605,49 @@ var hlp = function () {
             }
             return array;
         }
+    }, {
+        key: 'findRecursiveInObject',
+        value: function findRecursiveInObject(object) {
+            var key = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+            var value = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+            var path = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
+            var paths = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : [];
+
+            if (object !== null && (typeof object === 'undefined' ? 'undefined' : (0, _typeof3.default)(object)) === 'object') {
+                var _iteratorNormalCompletion2 = true;
+                var _didIteratorError2 = false;
+                var _iteratorError2 = undefined;
+
+                try {
+                    for (var _iterator2 = (0, _getIterator3.default)((0, _entries2.default)(object)), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                        var _step2$value = (0, _slicedToArray3.default)(_step2.value, 2),
+                            object__key = _step2$value[0],
+                            object__value = _step2$value[1];
+
+                        if (object__value !== null && (typeof object__value === 'undefined' ? 'undefined' : (0, _typeof3.default)(object__value)) === 'object') {
+                            this.findRecursiveInObject(object__value, key, value, (path === '' ? '' : path + '.') + object__key, paths);
+                        } else if ((key === null || object__key === key) && (value === null || object__value === value)) {
+                            paths.push(path);
+                            break; // only take first
+                        }
+                    }
+                } catch (err) {
+                    _didIteratorError2 = true;
+                    _iteratorError2 = err;
+                } finally {
+                    try {
+                        if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                            _iterator2.return();
+                        }
+                    } finally {
+                        if (_didIteratorError2) {
+                            throw _iteratorError2;
+                        }
+                    }
+                }
+            }
+            return paths;
+        }
     }]);
     return hlp;
 }();
@@ -2216,6 +2259,12 @@ test('shuffle', function () {
         var shuffle = _script2.default.shuffle(['foo', 'bar']);
         expect(shuffle.toString() == ['foo', 'bar'].toString() || shuffle.toString() == ['bar', 'foo'].toString()).toBe(true);
     }
+});
+
+test('findRecursiveInObject', function () {
+    expect(_script2.default.findRecursiveInObject({ foo: { id: 42 }, bar: { foo: { id: 7 } }, baz: { id1: 42, id2: 7 } }, 'id')).toEqual(['foo', 'bar.foo']);
+    expect(_script2.default.findRecursiveInObject({ foo: { id: 42 }, bar: { foo: { id: 7 } }, baz: { id1: 42, id2: 7 } }, 'id', 42)).toEqual(['foo']);
+    expect(_script2.default.findRecursiveInObject({ foo: { id: 42 }, bar: { foo: { id: 7 } }, baz: { id1: 42, id2: 7 } }, null, 7)).toEqual(['bar.foo', 'baz']);
 });
 
 },{"./../../_js/script":1,"babel-runtime/helpers/asyncToGenerator":19,"babel-runtime/regenerator":26}],3:[function(require,module,exports){

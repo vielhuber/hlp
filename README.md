@@ -224,6 +224,11 @@ hlp.containsObject({ foo: 'bar' }, []) // false
 hlp.containsObject({ foo: 'bar' }, [{ foo: 'bar' }, { bar: 'baz' }]) // true
 hlp.containsObject({ foo: 'bar' }, { foo: { foo: 'bar' } }) // true
 
+// recursively search key/value in nested object and return dotprop array
+hlp.findRecursiveInObject({ foo: { id: 42 }, bar: { foo: { id: 7 } }, baz: { id1: 42, id2: 7 } }, 'id')); // ['foo', 'bar.foo']
+hlp.findRecursiveInObject({ foo: { id: 42 }, bar: { foo: { id: 7 } }, baz: { id1: 42, id2: 7 } }, 'id', 42)); // ['foo']
+hlp.findRecursiveInObject({ foo: { id: 42 }, bar: { foo: { id: 7 } }, baz: { id1: 42, id2: 7 } }, null, 7)); // ['bar.foo', 'baz']
+
 // deep clone reference types (object/array/date/regex)
 hlp.deepCopy({ foo: 'bar' })
 hlp.deepCopy(['foo','bar'])

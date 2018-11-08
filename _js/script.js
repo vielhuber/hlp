@@ -1326,6 +1326,25 @@ export default class hlp {
         return array;
     }
 
+    static findRecursiveInObject(object, key = null, value = null, path = '', paths = [])
+    {
+        if( object !== null && typeof object === 'object' )
+        {
+            for(const [object__key, object__value] of Object.entries(object)) {
+                if( object__value !== null && typeof object__value === 'object' )
+                {
+                    this.findRecursiveInObject(object__value, key, value, ((path==='')?(''):(path+'.'))+object__key, paths);
+                }
+                else if( (key === null || object__key === key) && (value === null || object__value === value) )
+                {
+                    paths.push(path);
+                    break; // only take first
+                }
+            }
+        }
+        return paths;
+    }
+
 }
 
 /* expose all functions to window */
