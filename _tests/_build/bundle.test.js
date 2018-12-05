@@ -1558,6 +1558,133 @@ var hlp = function () {
             return this.blobtofile(this.base64toblob(base64, contentType));
         }
     }, {
+        key: 'getImageOrientation',
+        value: function getImageOrientation(base64) {
+            var _this5 = this;
+
+            return new _promise2.default(function (resolve, reject) {
+                base64 = base64.replace('data:image/jpeg;base64,', '');
+                var file = _this5.base64tofile(base64),
+                    reader = new FileReader();
+                reader.onload = function (e) {
+                    var view = new DataView(e.target.result);
+                    if (view.getUint16(0, false) != 0xffd8) {
+                        resolve(-2);
+                        return;
+                    }
+                    var length = view.byteLength,
+                        offset = 2;
+                    while (offset < length) {
+                        if (view.getUint16(offset + 2, false) <= 8) {
+                            resolve(-1);
+                            return;
+                        }
+                        var marker = view.getUint16(offset, false);
+                        offset += 2;
+                        if (marker == 0xffe1) {
+                            if (view.getUint32(offset += 2, false) != 0x45786966) {
+                                resolve(-1);
+                                return;
+                            }
+                            var little = view.getUint16(offset += 6, false) == 0x4949;
+                            offset += view.getUint32(offset + 4, little);
+                            var tags = view.getUint16(offset, little);
+                            offset += 2;
+                            for (var i = 0; i < tags; i++) {
+                                if (view.getUint16(offset + i * 12, little) == 0x0112) {
+                                    resolve(view.getUint16(offset + i * 12 + 8, little));
+                                    return;
+                                }
+                            }
+                        } else if ((marker & 0xff00) != 0xff00) {
+                            break;
+                        } else {
+                            offset += view.getUint16(offset, false);
+                        }
+                    }
+                    resolve(-1);
+                    return;
+                };
+                reader.readAsArrayBuffer(file);
+            });
+        }
+    }, {
+        key: 'resetImageOrientation',
+        value: function resetImageOrientation(srcBase64, srcOrientation) {
+            return new _promise2.default(function (resolve, reject) {
+                var img = new Image();
+                img.onload = function () {
+                    var width = img.width,
+                        height = img.height,
+                        canvas = document.createElement('canvas'),
+                        ctx = canvas.getContext('2d');
+                    if (4 < srcOrientation && srcOrientation < 9) {
+                        canvas.width = height;
+                        canvas.height = width;
+                    } else {
+                        canvas.width = width;
+                        canvas.height = height;
+                    }
+                    switch (srcOrientation) {
+                        case 2:
+                            ctx.transform(-1, 0, 0, 1, width, 0);
+                            break;
+                        case 3:
+                            ctx.transform(-1, 0, 0, -1, width, height);
+                            break;
+                        case 4:
+                            ctx.transform(1, 0, 0, -1, 0, height);
+                            break;
+                        case 5:
+                            ctx.transform(0, 1, 1, 0, 0, 0);
+                            break;
+                        case 6:
+                            ctx.transform(0, 1, -1, 0, height, 0);
+                            break;
+                        case 7:
+                            ctx.transform(0, -1, -1, 0, height, width);
+                            break;
+                        case 8:
+                            ctx.transform(0, -1, 1, 0, 0, width);
+                            break;
+                        default:
+                            break;
+                    }
+                    ctx.drawImage(img, 0, 0);
+                    resolve(canvas.toDataURL());
+                    return;
+                };
+                img.src = srcBase64;
+            });
+        }
+    }, {
+        key: 'fixImageOrientation',
+        value: function fixImageOrientation(base64) {
+            var _this6 = this;
+
+            return new _promise2.default(function (resolve, reject) {
+                if (base64.indexOf('data:') === -1) {
+                    resolve(base64);
+                    return;
+                }
+                if (base64.indexOf('data:image/jpeg;base64,') === 0) {
+                    base64 = base64.replace('data:image/jpeg;base64,', '');
+                }
+                _this6.getImageOrientation(base64).then(function (orientation) {
+                    base64 = 'data:image/jpeg;base64,' + base64;
+                    if (orientation <= 1) {
+                        resolve(base64);
+                        return;
+                    } else {
+                        _this6.resetImageOrientation(base64, orientation).then(function (base64_new) {
+                            resolve(base64_new);
+                            return;
+                        });
+                    }
+                });
+            });
+        }
+    }, {
         key: 'debounce',
         value: function debounce(func, wait, immediate) {
             var timeout;
@@ -2294,6 +2421,29 @@ test('blobs', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.defaul
             }
         }
     }, _callee2, undefined);
+})));
+
+test('fixImageOrientation', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
+    var base64, orientation;
+    return _regenerator2.default.wrap(function _callee3$(_context3) {
+        while (1) {
+            switch (_context3.prev = _context3.next) {
+                case 0:
+                    base64 = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEA3ADcAAD/4QAiRXhpZgAASUkqAAgAAAABABIBAwABAAAABQAAAAAAAAD/2wBDAAYFBAQFBgYFBgYKCAYHBwoJCQoKEBQXEAwPDhQdGhYWFBcYGBYcIxsaHyUmIyAsIBYZKSopJy0wLR8lMCgpKCj/wAALCAAwAFABAREA/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/9oACAEBAAA/APlSiiiiiiiiiiiiiiiiiiiiiv1Uor8q6K/VSiiivyror9VKK/Kuiv1Uooor8q6K/VSiiiiiiivyror9VKKKKKKKK//Z';
+                    _context3.next = 3;
+                    return _script2.default.getImageOrientation(base64);
+
+                case 3:
+                    orientation = _context3.sent;
+
+                    expect(orientation).toEqual(5);
+
+                case 5:
+                case 'end':
+                    return _context3.stop();
+            }
+        }
+    }, _callee3, undefined);
 })));
 
 test('shuffle', function () {

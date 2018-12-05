@@ -330,6 +330,10 @@ hlp.filetoblob(file)
 hlp.base64tofile(base64)
 hlp.base64tofile(base64, 'image/png')
 
+// fix exif image orientation
+hlp.fixImageOrientation(base64).then((base64) => { });
+hlp.getImageOrientation(base64).then((orientation) => { });
+
 // html entity encode/decode
 hlp.htmlEncode('&<>"`\'') // &amp;&lt;&gt;&quot;&#96;&#x27;
 hlp.htmlDecode('&amp;&lt;&gt;&quot;&#96;&#x27;') // &<>"`'

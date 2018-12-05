@@ -524,6 +524,13 @@ test('blobs', async () => {
 
 });
 
+test('fixImageOrientation', async () =>
+{
+    let base64 = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEA3ADcAAD/4QAiRXhpZgAASUkqAAgAAAABABIBAwABAAAABQAAAAAAAAD/2wBDAAYFBAQFBgYFBgYKCAYHBwoJCQoKEBQXEAwPDhQdGhYWFBcYGBYcIxsaHyUmIyAsIBYZKSopJy0wLR8lMCgpKCj/wAALCAAwAFABAREA/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/9oACAEBAAA/APlSiiiiiiiiiiiiiiiiiiiiiv1Uor8q6K/VSiiivyror9VKK/Kuiv1Uooor8q6K/VSiiiiiiivyror9VKKKKKKKK//Z';
+    let orientation = await hlp.getImageOrientation(base64);
+    expect(orientation).toEqual(5);
+});
+
 test('shuffle', () =>
 {
     expect( hlp.shuffle([]) ).toEqual([]);
