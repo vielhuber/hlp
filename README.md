@@ -325,6 +325,10 @@ hlp.blobtobase64(blob).then((base64) => { })
 hlp.base64toblob(base64)
 hlp.base64toblob(base64, 'image/png')
 hlp.filetobase64(file).then((base64) => { })
+hlp.blobtofile(blob)
+hlp.filetoblob(file)
+hlp.base64tofile(base64)
+hlp.base64tofile(base64, 'image/png')
 
 // html entity encode/decode
 hlp.htmlEncode('&<>"`\'') // &amp;&lt;&gt;&quot;&#96;&#x27;

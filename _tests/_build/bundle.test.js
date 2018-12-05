@@ -1541,6 +1541,23 @@ var hlp = function () {
             });
         }
     }, {
+        key: 'blobtofile',
+        value: function blobtofile(blob) {
+            return new File([blob], 'name');
+        }
+    }, {
+        key: 'filetoblob',
+        value: function filetoblob(file) {
+            return new Blob([file]);
+        }
+    }, {
+        key: 'base64tofile',
+        value: function base64tofile(base64) {
+            var contentType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+
+            return this.blobtofile(this.base64toblob(base64, contentType));
+        }
+    }, {
         key: 'debounce',
         value: function debounce(func, wait, immediate) {
             var timeout;
@@ -2244,7 +2261,34 @@ test('blobs', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.defaul
                     response = _script2.default.base64toblob(response, 'image/png');
                     expect(response).toEqual(blob);
 
-                case 26:
+                    blob = _script2.default.stringtoblob(string);
+                    response = _script2.default.blobtofile(blob);
+                    response = _script2.default.filetoblob(response);
+                    expect(response).toEqual(blob);
+
+                    blob = _script2.default.stringtoblob(string);
+                    _context2.next = 33;
+                    return _script2.default.blobtobase64(blob);
+
+                case 33:
+                    response = _context2.sent;
+
+                    response = _script2.default.base64tofile(response);
+                    response = _script2.default.filetoblob(response);
+                    expect(response).toEqual(blob);
+
+                    blob = _script2.default.stringtoblob(string);
+                    _context2.next = 40;
+                    return _script2.default.blobtobase64(blob);
+
+                case 40:
+                    response = _context2.sent;
+
+                    response = _script2.default.base64tofile(response, 'image/png');
+                    response = _script2.default.filetoblob(response);
+                    expect(response).toEqual(blob);
+
+                case 44:
                 case 'end':
                     return _context2.stop();
             }

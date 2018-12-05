@@ -1539,6 +1539,23 @@ var hlp = function () {
             });
         }
     }, {
+        key: 'blobtofile',
+        value: function blobtofile(blob) {
+            return new File([blob], 'name');
+        }
+    }, {
+        key: 'filetoblob',
+        value: function filetoblob(file) {
+            return new Blob([file]);
+        }
+    }, {
+        key: 'base64tofile',
+        value: function base64tofile(base64) {
+            var contentType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+
+            return this.blobtofile(this.base64toblob(base64, contentType));
+        }
+    }, {
         key: 'debounce',
         value: function debounce(func, wait, immediate) {
             var timeout;

@@ -504,6 +504,24 @@ test('blobs', async () => {
     response = await hlp.blobtobase64(blob);
     response = hlp.base64toblob(response, 'image/png');
     expect(response).toEqual(blob);
+
+    blob = hlp.stringtoblob(string);
+    response = hlp.blobtofile(blob);
+    response = hlp.filetoblob(response);
+    expect(response).toEqual(blob);
+
+    blob = hlp.stringtoblob(string);
+    response = await hlp.blobtobase64(blob);
+    response = hlp.base64tofile(response);
+    response = hlp.filetoblob(response);
+    expect(response).toEqual(blob);
+
+    blob = hlp.stringtoblob(string);
+    response = await hlp.blobtobase64(blob);
+    response = hlp.base64tofile(response, 'image/png');
+    response = hlp.filetoblob(response);
+    expect(response).toEqual(blob);
+
 });
 
 test('shuffle', () =>
