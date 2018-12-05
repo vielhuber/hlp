@@ -1651,7 +1651,9 @@ var hlp = function () {
                             break;
                     }
                     ctx.drawImage(img, 0, 0);
-                    resolve(canvas.toDataURL());
+                    var base64 = canvas.toDataURL();
+                    base64 = 'data:image/jpeg;base64,' + base64.split(',')[1];
+                    resolve(base64);
                     return;
                 };
                 img.src = srcBase64;

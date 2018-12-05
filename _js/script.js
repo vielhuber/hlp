@@ -1348,7 +1348,7 @@ export default class hlp {
 
     static getImageOrientation(base64) {
         return new Promise((resolve, reject) => {
-            base64 = base64.replace('data:image/jpeg;base64,','');
+            base64 = base64.replace('data:image/jpeg;base64,', '');
             let file = this.base64tofile(base64),
                 reader = new FileReader();
             reader.onload = e => {
@@ -1435,7 +1435,9 @@ export default class hlp {
                         break;
                 }
                 ctx.drawImage(img, 0, 0);
-                resolve(canvas.toDataURL());
+                let base64 = canvas.toDataURL();
+                base64 = 'data:image/jpeg;base64,' + base64.split(',')[1];
+                resolve(base64);
                 return;
             };
             img.src = srcBase64;
@@ -1444,17 +1446,15 @@ export default class hlp {
 
     static fixImageOrientation(base64) {
         return new Promise((resolve, reject) => {
-            if( base64.indexOf('data:') === -1 )
-            {
+            if (base64.indexOf('data:') === -1) {
                 resolve(base64);
                 return;
             }
-            if( base64.indexOf('data:image/jpeg;base64,') === 0 )
-            {
+            if (base64.indexOf('data:image/jpeg;base64,') === 0) {
                 base64 = base64.replace('data:image/jpeg;base64,', '');
             }
             this.getImageOrientation(base64).then(orientation => {
-                base64 = 'data:image/jpeg;base64,'+base64;
+                base64 = 'data:image/jpeg;base64,' + base64;
                 if (orientation <= 1) {
                     resolve(base64);
                     return;
