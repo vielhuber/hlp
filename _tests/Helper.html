@@ -29,6 +29,7 @@
     <script type="text/javascript" src="../hlp.js"></script>
     <script type="text/javascript">
         let items = [
+            ['undefined', undefined],
             ['null', null],
             ['false', false],
             ['true', true],
@@ -69,7 +70,7 @@
     		document.write(' | <sub>'); if( input === 'error' ) { document.write('false'); } else if( input !== undefined ) { document.write('true'); } else { document.write('false'); } document.write('</sub>');
     		document.write(' | <sub>'); if( input === 'error' ) { document.write('error'); } else if( input ) { document.write('true'); } else { document.write('false'); } document.write('</sub>');
     		document.write(' | <sub>'); if( input === 'error' ) { document.write('error'); } else { document.write(((input)?('true'):('false'))); } document.write('</sub>');
-    		document.write(' | <sub>'); if( input === 'error' || input === null ) { document.write('error'); } else if( input.length > 0 ) { document.write('true'); } else { document.write('false'); } document.write('</sub>');
+    		document.write(' | <sub>'); if( input === 'error' || input === null || input === undefined ) { document.write('error'); } else if( input.length > 0 ) { document.write('true'); } else { document.write('false'); } document.write('</sub>');
     		document.write(' | <sub>'); if( input === 'error' ) { document.write('error'); } else if( input != '' ) { document.write('true'); } else { document.write('false'); } document.write('</sub>');
     		document.write(' | <sub>'); if( input === 'error' ) { document.write('error'); } else if( input !== '' ) { document.write('true'); } else { document.write('false'); } document.write('</sub>');
     		document.write(' |');
