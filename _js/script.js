@@ -1,4 +1,5 @@
 export default class hlp {
+    
     static x(input) {
         if (typeof input === 'function') {
             try {
