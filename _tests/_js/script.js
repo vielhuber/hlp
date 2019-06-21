@@ -151,6 +151,11 @@ test('loop', () =>
     })
 });
 
+test('map', () => {
+    expect( hlp.map({ foo: 'bar', bar: 'baz' }, (obj__key, obj__value) => obj__value += '!') ).toEqual({ foo: 'bar!', bar: 'baz!' });
+    expect( hlp.map([ 'foo', 'bar' ], (obj__key, obj__value) => obj__value += '!') ).toEqual({ 0: 'foo!', 1: 'bar!' });
+});
+
 test('last', () => {
     expect( hlp.last(['foo', 'bar', 'baz']) ).toBe('baz');
     expect( hlp.last({ foo: 'bar', bar: 'baz'}) ).toBe('baz');

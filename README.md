@@ -317,6 +317,9 @@ hlp.jsonObjectToString(['foo','bar','baz']) // '["foo","bar","baz"]'
 hlp.isJsonString('["foo","bar","baz",]') // false
 hlp.isJsonString('["foo","bar","baz"]') // true
 
+// map for objects
+hlp.map({ foo: 'bar', bar: 'baz' }, (obj__key, obj__value) => obj__value += '!'); // { foo: 'bar!', bar: 'baz!' }
+
 // fun with blobs
 hlp.stringtoblob(string)
 hlp.stringtoblob(string, 'image/png')

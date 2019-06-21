@@ -206,6 +206,14 @@ function () {
       }
     }
   }, {
+    key: "map",
+    value: function map(obj, fn, ctx) {
+      return Object.keys(obj).reduce(function (a, b) {
+        a[b] = fn.call(ctx || null, b, obj[b]);
+        return a;
+      }, {});
+    }
+  }, {
     key: "first",
     value: function first(input) {
       if (Array.isArray(input)) {
@@ -1870,12 +1878,10 @@ function () {
       var paths = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : [];
 
       if (object !== null && (0, _typeof2.default)(object) === 'object') {
-        var _arr = Object.entries(object);
-
-        for (var _i = 0; _i < _arr.length; _i++) {
-          var _arr$_i = (0, _slicedToArray2.default)(_arr[_i], 2),
-              object__key = _arr$_i[0],
-              object__value = _arr$_i[1];
+        for (var _i = 0, _Object$entries = Object.entries(object); _i < _Object$entries.length; _i++) {
+          var _Object$entries$_i = (0, _slicedToArray2.default)(_Object$entries[_i], 2),
+              object__key = _Object$entries$_i[0],
+              object__value = _Object$entries$_i[1];
 
           if (object__value !== null && (0, _typeof2.default)(object__value) === 'object') {
             this.findRecursiveInObject(object__value, key, value, (path === '' ? '' : path + '.') + object__key, paths);

@@ -154,6 +154,13 @@ export default class hlp {
         }
     }
 
+    static map(obj, fn, ctx) {
+        return Object.keys(obj).reduce((a, b) => {
+            a[b] = fn.call(ctx || null, b, obj[b]);
+            return a;
+        }, {});
+    };
+
     static first(input) {
         if (Array.isArray(input)) {
             var ret = null;
