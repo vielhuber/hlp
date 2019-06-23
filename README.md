@@ -185,6 +185,7 @@ hlp.capitalize('foo') // Foo
 hlp.isObject({}) // true
 hlp.isObject({foo: 'bar'}) // true
 hlp.isObject(null) // false
+hlp.isObject([]) // false (be aware: an array in js is scrictly an object, but this function returns false)
 
 // check if array
 hlp.isArray([]) // true
