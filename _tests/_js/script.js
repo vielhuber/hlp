@@ -104,11 +104,12 @@ test('v', () =>
 {
     expect( hlp.v('foo') ).toBe('foo');
     expect( hlp.v(0) ).toBe(0);
-    expect( hlp.v('') ).toBe(null);
+    expect( hlp.v('') ).toBe('');
+    expect( hlp.v(null) ).toBe('');
     expect( hlp.v(' ','default') ).toBe('default');
     expect( hlp.v('',[],'baz') ).toBe('baz');
-    expect( hlp.v('',[],null) ).toBe(null);
-    expect( hlp.v() ).toBe(null);
+    expect( hlp.v('',[],null) ).toBe('');
+    expect( hlp.v() ).toBe('');
 });
 
 test('loop', () =>

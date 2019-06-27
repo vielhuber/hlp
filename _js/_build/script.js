@@ -173,7 +173,7 @@ function () {
     key: "v",
     value: function v() {
       if (this.nx(arguments)) {
-        return null;
+        return '';
       }
 
       for (var i = 0; i < arguments.length; i++) {
@@ -182,7 +182,7 @@ function () {
         }
       }
 
-      return null;
+      return '';
     }
   }, {
     key: "loop",

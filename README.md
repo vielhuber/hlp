@@ -32,7 +32,8 @@ for(const [obj__key, obj__value] of Object.entries(obj))
 ## installation
 
 ```
-yarn init -y && yarn add hlp
+npm init -y
+npm install hlp
 ```
 
 now embed it directly:
@@ -123,13 +124,13 @@ hlp.false(null) // false
 
 ### value
 ```js
-// get variable if exists, otherwise null
+// get variable if exists, otherwise ''
 hlp.v( vrbl )
 
 // get variable if exists, otherwise 'default'
 hlp.v( vrbl, 'default' )
 
-// get first variable that exists, otherwise null
+// get first variable that exists, otherwise ''
 hlp.v( vrbl1, vrbl2, vrbl3 )
 ```
 

@@ -129,14 +129,14 @@ export default class hlp {
 
     static v() {
         if (this.nx(arguments)) {
-            return null;
+            return '';
         }
         for (let i = 0; i < arguments.length; i++) {
             if (this.x(arguments[i])) {
                 return arguments[i];
             }
         }
-        return null;
+        return '';
     }
 
     static loop(input, fun) {
