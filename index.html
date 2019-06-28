@@ -1,142 +1,171 @@
 <!DOCTYPE html>
 <html lang="de">
-<head>
-    <meta charset="utf-8" />    
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
-    <title>.</title>
-    <style type="text/css">
-        #foo
-        {
-            width:500px;
-            height:500px;
-            background-color:blue;
-            margin-bottom:500px;
-            position:relative;
-        }
-        #bar
-        {
-            width:500px;
-            height:500px;
-            background-color:red;
-        }
-        #baz
-        {
-            width:500px;
-            height:500px;
-            background-color:yellow;
-        }
-        textarea
-        {
-            width:100%;
-        }
-        .animate div
-        {
-            position:relative;
-            width:50px;
-            height:50px;
-            background-color:red;
-            margin-bottom:20px;
-        }
-    </style>
-</head>
-<body>
+    <head>
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"
+        />
+        <title>.</title>
+        <style type="text/css">
+            #foo {
+                width: 500px;
+                height: 500px;
+                background-color: blue;
+                margin-bottom: 500px;
+                position: relative;
+            }
+            #bar {
+                width: 500px;
+                height: 500px;
+                background-color: red;
+            }
+            #baz {
+                width: 500px;
+                height: 500px;
+                background-color: yellow;
+            }
+            textarea {
+                width: 100%;
+            }
+            .animate div {
+                position: relative;
+                width: 50px;
+                height: 50px;
+                background-color: red;
+                margin-bottom: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="foo"></div>
 
-    <div id="foo"></div>
+        <div id="bar"></div>
 
-    <div id="bar"></div>
+        <textarea class="special"></textarea>
 
-    <textarea class="special"></textarea>
+        <div id="baz"></div>
 
-    <div id="baz"></div>
+        <div class="parent">
+            <div>
+                1
+                <div>
+                    2
+                    <div>
+                        3
+                        <div>
+                            4
+                            <div class="child">5</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <div class="parent"><div><div><div><div><div class="child"></div></div></div></div></div></div>
+        <div class="animate">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
 
-    <div class="animate">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-    </div>
+        <img
+            src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEA3ADcAAD/4QAiRXhpZgAASUkqAAgAAAABABIBAwABAAAABQAAAAAAAAD/2wBDAAYFBAQFBgYFBgYKCAYHBwoJCQoKEBQXEAwPDhQdGhYWFBcYGBYcIxsaHyUmIyAsIBYZKSopJy0wLR8lMCgpKCj/wAALCAAwAFABAREA/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/9oACAEBAAA/APlSiiiiiiiiiiiiiiiiiiiiiv1Uor8q6K/VSiiivyror9VKK/Kuiv1Uooor8q6K/VSiiiiiiivyror9VKKKKKKKK//Z"
+            id="image_1"
+            alt=""
+        />
+        <img src="" id="image_2" alt="" />
 
-    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEA3ADcAAD/4QAiRXhpZgAASUkqAAgAAAABABIBAwABAAAABQAAAAAAAAD/2wBDAAYFBAQFBgYFBgYKCAYHBwoJCQoKEBQXEAwPDhQdGhYWFBcYGBYcIxsaHyUmIyAsIBYZKSopJy0wLR8lMCgpKCj/wAALCAAwAFABAREA/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/9oACAEBAAA/APlSiiiiiiiiiiiiiiiiiiiiiv1Uor8q6K/VSiiivyror9VKK/Kuiv1Uooor8q6K/VSiiiiiiivyror9VKKKKKKKK//Z" id="image_1" alt="" />
-    <img src="" id="image_2" alt="" />
+        <script type="text/javascript" src="hlp.js"></script>
+        <script type="text/javascript">
+            hlp.getImageOrientation(document.querySelector('#image_1').getAttribute('src')).then(
+                orientation => {
+                    alert(orientation);
+                }
+            );
+            hlp.fixImageOrientation(document.querySelector('#image_1').getAttribute('src')).then(
+                base64 => {
+                    document.querySelector('#image_2').setAttribute('src', base64);
+                }
+            );
 
-    <script type="text/javascript" src="hlp.js"></script>
-    <script type="text/javascript">
-        hlp.getImageOrientation( document.querySelector('#image_1').getAttribute('src') ).then((orientation) => {
-            alert(orientation);
-        });
-        hlp.fixImageOrientation( document.querySelector('#image_1').getAttribute('src') ).then((base64) => {
-            document.querySelector('#image_2').setAttribute('src', base64);
-        });
+            console.log(hlp.closest(document.querySelector('.child'), '.parent'));
 
-        console.log(hlp.closest( document.querySelector('.child'), '.parent' ));
+            console.log('matches1: ' + hlp.matches(document.querySelector('.child'), '.parent'));
+            console.log('matches2: ' + hlp.matches(document.querySelector('.parent'), '.parent'));
 
-        console.log(hlp.capitalize('foo'));
+            hlp.focus('.child');
+            setTimeout(() => {
+                hlp.unfocus();
+            }, 10000);
 
-        console.log(hlp.pushId());
-        console.log(hlp.pushId());
+            console.log(hlp.capitalize('foo'));
 
-        hlp.waitUntil('#foo').then(() =>
-        {
-            alert('#foo available');
-        });
-        hlp.waitUntil('#foo','background-color').then(() =>
-        {
-            alert('background color loaded');
-        });
-        hlp.waitUntil('#foo','position','relative').then(() =>
-        {
-            alert('position relative loaded');
-        });
+            console.log(hlp.pushId());
+            console.log(hlp.pushId());
 
-        hlp.onResizeHorizontal(() => { console.log('triggered onResizeHorizontal'); });
-        hlp.onResizeVertical(() => { console.log('triggered onResizeVertical'); });
+            hlp.waitUntil('#foo').then(() => {
+                alert('#foo available');
+            });
+            hlp.waitUntil('#foo', 'background-color').then(() => {
+                alert('background color loaded');
+            });
+            hlp.waitUntil('#foo', 'position', 'relative').then(() => {
+                alert('position relative loaded');
+            });
 
-        hlp.scrollTo( document.getElementById('bar'), 100 ).then(() =>
-        {
-            hlp.fadeOut( document.getElementById('bar'), 100 ).then(() =>
-            {
-                console.log(hlp.isVisible(document.getElementById('bar'))); 
-                hlp.fadeIn( document.getElementById('bar'), 100 ).then(() =>
-                {
+            hlp.onResizeHorizontal(() => {
+                console.log('triggered onResizeHorizontal');
+            });
+            hlp.onResizeVertical(() => {
+                console.log('triggered onResizeVertical');
+            });
+
+            hlp.scrollTo(document.getElementById('bar'), 100).then(() => {
+                hlp.fadeOut(document.getElementById('bar'), 100).then(() => {
                     console.log(hlp.isVisible(document.getElementById('bar')));
-                    hlp.scrollTo(0, 100).then(() =>
-                    {
-                        hlp.animate(
-                            document.getElementById('foo'),
-                            'transform: translateX(0)',
-                            'transform: translateX(-100%)',
-                            'ease-in-out',
-                            1000
-                        ).then(() => {
-                            hlp.on('click', '.dynamic', '#bar', (e) => { alert('clicked'); e.preventDefault(); });
-                            document.querySelector('#bar').innerHTML = '<a href="#" class="dynamic">dynamic</a>';
-                            
+                    hlp.fadeIn(document.getElementById('bar'), 100).then(() => {
+                        console.log(hlp.isVisible(document.getElementById('bar')));
+                        hlp.scrollTo(0, 100).then(() => {
                             hlp.animate(
-                                document.querySelectorAll('.animate div'),
-                                'transform: translateX(0); pointer-events: auto; opacity: 1',
-                                'transform: translateX(1000px); pointer-events: none; opacity: 0.1',
+                                document.getElementById('foo'),
+                                'transform: translateX(0)',
+                                'transform: translateX(-100%)',
                                 'ease-in-out',
-                                3000
+                                1000
                             ).then(() => {
+                                hlp.on('click', '.dynamic', '#bar', e => {
+                                    alert('clicked');
+                                    e.preventDefault();
+                                });
+                                document.querySelector('#bar').innerHTML =
+                                    '<a href="#" class="dynamic">dynamic</a>';
+
                                 hlp.animate(
                                     document.querySelectorAll('.animate div'),
-                                    'transform: translateX(500px); pointer-events: none; opacity: 0.1',
-                                    'transform: translateX(1000px); pointer-events: auto; opacity: 1',
+                                    'transform: translateX(0); pointer-events: auto; opacity: 1',
+                                    'transform: translateX(1000px); pointer-events: none; opacity: 0.1',
                                     'ease-in-out',
                                     3000
                                 ).then(() => {
                                     hlp.animate(
                                         document.querySelectorAll('.animate div'),
-                                        'opacity: 1',
-                                        'opacity: 0.1',
+                                        'transform: translateX(500px); pointer-events: none; opacity: 0.1',
+                                        'transform: translateX(1000px); pointer-events: auto; opacity: 1',
                                         'ease-in-out',
                                         3000
                                     ).then(() => {
-                                        //alert('done');
+                                        hlp.animate(
+                                            document.querySelectorAll('.animate div'),
+                                            'opacity: 1',
+                                            'opacity: 0.1',
+                                            'ease-in-out',
+                                            3000
+                                        ).then(() => {
+                                            //alert('done');
+                                        });
                                     });
                                 });
                             });
@@ -144,26 +173,41 @@
                     });
                 });
             });
-        });
 
-        hlp.loadJs('https://apis.google.com/js/api.js').then(() => { console.log('done'); });
-        
-        hlp.loadJs([
-            'https://apis.google.com/js/api.js',
-            'https://apis.google.com/js/api.js'
-        ]).then(() => { console.log('done2'); });
+            hlp.loadJs('https://apis.google.com/js/api.js').then(() => {
+                console.log('done');
+            });
 
-        hlp.loadJsSequentially([
-            'https://apis.google.com/js/api.js',
-            'https://apis.google.com/js/api.js'
-        ]).then(() => { console.log('done3'); });
-        
-        hlp.textareaAutoHeight('.special');
+            hlp.loadJs([
+                'https://apis.google.com/js/api.js',
+                'https://apis.google.com/js/api.js'
+            ]).then(() => {
+                console.log('done2');
+            });
 
-        document.querySelector('.special').addEventListener('input', hlp.debounce((e) => { console.log('debounce at '+e.target.value); }, 1000));
-        document.querySelector('.special').addEventListener('input', hlp.throttle((e) => { console.log('throttle at '+e.target.value); }, 1000));
+            hlp.loadJsSequentially([
+                'https://apis.google.com/js/api.js',
+                'https://apis.google.com/js/api.js'
+            ]).then(() => {
+                console.log('done3');
+            });
 
-        hlp.real100vh('#baz');
-    </script>
-</body>
+            hlp.textareaAutoHeight('.special');
+
+            document.querySelector('.special').addEventListener(
+                'input',
+                hlp.debounce(e => {
+                    console.log('debounce at ' + e.target.value);
+                }, 1000)
+            );
+            document.querySelector('.special').addEventListener(
+                'input',
+                hlp.throttle(e => {
+                    console.log('throttle at ' + e.target.value);
+                }, 1000)
+            );
+
+            hlp.real100vh('#baz');
+        </script>
+    </body>
 </html>

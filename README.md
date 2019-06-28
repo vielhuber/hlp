@@ -412,6 +412,10 @@ hlp.closest( document.querySelector('.children'), '.parent' )
 hlp.matches( document.querySelector('.parent'), '.parent' ) // true
 hlp.remove( document.querySelector('.foo') ); // also works if .foo does not exist
 
+// visually focus element on page
+hlp.focus('.foo')
+hlp.unfocus()
+
 // on delegate
 hlp.on('click', '.selector', (e, el) => { });
 hlp.on('click', '.selector', '.scope', (e, el) => { });

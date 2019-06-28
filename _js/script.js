@@ -1,5 +1,4 @@
 export default class hlp {
-    
     static x(input) {
         if (typeof input === 'function') {
             try {
@@ -159,7 +158,7 @@ export default class hlp {
             a[b] = fn.call(ctx || null, b, obj[b]);
             return a;
         }, {});
-    };
+    }
 
     static first(input) {
         if (Array.isArray(input)) {
@@ -1130,6 +1129,49 @@ export default class hlp {
             i = -1;
         while (nodes[++i] && nodes[i] != node);
         return !!nodes[i];
+    }
+
+    static focus(selector) {
+        hlp.unfocus();
+        let el = document.querySelector(selector);
+        if (el !== null) {
+            let mask = document.createElement('div');
+            mask.classList.add('hlp-focus-mask');
+            mask.style.position = 'fixed';
+            mask.style.top = 0;
+            mask.style.bottom = 0;
+            mask.style.left = 0;
+            mask.style.right = 0;
+            mask.style.backgroundColor = 'rgba(0,0,0,0.8)';
+            mask.style.zIndex = 2147483646;
+            el.before(mask);
+            el.setAttribute('data-focussed', 1);
+            el.setAttribute('data-focussed-orig-z-index', el.style.zIndex);
+            el.setAttribute('data-focussed-orig-position', el.style.position);
+            el.setAttribute('data-focussed-orig-background-color', el.style.backgroundColor);
+            el.style.zIndex = 2147483647;
+            el.style.position = 'relative';
+            el.style.backgroundColor = '#ffffff';
+        }
+    }
+
+    static unfocus() {
+        if (document.querySelector('.hlp-focus-mask') !== null) {
+            document.querySelectorAll('.hlp-focus-mask').forEach(el => {
+                hlp.remove(el);
+            });
+        }
+        if (document.querySelector('[data-focussed]') !== null) {
+            document.querySelectorAll('[data-focussed]').forEach(el => {
+                el.style.zIndex = el.getAttribute('data-focussed-orig-z-index');
+                el.style.position = el.getAttribute('data-focussed-orig-position');
+                el.style.backgroundColor = el.getAttribute('data-focussed-orig-background-color');
+                el.removeAttribute('data-focussed');
+                el.removeAttribute('data-focussed-orig-z-index');
+                el.removeAttribute('data-focussed-orig-position');
+                el.removeAttribute('data-focussed-orig-background-color');
+            });
+        }
     }
 
     static remove(el) {
