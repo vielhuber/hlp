@@ -65,6 +65,10 @@ function () {
         }
       }
 
+      if (input === undefined) {
+        return false;
+      }
+
       if (input === null) {
         return false;
       }
@@ -121,6 +125,10 @@ function () {
         } catch (e) {
           return false;
         }
+      }
+
+      if (input === undefined) {
+        return false;
       }
 
       if (input === null) {

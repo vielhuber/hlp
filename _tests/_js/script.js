@@ -2,6 +2,7 @@ import hlp from './../../_js/script';
 
 test('x', () =>
 {
+    expect( hlp.x(undefined) ).toBe(false);
     expect( hlp.x(null) ).toBe(false);
     expect( hlp.x(false) ).toBe(false);
     expect( hlp.x(true) ).toBe(true);
@@ -27,6 +28,7 @@ test('x', () =>
 
 test('nx', () =>
 {
+    expect( hlp.nx(undefined) ).toBe(true);
     expect( hlp.nx(null) ).toBe(true);
     expect( hlp.nx(false) ).toBe(true);
     expect( hlp.nx(true) ).toBe(false);
@@ -52,6 +54,7 @@ test('nx', () =>
 
 test('true', () =>
 {
+    expect( hlp.true(undefined) ).toBe(false);
     expect( hlp.true(null) ).toBe(false);
     expect( hlp.true(false) ).toBe(false);
     expect( hlp.true(true) ).toBe(true);
@@ -77,6 +80,7 @@ test('true', () =>
 
 test('false', () =>
 {
+    expect( hlp.false(undefined) ).toBe(false);
     expect( hlp.false(null) ).toBe(false);
     expect( hlp.false(false) ).toBe(true);
     expect( hlp.false(true) ).toBe(false);
@@ -106,6 +110,7 @@ test('v', () =>
     expect( hlp.v(0) ).toBe(0);
     expect( hlp.v('') ).toBe('');
     expect( hlp.v(null) ).toBe('');
+    expect( hlp.v(undefined) ).toBe('');
     expect( hlp.v(' ','default') ).toBe('default');
     expect( hlp.v('',[],'baz') ).toBe('baz');
     expect( hlp.v('',[],null) ).toBe('');

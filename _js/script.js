@@ -37,6 +37,9 @@ export default class hlp {
                 return false;
             }
         }
+        if (input === undefined) {
+            return false;
+        }
         if (input === null) {
             return false;
         }
@@ -85,6 +88,9 @@ export default class hlp {
             } catch (e) {
                 return false;
             }
+        }
+        if (input === undefined) {
+            return false;
         }
         if (input === null) {
             return false;
