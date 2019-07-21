@@ -1475,6 +1475,11 @@ function () {
       return window.location.protocol + '//' + window.location.host + window.location.pathname + window.location.hash;
     }
   }, {
+    key: "fullUrl",
+    value: function fullUrl() {
+      return window.location.href;
+    }
+  }, {
     key: "baseUrl",
     value: function baseUrl() {
       return window.location.protocol + '//' + window.location.host;

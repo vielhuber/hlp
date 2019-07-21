@@ -431,6 +431,7 @@ document.querySelector('.container').addEventListener('input', hlp.throttle((e) 
 // get current url
 hlp.url() // https://github.com/vielhuber/hlp
 hlp.urlWithHash() // https://github.com/vielhuber/hlp#foo
+hlp.fullUrl() // https://github.com/vielhuber/hlp?foo=bar#foo
 hlp.baseUrl() // https://github.com
 
 // get url of current running script

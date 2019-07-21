@@ -1219,6 +1219,10 @@ export default class hlp {
         );
     }
 
+    static fullUrl() {
+        return window.location.href;
+    }
+
     static baseUrl() {
         return window.location.protocol + '//' + window.location.host;
     }
