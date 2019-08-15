@@ -334,6 +334,13 @@ hlp.blobtofile(blob)
 hlp.filetoblob(file)
 hlp.base64tofile(base64)
 hlp.base64tofile(base64, 'image/png')
+hlp.base64tostring(base64)
+hlp.stringtobase64(string)
+hlp.blobtourl(blob)
+hlp.stringtourl(string)
+hlp.base64tourl(base64)
+hlp.filetourl(file)
+
 
 // fix exif image orientation
 hlp.fixImageOrientation(base64).then((base64) => { });

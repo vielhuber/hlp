@@ -1406,6 +1406,30 @@ export default class hlp {
         return this.blobtofile(this.base64toblob(base64, contentType));
     }
 
+    static blobtourl(blob) {
+        return URL.createObjectURL(blob, {type : 'text/plain'});
+    }
+
+    static stringtourl(string) {
+        return this.blobtourl(this.stringtoblob(string));
+    }
+
+    static base64tostring(base64) {
+        return atob(base64);
+    }
+
+    static stringtobase64(string) {
+        return btoa(string);
+    }
+
+    static base64tourl(base64) {
+        return this.blobtourl(this.base64toblob(base64));
+    }
+
+    static filetourl(file) {
+        return this.blobtourl(this.filetoblob(file));
+    }
+
     static getImageOrientation(base64) {
         return new Promise((resolve, reject) => {
             base64 = base64.replace('data:image/jpeg;base64,', '');

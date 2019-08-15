@@ -533,6 +533,7 @@ test('blobs', async () => {
     response = hlp.filetoblob(response);
     expect(response).toEqual(blob);
 
+    expect(hlp.base64tostring(hlp.stringtobase64('foo'))).toEqual('foo');
 });
 
 test('fixImageOrientation', async () =>

@@ -1701,6 +1701,38 @@ function () {
       return this.blobtofile(this.base64toblob(base64, contentType));
     }
   }, {
+    key: "blobtourl",
+    value: function blobtourl(blob) {
+      return URL.createObjectURL(blob, {
+        type: 'text/plain'
+      });
+    }
+  }, {
+    key: "stringtourl",
+    value: function stringtourl(string) {
+      return this.blobtourl(this.stringtoblob(string));
+    }
+  }, {
+    key: "base64tostring",
+    value: function base64tostring(base64) {
+      return atob(base64);
+    }
+  }, {
+    key: "stringtobase64",
+    value: function stringtobase64(string) {
+      return btoa(string);
+    }
+  }, {
+    key: "base64tourl",
+    value: function base64tourl(base64) {
+      return this.blobtourl(this.base64toblob(base64));
+    }
+  }, {
+    key: "filetourl",
+    value: function filetourl(file) {
+      return this.blobtourl(this.filetoblob(file));
+    }
+  }, {
     key: "getImageOrientation",
     value: function getImageOrientation(base64) {
       var _this5 = this;
