@@ -1171,6 +1171,20 @@ export default class hlp {
         return sibs;
     }
 
+    static parents(elem, selector) {
+        let elements = [];
+        let ishaveselector = selector !== undefined;
+        while ((elem = elem.parentElement) !== null) {
+            if (elem.nodeType !== Node.ELEMENT_NODE) {
+                continue;
+            }
+            if (!ishaveselector || this.matches(elem, selector)) {
+                elements.push(elem);
+            }
+        }
+        return elements;
+    }
+
     static focus(selector) {
         hlp.unfocus();
         let el = document.querySelector(selector);

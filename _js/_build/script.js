@@ -1434,6 +1434,24 @@ function () {
       return sibs;
     }
   }, {
+    key: "parents",
+    value: function parents(elem, selector) {
+      var elements = [];
+      var ishaveselector = selector !== undefined;
+
+      while ((elem = elem.parentElement) !== null) {
+        if (elem.nodeType !== Node.ELEMENT_NODE) {
+          continue;
+        }
+
+        if (!ishaveselector || this.matches(elem, selector)) {
+          elements.push(elem);
+        }
+      }
+
+      return elements;
+    }
+  }, {
     key: "focus",
     value: function focus(selector) {
       hlp.unfocus();

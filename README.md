@@ -426,6 +426,8 @@ hlp.nextAll( document.querySelector('.foo') )
 hlp.nextAll( document.querySelector('.foo'), '.bar' )
 hlp.siblings( document.querySelector('.foo') )
 hlp.siblings( document.querySelector('.foo'), '.bar' )
+hlp.parents( document.querySelector('.foo') )
+hlp.parents( document.querySelector('.foo'), '.bar' )
 
 // visually focus element on page
 hlp.focus('.foo')
