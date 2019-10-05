@@ -1391,6 +1391,49 @@ function () {
       return !!nodes[i];
     }
   }, {
+    key: "prevAll",
+    value: function prevAll(elem, filter) {
+      var sibs = [];
+
+      while (elem = elem.previousElementSibling) {
+        if (filter === undefined || this.matches(elem, filter)) {
+          sibs.push(elem);
+        }
+      }
+
+      return sibs;
+    }
+  }, {
+    key: "nextAll",
+    value: function nextAll(elem, filter) {
+      var sibs = [];
+
+      while (elem = elem.nextElementSibling) {
+        if (filter === undefined || this.matches(elem, filter)) {
+          sibs.push(elem);
+        }
+      }
+
+      return sibs;
+    }
+  }, {
+    key: "siblings",
+    value: function siblings(elem, filter) {
+      var sibs = [];
+      var self = elem;
+      elem = elem.parentNode.firstChild;
+
+      while (elem = elem.nextElementSibling) {
+        if (filter === undefined || this.matches(elem, filter)) {
+          if (self !== elem) {
+            sibs.push(elem);
+          }
+        }
+      }
+
+      return sibs;
+    }
+  }, {
     key: "focus",
     value: function focus(selector) {
       hlp.unfocus();

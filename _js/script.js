@@ -1137,6 +1137,40 @@ export default class hlp {
         return !!nodes[i];
     }
 
+    static prevAll(elem, filter) {
+        let sibs = [];
+        while ((elem = elem.previousElementSibling)) {
+            if (filter === undefined || this.matches(elem, filter)) {
+                sibs.push(elem);
+            }
+        }
+        return sibs;
+    }
+
+    static nextAll(elem, filter) {
+        let sibs = [];
+        while ((elem = elem.nextElementSibling)) {
+            if (filter === undefined || this.matches(elem, filter)) {
+                sibs.push(elem);
+            }
+        }
+        return sibs;
+    }
+
+    static siblings(elem, filter) {
+        let sibs = [];
+        let self = elem;
+        elem = elem.parentNode.firstChild;
+        while ((elem = elem.nextElementSibling)) {
+            if (filter === undefined || this.matches(elem, filter)) {
+                if (self !== elem) {
+                    sibs.push(elem);
+                }
+            }
+        }
+        return sibs;
+    }
+
     static focus(selector) {
         hlp.unfocus();
         let el = document.querySelector(selector);
@@ -1407,7 +1441,7 @@ export default class hlp {
     }
 
     static blobtourl(blob) {
-        return URL.createObjectURL(blob, {type : 'text/plain'});
+        return URL.createObjectURL(blob, { type: 'text/plain' });
     }
 
     static stringtourl(string) {

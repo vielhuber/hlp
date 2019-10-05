@@ -417,7 +417,15 @@ hlp.offsetBottom( document.querySelector('.foo') )
 // polyfills for ie11
 hlp.closest( document.querySelector('.children'), '.parent' )
 hlp.matches( document.querySelector('.parent'), '.parent' ) // true
-hlp.remove( document.querySelector('.foo') ); // also works if .foo does not exist
+hlp.remove( document.querySelector('.foo') ) // also works if .foo does not exist
+
+// dom traversal
+hlp.prevAll( document.querySelector('.foo') )
+hlp.prevAll( document.querySelector('.foo'), '.bar' )
+hlp.nextAll( document.querySelector('.foo') )
+hlp.nextAll( document.querySelector('.foo'), '.bar' )
+hlp.siblings( document.querySelector('.foo') )
+hlp.siblings( document.querySelector('.foo'), '.bar' )
 
 // visually focus element on page
 hlp.focus('.foo')
