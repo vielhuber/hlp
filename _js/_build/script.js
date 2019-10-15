@@ -1488,7 +1488,6 @@ function () {
         }
       } else if (typeof css == 'string') {
         css = css.split(';');
-        console.log(css);
 
         for (var _css__key in css) {
           if (css[_css__key].indexOf(':') > -1) {
