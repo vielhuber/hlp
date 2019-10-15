@@ -429,6 +429,9 @@ hlp.siblings( document.querySelector('.foo'), '.bar' )
 hlp.parents( document.querySelector('.foo') )
 hlp.parents( document.querySelector('.foo'), '.bar' )
 
+// get all styles of a dom element (extracted from both inline styling and external styling through stylesheets)
+hlp.css( document.querySelector('.foo') )
+
 // visually focus element on page
 hlp.focus('.foo')
 hlp.unfocus()

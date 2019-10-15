@@ -38,7 +38,7 @@
         </style>
     </head>
     <body>
-        <div id="foo"></div>
+        <div id="foo" style="color:red;"></div>
 
         <div id="bar"></div>
 
@@ -109,6 +109,8 @@
             console.log(hlp.parents(document.querySelector('#baz')));
             console.log('parents with filter');
             console.log(hlp.parents(document.querySelector('#baz'), 'body'));
+
+            console.log(hlp.css(document.querySelector('#foo')));
 
             console.log('matches1: ' + hlp.matches(document.querySelector('.child'), '.parent'));
             console.log('matches2: ' + hlp.matches(document.querySelector('.parent'), '.parent'));

@@ -1452,6 +1452,56 @@ function () {
       return elements;
     }
   }, {
+    key: "css",
+    value: function css(el) {
+      var sheets = document.styleSheets,
+          o = {};
+
+      for (var sheets__key in sheets) {
+        try {
+          var rules = sheets[sheets__key].rules || sheets[sheets__key].cssRules;
+
+          for (var rules__key in rules) {
+            if (this.matches(el, rules[rules__key].selectorText)) {
+              o = Object.assign(o, this.css2json(rules[rules__key].style), this.css2json(el.getAttribute('style')));
+            }
+          }
+        } catch (e) {}
+      }
+
+      return o;
+    }
+  }, {
+    key: "css2json",
+    value: function css2json(css) {
+      var obj = {};
+
+      if (!css) {
+        return obj;
+      }
+
+      if (css instanceof CSSStyleDeclaration) {
+        for (var css__key in css) {
+          if (css[css__key].toLowerCase && css[css[css__key]] !== undefined) {
+            obj[css[css__key].toLowerCase()] = css[css[css__key]];
+          }
+        }
+      } else if (typeof css == 'string') {
+        css = css.split(';');
+        console.log(css);
+
+        for (var _css__key in css) {
+          if (css[_css__key].indexOf(':') > -1) {
+            var val = css[_css__key].split(':');
+
+            obj[val[0].toLowerCase().trim()] = val[1].trim();
+          }
+        }
+      }
+
+      return obj;
+    }
+  }, {
     key: "focus",
     value: function focus(selector) {
       hlp.unfocus();

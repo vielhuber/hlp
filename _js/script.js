@@ -1185,6 +1185,49 @@ export default class hlp {
         return elements;
     }
 
+    static css(el) {
+        let sheets = document.styleSheets,
+            o = {};
+        for (let sheets__key in sheets) {
+            try {
+                let rules = sheets[sheets__key].rules || sheets[sheets__key].cssRules;
+                for (let rules__key in rules) {
+                    if (this.matches(el, rules[rules__key].selectorText)) {
+                        o = Object.assign(
+                            o,
+                            this.css2json(rules[rules__key].style),
+                            this.css2json(el.getAttribute('style'))
+                        );
+                    }
+                }
+            } catch (e) {}
+        }
+        return o;
+    }
+
+    static css2json(css) {
+        let obj = {};
+        if (!css) {
+            return obj;
+        }
+        if (css instanceof CSSStyleDeclaration) {
+            for (let css__key in css) {
+                if (css[css__key].toLowerCase && css[css[css__key]] !== undefined) {
+                    obj[css[css__key].toLowerCase()] = css[css[css__key]];
+                }
+            }
+        } else if (typeof css == 'string') {
+            css = css.split(';');
+            for (let css__key in css) {
+                if (css[css__key].indexOf(':') > -1) {
+                    let val = css[css__key].split(':');
+                    obj[val[0].toLowerCase().trim()] = val[1].trim();
+                }
+            }
+        }
+        return obj;
+    }
+
     static focus(selector) {
         hlp.unfocus();
         let el = document.querySelector(selector);
