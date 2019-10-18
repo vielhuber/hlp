@@ -1228,6 +1228,30 @@ export default class hlp {
         return obj;
     }
 
+    static compareDates(d1, d2) {
+        d1 = new Date(d1);
+        d2 = new Date(d2);
+        d1.setHours(0);
+        d1.setMinutes(0);
+        d1.setSeconds(0);
+        d1.setMilliseconds(0);
+        d2.setHours(0);
+        d2.setMinutes(0);
+        d2.setSeconds(0);
+        d2.setMilliseconds(0);
+        if (
+            d1.getFullYear() === d2.getFullYear() &&
+            d1.getMonth() === d2.getMonth() &&
+            d1.getDate() === d2.getDate()
+        ) {
+            return 0;
+        }
+        if (d1 < d2) {
+            return -1;
+        }
+        return 1;
+    }
+
     static focus(selector) {
         hlp.unfocus();
         let el = document.querySelector(selector);

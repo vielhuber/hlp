@@ -215,6 +215,16 @@ hlp.weekToDate(17, 2023) // new Date('2023-04-23')
 // add days to date
 hlp.addDays(new Date('2018-01-01'), 7) // new Date('2018-01-08')
 hlp.addDays(new Date('2018-02-22'), 658) // new Date('2019-12-12')
+hlp.addDays(new Date('2018-02-22'), 1) // new Date('2018-02-21')
+
+// compare dates
+let d1 = new Date();
+let d2 = new Date();
+hlp.compareDates(d1, d2) // 0
+hlp.addDays(d1, -1);
+hlp.compareDates(d1, d2) // -1
+hlp.addDays(d1, 2);
+hlp.compareDates(d1, d2) // 1
 
 // check if objects are equal
 hlp.objectsAreEqual({}, {}) // true
