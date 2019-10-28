@@ -521,6 +521,16 @@ export default class hlp {
         return string.split(search).join(replace);
     }
 
+    static replaceLast(string, search, replace) {
+        let n = string.lastIndexOf(search);
+        string = string.slice(0, n) + string.slice(n).replace(search, replace);
+        return string;
+    }
+
+    static replaceFirst(string, search, replace) {
+        return string.replace(search, replace);
+    }
+
     static get(url, args = null) {
         return this.call('GET', url, args);
     }

@@ -255,6 +255,12 @@ hlp.uuid() // 8b25a8f8-9525-bd73-4679-3539321db93b
 // replace all occurences
 hlp.replaceAll('foo bar baz', 'a', 'b') // 'foo bbr bbz'
 
+// replace last occurence
+hlp.replaceLast('foo bar baz', 'a', 'b') // 'foo bar bbz'
+
+// replace last occurence
+hlp.replaceFirst('foo bar baz', 'a', 'b') // 'foo bbr baz'
+
 // return unique array (remove duplicate values, order-safe)
 hlp.uniqueArray(['foo','bar','foo','baz']) // ['foo','bar','baz']
 

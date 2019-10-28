@@ -638,6 +638,18 @@ function () {
       return string.split(search).join(replace);
     }
   }, {
+    key: "replaceLast",
+    value: function replaceLast(string, search, replace) {
+      var n = string.lastIndexOf(search);
+      string = string.slice(0, n) + string.slice(n).replace(search, replace);
+      return string;
+    }
+  }, {
+    key: "replaceFirst",
+    value: function replaceFirst(string, search, replace) {
+      return string.replace(search, replace);
+    }
+  }, {
     key: "get",
     value: function get(url) {
       var args = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;

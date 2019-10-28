@@ -353,6 +353,18 @@ test('replaceAll', () => {
     expect(hlp.replaceAll('', 'a', 'b')).toBe('');
 });
 
+test('replaceLast', () => {
+    expect(hlp.replaceLast('foo bar baz', 'a', 'b')).toBe('foo bar bbz');
+    expect(hlp.replaceLast('foo bar baz', ' ', 'b')).toBe('foo barbbaz');
+    expect(hlp.replaceLast('', 'a', 'b')).toBe('');
+});
+
+test('replaceFirst', () => {
+    expect(hlp.replaceFirst('foo bar baz', 'a', 'b')).toBe('foo bbr baz');
+    expect(hlp.replaceFirst('foo bar baz', ' ', 'b')).toBe('foobbar baz');
+    expect(hlp.replaceFirst('', 'a', 'b')).toBe('');
+});
+
 test('json', () => {
     expect(hlp.jsonStringToObject(hlp.jsonObjectToString(['foo', 'bar', 'baz']))).toEqual([
         'foo',
