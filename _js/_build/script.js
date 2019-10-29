@@ -650,6 +650,25 @@ function () {
       return string.replace(search, replace);
     }
   }, {
+    key: "findAllPositions",
+    value: function findAllPositions(searchStr, str) {
+      var searchStrLen = searchStr.length,
+          startIndex = 0,
+          index,
+          indices = [];
+
+      if (searchStrLen == 0) {
+        return [];
+      }
+
+      while ((index = str.indexOf(searchStr, startIndex)) > -1) {
+        indices.push(index);
+        startIndex = index + searchStrLen;
+      }
+
+      return indices;
+    }
+  }, {
     key: "get",
     value: function get(url) {
       var args = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;

@@ -261,6 +261,9 @@ hlp.replaceLast('foo bar baz', 'a', 'b') // 'foo bar bbz'
 // replace last occurence
 hlp.replaceFirst('foo bar baz', 'a', 'b') // 'foo bbr baz'
 
+// find all positions in string
+findAllPositions('foo', 'this is a foo and a foobar') // [10,20]
+
 // return unique array (remove duplicate values, order-safe)
 hlp.uniqueArray(['foo','bar','foo','baz']) // ['foo','bar','baz']
 

@@ -365,6 +365,12 @@ test('replaceFirst', () => {
     expect(hlp.replaceFirst('', 'a', 'b')).toBe('');
 });
 
+test('findAllPositions', () => {
+    expect(hlp.findAllPositions('foo', 'this is a foo and a foobar')).toEqual([10, 20]);
+    expect(hlp.findAllPositions('foo', 'this is a')).toEqual([]);
+    expect(hlp.findAllPositions(' ', 'this is a')).toEqual([4, 7]);
+});
+
 test('json', () => {
     expect(hlp.jsonStringToObject(hlp.jsonObjectToString(['foo', 'bar', 'baz']))).toEqual([
         'foo',
