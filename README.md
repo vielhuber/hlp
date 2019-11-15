@@ -237,9 +237,9 @@ hlp.containsObject({ foo: 'bar' }, [{ foo: 'bar' }, { bar: 'baz' }]) // true
 hlp.containsObject({ foo: 'bar' }, { foo: { foo: 'bar' } }) // true
 
 // recursively search key/value in nested object and return dotprop array
-hlp.findRecursiveInObject({ foo: { id: 42 }, bar: { foo: { id: 7 } }, baz: { id1: 42, id2: 7 } }, 'id')); // ['foo', 'bar.foo']
-hlp.findRecursiveInObject({ foo: { id: 42 }, bar: { foo: { id: 7 } }, baz: { id1: 42, id2: 7 } }, 'id', 42)); // ['foo']
-hlp.findRecursiveInObject({ foo: { id: 42 }, bar: { foo: { id: 7 } }, baz: { id1: 42, id2: 7 } }, null, 7)); // ['bar.foo', 'baz']
+hlp.findRecursiveInObject({ foo: { id: 42 }, bar: { foo: { id: 7 } }, baz: { id1: 42, id2: 7 } }, 'id'); // ['foo', 'bar.foo']
+hlp.findRecursiveInObject({ foo: { id: 42 }, bar: { foo: { id: 7 } }, baz: { id1: 42, id2: 7 } }, 'id', 42); // ['foo']
+hlp.findRecursiveInObject({ foo: { id: 42 }, bar: { foo: { id: 7 } }, baz: { id1: 42, id2: 7 } }, null, 7); // ['bar.foo', 'baz']
 
 // deep clone reference types (object/array/date/regex)
 hlp.deepCopy({ foo: 'bar' })
@@ -360,7 +360,6 @@ hlp.stringtourl(string)
 hlp.base64tourl(base64)
 hlp.filetourl(file)
 
-
 // fix exif image orientation
 hlp.fixImageOrientation(base64).then((base64) => { });
 hlp.getImageOrientation(base64).then((orientation) => { });
@@ -380,7 +379,8 @@ hlp.fmath('/', 0.39, 100, 12) // 0.0039 (precision of 12)
 hlp.pushId() // -LDiDooGs9PyGHmghk5i
 hlp.pushId() // -LDiDooGs9PyGHmghk5j
 
-// access object properties with dot notation
+// access object properties with dotprop notation
+// today it is better to use optional chaining in combination with nullish coalescing ({}?.c?.a?.a??'default')
 hlp.getProp({
     a: 1,
     b: { a: 3, b: 3 },
