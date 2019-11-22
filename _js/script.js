@@ -1367,6 +1367,26 @@ export default class hlp {
         return window.location.protocol + '//' + window.location.host;
     }
 
+    static urlProtocol() {
+        return window.location.protocol + '//';
+    }
+
+    static urlHost() {
+        return window.location.host;
+    }
+
+    static urlPath() {
+        return window.location.pathname;
+    }
+
+    static urlHash() {
+        return window.location.hash;
+    }
+
+    static urlArgs() {
+        return window.location.search;
+    }
+
     static urlOfScript() {
         if (document.currentScript) {
             return document.currentScript.src;

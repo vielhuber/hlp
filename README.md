@@ -472,6 +472,10 @@ hlp.url() // https://github.com/vielhuber/hlp
 hlp.urlWithHash() // https://github.com/vielhuber/hlp#foo
 hlp.fullUrl() // https://github.com/vielhuber/hlp?foo=bar#foo
 hlp.baseUrl() // https://github.com
+hlp.urlHost(); // github.com
+hlp.urlPath(); // /vielhuber/hlp
+hlp.urlHash(); // #foo
+hlp.urlArgs(); // ?foo=bar
 
 // get url of current running script
 hlp.urlOfScript(); // https://tld.com/wp-content/themes/dummy/script.js

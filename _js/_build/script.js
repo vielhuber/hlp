@@ -1650,6 +1650,31 @@ function () {
       return window.location.protocol + '//' + window.location.host;
     }
   }, {
+    key: "urlProtocol",
+    value: function urlProtocol() {
+      return window.location.protocol + '//';
+    }
+  }, {
+    key: "urlHost",
+    value: function urlHost() {
+      return window.location.host;
+    }
+  }, {
+    key: "urlPath",
+    value: function urlPath() {
+      return window.location.pathname;
+    }
+  }, {
+    key: "urlHash",
+    value: function urlHash() {
+      return window.location.hash;
+    }
+  }, {
+    key: "urlArgs",
+    value: function urlArgs() {
+      return window.location.search;
+    }
+  }, {
     key: "urlOfScript",
     value: function urlOfScript() {
       if (document.currentScript) {
