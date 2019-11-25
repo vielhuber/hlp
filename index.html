@@ -91,6 +91,13 @@
                 }
             );
 
+            let formData = new FormData();
+            formData.append('foo', 'bar');
+            formData.append('bar', 'baz');
+            hlp.post('http://httpbin.org/anything', { data: formData }).then(res => {
+                console.log(res);
+            });
+
             console.log(hlp.closest(document.querySelector('.child'), '.parent'));
 
             console.log('prevAll');

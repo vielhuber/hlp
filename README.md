@@ -526,6 +526,7 @@ hlp.get('https://httpbin.org/anything', { throttle: 1000 }).then((response) => {
 hlp.get('https://httpbin.org/status/404', { allow_errors: false }).then((response) => { }) // deny 404 and other status codes as a response (inside catch())
 hlp.post('https://httpbin.org/anything', { data: { foo: 'bar' } }).then((response) => { }).catch((error) => { }) // { "method": "POST", "data": {"foo": "bar"}, ... }
 hlp.post('https://httpbin.org/anything', { data: { foo: 'bar' }, headers: { Bar: 'baz' } }).then((response) => { }).catch((error) => { }) // { "method": "POST", "headers" = { "Bar": "baz", ... }, ... }
+let formData = new FormData(); formData.append('foo', 'bar'); hlp.post('https://httpbin.org/anything', { data: formData }) // this also works with FormData
 
 // on resize vertically/horizontally
 window.addEventListener('resize', () => {}) // inaccurate, triggers too often (especially when scrolling on android/iphone)

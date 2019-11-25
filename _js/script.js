@@ -578,7 +578,15 @@ export default class hlp {
                 let xhr = new XMLHttpRequest();
                 xhr.open(method, url, true);
                 if (method === 'POST') {
-                    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+                    if (
+                        'data' in args &&
+                        args.data !== null &&
+                        typeof args.data === 'object' &&
+                        !(args.data instanceof FormData)
+                    ) {
+                        xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+                        args.data = JSON.stringify(args.data);
+                    }
                     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
                 }
                 if (this.x(args.headers)) {
@@ -610,7 +618,7 @@ export default class hlp {
                     xhr.send(null);
                 }
                 if (method === 'POST') {
-                    xhr.send(JSON.stringify(args.data));
+                    xhr.send(args.data);
                 }
             }, args.throttle);
         });

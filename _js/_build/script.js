@@ -717,7 +717,11 @@ function () {
           xhr.open(method, url, true);
 
           if (method === 'POST') {
-            xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+            if ('data' in args && args.data !== null && (0, _typeof2.default)(args.data) === 'object' && !(args.data instanceof FormData)) {
+              xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+              args.data = JSON.stringify(args.data);
+            }
+
             xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
           }
 
@@ -756,7 +760,7 @@ function () {
           }
 
           if (method === 'POST') {
-            xhr.send(JSON.stringify(args.data));
+            xhr.send(args.data);
           }
         }, args.throttle);
       });
