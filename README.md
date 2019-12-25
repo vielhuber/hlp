@@ -261,8 +261,17 @@ hlp.replaceLast('foo bar baz', 'a', 'b') // 'foo bar bbz'
 // replace last occurence
 hlp.replaceFirst('foo bar baz', 'a', 'b') // 'foo bbr baz'
 
+// case insensitive search
+hlp.indexOfCaseInsensitive('foo', 'this is a FOO') // 10
+hlp.indexOfCaseInsensitive('foo', 'this is a FOO and a foobar', 15) // 20
+
 // find all positions in string
-findAllPositions('foo', 'this is a foo and a foobar') // [10,20]
+hlp.findAllPositions('foo', 'this is a foo and a foobar') // [10,20]
+hlp.findAllPositionsCaseInsensitive('FoO', 'this is a FOO and a foobar') // [10,20]
+
+// highlight strings
+hlp.highlight('that is a search string', 'is') // that <strong class="highlight">is</strong> a search string
+hlp.highlight('abc def geh ijk lmn opq rst abc def geh ijk lmn opq rst', 'ijk', true, 5) // '... geh <strong class="highlight">ijk</strong> lmn ... geh <strong class="highlight">ijk</strong> lmn ...'
 
 // return unique array (remove duplicate values, order-safe)
 hlp.uniqueArray(['foo','bar','foo','baz']) // ['foo','bar','baz']

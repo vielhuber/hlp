@@ -546,6 +546,77 @@ export default class hlp {
         return indices;
     }
 
+    static findAllPositionsCaseInsensitive(searchStr, str) {
+        let searchStrLen = searchStr.length,
+            startIndex = 0,
+            index,
+            indices = [];
+        if (searchStrLen == 0) {
+            return [];
+        }
+        while ((index = this.indexOfCaseInsensitive(searchStr, str, startIndex)) > -1) {
+            indices.push(index);
+            startIndex = index + searchStrLen;
+        }
+        return indices;
+    }
+
+    static indexOfCaseInsensitive(searchStr, str, offset) {
+        return str.toLowerCase().indexOf(searchStr.toLowerCase(), offset);
+    }
+
+    static highlight(string, query, strip = false, strip_length = 500) {
+        if (this.nx(string) || this.nx(query)) {
+            return string;
+        }
+        if (strip === true) {
+            let dots = '...';
+            // get all query begin positions in spot
+            let positions = this.findAllPositionsCaseInsensitive(query, string);
+            // strip away parts
+            let words = string.split(' ');
+            let i = 0;
+            words.forEach((words__value, words__key) => {
+                let strip_now = true;
+                positions.forEach(positions__value => {
+                    if (
+                        i >= positions__value - strip_length &&
+                        i <= positions__value + query.length + strip_length - 1
+                    ) {
+                        strip_now = false;
+                    }
+                });
+                if (strip_now === true) {
+                    words[words__key] = dots;
+                }
+                i += words__value.length + 1;
+            });
+            string = words.join(' ');
+            while (string.indexOf(dots + ' ' + dots) > -1) {
+                string = this.replaceAll(string, dots + ' ' + dots, dots);
+            }
+            string = string.trim();
+        }
+        // again: get all query begin positions in spot
+        let positions = this.findAllPositionsCaseInsensitive(query, string);
+        // wrap span element around them
+        let wrap_begin = '<strong class="highlight">';
+        let wrap_end = '</strong>';
+        for (let x = 0; x < positions.length; x++) {
+            string =
+                string.substring(0, positions[x]) +
+                wrap_begin +
+                string.substring(positions[x], positions[x] + query.length) +
+                wrap_end +
+                string.substring(positions[x] + query.length);
+            // shift other positions
+            for (let y = x + 1; y < positions.length; y++) {
+                positions[y] = positions[y] + wrap_begin.length + wrap_end.length;
+            }
+        }
+        return string;
+    }
+
     static get(url, args = null) {
         return this.call('GET', url, args);
     }

@@ -365,10 +365,63 @@ test('replaceFirst', () => {
     expect(hlp.replaceFirst('', 'a', 'b')).toBe('');
 });
 
+test('indexOfCaseInsensitive', () => {
+    expect(hlp.indexOfCaseInsensitive('FOO', 'this is a foO and a foobar')).toEqual(10);
+    expect(hlp.indexOfCaseInsensitive('FOO', 'this is a foO and a foobar', 15)).toEqual(20);
+});
+
 test('findAllPositions', () => {
     expect(hlp.findAllPositions('foo', 'this is a foo and a foobar')).toEqual([10, 20]);
     expect(hlp.findAllPositions('foo', 'this is a')).toEqual([]);
     expect(hlp.findAllPositions(' ', 'this is a')).toEqual([4, 7]);
+});
+
+test('findAllPositionsCaseInsensitive', () => {
+    expect(hlp.findAllPositionsCaseInsensitive('FOO', 'this is a foO and a foobar')).toEqual([
+        10,
+        20
+    ]);
+    expect(hlp.findAllPositionsCaseInsensitive('foo', 'this is a')).toEqual([]);
+    expect(hlp.findAllPositionsCaseInsensitive(' ', 'this is a')).toEqual([4, 7]);
+});
+
+test('highlight', () => {
+    expect(hlp.highlight('that is a search string', 'is')).toEqual(
+        'that <strong class="highlight">is</strong> a search string'
+    );
+    expect(hlp.highlight('that is a search isstring', 'is')).toEqual(
+        'that <strong class="highlight">is</strong> a search <strong class="highlight">is</strong>string'
+    );
+    expect(hlp.highlight('that is a search isstring', '')).toEqual('that is a search isstring');
+    expect(hlp.highlight('Maßbierkrug', 'bier')).toEqual(
+        'Maß<strong class="highlight">bier</strong>krug'
+    );
+    expect(hlp.highlight('', '')).toEqual('');
+    expect(hlp.highlight(null, '')).toEqual(null);
+    expect(hlp.highlight(null, null)).toEqual(null);
+    expect(
+        hlp.highlight(
+            'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est lorem ipsum dolor sit amet.',
+            'lorem'
+        )
+    ).toEqual(
+        '<strong class="highlight">Lorem</strong> ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est <strong class="highlight">Lorem</strong> ipsum dolor sit amet. <strong class="highlight">Lorem</strong> ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est <strong class="highlight">lorem</strong> ipsum dolor sit amet.'
+    );
+    expect(
+        hlp.highlight('abc def geh ijk lmn opq rst abc def geh ijk lmn opq rst', 'ijk', true, 5)
+    ).toEqual(
+        '... geh <strong class="highlight">ijk</strong> lmn ... geh <strong class="highlight">ijk</strong> lmn ...'
+    );
+    expect(
+        hlp.highlight(
+            'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est lorem ipsum dolor sit amet.',
+            'elitr',
+            true,
+            20
+        )
+    ).toEqual(
+        '... sadipscing <strong class="highlight">elitr</strong>, sed diam nonumy eirmod ... sadipscing <strong class="highlight">elitr</strong>, sed diam nonumy eirmod ...'
+    );
 });
 
 test('json', () => {

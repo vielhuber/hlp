@@ -669,6 +669,88 @@ function () {
       return indices;
     }
   }, {
+    key: "findAllPositionsCaseInsensitive",
+    value: function findAllPositionsCaseInsensitive(searchStr, str) {
+      var searchStrLen = searchStr.length,
+          startIndex = 0,
+          index,
+          indices = [];
+
+      if (searchStrLen == 0) {
+        return [];
+      }
+
+      while ((index = this.indexOfCaseInsensitive(searchStr, str, startIndex)) > -1) {
+        indices.push(index);
+        startIndex = index + searchStrLen;
+      }
+
+      return indices;
+    }
+  }, {
+    key: "indexOfCaseInsensitive",
+    value: function indexOfCaseInsensitive(searchStr, str, offset) {
+      return str.toLowerCase().indexOf(searchStr.toLowerCase(), offset);
+    }
+  }, {
+    key: "highlight",
+    value: function highlight(string, query) {
+      var strip = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+      var strip_length = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 500;
+
+      if (this.nx(string) || this.nx(query)) {
+        return string;
+      }
+
+      if (strip === true) {
+        var dots = '...'; // get all query begin positions in spot
+
+        var _positions = this.findAllPositionsCaseInsensitive(query, string); // strip away parts
+
+
+        var words = string.split(' ');
+        var i = 0;
+        words.forEach(function (words__value, words__key) {
+          var strip_now = true;
+
+          _positions.forEach(function (positions__value) {
+            if (i >= positions__value - strip_length && i <= positions__value + query.length + strip_length - 1) {
+              strip_now = false;
+            }
+          });
+
+          if (strip_now === true) {
+            words[words__key] = dots;
+          }
+
+          i += words__value.length + 1;
+        });
+        string = words.join(' ');
+
+        while (string.indexOf(dots + ' ' + dots) > -1) {
+          string = this.replaceAll(string, dots + ' ' + dots, dots);
+        }
+
+        string = string.trim();
+      } // again: get all query begin positions in spot
+
+
+      var positions = this.findAllPositionsCaseInsensitive(query, string); // wrap span element around them
+
+      var wrap_begin = '<strong class="highlight">';
+      var wrap_end = '</strong>';
+
+      for (var x = 0; x < positions.length; x++) {
+        string = string.substring(0, positions[x]) + wrap_begin + string.substring(positions[x], positions[x] + query.length) + wrap_end + string.substring(positions[x] + query.length); // shift other positions
+
+        for (var y = x + 1; y < positions.length; y++) {
+          positions[y] = positions[y] + wrap_begin.length + wrap_end.length;
+        }
+      }
+
+      return string;
+    }
+  }, {
     key: "get",
     value: function get(url) {
       var args = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
