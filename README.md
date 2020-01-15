@@ -265,6 +265,10 @@ hlp.replaceFirst('foo bar baz', 'a', 'b') // 'foo bbr baz'
 hlp.indexOfCaseInsensitive('foo', 'this is a FOO') // 10
 hlp.indexOfCaseInsensitive('foo', 'this is a FOO and a foobar', 15) // 20
 
+// count occurences in string
+hlp.countAllOccurences('foo', 'this is a foo and a foobar') // 2
+hlp.countAllOccurencesCaseInsensitive('FoO', 'this is a FOO and a foobar') // 2
+
 // find all positions in string
 hlp.findAllPositions('foo', 'this is a foo and a foobar') // [10,20]
 hlp.findAllPositionsCaseInsensitive('FoO', 'this is a FOO and a foobar') // [10,20]

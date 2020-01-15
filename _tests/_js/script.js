@@ -160,9 +160,10 @@ test('loop', () => {
 });
 
 test('map', () => {
-    expect(
-        hlp.map({ foo: 'bar', bar: 'baz' }, (obj__key, obj__value) => (obj__value += '!'))
-    ).toEqual({ foo: 'bar!', bar: 'baz!' });
+    expect(hlp.map({ foo: 'bar', bar: 'baz' }, (obj__key, obj__value) => (obj__value += '!'))).toEqual({
+        foo: 'bar!',
+        bar: 'baz!'
+    });
     expect(hlp.map(['foo', 'bar'], (obj__key, obj__value) => (obj__value += '!'))).toEqual({
         0: 'foo!',
         1: 'bar!'
@@ -370,6 +371,23 @@ test('indexOfCaseInsensitive', () => {
     expect(hlp.indexOfCaseInsensitive('FOO', 'this is a foO and a foobar', 15)).toEqual(20);
 });
 
+test('countAllOccurences', () => {
+    expect(hlp.countAllOccurences('foo', 'this is a foo and a foobar')).toEqual(2);
+    expect(hlp.countAllOccurences('foo', 'this is a')).toEqual(0);
+    expect(hlp.countAllOccurences(' ', 'this is a')).toEqual(2);
+    expect(hlp.countAllOccurences('foofoo', 'foofoofoo')).toEqual(1);
+    expect(hlp.countAllOccurences('is', 'isisisisisis')).toEqual(6);
+    expect(hlp.countAllOccurences('IS', 'isisisisisis')).toEqual(0);
+});
+
+test('countAllOccurencesCaseInsensitive', () => {
+    expect(hlp.countAllOccurencesCaseInsensitive('FOO', 'this is a foO and a foobar')).toEqual(2);
+    expect(hlp.countAllOccurencesCaseInsensitive('foo', 'this is a')).toEqual(0);
+    expect(hlp.countAllOccurencesCaseInsensitive(' ', 'this is a')).toEqual(2);
+    expect(hlp.countAllOccurencesCaseInsensitive('foofoo', 'FOOFOOFOO')).toEqual(1);
+    expect(hlp.countAllOccurencesCaseInsensitive('IS', 'isisisisisis')).toEqual(6);
+});
+
 test('findAllPositions', () => {
     expect(hlp.findAllPositions('foo', 'this is a foo and a foobar')).toEqual([10, 20]);
     expect(hlp.findAllPositions('foo', 'this is a')).toEqual([]);
@@ -377,10 +395,7 @@ test('findAllPositions', () => {
 });
 
 test('findAllPositionsCaseInsensitive', () => {
-    expect(hlp.findAllPositionsCaseInsensitive('FOO', 'this is a foO and a foobar')).toEqual([
-        10,
-        20
-    ]);
+    expect(hlp.findAllPositionsCaseInsensitive('FOO', 'this is a foO and a foobar')).toEqual([10, 20]);
     expect(hlp.findAllPositionsCaseInsensitive('foo', 'this is a')).toEqual([]);
     expect(hlp.findAllPositionsCaseInsensitive(' ', 'this is a')).toEqual([4, 7]);
 });
@@ -393,9 +408,7 @@ test('highlight', () => {
         'that <strong class="highlight">is</strong> a search <strong class="highlight">is</strong>string'
     );
     expect(hlp.highlight('that is a search isstring', '')).toEqual('that is a search isstring');
-    expect(hlp.highlight('Maßbierkrug', 'bier')).toEqual(
-        'Maß<strong class="highlight">bier</strong>krug'
-    );
+    expect(hlp.highlight('Maßbierkrug', 'bier')).toEqual('Maß<strong class="highlight">bier</strong>krug');
     expect(hlp.highlight('', '')).toEqual('');
     expect(hlp.highlight(null, '')).toEqual(null);
     expect(hlp.highlight(null, null)).toEqual(null);
@@ -407,9 +420,7 @@ test('highlight', () => {
     ).toEqual(
         '<strong class="highlight">Lorem</strong> ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est <strong class="highlight">Lorem</strong> ipsum dolor sit amet. <strong class="highlight">Lorem</strong> ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est <strong class="highlight">lorem</strong> ipsum dolor sit amet.'
     );
-    expect(
-        hlp.highlight('abc def geh ijk lmn opq rst abc def geh ijk lmn opq rst', 'ijk', true, 5)
-    ).toEqual(
+    expect(hlp.highlight('abc def geh ijk lmn opq rst abc def geh ijk lmn opq rst', 'ijk', true, 5)).toEqual(
         '... geh <strong class="highlight">ijk</strong> lmn ... geh <strong class="highlight">ijk</strong> lmn ...'
     );
     expect(
@@ -425,19 +436,13 @@ test('highlight', () => {
 });
 
 test('json', () => {
-    expect(hlp.jsonStringToObject(hlp.jsonObjectToString(['foo', 'bar', 'baz']))).toEqual([
-        'foo',
-        'bar',
-        'baz'
-    ]);
+    expect(hlp.jsonStringToObject(hlp.jsonObjectToString(['foo', 'bar', 'baz']))).toEqual(['foo', 'bar', 'baz']);
     expect(hlp.jsonStringToObject(null)).toBe(null);
     expect(hlp.jsonStringToObject(false)).toBe(null);
     expect(hlp.jsonStringToObject(true)).toBe(null);
     expect(hlp.jsonStringToObject('')).toBe(null);
     expect(hlp.jsonStringToObject('["foo","bar","baz",]')).toBe(null);
-    expect(hlp.jsonObjectToString(hlp.jsonStringToObject('["foo","bar","baz"]'))).toEqual(
-        '["foo","bar","baz"]'
-    );
+    expect(hlp.jsonObjectToString(hlp.jsonStringToObject('["foo","bar","baz"]'))).toEqual('["foo","bar","baz"]');
     expect(hlp.jsonObjectToString(null)).toBe('null');
     expect(hlp.jsonObjectToString(false)).toBe('false');
     expect(hlp.jsonObjectToString(true)).toBe('true');
@@ -640,9 +645,7 @@ test('getProp', () => {
         b: 3
     });
     expect(hlp.getProp({ a: 1, b: { a: 3, b: 3 }, c: { a: { a: 7 } } }, 'c.a.a')).toEqual(7);
-    expect(hlp.getProp({ a: 1, b: { a: 3, b: 3 }, c: { a: { a: 7 } } }, 'd.e.f')).toEqual(
-        undefined
-    );
+    expect(hlp.getProp({ a: 1, b: { a: 3, b: 3 }, c: { a: { a: 7 } } }, 'd.e.f')).toEqual(undefined);
 });
 
 test('blobs', async () => {
@@ -700,32 +703,20 @@ test('shuffle', () => {
     expect(hlp.shuffle(['foo'])).toEqual(['foo']);
     for (let i = 0; i < 50; i++) {
         let shuffle = hlp.shuffle(['foo', 'bar']);
-        expect(
-            shuffle.toString() == ['foo', 'bar'].toString() ||
-                shuffle.toString() == ['bar', 'foo'].toString()
-        ).toBe(true);
+        expect(shuffle.toString() == ['foo', 'bar'].toString() || shuffle.toString() == ['bar', 'foo'].toString()).toBe(
+            true
+        );
     }
 });
 
 test('findRecursiveInObject', () => {
     expect(
-        hlp.findRecursiveInObject(
-            { foo: { id: 42 }, bar: { foo: { id: 7 } }, baz: { id1: 42, id2: 7 } },
-            'id'
-        )
+        hlp.findRecursiveInObject({ foo: { id: 42 }, bar: { foo: { id: 7 } }, baz: { id1: 42, id2: 7 } }, 'id')
     ).toEqual(['foo', 'bar.foo']);
     expect(
-        hlp.findRecursiveInObject(
-            { foo: { id: 42 }, bar: { foo: { id: 7 } }, baz: { id1: 42, id2: 7 } },
-            'id',
-            42
-        )
+        hlp.findRecursiveInObject({ foo: { id: 42 }, bar: { foo: { id: 7 } }, baz: { id1: 42, id2: 7 } }, 'id', 42)
     ).toEqual(['foo']);
     expect(
-        hlp.findRecursiveInObject(
-            { foo: { id: 42 }, bar: { foo: { id: 7 } }, baz: { id1: 42, id2: 7 } },
-            null,
-            7
-        )
+        hlp.findRecursiveInObject({ foo: { id: 42 }, bar: { foo: { id: 7 } }, baz: { id1: 42, id2: 7 } }, null, 7)
     ).toEqual(['bar.foo', 'baz']);
 });

@@ -12,9 +12,7 @@ export default class hlp {
             input === null ||
             input === false ||
             (typeof input === 'string' && input.trim() == '') ||
-            (typeof input === 'object' &&
-                Object.keys(input).length === 0 &&
-                input.constructor === Object) ||
+            (typeof input === 'object' && Object.keys(input).length === 0 && input.constructor === Object) ||
             typeof input === 'undefined' ||
             (Array.isArray(input) && input.length === 0) ||
             (Array.isArray(input) && input.length === 1 && input[0] === '')
@@ -52,11 +50,7 @@ export default class hlp {
         if (Array.isArray(input) && hlp.first(input) === '') {
             return false;
         }
-        if (
-            typeof input === 'object' &&
-            Object.keys(input).length === 0 &&
-            input.constructor === Object
-        ) {
+        if (typeof input === 'object' && Object.keys(input).length === 0 && input.constructor === Object) {
             return false;
         }
         if (input === 0) {
@@ -104,11 +98,7 @@ export default class hlp {
         if (Array.isArray(input) && hlp.first(input) === '') {
             return false;
         }
-        if (
-            typeof input === 'object' &&
-            Object.keys(input).length === 0 &&
-            input.constructor === Object
-        ) {
+        if (typeof input === 'object' && Object.keys(input).length === 0 && input.constructor === Object) {
             return false;
         }
         if (input === 0) {
@@ -391,10 +381,7 @@ export default class hlp {
             isIE = /*@cc_on!@*/ false || !!document.documentMode,
             isEdge = !isIE && !!window.StyleMedia;
 
-        if (
-            navigator.userAgent.indexOf('Opera') != -1 ||
-            navigator.userAgent.indexOf('OPR') != -1
-        ) {
+        if (navigator.userAgent.indexOf('Opera') != -1 || navigator.userAgent.indexOf('OPR') != -1) {
             browser_name = 'opera';
         } else if (navigator.userAgent.indexOf('Chrome') != -1 && !isEdge) {
             browser_name = 'chrome';
@@ -465,12 +452,8 @@ export default class hlp {
                 ? new obj.constructor()
                 : Object.create(null);
         hash.set(obj, result);
-        if (obj instanceof Map)
-            Array.from(obj, ([key, val]) => result.set(key, hlp.deepCopy(val, hash)));
-        return Object.assign(
-            result,
-            ...Object.keys(obj).map(key => ({ [key]: hlp.deepCopy(obj[key], hash) }))
-        );
+        if (obj instanceof Map) Array.from(obj, ([key, val]) => result.set(key, hlp.deepCopy(val, hash)));
+        return Object.assign(result, ...Object.keys(obj).map(key => ({ [key]: hlp.deepCopy(obj[key], hash) })));
     }
 
     static jsonStringToObject(string) {
@@ -559,6 +542,16 @@ export default class hlp {
             startIndex = index + searchStrLen;
         }
         return indices;
+    }
+
+    static countAllOccurences(value, str) {
+        let regExp = new RegExp(value, 'g');
+        return (str.match(regExp) || []).length;
+    }
+
+    static countAllOccurencesCaseInsensitive(value, str) {
+        let regExp = new RegExp(value, 'gi');
+        return (str.match(regExp) || []).length;
     }
 
     static indexOfCaseInsensitive(searchStr, str, offset) {
@@ -666,10 +659,7 @@ export default class hlp {
                     });
                 }
                 xhr.onload = () => {
-                    if (
-                        xhr.readyState != 4 ||
-                        (args.allow_errors !== true && xhr.status != 200 && xhr.status != 304)
-                    ) {
+                    if (xhr.readyState != 4 || (args.allow_errors !== true && xhr.status != 200 && xhr.status != 304)) {
                         if (this.isJsonString(xhr.responseText)) {
                             reject(this.jsonStringToObject(xhr.responseText));
                         } else {
@@ -949,44 +939,29 @@ export default class hlp {
     }
 
     static offsetTop(el) {
-        return (
-            el.getBoundingClientRect().top + window.pageYOffset - document.documentElement.clientTop
-        );
+        return el.getBoundingClientRect().top + window.pageYOffset - document.documentElement.clientTop;
     }
 
     static offsetLeft(el) {
-        return (
-            el.getBoundingClientRect().left +
-            window.pageXOffset -
-            document.documentElement.clientLeft
-        );
+        return el.getBoundingClientRect().left + window.pageXOffset - document.documentElement.clientLeft;
     }
 
     static offsetRight(el) {
         return (
-            el.getBoundingClientRect().left +
-            window.pageXOffset -
-            document.documentElement.clientLeft +
-            el.offsetWidth
+            el.getBoundingClientRect().left + window.pageXOffset - document.documentElement.clientLeft + el.offsetWidth
         );
     }
 
     static offsetBottom(el) {
         return (
-            el.getBoundingClientRect().top +
-            window.pageYOffset -
-            document.documentElement.clientTop +
-            el.offsetHeight
+            el.getBoundingClientRect().top + window.pageYOffset - document.documentElement.clientTop + el.offsetHeight
         );
     }
 
     static scrollTo(to, duration = 1000) {
         return new Promise(resolve => {
             if (!hlp.isNumeric(to)) {
-                to =
-                    to.getBoundingClientRect().top +
-                    window.pageYOffset -
-                    document.documentElement.clientTop;
+                to = to.getBoundingClientRect().top + window.pageYOffset - document.documentElement.clientTop;
             }
 
             const element = document.scrollingElement || document.documentElement,
@@ -1012,9 +987,7 @@ export default class hlp {
                 animateScroll = function() {
                     const currentDate = +new Date();
                     const currentTime = currentDate - startDate;
-                    element.scrollTop = parseInt(
-                        easeInOutCirc(currentTime, start, change, duration)
-                    );
+                    element.scrollTop = parseInt(easeInOutCirc(currentTime, start, change, duration));
                     if (currentTime < duration) {
                         requestAnimationFrame(animateScroll);
                     } else {
@@ -1115,13 +1088,7 @@ export default class hlp {
             });
             let transition = [];
             properties.forEach(properties__value => {
-                transition.push(
-                    properties__value +
-                        ' ' +
-                        Math.round((duration / 1000) * 10) / 10 +
-                        's ' +
-                        easing
-                );
+                transition.push(properties__value + ' ' + Math.round((duration / 1000) * 10) / 10 + 's ' + easing);
             });
             transition = 'transition: ' + transition.join(', ') + ' !important;';
 
@@ -1129,13 +1096,7 @@ export default class hlp {
             if (NodeList.prototype.isPrototypeOf(el)) {
                 els = Array.from(el);
             } else if (el === null) {
-                console.log(
-                    'cannot animate element from ' +
-                        from +
-                        ' to ' +
-                        to +
-                        ' because it does not exist'
-                );
+                console.log('cannot animate element from ' + from + ' to ' + to + ' because it does not exist');
                 resolve();
             } else {
                 els = [el];
@@ -1343,11 +1304,7 @@ export default class hlp {
         d2.setMinutes(0);
         d2.setSeconds(0);
         d2.setMilliseconds(0);
-        if (
-            d1.getFullYear() === d2.getFullYear() &&
-            d1.getMonth() === d2.getMonth() &&
-            d1.getDate() === d2.getDate()
-        ) {
+        if (d1.getFullYear() === d2.getFullYear() && d1.getMonth() === d2.getMonth() && d1.getDate() === d2.getDate()) {
             return 0;
         }
         if (d1 < d2) {
@@ -1429,13 +1386,7 @@ export default class hlp {
     }
 
     static urlWithHash() {
-        return (
-            window.location.protocol +
-            '//' +
-            window.location.host +
-            window.location.pathname +
-            window.location.hash
-        );
+        return window.location.protocol + '//' + window.location.host + window.location.pathname + window.location.hash;
     }
 
     static fullUrl() {
@@ -1488,15 +1439,10 @@ export default class hlp {
                     document.querySelector(selector) !== null &&
                     (css_option === null ||
                         ((css_value === null &&
-                            window.getComputedStyle(document.querySelector(selector))[
-                                css_option
-                            ] !== undefined &&
-                            window.getComputedStyle(document.querySelector(selector))[css_option] !=
-                                '') ||
+                            window.getComputedStyle(document.querySelector(selector))[css_option] !== undefined &&
+                            window.getComputedStyle(document.querySelector(selector))[css_option] != '') ||
                             (css_value !== null &&
-                                window.getComputedStyle(document.querySelector(selector))[
-                                    css_option
-                                ] === css_value)))
+                                window.getComputedStyle(document.querySelector(selector))[css_option] === css_value)))
                 ) {
                     window.clearInterval(timeout);
                     resolve();
@@ -1536,8 +1482,7 @@ export default class hlp {
         if (hlp.objectsAreEqual(pushIdData, {})) {
             pushIdData.lastPushTime = 0;
             pushIdData.lastRandChars = [];
-            pushIdData.PUSH_CHARS =
-                '-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz';
+            pushIdData.PUSH_CHARS = '-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz';
         }
 
         let now = new Date().getTime(),
@@ -1864,10 +1809,7 @@ export default class hlp {
                         (path === '' ? '' : path + '.') + object__key,
                         paths
                     );
-                } else if (
-                    (key === null || object__key === key) &&
-                    (value === null || object__value === value)
-                ) {
+                } else if ((key === null || object__key === key) && (value === null || object__value === value)) {
                     paths.push(path);
                     break; // only take first
                 }

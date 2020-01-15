@@ -688,6 +688,18 @@ function () {
       return indices;
     }
   }, {
+    key: "countAllOccurences",
+    value: function countAllOccurences(value, str) {
+      var regExp = new RegExp(value, 'g');
+      return (str.match(regExp) || []).length;
+    }
+  }, {
+    key: "countAllOccurencesCaseInsensitive",
+    value: function countAllOccurencesCaseInsensitive(value, str) {
+      var regExp = new RegExp(value, 'gi');
+      return (str.match(regExp) || []).length;
+    }
+  }, {
     key: "indexOfCaseInsensitive",
     value: function indexOfCaseInsensitive(searchStr, str, offset) {
       return str.toLowerCase().indexOf(searchStr.toLowerCase(), offset);
