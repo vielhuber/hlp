@@ -204,6 +204,10 @@ hlp.isDate('2018-02-29') // false
 hlp.isDate('1700-01-01') // true
 hlp.isDate(42) // false
 
+// format date
+hlp.formatDate('d.m.Y', '2018-01-01') // 01.01.2018
+hlp.formatDate('Y-m-d H:i:s', new Date()) // 01.01.2018
+
 // get week number from date
 hlp.dateToWeek(new Date('2021-02-22')) // 8
 hlp.dateToWeek() // hlp.dateToWeek(new Date())

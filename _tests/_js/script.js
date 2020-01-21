@@ -292,6 +292,16 @@ test('isString', () => {
     expect(hlp.isString('')).toBe(true);
 });
 
+test('formatDate', () => {
+    expect(hlp.formatDate('d.m.Y', '2018-01-01')).toBe('01.01.2018');
+    expect(hlp.formatDate('d.m.Y H:i:s', '2018-01-01')).toBe('01.01.2018 00:00:00');
+    expect(hlp.formatDate('d.m.Y H:i:s', new Date('2018-01-01 13:13:13'))).toBe('01.01.2018 13:13:13');
+    expect(hlp.formatDate('d.m.Y', null)).toBe(hlp.formatDate('d.m.Y', new Date()));
+    expect(hlp.formatDate('d.m.Y', true)).toBe(hlp.formatDate('d.m.Y', new Date()));
+    expect(hlp.formatDate('d.m.Y', false)).toBe(hlp.formatDate('d.m.Y', new Date()));
+    expect(hlp.formatDate('d.m.Y', '')).toBe(hlp.formatDate('d.m.Y', new Date()));
+});
+
 test('isDate', () => {
     expect(hlp.isDate('2018-01-01')).toBe(true);
     expect(hlp.isDate('2018-02-29')).toBe(false);

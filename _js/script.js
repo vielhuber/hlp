@@ -440,6 +440,106 @@ export default class hlp {
         return false;
     }
 
+    static formatDate(format, date = null) {
+        if (date === false || date === true || date === null || date === '') {
+            date = new Date();
+        } else if (typeof date !== 'object') {
+            date = new Date(date.replace(/-/g, '/'));
+        }
+        let string = '',
+            mo = date.getMonth(),
+            m1 = mo + 1,
+            dow = date.getDay(),
+            d = date.getDate(),
+            y = date.getFullYear(),
+            h = date.getHours(),
+            mi = date.getMinutes(),
+            s = date.getSeconds();
+
+        for (let i = 0, len = format.length; i < len; i++) {
+            switch (format[i]) {
+                case 'j':
+                    string += d;
+                    break;
+                case 'd':
+                    string += d < 10 ? '0' + d : d;
+                    break;
+                case 'l':
+                    let days = Array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
+                    string += days[dow];
+                    break;
+                case 'w':
+                    string += dow;
+                    break;
+                case 'D':
+                    days = Array('Sun', 'Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sat');
+                    string += days[dow];
+                    break;
+                case 'm':
+                    string += m1 < 10 ? '0' + m1 : m1;
+                    break;
+                case 'n':
+                    string += m1;
+                    break;
+                case 'F':
+                    let months = Array(
+                        'January',
+                        'February',
+                        'March',
+                        'April',
+                        'May',
+                        'June',
+                        'July',
+                        'August',
+                        'September',
+                        'October',
+                        'November',
+                        'December'
+                    );
+                    string += months[mo];
+                    break;
+                case 'M':
+                    months = Array('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
+                    string += months[mo];
+                    break;
+                case 'Y':
+                    string += y;
+                    break;
+                case 'y':
+                    string += y.toString().slice(-2);
+                    break;
+                case 'H':
+                    string += h < 10 ? '0' + h : h;
+                    break;
+                case 'g':
+                    let hour = h === 0 ? 12 : h;
+                    string += hour > 12 ? hour - 12 : hour;
+                    break;
+                case 'h':
+                    hour = h === 0 ? 12 : h;
+                    hour = hour > 12 ? hour - 12 : hour;
+                    string += hour < 10 ? '0' + hour : hour;
+                    break;
+                case 'a':
+                    string += h < 12 ? 'am' : 'pm';
+                    break;
+                case 'i':
+                    string += mi < 10 ? '0' + mi : mi;
+                    break;
+                case 's':
+                    string += s < 10 ? '0' + s : s;
+                    break;
+                case 'c':
+                    string += date.toISOString();
+                    break;
+                default:
+                    string += format[i];
+            }
+        }
+
+        return string;
+    }
+
     static deepCopy(obj, hash = new WeakMap()) {
         if (Object(obj) !== obj) return obj; // primitives
         if (hash.has(obj)) return hash.get(obj); // cyclic reference
