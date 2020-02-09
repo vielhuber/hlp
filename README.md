@@ -556,6 +556,11 @@ hlp.addEventListenerOnce(
     'click',
     (event) => { alert('this gets called only once'); }
 );
+hlp.addEventListenerOnce(
+    document.getElementById('foo'),
+    'click',
+    (event) => { if(1==1) { return false; } } // if you return false, the event listener is not removed
+);
 
 // simple animations (via css transitions)
 hlp.animate(

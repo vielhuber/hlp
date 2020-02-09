@@ -1237,6 +1237,13 @@ export default class hlp {
                             );
 
                             hlp.addEventListenerOnce(els__value, 'transitionend', event => {
+                                // transitionend fires also, when animating child elements
+                                // the following line ensures, that those events do not bubble up
+                                // in that case, we return false and ensure, the event listener is still alive
+                                if (event.target !== event.currentTarget) {
+                                    return false;
+                                }
+
                                 // remove previous styles property
                                 document.head.removeChild(style);
 
@@ -1260,8 +1267,10 @@ export default class hlp {
 
     static addEventListenerOnce(target, type, listener, addOptions, removeOptions) {
         target.addEventListener(type, function fn(event) {
-            target.removeEventListener(type, fn, removeOptions);
-            listener.apply(this, arguments, addOptions);
+            let result = listener.apply(this, arguments, addOptions);
+            if (result !== false) {
+                target.removeEventListener(type, fn, removeOptions);
+            }
         });
     }
 

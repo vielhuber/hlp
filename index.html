@@ -80,16 +80,16 @@
 
         <script type="text/javascript" src="hlp.js"></script>
         <script type="text/javascript">
-            hlp.getImageOrientation(document.querySelector('#image_1').getAttribute('src')).then(
-                orientation => {
-                    alert(orientation);
-                }
-            );
-            hlp.fixImageOrientation(document.querySelector('#image_1').getAttribute('src')).then(
-                base64 => {
-                    document.querySelector('#image_2').setAttribute('src', base64);
-                }
-            );
+            hlp.animate(document.querySelector('body'), 'opacity: 1', 'opacity: 0', 'ease-in-out', 5000).then(() => {
+                console.log('1');
+            });
+
+            hlp.getImageOrientation(document.querySelector('#image_1').getAttribute('src')).then(orientation => {
+                console.log(orientation);
+            });
+            hlp.fixImageOrientation(document.querySelector('#image_1').getAttribute('src')).then(base64 => {
+                document.querySelector('#image_2').setAttribute('src', base64);
+            });
 
             let formData = new FormData();
             formData.append('foo', 'bar');
@@ -133,13 +133,13 @@
             console.log(hlp.pushId());
 
             hlp.waitUntil('#foo').then(() => {
-                alert('#foo available');
+                console.log('#foo available');
             });
             hlp.waitUntil('#foo', 'background-color').then(() => {
-                alert('background color loaded');
+                console.log('background color loaded');
             });
             hlp.waitUntil('#foo', 'position', 'relative').then(() => {
-                alert('position relative loaded');
+                console.log('position relative loaded');
             });
 
             hlp.onResizeHorizontal(() => {
@@ -163,11 +163,10 @@
                                 1000
                             ).then(() => {
                                 hlp.on('click', '.dynamic', '#bar', e => {
-                                    alert('clicked');
+                                    console.log('clicked');
                                     e.preventDefault();
                                 });
-                                document.querySelector('#bar').innerHTML =
-                                    '<a href="#" class="dynamic">dynamic</a>';
+                                document.querySelector('#bar').innerHTML = '<a href="#" class="dynamic">dynamic</a>';
 
                                 hlp.animate(
                                     document.querySelectorAll('.animate div'),
@@ -190,7 +189,7 @@
                                             'ease-in-out',
                                             3000
                                         ).then(() => {
-                                            //alert('done');
+                                            console.log('done');
                                         });
                                     });
                                 });
@@ -204,19 +203,15 @@
                 console.log('done');
             });
 
-            hlp.loadJs([
-                'https://apis.google.com/js/api.js',
-                'https://apis.google.com/js/api.js'
-            ]).then(() => {
+            hlp.loadJs(['https://apis.google.com/js/api.js', 'https://apis.google.com/js/api.js']).then(() => {
                 console.log('done2');
             });
 
-            hlp.loadJsSequentially([
-                'https://apis.google.com/js/api.js',
-                'https://apis.google.com/js/api.js'
-            ]).then(() => {
-                console.log('done3');
-            });
+            hlp.loadJsSequentially(['https://apis.google.com/js/api.js', 'https://apis.google.com/js/api.js']).then(
+                () => {
+                    console.log('done3');
+                }
+            );
 
             hlp.textareaAutoHeight('.special');
 

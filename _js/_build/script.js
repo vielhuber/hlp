@@ -1559,7 +1559,14 @@ function () {
                 // set last style inline
                 els__value.setAttribute('style', els__value.getAttribute('style').replace(from + ';', '') + to + ';');
                 hlp.addEventListenerOnce(els__value, 'transitionend', function (event) {
-                  // remove previous styles property
+                  // transitionend fires also, when animating child elements
+                  // the following line ensures, that those events do not bubble up
+                  // in that case, we return false and ensure, the event listener is still alive
+                  if (event.target !== event.currentTarget) {
+                    return false;
+                  } // remove previous styles property
+
+
                   document.head.removeChild(style); // remove random class
 
                   els__value.classList.remove(random_class); // resolve promise when last is finished
@@ -1582,8 +1589,11 @@ function () {
     key: "addEventListenerOnce",
     value: function addEventListenerOnce(target, type, listener, addOptions, removeOptions) {
       target.addEventListener(type, function fn(event) {
-        target.removeEventListener(type, fn, removeOptions);
-        listener.apply(this, arguments, addOptions);
+        var result = listener.apply(this, arguments, addOptions);
+
+        if (result !== false) {
+          target.removeEventListener(type, fn, removeOptions);
+        }
       });
     }
   }, {
