@@ -80,9 +80,15 @@
 
         <script type="text/javascript" src="hlp.js"></script>
         <script type="text/javascript">
+            hlp.animate(document.querySelector('body'), 'opacity: 1', 'opacity: 0', 'ease-in-out', 500).then(() => {
+                console.log('TRIGGER DONE');
+            });
+
+            /*
             hlp.animate(document.querySelector('body'), 'opacity: 1', 'opacity: 0', 'ease-in-out', 5000).then(() => {
                 console.log('1');
             });
+            */
 
             hlp.getImageOrientation(document.querySelector('#image_1').getAttribute('src')).then(orientation => {
                 console.log(orientation);

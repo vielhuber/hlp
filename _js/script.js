@@ -1182,6 +1182,10 @@ export default class hlp {
 
     static animate(el, from, to, easing, duration) {
         return new Promise(resolve => {
+            // on durations smaller than 50, the end event does not trigger!
+            if (duration <= 50) {
+                duration = 50;
+            }
             let properties = [];
             from.split(';').forEach(from__value => {
                 properties.push(from__value.split(':')[0].trim());

@@ -1510,6 +1510,11 @@ function () {
     key: "animate",
     value: function animate(el, from, to, easing, duration) {
       return new Promise(function (resolve) {
+        // on durations smaller than 50, the end event does not trigger!
+        if (duration <= 50) {
+          duration = 50;
+        }
+
         var properties = [];
         from.split(';').forEach(function (from__value) {
           properties.push(from__value.split(':')[0].trim());
