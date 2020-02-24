@@ -385,7 +385,7 @@ hlp.getImageOrientation(base64).then((orientation) => { });
 hlp.htmlEncode('&<>"`\'') // &amp;&lt;&gt;&quot;&#96;&#x27;
 hlp.htmlDecode('&amp;&lt;&gt;&quot;&#96;&#x27;') // &<>"`'
 
-// easy floating point math
+// floating point math made easy
 hlp.fmath('*', 0.1, 0.2) // 0.02
 hlp.fmath('+', 0.1, 0.2) // 0.3
 hlp.fmath('-', 0.1, 0.2) // -0.1
