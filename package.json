@@ -1,6 +1,6 @@
 {
     "name": "hlp",
-    "version": "2.6.0",
+    "version": "2.6.1",
     "main": "_js/_build/script.js",
     "files": [
         "_js/_build/*.js",
@@ -16,7 +16,7 @@
         "js": "npm-run-all --sequential js:browserify js:uglify js:babel js:test",
         "watch:js": "onchange ./_js/*.js --initial --wait --delay 500 --await-write-finish -- onerror \"npm run js --silent\" --title \"watch:js\" --message \"build failed\" --sound mute",
         "watch:js-test": "onchange ./_tests/_js/*.js --wait --delay 500 --await-write-finish -- onerror \"npm run js:test --silent\" --title \"watch:js-test\" --message \"build failed\" --sound mute",
-        "build": "npm-run-all --parallel js",
+        "prod": "npm-run-all --parallel js",
         "dev": "npm-run-all --parallel watch:*"
     },
     "repository": "git@github.com:vielhuber/hlp.git",

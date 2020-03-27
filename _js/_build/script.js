@@ -369,7 +369,7 @@ function () {
   }, {
     key: "cookieSet",
     value: function cookieSet(cookie_name, cookie_value, days) {
-      document.cookie = cookie_name + '=' + encodeURIComponent(cookie_value) + '; ' + 'expires=' + new Date(new Date().getTime() + days * 24 * 60 * 60 * 1000).toUTCString() + '; path=/';
+      document.cookie = cookie_name + '=' + encodeURIComponent(cookie_value) + '; ' + 'expires=' + new Date(new Date().getTime() + days * 24 * 60 * 60 * 1000).toUTCString() + '; path=/; SameSite=None; Secure';
     }
   }, {
     key: "cookieDelete",
