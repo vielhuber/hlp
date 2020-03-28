@@ -369,7 +369,13 @@ function () {
   }, {
     key: "cookieSet",
     value: function cookieSet(cookie_name, cookie_value, days) {
-      document.cookie = cookie_name + '=' + encodeURIComponent(cookie_value) + '; ' + 'expires=' + new Date(new Date().getTime() + days * 24 * 60 * 60 * 1000).toUTCString() + '; path=/; SameSite=None; Secure';
+      var samesite = '';
+
+      if (window.location.protocol.indexOf('https') > -1) {
+        samesite = '; SameSite=None; Secure';
+      }
+
+      document.cookie = cookie_name + '=' + encodeURIComponent(cookie_value) + '; ' + 'expires=' + new Date(new Date().getTime() + days * 24 * 60 * 60 * 1000).toUTCString() + '; path=/' + samesite;
     }
   }, {
     key: "cookieDelete",
