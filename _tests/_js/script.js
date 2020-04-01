@@ -610,7 +610,16 @@ test('compareDates', () => {
     d1 = hlp.addDays(d1, -1);
     expect(hlp.compareDates(d1, d2)).toEqual(-1);
     d1 = hlp.addDays(d1, 2);
-    expect(hlp.compareDates(d1, d2)).toEqual(1);
+    expect(hlp.compareDates('2020-01-01', '2020-01-01')).toEqual(0);
+    expect(hlp.compareDates('2020-01-02', '2020-01-01')).toEqual(1);
+    expect(hlp.compareDates('2020-01-01', '2020-01-02')).toEqual(-1);
+    expect(hlp.compareDates('2020-01-01 00:00:00', '2020-01-01 00:00:00')).toEqual(0);
+    expect(hlp.compareDates('2020-01-01 00:00:00', '2020-01-01 01:00:00')).toEqual(0);
+    expect(hlp.compareDates('2020-01-02 00:00:00', '2020-01-01 01:00:00')).toEqual(1);
+    expect(hlp.compareDates('2020-01-01T00:00:00', '2020-01-01T00:00:00')).toEqual(0);
+    expect(hlp.compareDates('2020-01-05T03:00:00', '2020-01-06T01:00:00')).toEqual(-1);
+    expect(hlp.compareDates('2020-01-02T00:00:00', '2020-01-01T01:00:00')).toEqual(1);
+    expect(hlp.compareDates('2020-01-01', '2020-01-17 17:42:19')).toEqual(-1);
 });
 
 test('objectsAreEqual', () => {

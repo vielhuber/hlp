@@ -1768,6 +1768,15 @@ function () {
   }, {
     key: "compareDates",
     value: function compareDates(d1, d2) {
+      // safari has problems in parsing "2019-01-01 00:00:00"
+      if (typeof d1 === 'string') {
+        d1 = d1.split(' ').join('T');
+      }
+
+      if (typeof d2 === 'string') {
+        d2 = d2.split(' ').join('T');
+      }
+
       d1 = new Date(d1);
       d2 = new Date(d2);
       d1.setHours(0);
