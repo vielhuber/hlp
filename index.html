@@ -80,27 +80,29 @@
 
         <script type="text/javascript" src="hlp.js"></script>
         <script type="text/javascript">
+            console.log([hlp.html2dom('<p>foo</p>'), hlp.html2dom('<td>bar</td>')]);
+
             hlp.animate(document.querySelector('body'), 'opacity: 1', 'opacity: 0', 'ease-in-out', 500).then(() => {
                 console.log('TRIGGER DONE');
             });
 
             /*
-            hlp.animate(document.querySelector('body'), 'opacity: 1', 'opacity: 0', 'ease-in-out', 5000).then(() => {
-                console.log('1');
-            });
-            */
+                        hlp.animate(document.querySelector('body'), 'opacity: 1', 'opacity: 0', 'ease-in-out', 5000).then(() => {
+                            console.log('1');
+                        });
+                        */
 
-            hlp.getImageOrientation(document.querySelector('#image_1').getAttribute('src')).then(orientation => {
+            hlp.getImageOrientation(document.querySelector('#image_1').getAttribute('src')).then((orientation) => {
                 console.log(orientation);
             });
-            hlp.fixImageOrientation(document.querySelector('#image_1').getAttribute('src')).then(base64 => {
+            hlp.fixImageOrientation(document.querySelector('#image_1').getAttribute('src')).then((base64) => {
                 document.querySelector('#image_2').setAttribute('src', base64);
             });
 
             let formData = new FormData();
             formData.append('foo', 'bar');
             formData.append('bar', 'baz');
-            hlp.post('http://httpbin.org/anything', { data: formData }).then(res => {
+            hlp.post('http://httpbin.org/anything', { data: formData }).then((res) => {
                 console.log(res);
             });
 
@@ -168,7 +170,7 @@
                                 'ease-in-out',
                                 1000
                             ).then(() => {
-                                hlp.on('click', '.dynamic', '#bar', e => {
+                                hlp.on('click', '.dynamic', '#bar', (e) => {
                                     console.log('clicked');
                                     e.preventDefault();
                                 });
@@ -223,13 +225,13 @@
 
             document.querySelector('.special').addEventListener(
                 'input',
-                hlp.debounce(e => {
+                hlp.debounce((e) => {
                     console.log('debounce at ' + e.target.value);
                 }, 1000)
             );
             document.querySelector('.special').addEventListener(
                 'input',
-                hlp.throttle(e => {
+                hlp.throttle((e) => {
                     console.log('throttle at ' + e.target.value);
                 }, 1000)
             );

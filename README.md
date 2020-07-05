@@ -466,6 +466,10 @@ hlp.siblings( document.querySelector('.foo'), '.bar' )
 hlp.parents( document.querySelector('.foo') )
 hlp.parents( document.querySelector('.foo'), '.bar' )
 
+// html string to dom
+hlp.html2dom('<p>foo</p>')
+hlp.html2dom('<td>bar</td>')
+
 // get all styles of a dom element (extracted from both inline styling and external styling through stylesheets)
 hlp.css( document.querySelector('.foo') )
 

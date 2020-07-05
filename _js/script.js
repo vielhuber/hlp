@@ -562,7 +562,7 @@ export default class hlp {
                 : Object.create(null);
         hash.set(obj, result);
         if (obj instanceof Map) Array.from(obj, ([key, val]) => result.set(key, hlp.deepCopy(val, hash)));
-        return Object.assign(result, ...Object.keys(obj).map(key => ({ [key]: hlp.deepCopy(obj[key], hash) })));
+        return Object.assign(result, ...Object.keys(obj).map((key) => ({ [key]: hlp.deepCopy(obj[key], hash) })));
     }
 
     static jsonStringToObject(string) {
@@ -680,7 +680,7 @@ export default class hlp {
             let i = 0;
             words.forEach((words__value, words__key) => {
                 let strip_now = true;
-                positions.forEach(positions__value => {
+                positions.forEach((positions__value) => {
                     if (
                         i >= positions__value - strip_length &&
                         i <= positions__value + query.length + strip_length - 1
@@ -1005,7 +1005,7 @@ export default class hlp {
         if (speed <= 25) {
             speed = 25;
         }
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
             el.style.opacity = 1;
             (function fade() {
                 if ((el.style.opacity -= 25 / speed) < 0) {
@@ -1022,7 +1022,7 @@ export default class hlp {
         if (speed <= 25) {
             speed = 25;
         }
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
             el.style.opacity = 0;
             el.style.display = 'block';
             (function fade() {
@@ -1068,7 +1068,7 @@ export default class hlp {
     }
 
     static scrollTo(to, duration = 1000) {
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
             if (!hlp.isNumeric(to)) {
                 to = to.getBoundingClientRect().top + window.pageYOffset - document.documentElement.clientTop;
             }
@@ -1149,15 +1149,15 @@ export default class hlp {
             this.textareaSetHeights(selector);
         });
 
-        [].forEach.call(document.querySelectorAll(selector), el => {
-            el.addEventListener('keyup', e => {
+        [].forEach.call(document.querySelectorAll(selector), (el) => {
+            el.addEventListener('keyup', (e) => {
                 this.textareaSetHeight(e.target);
             });
         });
     }
 
     static textareaSetHeights(selector = 'textarea') {
-        [].forEach.call(document.querySelectorAll(selector), el => {
+        [].forEach.call(document.querySelectorAll(selector), (el) => {
             if (this.isVisible(el)) {
                 this.textareaSetHeight(el);
             }
@@ -1190,17 +1190,17 @@ export default class hlp {
     }
 
     static animate(el, from, to, easing, duration) {
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
             // on durations smaller than 50, the end event does not trigger!
             if (duration <= 50) {
                 duration = 50;
             }
             let properties = [];
-            from.split(';').forEach(from__value => {
+            from.split(';').forEach((from__value) => {
                 properties.push(from__value.split(':')[0].trim());
             });
             let transition = [];
-            properties.forEach(properties__value => {
+            properties.forEach((properties__value) => {
                 transition.push(properties__value + ' ' + Math.round((duration / 1000) * 10) / 10 + 's ' + easing);
             });
             transition = 'transition: ' + transition.join(', ') + ' !important;';
@@ -1227,7 +1227,7 @@ export default class hlp {
                     let new_style = [];
                     let prev_style = els__value.getAttribute('style');
                     if (prev_style !== null) {
-                        prev_style.split(';').forEach(prev_style__value => {
+                        prev_style.split(';').forEach((prev_style__value) => {
                             if (!properties.includes(prev_style__value.split(':')[0].trim())) {
                                 new_style.push(prev_style__value);
                             }
@@ -1249,7 +1249,7 @@ export default class hlp {
                                 els__value.getAttribute('style').replace(from + ';', '') + to + ';'
                             );
 
-                            hlp.addEventListenerOnce(els__value, 'transitionend', event => {
+                            hlp.addEventListenerOnce(els__value, 'transitionend', (event) => {
                                 // transitionend fires also, when animating child elements
                                 // the following line ensures, that those events do not bubble up
                                 // in that case, we return false and ensure, the event listener is still alive
@@ -1322,6 +1322,13 @@ export default class hlp {
             i = -1;
         while (nodes[++i] && nodes[i] != node);
         return !!nodes[i];
+    }
+
+    static html2dom(html) {
+        let template = document.createElement('template');
+        html = html.trim();
+        template.innerHTML = html;
+        return template.content.firstChild;
     }
 
     static prevAll(elem, filter) {
@@ -1468,12 +1475,12 @@ export default class hlp {
 
     static unfocus() {
         if (document.querySelector('.hlp-focus-mask') !== null) {
-            document.querySelectorAll('.hlp-focus-mask').forEach(el => {
+            document.querySelectorAll('.hlp-focus-mask').forEach((el) => {
                 hlp.remove(el);
             });
         }
         if (document.querySelector('[data-focussed]') !== null) {
-            document.querySelectorAll('[data-focussed]').forEach(el => {
+            document.querySelectorAll('[data-focussed]').forEach((el) => {
                 el.style.zIndex = el.getAttribute('data-focussed-orig-z-index');
                 el.style.position = el.getAttribute('data-focussed-orig-position');
                 el.style.backgroundColor = el.getAttribute('data-focussed-orig-background-color');
@@ -1500,7 +1507,7 @@ export default class hlp {
         }
         scope.addEventListener(
             event,
-            e => {
+            (e) => {
                 var el = hlp.closest(e.target, selector);
                 if (el) {
                     callback(e, el);
@@ -1585,7 +1592,7 @@ export default class hlp {
             '*': x * y,
             '-': x - y,
             '+': x + y,
-            '/': x / y
+            '/': x / y,
         }[op];
         return Math.round(n * 10 * Math.pow(10, precision)) / (10 * Math.pow(10, precision));
     }
@@ -1672,7 +1679,7 @@ export default class hlp {
     }
 
     static blobtobase64(blob) {
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
             let reader = new FileReader();
             reader.onload = () => {
                 var dataUrl = reader.result;
@@ -1689,7 +1696,7 @@ export default class hlp {
     }
 
     static blobtostring(blob) {
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
             let reader = new FileReader();
             reader.onload = () => {
                 resolve(reader.result);
@@ -1703,7 +1710,7 @@ export default class hlp {
             const reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onload = () => resolve(reader.result.split(',')[1]);
-            reader.onerror = error => reject(error);
+            reader.onerror = (error) => reject(error);
         });
     }
 
@@ -1748,7 +1755,7 @@ export default class hlp {
             base64 = base64.replace('data:image/jpeg;base64,', '');
             let file = this.base64tofile(base64),
                 reader = new FileReader();
-            reader.onload = e => {
+            reader.onload = (e) => {
                 var view = new DataView(e.target.result);
                 if (view.getUint16(0, false) != 0xffd8) {
                     resolve(-2);
@@ -1850,13 +1857,13 @@ export default class hlp {
             if (base64.indexOf('data:image/jpeg;base64,') === 0) {
                 base64 = base64.replace('data:image/jpeg;base64,', '');
             }
-            this.getImageOrientation(base64).then(orientation => {
+            this.getImageOrientation(base64).then((orientation) => {
                 base64 = 'data:image/jpeg;base64,' + base64;
                 if (orientation <= 1) {
                     resolve(base64);
                     return;
                 } else {
-                    this.resetImageOrientation(base64, orientation).then(base64_new => {
+                    this.resetImageOrientation(base64, orientation).then((base64_new) => {
                         resolve(base64_new);
                         return;
                     });

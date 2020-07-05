@@ -1656,6 +1656,14 @@ function () {
       return !!nodes[i];
     }
   }, {
+    key: "html2dom",
+    value: function html2dom(html) {
+      var template = document.createElement('template');
+      html = html.trim();
+      template.innerHTML = html;
+      return template.content.firstChild;
+    }
+  }, {
     key: "prevAll",
     value: function prevAll(elem, filter) {
       var sibs = [];
