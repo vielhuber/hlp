@@ -1827,9 +1827,11 @@ function () {
         el.setAttribute('data-focussed-orig-z-index', el.style.zIndex);
         el.setAttribute('data-focussed-orig-position', el.style.position);
         el.setAttribute('data-focussed-orig-background-color', el.style.backgroundColor);
+        el.setAttribute('data-focussed-orig-box-shadow', el.style.boxShadow);
         el.style.zIndex = 2147483647;
         el.style.position = 'relative';
         el.style.backgroundColor = '#ffffff';
+        el.style.boxShadow = '0px 0px 0px 20px #fff';
       }
     }
   }, {
@@ -1846,10 +1848,12 @@ function () {
           el.style.zIndex = el.getAttribute('data-focussed-orig-z-index');
           el.style.position = el.getAttribute('data-focussed-orig-position');
           el.style.backgroundColor = el.getAttribute('data-focussed-orig-background-color');
+          el.style.boxShadow = el.getAttribute('data-focussed-orig-box-shadow');
           el.removeAttribute('data-focussed');
           el.removeAttribute('data-focussed-orig-z-index');
           el.removeAttribute('data-focussed-orig-position');
           el.removeAttribute('data-focussed-orig-background-color');
+          el.removeAttribute('data-focussed-orig-box-shadow');
         });
       }
     }
