@@ -495,6 +495,7 @@ hlp.urlWithHash() // https://github.com/vielhuber/hlp#foo
 hlp.fullUrl() // https://github.com/vielhuber/hlp?foo=bar#foo
 hlp.baseUrl() // https://github.com
 hlp.urlHost(); // github.com
+hlp.urlHostTopLevel(); // github.com
 hlp.urlPath(); // /vielhuber/hlp
 hlp.urlHash(); // #foo
 hlp.urlArgs(); // ?foo=bar

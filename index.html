@@ -80,6 +80,13 @@
 
         <script type="text/javascript" src="hlp.js"></script>
         <script type="text/javascript">
+            console.log([hlp.urlHost(), hlp.urlHostTopLevel()]);
+
+            hlp.cookieSet('foo', 'bar', 7);
+            setTimeout(() => {
+                hlp.cookieDelete('foo');
+            }, 10000);
+
             console.log([hlp.html2dom('<p>foo</p>'), hlp.html2dom('<td>bar</td>')]);
 
             hlp.animate(document.querySelector('body'), 'opacity: 1', 'opacity: 0', 'ease-in-out', 500).then(() => {
