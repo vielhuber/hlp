@@ -466,7 +466,7 @@ hlp.siblings( document.querySelector('.foo'), '.bar' )
 hlp.parents( document.querySelector('.foo') )
 hlp.parents( document.querySelector('.foo'), '.bar' )
 
-// html string to dom
+// html string to dom (also supports ie11 and td nodes that cannot be root nodes)
 hlp.html2dom('<p>foo</p>')
 hlp.html2dom('<td>bar</td>')
 
@@ -541,6 +541,12 @@ hlp.loadJsSequentially([
     'https://www.tld.com/2.js',
     'https://www.tld.com/3.js'
 ]).then(() => { console.log('done'); });
+
+// run event after all images are loaded inside container
+// works even after dynamic changes
+// runs more than once (after each change)
+// run this outside of window load / document ready events
+hlp.triggerAfterAllImagesLoaded('.container', '.container__image', () => {});
 
 // easy ajax requests (without the fetch api; also works in ie11)
 hlp.get('https://httpbin.org/anything').then((response) => { }).catch((error) => { }) // { "method": "GET", ... }

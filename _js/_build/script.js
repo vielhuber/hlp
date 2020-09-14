@@ -23,6 +23,16 @@ var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/cl
 
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
 
+require("@babel/polyfill/noConflict");
+
+require("mdn-polyfills/NodeList.prototype.forEach");
+
+require("mdn-polyfills/Node.prototype.remove");
+
+require("mdn-polyfills/Node.prototype.before");
+
+require("mdn-polyfills/Element.prototype.closest");
+
 function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -1440,6 +1450,58 @@ var hlp = /*#__PURE__*/function () {
       return loadJsSequentially;
     }()
   }, {
+    key: "triggerAfterAllImagesLoaded",
+    value: function triggerAfterAllImagesLoaded(selectorContainer, selectorImage, fn) {
+      var _this3 = this;
+
+      window.addEventListener('load', function (e) {
+        if (document.querySelector(selectorContainer + ' ' + selectorImage) !== null) {
+          document.querySelectorAll(selectorContainer + ' ' + selectorImage).forEach(function (el) {
+            _this3.triggerAfterAllImagesLoadedBindLoadEvent(el, selectorContainer, selectorImage, fn);
+          });
+        }
+      });
+      document.addEventListener('DOMContentLoaded', function () {
+        if (document.querySelector(selectorContainer) !== null) {
+          new MutationObserver(function (mutations) {
+            mutations.forEach(function (mutation) {
+              if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+                console.log(mutation);
+                mutation.addedNodes.forEach(function (el) {
+                  if (el.nodeType === Node.ELEMENT_NODE) {
+                    el.classList.remove(selectorImage.replace('.', '') + '--loaded');
+                    el.addEventListener('load', function () {
+                      _this3.triggerAfterAllImagesLoadedBindLoadEvent(el, selectorContainer, selectorImage, fn);
+                    });
+                  }
+                });
+              } else if (mutation.type === 'attributes' && mutation.attributeName === 'src' && mutation.target.classList.contains(selectorImage.replace('.', ''))) {
+                if (mutation.target.nodeType === Node.ELEMENT_NODE) {
+                  mutation.target.classList.remove(selectorImage.replace('.', '') + '--loaded');
+                }
+              }
+            });
+          }).observe(document.querySelector(selectorContainer), {
+            attributes: true,
+            childList: true,
+            characterData: false,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: false
+          });
+        }
+      });
+    }
+  }, {
+    key: "triggerAfterAllImagesLoadedBindLoadEvent",
+    value: function triggerAfterAllImagesLoadedBindLoadEvent(el, selectorContainer, selectorImage, fn) {
+      el.classList.add(selectorImage.replace('.', '') + '--loaded');
+
+      if (el.closest(selectorContainer).querySelectorAll(selectorImage + '--loaded').length === el.closest(selectorContainer).querySelectorAll(selectorImage).length) {
+        fn();
+      }
+    }
+  }, {
     key: "isVisible",
     value: function isVisible(el) {
       return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
@@ -1447,28 +1509,28 @@ var hlp = /*#__PURE__*/function () {
   }, {
     key: "textareaAutoHeight",
     value: function textareaAutoHeight() {
-      var _this3 = this;
+      var _this4 = this;
 
       var selector = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'textarea';
       this.textareaSetHeights(selector);
       this.onResizeHorizontal(function () {
-        _this3.textareaSetHeights(selector);
+        _this4.textareaSetHeights(selector);
       });
       [].forEach.call(document.querySelectorAll(selector), function (el) {
         el.addEventListener('keyup', function (e) {
-          _this3.textareaSetHeight(e.target);
+          _this4.textareaSetHeight(e.target);
         });
       });
     }
   }, {
     key: "textareaSetHeights",
     value: function textareaSetHeights() {
-      var _this4 = this;
+      var _this5 = this;
 
       var selector = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'textarea';
       [].forEach.call(document.querySelectorAll(selector), function (el) {
-        if (_this4.isVisible(el)) {
-          _this4.textareaSetHeight(el);
+        if (_this5.isVisible(el)) {
+          _this5.textareaSetHeight(el);
         }
       });
     }
@@ -1644,7 +1706,56 @@ var hlp = /*#__PURE__*/function () {
       var template = document.createElement('template');
       html = html.trim();
       template.innerHTML = html;
+
+      if (template.content === undefined) {
+        return this.html2domLegacy(html);
+      }
+
       return template.content.firstChild;
+    }
+  }, {
+    key: "html2domLegacy",
+    value: function html2domLegacy(html) {
+      /* source: https://gist.github.com/Munawwar/6e6362dbdf77c7865a99 */
+      var rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/gi,
+          rtagName = /<([\w:]+)/,
+          rhtml = /<|&#?\w+;/,
+          wrapMap = {
+        option: [1, "<select multiple='multiple'>", '</select>'],
+        thead: [1, '<table>', '</table>'],
+        col: [2, '<table><colgroup>', '</colgroup></table>'],
+        tr: [2, '<table><tbody>', '</tbody></table>'],
+        td: [3, '<table><tbody><tr>', '</tr></tbody></table>'],
+        _default: [0, '', '']
+      },
+          context = document;
+      var tmp,
+          tag,
+          wrap,
+          j,
+          fragment = context.createDocumentFragment();
+
+      if (!rhtml.test(html)) {
+        fragment.appendChild(context.createTextNode(html));
+      } else {
+        tmp = fragment.appendChild(context.createElement('div'));
+        tag = (rtagName.exec(html) || ['', ''])[1].toLowerCase();
+        wrap = wrapMap[tag] || wrapMap._default;
+        tmp.innerHTML = wrap[1] + html.replace(rxhtmlTag, '<$1></$2>') + wrap[2];
+        j = wrap[0];
+
+        while (j--) {
+          tmp = tmp.lastChild;
+        }
+
+        fragment.removeChild(fragment.firstChild);
+
+        while (tmp.firstChild) {
+          fragment.appendChild(tmp.firstChild);
+        }
+      }
+
+      return fragment.querySelector('*');
     }
   }, {
     key: "prevAll",
@@ -2128,7 +2239,16 @@ var hlp = /*#__PURE__*/function () {
   }, {
     key: "blobtofile",
     value: function blobtofile(blob) {
-      return new File([blob], 'name');
+      var file = null;
+
+      try {
+        file = new File([blob], 'name');
+      } catch (_unused) {
+        // ie 11
+        file = new Blob([blob], 'name');
+      }
+
+      return file;
     }
   }, {
     key: "filetoblob",
@@ -2176,12 +2296,12 @@ var hlp = /*#__PURE__*/function () {
   }, {
     key: "getImageOrientation",
     value: function getImageOrientation(base64) {
-      var _this5 = this;
+      var _this6 = this;
 
       return new Promise(function (resolve, reject) {
         base64 = base64.replace('data:image/jpeg;base64,', '');
 
-        var file = _this5.base64tofile(base64),
+        var file = _this6.base64tofile(base64),
             reader = new FileReader();
 
         reader.onload = function (e) {
@@ -2301,7 +2421,7 @@ var hlp = /*#__PURE__*/function () {
   }, {
     key: "fixImageOrientation",
     value: function fixImageOrientation(base64) {
-      var _this6 = this;
+      var _this7 = this;
 
       return new Promise(function (resolve, reject) {
         if (base64.indexOf('data:') === -1) {
@@ -2313,14 +2433,14 @@ var hlp = /*#__PURE__*/function () {
           base64 = base64.replace('data:image/jpeg;base64,', '');
         }
 
-        _this6.getImageOrientation(base64).then(function (orientation) {
+        _this7.getImageOrientation(base64).then(function (orientation) {
           base64 = 'data:image/jpeg;base64,' + base64;
 
           if (orientation <= 1) {
             resolve(base64);
             return;
           } else {
-            _this6.resetImageOrientation(base64, orientation).then(function (base64_new) {
+            _this7.resetImageOrientation(base64, orientation).then(function (base64_new) {
               resolve(base64_new);
               return;
             });

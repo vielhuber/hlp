@@ -1,3 +1,9 @@
+import '@babel/polyfill/noConflict';
+import 'mdn-polyfills/NodeList.prototype.forEach';
+import 'mdn-polyfills/Node.prototype.remove';
+import 'mdn-polyfills/Node.prototype.before';
+import 'mdn-polyfills/Element.prototype.closest';
+
 export default class hlp {
     static x(input) {
         if (typeof input === 'function') {
@@ -1145,6 +1151,65 @@ export default class hlp {
         return;
     }
 
+    static triggerAfterAllImagesLoaded(selectorContainer, selectorImage, fn) {
+        window.addEventListener('load', (e) => {
+            if (document.querySelector(selectorContainer + ' ' + selectorImage) !== null) {
+                document.querySelectorAll(selectorContainer + ' ' + selectorImage).forEach((el) => {
+                    this.triggerAfterAllImagesLoadedBindLoadEvent(el, selectorContainer, selectorImage, fn);
+                });
+            }
+        });
+        document.addEventListener('DOMContentLoaded', () => {
+            if (document.querySelector(selectorContainer) !== null) {
+                new MutationObserver((mutations) => {
+                    mutations.forEach((mutation) => {
+                        if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+                            console.log(mutation);
+                            mutation.addedNodes.forEach((el) => {
+                                if (el.nodeType === Node.ELEMENT_NODE) {
+                                    el.classList.remove(selectorImage.replace('.', '') + '--loaded');
+                                    el.addEventListener('load', () => {
+                                        this.triggerAfterAllImagesLoadedBindLoadEvent(
+                                            el,
+                                            selectorContainer,
+                                            selectorImage,
+                                            fn
+                                        );
+                                    });
+                                }
+                            });
+                        } else if (
+                            mutation.type === 'attributes' &&
+                            mutation.attributeName === 'src' &&
+                            mutation.target.classList.contains(selectorImage.replace('.', ''))
+                        ) {
+                            if (mutation.target.nodeType === Node.ELEMENT_NODE) {
+                                mutation.target.classList.remove(selectorImage.replace('.', '') + '--loaded');
+                            }
+                        }
+                    });
+                }).observe(document.querySelector(selectorContainer), {
+                    attributes: true,
+                    childList: true,
+                    characterData: false,
+                    subtree: true,
+                    attributeOldValue: false,
+                    characterDataOldValue: false,
+                });
+            }
+        });
+    }
+
+    static triggerAfterAllImagesLoadedBindLoadEvent(el, selectorContainer, selectorImage, fn) {
+        el.classList.add(selectorImage.replace('.', '') + '--loaded');
+        if (
+            el.closest(selectorContainer).querySelectorAll(selectorImage + '--loaded').length ===
+            el.closest(selectorContainer).querySelectorAll(selectorImage).length
+        ) {
+            fn();
+        }
+    }
+
     static isVisible(el) {
         return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
     }
@@ -1335,7 +1400,48 @@ export default class hlp {
         let template = document.createElement('template');
         html = html.trim();
         template.innerHTML = html;
+        if (template.content === undefined) {
+            return this.html2domLegacy(html);
+        }
         return template.content.firstChild;
+    }
+
+    static html2domLegacy(html) {
+        /* source: https://gist.github.com/Munawwar/6e6362dbdf77c7865a99 */
+        var rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/gi,
+            rtagName = /<([\w:]+)/,
+            rhtml = /<|&#?\w+;/,
+            wrapMap = {
+                option: [1, "<select multiple='multiple'>", '</select>'],
+                thead: [1, '<table>', '</table>'],
+                col: [2, '<table><colgroup>', '</colgroup></table>'],
+                tr: [2, '<table><tbody>', '</tbody></table>'],
+                td: [3, '<table><tbody><tr>', '</tr></tbody></table>'],
+                _default: [0, '', ''],
+            },
+            context = document;
+        var tmp,
+            tag,
+            wrap,
+            j,
+            fragment = context.createDocumentFragment();
+        if (!rhtml.test(html)) {
+            fragment.appendChild(context.createTextNode(html));
+        } else {
+            tmp = fragment.appendChild(context.createElement('div'));
+            tag = (rtagName.exec(html) || ['', ''])[1].toLowerCase();
+            wrap = wrapMap[tag] || wrapMap._default;
+            tmp.innerHTML = wrap[1] + html.replace(rxhtmlTag, '<$1></$2>') + wrap[2];
+            j = wrap[0];
+            while (j--) {
+                tmp = tmp.lastChild;
+            }
+            fragment.removeChild(fragment.firstChild);
+            while (tmp.firstChild) {
+                fragment.appendChild(tmp.firstChild);
+            }
+        }
+        return fragment.querySelector('*');
     }
 
     static prevAll(elem, filter) {
@@ -1736,7 +1842,14 @@ export default class hlp {
     }
 
     static blobtofile(blob) {
-        return new File([blob], 'name');
+        let file = null;
+        try {
+            file = new File([blob], 'name');
+        } catch {
+            // ie 11
+            file = new Blob([blob], 'name');
+        }
+        return file;
     }
 
     static filetoblob(file) {

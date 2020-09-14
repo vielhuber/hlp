@@ -35,6 +35,12 @@
                 background-color: red;
                 margin-bottom: 20px;
             }
+            .triggerAfterAllImagesLoaded .status {
+                color: red;
+            }
+            .triggerAfterAllImagesLoaded .container__image--loaded {
+                border: 5px solid green;
+            }
         </style>
     </head>
     <body>
@@ -78,38 +84,104 @@
         />
         <img src="" id="image_2" alt="" />
 
-        <script type="text/javascript" src="hlp.js"></script>
+        <div class="triggerAfterAllImagesLoaded">
+            <a href="#" data-action="html" data-type="remote" class="test">innerHTML (remote)</a>
+            <a href="#" data-action="attribute" data-type="remote" class="test">Attribute (remote)</a>
+            <a href="#" data-action="html" data-type="local" class="test">innerHTML (local)</a>
+            <a href="#" data-action="attribute" data-type="local" class="test">Attribute (local)</a>
+            <div class="status"></div>
+            <div class="container">
+                <img class="container__image" src="1.jpg" alt="" />
+                <img class="container__image" src="2.jpg" alt="" />
+            </div>
+        </div>
+
+        <script type="text/javascript" src="../hlp.js"></script>
         <script type="text/javascript">
+            hlp.triggerAfterAllImagesLoaded('.triggerAfterAllImagesLoaded .container', '.container__image', function() {
+                document.querySelector('.status').textContent =
+                    ('0' + new Date().getHours()).slice(-2) +
+                    ':' +
+                    ('0' + new Date().getMinutes()).slice(-2) +
+                    ':' +
+                    ('0' + new Date().getSeconds()).slice(-2);
+            });
+            document.addEventListener('DOMContentLoaded', function() {
+                document.querySelectorAll('.triggerAfterAllImagesLoaded .test').forEach(function(el) {
+                    el.addEventListener('click', function(e) {
+                        let url = null;
+                        if (e.currentTarget.getAttribute('data-type') === 'remote') {
+                            let d =
+                                ('0' + new Date().getHours()).slice(-2) +
+                                ':' +
+                                ('0' + new Date().getMinutes()).slice(-2) +
+                                ':' +
+                                ('0' + new Date().getSeconds()).slice(-2);
+                            url = 'https://via.placeholder.com/728x90.png?text=' + d;
+                        } else {
+                            if (~~(Math.random() * (1 - 0 + 1)) + 0 === 0) {
+                                url = '1.jpg';
+                            } else {
+                                url = '2.jpg';
+                            }
+                        }
+                        if (e.currentTarget.getAttribute('data-action') === 'html') {
+                            document.querySelector('.triggerAfterAllImagesLoaded .container').innerHTML =
+                                '\
+                                <img class="container__image" src="' +
+                                url +
+                                '" alt="" />\
+                                <img class="container__image" src="' +
+                                url +
+                                '" alt="" />\
+                                <img class="container__image" src="' +
+                                url +
+                                '" alt="" />\
+                            ';
+                        } else {
+                            document
+                                .querySelector(
+                                    '.container__image:nth-child(' + (~~(Math.random() * (3 - 1 + 1)) + 1) + ')'
+                                )
+                                .setAttribute('src', url);
+                        }
+                        e.preventDefault();
+                    });
+                });
+            });
+
             console.log([hlp.urlHost(), hlp.urlHostTopLevel()]);
 
             hlp.cookieSet('foo', 'bar', 7);
-            setTimeout(() => {
+            setTimeout(function() {
                 hlp.cookieDelete('foo');
             }, 10000);
 
-            console.log([hlp.html2dom('<p>foo</p>'), hlp.html2dom('<td>bar</td>')]);
+            console.log([
+                hlp.html2dom('<p>foo</p>'),
+                hlp.html2dom('<p>foo</p>').outerHTML,
+                hlp.html2dom('<td>bar</td>'),
+                hlp.html2dom('<td>bar</td>').outerHTML,
+            ]);
 
-            hlp.animate(document.querySelector('body'), 'opacity: 1', 'opacity: 0', 'ease-in-out', 500).then(() => {
-                console.log('TRIGGER DONE');
-            });
+            hlp.animate(document.querySelector('body'), 'opacity: 1', 'opacity: 0', 'ease-in-out', 500).then(
+                function() {
+                    console.log('TRIGGER DONE');
+                    document.querySelector('body').style.opacity = 1;
+                }
+            );
 
-            /*
-                        hlp.animate(document.querySelector('body'), 'opacity: 1', 'opacity: 0', 'ease-in-out', 5000).then(() => {
-                            console.log('1');
-                        });
-                        */
-
-            hlp.getImageOrientation(document.querySelector('#image_1').getAttribute('src')).then((orientation) => {
+            hlp.getImageOrientation(document.querySelector('#image_1').getAttribute('src')).then(function(orientation) {
                 console.log(orientation);
             });
-            hlp.fixImageOrientation(document.querySelector('#image_1').getAttribute('src')).then((base64) => {
+            hlp.fixImageOrientation(document.querySelector('#image_1').getAttribute('src')).then(function(base64) {
                 document.querySelector('#image_2').setAttribute('src', base64);
             });
 
             let formData = new FormData();
             formData.append('foo', 'bar');
             formData.append('bar', 'baz');
-            hlp.post('http://httpbin.org/anything', { data: formData }).then((res) => {
+            hlp.post('http://httpbin.org/anything', { data: formData }).then(function(res) {
                 console.log(res);
             });
 
@@ -138,46 +210,46 @@
             console.log('matches2: ' + hlp.matches(document.querySelector('.parent'), '.parent'));
 
             hlp.focus('.child');
-            setTimeout(() => {
+            setTimeout(function() {
                 hlp.unfocus();
-            }, 10000);
+            }, 5000);
 
             console.log(hlp.capitalize('foo'));
 
             console.log(hlp.pushId());
             console.log(hlp.pushId());
 
-            hlp.waitUntil('#foo').then(() => {
+            hlp.waitUntil('#foo').then(function() {
                 console.log('#foo available');
             });
-            hlp.waitUntil('#foo', 'background-color').then(() => {
+            hlp.waitUntil('#foo', 'background-color').then(function() {
                 console.log('background color loaded');
             });
-            hlp.waitUntil('#foo', 'position', 'relative').then(() => {
+            hlp.waitUntil('#foo', 'position', 'relative').then(function() {
                 console.log('position relative loaded');
             });
 
-            hlp.onResizeHorizontal(() => {
+            hlp.onResizeHorizontal(function() {
                 console.log('triggered onResizeHorizontal');
             });
-            hlp.onResizeVertical(() => {
+            hlp.onResizeVertical(function() {
                 console.log('triggered onResizeVertical');
             });
 
-            hlp.scrollTo(document.getElementById('bar'), 100).then(() => {
-                hlp.fadeOut(document.getElementById('bar'), 100).then(() => {
+            hlp.scrollTo(document.getElementById('bar'), 100).then(function() {
+                hlp.fadeOut(document.getElementById('bar'), 100).then(function() {
                     console.log(hlp.isVisible(document.getElementById('bar')));
-                    hlp.fadeIn(document.getElementById('bar'), 100).then(() => {
+                    hlp.fadeIn(document.getElementById('bar'), 100).then(function() {
                         console.log(hlp.isVisible(document.getElementById('bar')));
-                        hlp.scrollTo(0, 100).then(() => {
+                        hlp.scrollTo(0, 100).then(function() {
                             hlp.animate(
                                 document.getElementById('foo'),
                                 'transform: translateX(0)',
                                 'transform: translateX(-100%)',
                                 'ease-in-out',
                                 1000
-                            ).then(() => {
-                                hlp.on('click', '.dynamic', '#bar', (e) => {
+                            ).then(function() {
+                                hlp.on('click', '.dynamic', '#bar', function(e) {
                                     console.log('clicked');
                                     e.preventDefault();
                                 });
@@ -189,21 +261,21 @@
                                     'transform: translateX(1000px); pointer-events: none; opacity: 0.1',
                                     'ease-in-out',
                                     3000
-                                ).then(() => {
+                                ).then(function() {
                                     hlp.animate(
                                         document.querySelectorAll('.animate div'),
                                         'transform: translateX(500px); pointer-events: none; opacity: 0.1',
                                         'transform: translateX(1000px); pointer-events: auto; opacity: 1',
                                         'ease-in-out',
                                         3000
-                                    ).then(() => {
+                                    ).then(function() {
                                         hlp.animate(
                                             document.querySelectorAll('.animate div'),
                                             'opacity: 1',
                                             'opacity: 0.1',
                                             'ease-in-out',
                                             3000
-                                        ).then(() => {
+                                        ).then(function() {
                                             console.log('done');
                                         });
                                     });
@@ -214,16 +286,16 @@
                 });
             });
 
-            hlp.loadJs('https://apis.google.com/js/api.js').then(() => {
+            hlp.loadJs('https://apis.google.com/js/api.js').then(function() {
                 console.log('done');
             });
 
-            hlp.loadJs(['https://apis.google.com/js/api.js', 'https://apis.google.com/js/api.js']).then(() => {
+            hlp.loadJs(['https://apis.google.com/js/api.js', 'https://apis.google.com/js/api.js']).then(function() {
                 console.log('done2');
             });
 
             hlp.loadJsSequentially(['https://apis.google.com/js/api.js', 'https://apis.google.com/js/api.js']).then(
-                () => {
+                function() {
                     console.log('done3');
                 }
             );
@@ -232,13 +304,13 @@
 
             document.querySelector('.special').addEventListener(
                 'input',
-                hlp.debounce((e) => {
+                hlp.debounce(function(e) {
                     console.log('debounce at ' + e.target.value);
                 }, 1000)
             );
             document.querySelector('.special').addEventListener(
                 'input',
-                hlp.throttle((e) => {
+                hlp.throttle(function(e) {
                     console.log('throttle at ' + e.target.value);
                 }, 1000)
             );
