@@ -1167,7 +1167,8 @@ export default class hlp {
                             console.log(mutation);
                             mutation.addedNodes.forEach((el) => {
                                 if (el.nodeType === Node.ELEMENT_NODE) {
-                                    el.classList.remove(selectorImage.replace('.', '') + '--loaded');
+                                    el.classList.remove('loaded-img');
+                                    el.closest(selectorContainer).classList.remove('loaded-all');
                                     el.addEventListener('load', () => {
                                         this.triggerAfterAllImagesLoadedBindLoadEvent(
                                             el,
@@ -1184,7 +1185,8 @@ export default class hlp {
                             mutation.target.classList.contains(selectorImage.replace('.', ''))
                         ) {
                             if (mutation.target.nodeType === Node.ELEMENT_NODE) {
-                                mutation.target.classList.remove(selectorImage.replace('.', '') + '--loaded');
+                                mutation.target.classList.remove('loaded-img');
+                                mutation.target.closest(selectorContainer).classList.remove('loaded-all');
                             }
                         }
                     });
@@ -1201,11 +1203,12 @@ export default class hlp {
     }
 
     static triggerAfterAllImagesLoadedBindLoadEvent(el, selectorContainer, selectorImage, fn) {
-        el.classList.add(selectorImage.replace('.', '') + '--loaded');
+        el.classList.add('loaded-img');
         if (
-            el.closest(selectorContainer).querySelectorAll(selectorImage + '--loaded').length ===
+            el.closest(selectorContainer).querySelectorAll('.loaded-img').length ===
             el.closest(selectorContainer).querySelectorAll(selectorImage).length
         ) {
+            el.closest(selectorContainer).classList.add('loaded-all');
             fn();
         }
     }
