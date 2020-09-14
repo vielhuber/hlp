@@ -1164,30 +1164,21 @@ export default class hlp {
                 new MutationObserver((mutations) => {
                     mutations.forEach((mutation) => {
                         if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
-                            console.log(mutation);
                             mutation.addedNodes.forEach((el) => {
-                                if (el.nodeType === Node.ELEMENT_NODE) {
-                                    el.classList.remove('loaded-img');
-                                    el.closest(selectorContainer).classList.remove('loaded-all');
-                                    el.addEventListener('load', () => {
-                                        this.triggerAfterAllImagesLoadedBindLoadEvent(
-                                            el,
-                                            selectorContainer,
-                                            selectorImage,
-                                            fn
-                                        );
-                                    });
-                                }
+                                this.triggerAfterAllImagesLoadedHandleEl(el, selectorContainer, selectorImage, fn);
                             });
                         } else if (
                             mutation.type === 'attributes' &&
                             mutation.attributeName === 'src' &&
-                            mutation.target.classList.contains(selectorImage.replace('.', ''))
+                            mutation.target.classList.contains(selectorImage.replace('.', '')) &&
+                            mutation.oldValue !== mutation.target.getAttribute('src')
                         ) {
-                            if (mutation.target.nodeType === Node.ELEMENT_NODE) {
-                                mutation.target.classList.remove('loaded-img');
-                                mutation.target.closest(selectorContainer).classList.remove('loaded-all');
-                            }
+                            this.triggerAfterAllImagesLoadedHandleEl(
+                                mutation.target,
+                                selectorContainer,
+                                selectorImage,
+                                fn
+                            );
                         }
                     });
                 }).observe(document.querySelector(selectorContainer), {
@@ -1195,11 +1186,25 @@ export default class hlp {
                     childList: true,
                     characterData: false,
                     subtree: true,
-                    attributeOldValue: false,
+                    attributeOldValue: true,
                     characterDataOldValue: false,
                 });
             }
         });
+    }
+
+    static triggerAfterAllImagesLoadedHandleEl(el, selectorContainer, selectorImage, fn) {
+        if (el.nodeType === Node.ELEMENT_NODE) {
+            el.classList.remove('loaded-img');
+            el.closest(selectorContainer).classList.remove('loaded-all');
+            // only bind if not yet binded
+            if (!el.classList.contains('binded-trigger')) {
+                el.classList.add('binded-trigger');
+                el.addEventListener('load', () => {
+                    this.triggerAfterAllImagesLoadedBindLoadEvent(el, selectorContainer, selectorImage, fn);
+                });
+            }
+        }
     }
 
     static triggerAfterAllImagesLoadedBindLoadEvent(el, selectorContainer, selectorImage, fn) {

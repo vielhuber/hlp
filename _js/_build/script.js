@@ -1466,21 +1466,11 @@ var hlp = /*#__PURE__*/function () {
           new MutationObserver(function (mutations) {
             mutations.forEach(function (mutation) {
               if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
-                console.log(mutation);
                 mutation.addedNodes.forEach(function (el) {
-                  if (el.nodeType === Node.ELEMENT_NODE) {
-                    el.classList.remove('loaded-img');
-                    el.closest(selectorContainer).classList.remove('loaded-all');
-                    el.addEventListener('load', function () {
-                      _this3.triggerAfterAllImagesLoadedBindLoadEvent(el, selectorContainer, selectorImage, fn);
-                    });
-                  }
+                  _this3.triggerAfterAllImagesLoadedHandleEl(el, selectorContainer, selectorImage, fn);
                 });
-              } else if (mutation.type === 'attributes' && mutation.attributeName === 'src' && mutation.target.classList.contains(selectorImage.replace('.', ''))) {
-                if (mutation.target.nodeType === Node.ELEMENT_NODE) {
-                  mutation.target.classList.remove('loaded-img');
-                  mutation.target.closest(selectorContainer).classList.remove('loaded-all');
-                }
+              } else if (mutation.type === 'attributes' && mutation.attributeName === 'src' && mutation.target.classList.contains(selectorImage.replace('.', '')) && mutation.oldValue !== mutation.target.getAttribute('src')) {
+                _this3.triggerAfterAllImagesLoadedHandleEl(mutation.target, selectorContainer, selectorImage, fn);
               }
             });
           }).observe(document.querySelector(selectorContainer), {
@@ -1488,11 +1478,28 @@ var hlp = /*#__PURE__*/function () {
             childList: true,
             characterData: false,
             subtree: true,
-            attributeOldValue: false,
+            attributeOldValue: true,
             characterDataOldValue: false
           });
         }
       });
+    }
+  }, {
+    key: "triggerAfterAllImagesLoadedHandleEl",
+    value: function triggerAfterAllImagesLoadedHandleEl(el, selectorContainer, selectorImage, fn) {
+      var _this4 = this;
+
+      if (el.nodeType === Node.ELEMENT_NODE) {
+        el.classList.remove('loaded-img');
+        el.closest(selectorContainer).classList.remove('loaded-all'); // only bind if not yet binded
+
+        if (!el.classList.contains('binded-trigger')) {
+          el.classList.add('binded-trigger');
+          el.addEventListener('load', function () {
+            _this4.triggerAfterAllImagesLoadedBindLoadEvent(el, selectorContainer, selectorImage, fn);
+          });
+        }
+      }
     }
   }, {
     key: "triggerAfterAllImagesLoadedBindLoadEvent",
@@ -1512,28 +1519,28 @@ var hlp = /*#__PURE__*/function () {
   }, {
     key: "textareaAutoHeight",
     value: function textareaAutoHeight() {
-      var _this4 = this;
+      var _this5 = this;
 
       var selector = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'textarea';
       this.textareaSetHeights(selector);
       this.onResizeHorizontal(function () {
-        _this4.textareaSetHeights(selector);
+        _this5.textareaSetHeights(selector);
       });
       [].forEach.call(document.querySelectorAll(selector), function (el) {
         el.addEventListener('keyup', function (e) {
-          _this4.textareaSetHeight(e.target);
+          _this5.textareaSetHeight(e.target);
         });
       });
     }
   }, {
     key: "textareaSetHeights",
     value: function textareaSetHeights() {
-      var _this5 = this;
+      var _this6 = this;
 
       var selector = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'textarea';
       [].forEach.call(document.querySelectorAll(selector), function (el) {
-        if (_this5.isVisible(el)) {
-          _this5.textareaSetHeight(el);
+        if (_this6.isVisible(el)) {
+          _this6.textareaSetHeight(el);
         }
       });
     }
@@ -2299,12 +2306,12 @@ var hlp = /*#__PURE__*/function () {
   }, {
     key: "getImageOrientation",
     value: function getImageOrientation(base64) {
-      var _this6 = this;
+      var _this7 = this;
 
       return new Promise(function (resolve, reject) {
         base64 = base64.replace('data:image/jpeg;base64,', '');
 
-        var file = _this6.base64tofile(base64),
+        var file = _this7.base64tofile(base64),
             reader = new FileReader();
 
         reader.onload = function (e) {
@@ -2424,7 +2431,7 @@ var hlp = /*#__PURE__*/function () {
   }, {
     key: "fixImageOrientation",
     value: function fixImageOrientation(base64) {
-      var _this7 = this;
+      var _this8 = this;
 
       return new Promise(function (resolve, reject) {
         if (base64.indexOf('data:') === -1) {
@@ -2436,14 +2443,14 @@ var hlp = /*#__PURE__*/function () {
           base64 = base64.replace('data:image/jpeg;base64,', '');
         }
 
-        _this7.getImageOrientation(base64).then(function (orientation) {
+        _this8.getImageOrientation(base64).then(function (orientation) {
           base64 = 'data:image/jpeg;base64,' + base64;
 
           if (orientation <= 1) {
             resolve(base64);
             return;
           } else {
-            _this7.resetImageOrientation(base64, orientation).then(function (base64_new) {
+            _this8.resetImageOrientation(base64, orientation).then(function (base64_new) {
               resolve(base64_new);
               return;
             });
