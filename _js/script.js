@@ -1080,6 +1080,24 @@ export default class hlp {
         );
     }
 
+    static documentHeight() {
+        return Math.max(
+            document.body.offsetHeight,
+            document.body.scrollHeight,
+            document.documentElement.clientHeight,
+            document.documentElement.offsetHeight,
+            document.documentElement.scrollHeight
+        );
+    }
+
+    static outerWidthWithMargin(el) {
+        return el.offsetWidth + parseInt(getComputedStyle(el).marginLeft) + parseInt(getComputedStyle(el).marginRight);
+    }
+
+    static outerHeightWithMargin(el) {
+        return el.offsetHeight + parseInt(getComputedStyle(el).marginTop) + parseInt(getComputedStyle(el).marginBottom);
+    }
+
     static scrollTo(to, duration = 1000) {
         return new Promise((resolve) => {
             if (!hlp.isNumeric(to)) {

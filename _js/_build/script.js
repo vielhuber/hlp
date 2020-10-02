@@ -1316,6 +1316,21 @@ var hlp = /*#__PURE__*/function () {
       return el.getBoundingClientRect().top + window.pageYOffset - document.documentElement.clientTop + el.offsetHeight;
     }
   }, {
+    key: "documentHeight",
+    value: function documentHeight() {
+      return Math.max(document.body.offsetHeight, document.body.scrollHeight, document.documentElement.clientHeight, document.documentElement.offsetHeight, document.documentElement.scrollHeight);
+    }
+  }, {
+    key: "outerWidthWithMargin",
+    value: function outerWidthWithMargin(el) {
+      return el.offsetWidth + parseInt(getComputedStyle(el).marginLeft) + parseInt(getComputedStyle(el).marginRight);
+    }
+  }, {
+    key: "outerHeightWithMargin",
+    value: function outerHeightWithMargin(el) {
+      return el.offsetHeight + parseInt(getComputedStyle(el).marginTop) + parseInt(getComputedStyle(el).marginBottom);
+    }
+  }, {
     key: "scrollTo",
     value: function scrollTo(to) {
       var duration = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1000;

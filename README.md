@@ -451,6 +451,13 @@ hlp.offsetLeft( document.querySelector('.foo') )
 hlp.offsetRight( document.querySelector('.foo') )
 hlp.offsetBottom( document.querySelector('.foo') )
 
+// get document height
+hlp.documentHeight()
+
+// get width with margin
+hlp.outerWidthWithMargin( document.querySelector('.foo') )
+hlp.outerHeightWithMargin( document.querySelector('.foo') )
+
 // polyfills for ie11
 hlp.closest( document.querySelector('.children'), '.parent' )
 hlp.matches( document.querySelector('.parent'), '.parent' ) // true

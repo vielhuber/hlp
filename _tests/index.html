@@ -17,7 +17,7 @@
             }
             #bar {
                 width: 500px;
-                height: 500px;
+                height: 550px;
                 background-color: red;
             }
             #baz {
@@ -239,6 +239,12 @@
             hlp.onResizeVertical(function() {
                 console.log('triggered onResizeVertical');
             });
+
+            console.log([
+                hlp.documentHeight(),
+                hlp.outerWidthWithMargin(document.getElementById('bar')),
+                hlp.outerHeightWithMargin(document.getElementById('bar')),
+            ]);
 
             hlp.scrollTo(document.getElementById('bar'), 100).then(function() {
                 hlp.fadeOut(document.getElementById('bar'), 100).then(function() {
