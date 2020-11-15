@@ -2019,6 +2019,11 @@ var hlp = /*#__PURE__*/function () {
       return window.location.href;
     }
   }, {
+    key: "urlWithArgs",
+    value: function urlWithArgs() {
+      return window.location.href.split('#')[0];
+    }
+  }, {
     key: "baseUrl",
     value: function baseUrl() {
       return window.location.protocol + '//' + window.location.host;

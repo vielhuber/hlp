@@ -1672,6 +1672,10 @@ export default class hlp {
         return window.location.href;
     }
 
+    static urlWithArgs() {
+        return window.location.href.split('#')[0];
+    }
+
     static baseUrl() {
         return window.location.protocol + '//' + window.location.host;
     }

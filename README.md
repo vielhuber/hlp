@@ -500,6 +500,7 @@ document.querySelector('.container').addEventListener('input', hlp.throttle((e) 
 hlp.url() // https://github.com/vielhuber/hlp
 hlp.urlWithHash() // https://github.com/vielhuber/hlp#foo
 hlp.fullUrl() // https://github.com/vielhuber/hlp?foo=bar#foo
+hlp.urlWithArgs() // https://github.com/vielhuber/hlp?foo=bar
 hlp.baseUrl() // https://github.com
 hlp.urlHost(); // github.com
 hlp.urlHostTopLevel(); // github.com
