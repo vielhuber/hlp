@@ -1591,6 +1591,8 @@ var hlp = /*#__PURE__*/function () {
   }, {
     key: "animate",
     value: function animate(el, from, to, easing, duration) {
+      var _this7 = this;
+
       return new Promise(function (resolve) {
         // on durations smaller than 50, the end event does not trigger!
         if (duration <= 50) {
@@ -1645,27 +1647,38 @@ var hlp = /*#__PURE__*/function () {
               window.requestAnimationFrame(function () {
                 // set last style inline
                 els__value.setAttribute('style', els__value.getAttribute('style').replace(from + ';', '') + to + ';');
-                hlp.addEventListenerOnce(els__value, 'transitionend', function (event) {
-                  // transitionend fires also, when animating child elements
-                  // the following line ensures, that those events do not bubble up
-                  // in that case, we return false and ensure, the event listener is still alive
-                  if (event.target !== event.currentTarget) {
-                    return false;
-                  } // remove previous styles property
+
+                if (_this7.isVisible(els__value)) {
+                  hlp.addEventListenerOnce(els__value, 'transitionend', function (event) {
+                    // transitionend fires also, when animating child elements
+                    // the following line ensures, that those events do not bubble up
+                    // in that case, we return false and ensure, the event listener is still alive
+                    if (event.target !== event.currentTarget) {
+                      return false;
+                    } // remove previous styles property
 
 
-                  document.head.removeChild(style); // remove random class
+                    document.head.removeChild(style); // remove random class
 
-                  els__value.classList.remove(random_class); // resolve promise when last is finished
+                    els__value.classList.remove(random_class); // resolve promise when last is finished
 
+                    toFinish--;
+
+                    if (toFinish <= 0) {
+                      window.requestAnimationFrame(function () {
+                        resolve();
+                      });
+                    }
+                  });
+                } else {
+                  document.head.removeChild(style);
+                  els__value.classList.remove(random_class);
                   toFinish--;
 
                   if (toFinish <= 0) {
-                    window.requestAnimationFrame(function () {
-                      resolve();
-                    });
+                    resolve();
                   }
-                });
+                }
               });
             });
           });
@@ -2326,12 +2339,12 @@ var hlp = /*#__PURE__*/function () {
   }, {
     key: "getImageOrientation",
     value: function getImageOrientation(base64) {
-      var _this7 = this;
+      var _this8 = this;
 
       return new Promise(function (resolve, reject) {
         base64 = base64.replace('data:image/jpeg;base64,', '');
 
-        var file = _this7.base64tofile(base64),
+        var file = _this8.base64tofile(base64),
             reader = new FileReader();
 
         reader.onload = function (e) {
@@ -2451,7 +2464,7 @@ var hlp = /*#__PURE__*/function () {
   }, {
     key: "fixImageOrientation",
     value: function fixImageOrientation(base64) {
-      var _this8 = this;
+      var _this9 = this;
 
       return new Promise(function (resolve, reject) {
         if (base64.indexOf('data:') === -1) {
@@ -2463,14 +2476,14 @@ var hlp = /*#__PURE__*/function () {
           base64 = base64.replace('data:image/jpeg;base64,', '');
         }
 
-        _this8.getImageOrientation(base64).then(function (orientation) {
+        _this9.getImageOrientation(base64).then(function (orientation) {
           base64 = 'data:image/jpeg;base64,' + base64;
 
           if (orientation <= 1) {
             resolve(base64);
             return;
           } else {
-            _this8.resetImageOrientation(base64, orientation).then(function (base64_new) {
+            _this9.resetImageOrientation(base64, orientation).then(function (base64_new) {
               resolve(base64_new);
               return;
             });

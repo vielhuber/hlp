@@ -35,6 +35,12 @@
                 background-color: red;
                 margin-bottom: 20px;
             }
+            .animate-hidden {
+                width: 50px;
+                height: 50px;
+                background-color: green;
+                display: none;
+            }
             .triggerAfterAllImagesLoaded .status {
                 color: red;
             }
@@ -79,6 +85,8 @@
             <div></div>
             <div></div>
         </div>
+
+        <div class="animate-hidden"></div>
 
         <img
             src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEA3ADcAAD/4QAiRXhpZgAASUkqAAgAAAABABIBAwABAAAABQAAAAAAAAD/2wBDAAYFBAQFBgYFBgYKCAYHBwoJCQoKEBQXEAwPDhQdGhYWFBcYGBYcIxsaHyUmIyAsIBYZKSopJy0wLR8lMCgpKCj/wAALCAAwAFABAREA/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/9oACAEBAAA/APlSiiiiiiiiiiiiiiiiiiiiiv1Uor8q6K/VSiiivyror9VKK/Kuiv1Uooor8q6K/VSiiiiiiivyror9VKKKKKKKK//Z"
@@ -174,6 +182,16 @@
                     document.querySelector('body').style.opacity = 1;
                 }
             );
+
+            hlp.animate(
+                document.querySelector('.animate-hidden'),
+                'opacity: 1',
+                'opacity: 0',
+                'ease-in-out',
+                5000
+            ).then(function() {
+                console.log('.animate-hidden DONE');
+            });
 
             hlp.getImageOrientation(document.querySelector('#image_1').getAttribute('src')).then(function(orientation) {
                 console.log(orientation);

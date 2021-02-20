@@ -1347,28 +1347,37 @@ export default class hlp {
                                 els__value.getAttribute('style').replace(from + ';', '') + to + ';'
                             );
 
-                            hlp.addEventListenerOnce(els__value, 'transitionend', (event) => {
-                                // transitionend fires also, when animating child elements
-                                // the following line ensures, that those events do not bubble up
-                                // in that case, we return false and ensure, the event listener is still alive
-                                if (event.target !== event.currentTarget) {
-                                    return false;
-                                }
+                            if (this.isVisible(els__value)) {
+                                hlp.addEventListenerOnce(els__value, 'transitionend', (event) => {
+                                    // transitionend fires also, when animating child elements
+                                    // the following line ensures, that those events do not bubble up
+                                    // in that case, we return false and ensure, the event listener is still alive
+                                    if (event.target !== event.currentTarget) {
+                                        return false;
+                                    }
 
-                                // remove previous styles property
+                                    // remove previous styles property
+                                    document.head.removeChild(style);
+
+                                    // remove random class
+                                    els__value.classList.remove(random_class);
+
+                                    // resolve promise when last is finished
+                                    toFinish--;
+                                    if (toFinish <= 0) {
+                                        window.requestAnimationFrame(() => {
+                                            resolve();
+                                        });
+                                    }
+                                });
+                            } else {
                                 document.head.removeChild(style);
-
-                                // remove random class
                                 els__value.classList.remove(random_class);
-
-                                // resolve promise when last is finished
                                 toFinish--;
                                 if (toFinish <= 0) {
-                                    window.requestAnimationFrame(() => {
-                                        resolve();
-                                    });
+                                    resolve();
                                 }
-                            });
+                            }
                         });
                     });
                 });
