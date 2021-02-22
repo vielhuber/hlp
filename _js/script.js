@@ -1240,6 +1240,11 @@ export default class hlp {
         return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
     }
 
+    static isVisibleInViewport(el) {
+        let rect = el.getBoundingClientRect();
+        return !(rect.bottom < 0 || rect.right < 0 || rect.left > window.innerWidth || rect.top > window.innerHeight);
+    }
+
     static textareaAutoHeight(selector = 'textarea') {
         this.textareaSetHeights(selector);
 

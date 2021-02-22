@@ -41,6 +41,21 @@
                 background-color: green;
                 display: none;
             }
+            .visible-in-viewport {
+                width: 50px;
+                height: 50px;
+                background-color: green;
+            }
+            .visible-in-viewport--1 {
+                margin-left: -100px;
+            }
+            .visible-in-viewport--2 {
+                margin-left: -25px;
+            }
+
+            .visible-in-viewport--3 {
+                margin-left: 0px;
+            }
             .triggerAfterAllImagesLoaded .status {
                 color: red;
             }
@@ -53,6 +68,10 @@
         </style>
     </head>
     <body>
+        <div class="visible-in-viewport visible-in-viewport--1"></div>
+        <div class="visible-in-viewport visible-in-viewport--2"></div>
+        <div class="visible-in-viewport visible-in-viewport--3"></div>
+
         <div id="foo" style="color:red;"></div>
 
         <div id="bar"></div>
@@ -192,6 +211,21 @@
             ).then(function() {
                 console.log('.animate-hidden DONE');
             });
+
+            setTimeout(function() {
+                console.log([
+                    'visible-in-viewport--1',
+                    hlp.isVisibleInViewport(document.querySelector('.visible-in-viewport--1')),
+                ]);
+                console.log([
+                    'visible-in-viewport--2',
+                    hlp.isVisibleInViewport(document.querySelector('.visible-in-viewport--2')),
+                ]);
+                console.log([
+                    'visible-in-viewport--3',
+                    hlp.isVisibleInViewport(document.querySelector('.visible-in-viewport--3')),
+                ]);
+            }, 3000);
 
             hlp.getImageOrientation(document.querySelector('#image_1').getAttribute('src')).then(function(orientation) {
                 console.log(orientation);

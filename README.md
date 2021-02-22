@@ -522,8 +522,10 @@ hlp.iOsRemoveHover();
 hlp.fadeIn( document.querySelector('.foo'), 1000 ).then(() => { console.log('done'); });
 hlp.fadeOut( document.querySelector('.foo'), 1000 ).then(() => { console.log('done'); });
 
-// check if dom element is visible
+// check if dom element is generally visible
 hlp.isVisible( document.querySelector('.foo') )
+// check if dom element is visible inside viewport
+hlp.isVisibleInViewport( document.querySelector('.foo') )
 
 // wait until a dom element has a certain css property
 // this is quite useful when working with async loaded stylesheets like loadCSS

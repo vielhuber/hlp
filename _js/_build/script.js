@@ -1532,6 +1532,12 @@ var hlp = /*#__PURE__*/function () {
       return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
     }
   }, {
+    key: "isVisibleInViewport",
+    value: function isVisibleInViewport(el) {
+      var rect = el.getBoundingClientRect();
+      return !(rect.bottom < 0 || rect.right < 0 || rect.left > window.innerWidth || rect.top > window.innerHeight);
+    }
+  }, {
     key: "textareaAutoHeight",
     value: function textareaAutoHeight() {
       var _this5 = this;
