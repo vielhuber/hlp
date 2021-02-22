@@ -451,8 +451,13 @@ hlp.offsetLeft( document.querySelector('.foo') )
 hlp.offsetRight( document.querySelector('.foo') )
 hlp.offsetBottom( document.querySelector('.foo') )
 
-// get document height
+// get document size
+hlp.documentWidth()
 hlp.documentHeight()
+
+// get window size
+hlp.windowWidth()
+hlp.windowHeight()
 
 // get width with margin
 hlp.outerWidthWithMargin( document.querySelector('.foo') )

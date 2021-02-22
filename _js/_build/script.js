@@ -1321,6 +1321,21 @@ var hlp = /*#__PURE__*/function () {
       return Math.max(document.body.offsetHeight, document.body.scrollHeight, document.documentElement.clientHeight, document.documentElement.offsetHeight, document.documentElement.scrollHeight);
     }
   }, {
+    key: "documentWidth",
+    value: function documentWidth() {
+      return document.documentElement.clientWidth || document.body.clientWidth;
+    }
+  }, {
+    key: "windowWidth",
+    value: function windowWidth() {
+      return window.innerWidth;
+    }
+  }, {
+    key: "windowHeight",
+    value: function windowHeight() {
+      return window.innerHeight;
+    }
+  }, {
     key: "outerWidthWithMargin",
     value: function outerWidthWithMargin(el) {
       return el.offsetWidth + parseInt(getComputedStyle(el).marginLeft) + parseInt(getComputedStyle(el).marginRight);

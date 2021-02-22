@@ -1090,6 +1090,17 @@ export default class hlp {
         );
     }
 
+    static documentWidth() {
+        return document.documentElement.clientWidth || document.body.clientWidth;
+    }
+
+    static windowWidth() {
+        return window.innerWidth;
+    }
+    static windowHeight() {
+        return window.innerHeight;
+    }
+
     static outerWidthWithMargin(el) {
         return el.offsetWidth + parseInt(getComputedStyle(el).marginLeft) + parseInt(getComputedStyle(el).marginRight);
     }
