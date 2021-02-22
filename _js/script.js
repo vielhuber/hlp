@@ -1241,6 +1241,9 @@ export default class hlp {
     }
 
     static isVisibleInViewport(el) {
+        if (!this.isVisible(el)) {
+            return false;
+        }
         let rect = el.getBoundingClientRect();
         return !(rect.bottom < 0 || rect.right < 0 || rect.left > window.innerWidth || rect.top > window.innerHeight);
     }

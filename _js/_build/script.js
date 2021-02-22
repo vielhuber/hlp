@@ -1534,6 +1534,10 @@ var hlp = /*#__PURE__*/function () {
   }, {
     key: "isVisibleInViewport",
     value: function isVisibleInViewport(el) {
+      if (!this.isVisible(el)) {
+        return false;
+      }
+
       var rect = el.getBoundingClientRect();
       return !(rect.bottom < 0 || rect.right < 0 || rect.left > window.innerWidth || rect.top > window.innerHeight);
     }
