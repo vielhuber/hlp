@@ -458,6 +458,8 @@ hlp.documentHeight()
 // get window size
 hlp.windowWidth()
 hlp.windowHeight()
+hlp.windowWidthWithoutScrollbar()
+hlp.windowHeightWithoutScrollbar()
 
 // get width with margin
 hlp.outerWidthWithMargin( document.querySelector('.foo') )

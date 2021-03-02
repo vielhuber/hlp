@@ -1101,6 +1101,13 @@ export default class hlp {
         return window.innerHeight;
     }
 
+    static windowWidthWithoutScrollbar() {
+        return document.documentElement.clientWidth || document.body.clientWidth;
+    }
+    static windowHeightWithoutScrollbar() {
+        return document.documentElement.clientHeight || document.body.clientHeight;
+    }
+
     static outerWidthWithMargin(el) {
         return el.offsetWidth + parseInt(getComputedStyle(el).marginLeft) + parseInt(getComputedStyle(el).marginRight);
     }

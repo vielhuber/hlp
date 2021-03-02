@@ -1336,6 +1336,16 @@ var hlp = /*#__PURE__*/function () {
       return window.innerHeight;
     }
   }, {
+    key: "windowWidthWithoutScrollbar",
+    value: function windowWidthWithoutScrollbar() {
+      return document.documentElement.clientWidth || document.body.clientWidth;
+    }
+  }, {
+    key: "windowHeightWithoutScrollbar",
+    value: function windowHeightWithoutScrollbar() {
+      return document.documentElement.clientHeight || document.body.clientHeight;
+    }
+  }, {
     key: "outerWidthWithMargin",
     value: function outerWidthWithMargin(el) {
       return el.offsetWidth + parseInt(getComputedStyle(el).marginLeft) + parseInt(getComputedStyle(el).marginRight);
