@@ -480,6 +480,9 @@ hlp.siblings( document.querySelector('.foo'), '.bar' )
 hlp.parents( document.querySelector('.foo') )
 hlp.parents( document.querySelector('.foo'), '.bar' )
 
+// wrap all text nodes with new node
+hlp.wrapTextNodes( document.querySelector('.foo'), 'p' )
+
 // html string to dom (also supports ie11 and td nodes that cannot be root nodes)
 hlp.html2dom('<p>foo</p>')
 hlp.html2dom('<td>bar</td>')

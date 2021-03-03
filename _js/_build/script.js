@@ -1774,6 +1774,21 @@ var hlp = /*#__PURE__*/function () {
       return !!nodes[i];
     }
   }, {
+    key: "wrapTextNodes",
+    value: function wrapTextNodes(el, tag) {
+      if (el === null) {
+        return;
+      }
+
+      Array.from(el.childNodes).filter(function (node) {
+        return node.nodeType === 3 && node.textContent.trim().length > 1;
+      }).forEach(function (node) {
+        var wrapper = document.createElement(tag);
+        node.after(wrapper);
+        wrapper.appendChild(node);
+      });
+    }
+  }, {
     key: "html2dom",
     value: function html2dom(html) {
       var template = document.createElement('template');

@@ -1457,6 +1457,19 @@ export default class hlp {
         return !!nodes[i];
     }
 
+    static wrapTextNodes(el, tag) {
+        if (el === null) {
+            return;
+        }
+        Array.from(el.childNodes)
+            .filter((node) => node.nodeType === 3 && node.textContent.trim().length > 1)
+            .forEach((node) => {
+                const wrapper = document.createElement(tag);
+                node.after(wrapper);
+                wrapper.appendChild(node);
+            });
+    }
+
     static html2dom(html) {
         let template = document.createElement('template');
         html = html.trim();
