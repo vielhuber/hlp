@@ -1436,6 +1436,23 @@ export default class hlp {
             .replace(/`/g, '&#96;');
     }
 
+    static nl2br(str) {
+        if (typeof str === 'undefined' || str === null) {
+            return '';
+        }
+        let breakTag = '<br/>',
+            replaceStr = '$1' + breakTag;
+        return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, replaceStr);
+    }
+
+    static br2nl(str) {
+        if (typeof str === 'undefined' || str === null) {
+            return '';
+        }
+        let replaceStr = '\n';
+        return str.replace(/<\s*\/?br\s*[\/]?>/gi, replaceStr);
+    }
+
     static closest(el, selector) {
         if (!document.documentElement.contains(el)) {
             return null;

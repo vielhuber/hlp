@@ -1744,6 +1744,27 @@ var hlp = /*#__PURE__*/function () {
       return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#x27;').replace(/`/g, '&#96;');
     }
   }, {
+    key: "nl2br",
+    value: function nl2br(str) {
+      if (typeof str === 'undefined' || str === null) {
+        return '';
+      }
+
+      var breakTag = '<br/>',
+          replaceStr = '$1' + breakTag;
+      return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, replaceStr);
+    }
+  }, {
+    key: "br2nl",
+    value: function br2nl(str) {
+      if (typeof str === 'undefined' || str === null) {
+        return '';
+      }
+
+      var replaceStr = '\n';
+      return str.replace(/<\s*\/?br\s*[\/]?>/gi, replaceStr);
+    }
+  }, {
     key: "closest",
     value: function closest(el, selector) {
       if (!document.documentElement.contains(el)) {

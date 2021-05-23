@@ -114,7 +114,7 @@ test('v', () => {
 
 test('loop', () => {
     var arr = ['foo', 'bar', 'baz'];
-    hlp.loop(arr, arr__value => {
+    hlp.loop(arr, (arr__value) => {
         expect(['foo', 'bar', 'baz'].includes(arr__value)).toBe(true);
     });
     hlp.loop(arr, (arr__key, arr__value) => {
@@ -162,11 +162,11 @@ test('loop', () => {
 test('map', () => {
     expect(hlp.map({ foo: 'bar', bar: 'baz' }, (obj__key, obj__value) => (obj__value += '!'))).toEqual({
         foo: 'bar!',
-        bar: 'baz!'
+        bar: 'baz!',
     });
     expect(hlp.map(['foo', 'bar'], (obj__key, obj__value) => (obj__value += '!'))).toEqual({
         0: 'foo!',
-        1: 'bar!'
+        1: 'bar!',
     });
 });
 
@@ -469,6 +469,20 @@ test('htmlencode/decode', () => {
     expect(hlp.htmlDecode('&amp;&lt;&gt;&quot;&#96;&#x27;')).toBe('&<>"`\'');
 });
 
+test('nl2br', () => {
+    expect(hlp.nl2br('foo\nbar')).toBe('foo<br/>bar');
+    expect(hlp.nl2br('foo')).toBe('foo');
+    expect(hlp.nl2br('')).toBe('');
+    expect(hlp.nl2br(null)).toBe('');
+});
+
+test('br2nl', () => {
+    expect(hlp.br2nl('foo<br/>bar')).toBe('foo\nbar');
+    expect(hlp.br2nl('foo')).toBe('foo');
+    expect(hlp.br2nl('')).toBe('');
+    expect(hlp.br2nl(null)).toBe('');
+});
+
 test('get/post', async () => {
     let response;
     response = await hlp.get('http://httpbin.org/anything');
@@ -478,7 +492,7 @@ test('get/post', async () => {
     expect(response.data).toBe(hlp.jsonObjectToString({ foo: 'bar', bar: 'baz' }));
     response = await hlp.post('http://httpbin.org/anything', {
         data: { foo: 'bar', bar: 'baz' },
-        headers: { Bar: 'baz' }
+        headers: { Bar: 'baz' },
     });
     expect(response.method).toBe('POST');
     expect(response.data).toBe(hlp.jsonObjectToString({ foo: 'bar', bar: 'baz' }));
@@ -577,7 +591,7 @@ test('range', () => {
         'W',
         'X',
         'Y',
-        'Z'
+        'Z',
     ]);
     expect(hlp.range('C', 'A')).toEqual(['C', 'B', 'A']);
     expect(hlp.range(0, 10)).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
@@ -661,7 +675,7 @@ test('getProp', () => {
     expect(hlp.getProp({ a: 1, b: { a: 3, b: 3 }, c: { a: { a: 7 } } }, 'b.b')).toEqual(3);
     expect(hlp.getProp({ a: 1, b: { a: 3, b: 3 }, c: { a: { a: 7 } } }, 'b')).toEqual({
         a: 3,
-        b: 3
+        b: 3,
     });
     expect(hlp.getProp({ a: 1, b: { a: 3, b: 3 }, c: { a: { a: 7 } } }, 'c.a.a')).toEqual(7);
     expect(hlp.getProp({ a: 1, b: { a: 3, b: 3 }, c: { a: { a: 7 } } }, 'd.e.f')).toEqual(undefined);
