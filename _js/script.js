@@ -1936,13 +1936,13 @@ export default class hlp {
         });
     }
 
-    static blobtofile(blob) {
+    static blobtofile(blob, filename = 'file.txt') {
         let file = null;
         try {
-            file = new File([blob], 'name');
+            file = new File([blob], filename);
         } catch {
             // ie 11
-            file = new Blob([blob], 'name');
+            file = new Blob([blob], filename);
         }
         return file;
     }
@@ -1951,8 +1951,8 @@ export default class hlp {
         return new Blob([file]);
     }
 
-    static base64tofile(base64, contentType = '') {
-        return this.blobtofile(this.base64toblob(base64, contentType));
+    static base64tofile(base64, contentType = '', filename = 'file.txt') {
+        return this.blobtofile(this.base64toblob(base64, contentType), filename);
     }
 
     static blobtourl(blob) {

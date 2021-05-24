@@ -2353,13 +2353,14 @@ var hlp = /*#__PURE__*/function () {
   }, {
     key: "blobtofile",
     value: function blobtofile(blob) {
+      var filename = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'file.txt';
       var file = null;
 
       try {
-        file = new File([blob], 'name');
+        file = new File([blob], filename);
       } catch (_unused) {
         // ie 11
-        file = new Blob([blob], 'name');
+        file = new Blob([blob], filename);
       }
 
       return file;
@@ -2373,7 +2374,8 @@ var hlp = /*#__PURE__*/function () {
     key: "base64tofile",
     value: function base64tofile(base64) {
       var contentType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
-      return this.blobtofile(this.base64toblob(base64, contentType));
+      var filename = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'file.txt';
+      return this.blobtofile(this.base64toblob(base64, contentType), filename);
     }
   }, {
     key: "blobtourl",
