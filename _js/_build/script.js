@@ -2010,6 +2010,25 @@ var hlp = /*#__PURE__*/function () {
       return 1;
     }
   }, {
+    key: "spaceship",
+    value: function spaceship(val1, val2) {
+      if (val1 === null || val2 === null || (0, _typeof2.default)(val1) != (0, _typeof2.default)(val2)) {
+        return null;
+      }
+
+      if (typeof val1 === 'string') {
+        return val1.localeCompare(val2);
+      } else {
+        if (val1 > val2) {
+          return 1;
+        } else if (val1 < val2) {
+          return -1;
+        }
+
+        return 0;
+      }
+    }
+  }, {
     key: "focus",
     value: function focus(selector) {
       hlp.unfocus();

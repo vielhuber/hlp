@@ -1653,6 +1653,22 @@ export default class hlp {
         return 1;
     }
 
+    static spaceship(val1, val2) {
+        if (val1 === null || val2 === null || typeof val1 != typeof val2) {
+            return null;
+        }
+        if (typeof val1 === 'string') {
+            return val1.localeCompare(val2);
+        } else {
+            if (val1 > val2) {
+                return 1;
+            } else if (val1 < val2) {
+                return -1;
+            }
+            return 0;
+        }
+    }
+
     static focus(selector) {
         hlp.unfocus();
         let el = document.querySelector(selector);

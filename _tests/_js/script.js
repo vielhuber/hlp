@@ -636,6 +636,15 @@ test('compareDates', () => {
     expect(hlp.compareDates('2020-01-01', '2020-01-17 17:42:19')).toEqual(-1);
 });
 
+test('spaceship', () => {
+    expect(hlp.spaceship(5, 7)).toEqual(-1);
+    expect(hlp.spaceship(9, 7)).toEqual(1);
+    expect(hlp.spaceship(7, 7)).toEqual(0);
+    expect(hlp.spaceship('foo', 'bar')).toEqual(1);
+    expect(hlp.spaceship('bar', 'foo')).toEqual(-1);
+    expect(hlp.spaceship('2011-01-01', '2010-05-05')).toEqual(1);
+});
+
 test('objectsAreEqual', () => {
     expect(hlp.objectsAreEqual({}, {})).toBe(true);
     expect(hlp.objectsAreEqual({ foo: 'bar' }, { foo: 'bar' })).toBe(true);

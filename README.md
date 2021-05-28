@@ -231,6 +231,13 @@ hlp.addDays(d1, 2);
 hlp.compareDates(d1, d2) // 1
 hlp.compareDates('2020-01-01', '2020-01-17 17:42:19') // -1
 
+// spaceship operator
+hlp.spaceship(5,7) // -1
+hlp.spaceship(9,7) // 1
+hlp.spaceship(7,7) // 0
+hlp.spaceship('foo','bar') // 1
+hlp.spaceship('bar','foo') // -1
+
 // check if objects are equal
 hlp.objectsAreEqual({}, {}) // true
 hlp.objectsAreEqual({ foo: 'bar' }, { foo: 'bar'}) // true

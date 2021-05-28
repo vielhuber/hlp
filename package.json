@@ -1,6 +1,6 @@
 {
     "name": "hlp",
-    "version": "2.8.2",
+    "version": "2.8.3",
     "main": "_js/_build/script.js",
     "files": [
         "_js/_build/*.js",
