@@ -1684,10 +1684,12 @@ var hlp = /*#__PURE__*/function () {
                 els__value.setAttribute('style', els__value.getAttribute('style').replace(from + ';', '') + to + ';');
 
                 if (_this7.isVisible(els__value)) {
+                  var fired = false;
                   hlp.addEventListenerOnce(els__value, 'transitionend', function (event) {
-                    // transitionend fires also, when animating child elements
+                    fired = true; // transitionend fires also, when animating child elements
                     // the following line ensures, that those events do not bubble up
                     // in that case, we return false and ensure, the event listener is still alive
+
                     if (event.target !== event.currentTarget) {
                       return false;
                     } // remove previous styles property
@@ -1704,7 +1706,22 @@ var hlp = /*#__PURE__*/function () {
                         resolve();
                       });
                     }
-                  });
+                  }); // safeguard
+                  // in some edge cases, transitionend does not fire
+
+                  setTimeout(function () {
+                    if (fired === false) {
+                      console.log('RUN SAFEGUARD');
+                      document.head.removeChild(style);
+                      els__value.classList.remove(random_class);
+                      toFinish--;
+
+                      if (toFinish <= 0) {
+                        ended = true;
+                        resolve();
+                      }
+                    }
+                  }, duration * 1.5);
                 } else {
                   document.head.removeChild(style);
                   els__value.classList.remove(random_class);

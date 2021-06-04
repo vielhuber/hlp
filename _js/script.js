@@ -1374,7 +1374,11 @@ export default class hlp {
                             );
 
                             if (this.isVisible(els__value)) {
+                                let fired = false;
+
                                 hlp.addEventListenerOnce(els__value, 'transitionend', (event) => {
+                                    fired = true;
+
                                     // transitionend fires also, when animating child elements
                                     // the following line ensures, that those events do not bubble up
                                     // in that case, we return false and ensure, the event listener is still alive
@@ -1396,6 +1400,21 @@ export default class hlp {
                                         });
                                     }
                                 });
+
+                                // safeguard
+                                // in some edge cases, transitionend does not fire
+                                setTimeout(() => {
+                                    if( fired === false ) {
+                                        console.log('RUN SAFEGUARD');
+                                        document.head.removeChild(style);
+                                        els__value.classList.remove(random_class);
+                                        toFinish--;
+                                        if (toFinish <= 0) {
+                                            ended = true;
+                                            resolve();
+                                        }
+                                    }
+                                }, (duration * 1.5));
                             } else {
                                 document.head.removeChild(style);
                                 els__value.classList.remove(random_class);
