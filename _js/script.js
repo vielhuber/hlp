@@ -1410,7 +1410,6 @@ export default class hlp {
                                         els__value.classList.remove(random_class);
                                         toFinish--;
                                         if (toFinish <= 0) {
-                                            ended = true;
                                             resolve();
                                         }
                                     }

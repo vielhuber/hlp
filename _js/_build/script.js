@@ -1717,7 +1717,6 @@ var hlp = /*#__PURE__*/function () {
                       toFinish--;
 
                       if (toFinish <= 0) {
-                        ended = true;
                         resolve();
                       }
                     }
