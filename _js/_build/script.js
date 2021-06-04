@@ -1711,7 +1711,6 @@ var hlp = /*#__PURE__*/function () {
 
                   setTimeout(function () {
                     if (fired === false) {
-                      console.log('RUN SAFEGUARD');
                       document.head.removeChild(style);
                       els__value.classList.remove(random_class);
                       toFinish--;

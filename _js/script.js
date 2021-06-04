@@ -1405,7 +1405,6 @@ export default class hlp {
                                 // in some edge cases, transitionend does not fire
                                 setTimeout(() => {
                                     if( fired === false ) {
-                                        console.log('RUN SAFEGUARD');
                                         document.head.removeChild(style);
                                         els__value.classList.remove(random_class);
                                         toFinish--;
