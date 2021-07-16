@@ -584,6 +584,10 @@ hlp.loadJsSequentially([
 // run this outside of window load / document ready events
 hlp.triggerAfterAllImagesLoaded('.container', '.container__image', () => {});
 
+// proper document read/load events, that are guaranteed to be run (also if the script is embedded via async)
+hlp.ready().then(() => {});
+hlp.load().then(() => {});
+
 // easy ajax requests (without the fetch api; also works in ie11)
 hlp.get('https://httpbin.org/anything').then((response) => { }).catch((error) => { }) // { "method": "GET", ... }
 hlp.get('/relpath').then((response) => { }).catch((error) => { }) // if a full url is omitted, the call is done on the baseurl

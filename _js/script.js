@@ -1842,6 +1842,30 @@ export default class hlp {
         });
     }
 
+    static ready() {
+        return new Promise((resolve) => {
+            if (document.readyState !== 'loading') {
+                return resolve();
+            } else {
+                document.addEventListener('DOMContentLoaded', () => {
+                    return resolve();
+                });
+            }
+        });
+    }
+
+    static load() {
+        return new Promise((resolve) => {
+            if (document.readyState === 'complete') {
+                return resolve();
+            } else {
+                window.addEventListener('load', () => {
+                    return resolve();
+                });
+            }
+        });
+    }
+
     static runForEl(selector, callback) {
         // also run for existing
         if (document.querySelector(selector) !== null) {

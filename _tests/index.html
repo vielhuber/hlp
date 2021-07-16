@@ -139,6 +139,13 @@
 
         <script type="text/javascript" src="../hlp.js"></script>
         <script type="text/javascript">
+            hlp.ready().then(() => {
+                console.log('############## ready');
+            });
+            hlp.load().then(() => {
+                console.log('############## load');
+            });
+
             hlp.runForEl('.runForEl li', (el) => {
                 el.style.backgroundColor = 'red';
             });

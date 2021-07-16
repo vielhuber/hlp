@@ -2216,6 +2216,32 @@ var hlp = /*#__PURE__*/function () {
       });
     }
   }, {
+    key: "ready",
+    value: function ready() {
+      return new Promise(function (resolve) {
+        if (document.readyState !== 'loading') {
+          return resolve();
+        } else {
+          document.addEventListener('DOMContentLoaded', function () {
+            return resolve();
+          });
+        }
+      });
+    }
+  }, {
+    key: "load",
+    value: function load() {
+      return new Promise(function (resolve) {
+        if (document.readyState === 'complete') {
+          return resolve();
+        } else {
+          window.addEventListener('load', function () {
+            return resolve();
+          });
+        }
+      });
+    }
+  }, {
     key: "runForEl",
     value: function runForEl(selector, callback) {
       // also run for existing
