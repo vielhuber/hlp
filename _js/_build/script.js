@@ -2244,56 +2244,58 @@ var hlp = /*#__PURE__*/function () {
   }, {
     key: "runForEl",
     value: function runForEl(selector, callback) {
-      // also run for existing
-      if (document.querySelector(selector) !== null) {
-        document.querySelectorAll(selector).forEach(function (el) {
-          callback(el);
-        });
-      } // setup queue
-
-
-      if (window.runForEl_queue === undefined) {
-        window.runForEl_queue = [];
-      } // setup observer
-
-
-      if (window.runForEl_observer === undefined) {
-        window.runForEl_observer = new MutationObserver(function (mutations) {
-          mutations.forEach(function (mutations__value) {
-            if (!mutations__value.addedNodes) {
-              return;
-            }
-
-            var _loop = function _loop(i) {
-              var node = mutations__value.addedNodes[i];
-
-              if (node.nodeType === Node.ELEMENT_NODE) {
-                window.runForEl_queue.forEach(function (queue__value) {
-                  if (node.matches(queue__value.selector)) {
-                    queue__value.callback(node);
-                  }
-                });
-              }
-            };
-
-            for (var i = 0; i < mutations__value.addedNodes.length; i++) {
-              _loop(i);
-            }
+      hlp.ready().then(function () {
+        // also run for existing
+        if (document.querySelector(selector) !== null) {
+          document.querySelectorAll(selector).forEach(function (el) {
+            callback(el);
           });
-        }).observe(document.body, {
-          attributes: false,
-          childList: true,
-          characterData: false,
-          subtree: true,
-          attributeOldValue: false,
-          characterDataOldValue: false
+        } // setup queue
+
+
+        if (window.runForEl_queue === undefined) {
+          window.runForEl_queue = [];
+        } // setup observer
+
+
+        if (window.runForEl_observer === undefined) {
+          window.runForEl_observer = new MutationObserver(function (mutations) {
+            mutations.forEach(function (mutations__value) {
+              if (!mutations__value.addedNodes) {
+                return;
+              }
+
+              var _loop = function _loop(i) {
+                var node = mutations__value.addedNodes[i];
+
+                if (node.nodeType === Node.ELEMENT_NODE) {
+                  window.runForEl_queue.forEach(function (queue__value) {
+                    if (node.matches(queue__value.selector)) {
+                      queue__value.callback(node);
+                    }
+                  });
+                }
+              };
+
+              for (var i = 0; i < mutations__value.addedNodes.length; i++) {
+                _loop(i);
+              }
+            });
+          }).observe(document.body, {
+            attributes: false,
+            childList: true,
+            characterData: false,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: false
+          });
+        } // push to queue
+
+
+        window.runForEl_queue.push({
+          selector: selector,
+          callback: callback
         });
-      } // push to queue
-
-
-      window.runForEl_queue.push({
-        selector: selector,
-        callback: callback
       });
     }
   }, {

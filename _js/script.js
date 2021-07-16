@@ -1867,47 +1867,49 @@ export default class hlp {
     }
 
     static runForEl(selector, callback) {
-        // also run for existing
-        if (document.querySelector(selector) !== null) {
-            document.querySelectorAll(selector).forEach((el) => {
-                callback(el);
-            });
-        }
-        // setup queue
-        if (window.runForEl_queue === undefined) {
-            window.runForEl_queue = [];
-        }
-        // setup observer
-        if (window.runForEl_observer === undefined) {
-            window.runForEl_observer = new MutationObserver((mutations) => {
-                mutations.forEach((mutations__value) => {
-                    if (!mutations__value.addedNodes) {
-                        return;
-                    }
-                    for (let i = 0; i < mutations__value.addedNodes.length; i++) {
-                        let node = mutations__value.addedNodes[i];
-                        if (node.nodeType === Node.ELEMENT_NODE) {
-                            window.runForEl_queue.forEach((queue__value) => {
-                                if (node.matches(queue__value.selector)) {
-                                    queue__value.callback(node);
-                                }
-                            });
-                        }
-                    }
+        hlp.ready().then(() => {
+            // also run for existing
+            if (document.querySelector(selector) !== null) {
+                document.querySelectorAll(selector).forEach((el) => {
+                    callback(el);
                 });
-            }).observe(document.body, {
-                attributes: false,
-                childList: true,
-                characterData: false,
-                subtree: true,
-                attributeOldValue: false,
-                characterDataOldValue: false,
+            }
+            // setup queue
+            if (window.runForEl_queue === undefined) {
+                window.runForEl_queue = [];
+            }
+            // setup observer
+            if (window.runForEl_observer === undefined) {
+                window.runForEl_observer = new MutationObserver((mutations) => {
+                    mutations.forEach((mutations__value) => {
+                        if (!mutations__value.addedNodes) {
+                            return;
+                        }
+                        for (let i = 0; i < mutations__value.addedNodes.length; i++) {
+                            let node = mutations__value.addedNodes[i];
+                            if (node.nodeType === Node.ELEMENT_NODE) {
+                                window.runForEl_queue.forEach((queue__value) => {
+                                    if (node.matches(queue__value.selector)) {
+                                        queue__value.callback(node);
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }).observe(document.body, {
+                    attributes: false,
+                    childList: true,
+                    characterData: false,
+                    subtree: true,
+                    attributeOldValue: false,
+                    characterDataOldValue: false,
+                });
+            }
+            // push to queue
+            window.runForEl_queue.push({
+                selector: selector,
+                callback: callback,
             });
-        }
-        // push to queue
-        window.runForEl_queue.push({
-            selector: selector,
-            callback: callback,
         });
     }
 
