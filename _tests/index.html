@@ -72,7 +72,7 @@
         <div class="visible-in-viewport visible-in-viewport--2"></div>
         <div class="visible-in-viewport visible-in-viewport--3"></div>
 
-        <div id="foo" style="color:red;"></div>
+        <div id="foo" style="color: red"></div>
 
         <div id="bar"></div>
 
@@ -133,8 +133,19 @@
             </div>
         </div>
 
+        <ul class="runForEl">
+            <li>foo</li>
+        </ul>
+
         <script type="text/javascript" src="../hlp.js"></script>
         <script type="text/javascript">
+            hlp.runForEl('.runForEl li', (el) => {
+                el.style.backgroundColor = 'red';
+            });
+            setInterval(() => {
+                document.querySelector('.runForEl').insertAdjacentHTML('beforeend', '<li>foo</li>');
+            }, 2000);
+
             hlp.triggerAfterAllImagesLoaded('.triggerAfterAllImagesLoaded .container', '.container__image', function() {
                 document.querySelector('.status').textContent =
                     ('0' + new Date().getHours()).slice(-2) +
