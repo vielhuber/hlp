@@ -2311,6 +2311,52 @@ var hlp = /*#__PURE__*/function () {
       return Math.round(n * 10 * Math.pow(10, precision)) / (10 * Math.pow(10, precision));
     }
   }, {
+    key: "trim",
+    value: function trim(str, charlist) {
+      var whitespace = [' ', '\n', '\r', '\t', '\f', '\x0b', '\xa0', "\u2000", "\u2001", "\u2002", "\u2003", "\u2004", "\u2005", "\u2006", "\u2007", "\u2008", "\u2009", "\u200A", "\u200B", "\u2028", "\u2029", "\u3000"].join('');
+      var l = 0;
+      var i = 0;
+      str += '';
+
+      if (charlist) {
+        whitespace = (charlist + '').replace(/([[\]().?/*{}+$^:])/g, '$1');
+      }
+
+      l = str.length;
+
+      for (i = 0; i < l; i++) {
+        if (whitespace.indexOf(str.charAt(i)) === -1) {
+          str = str.substring(i);
+          break;
+        }
+      }
+
+      l = str.length;
+
+      for (i = l - 1; i >= 0; i--) {
+        if (whitespace.indexOf(str.charAt(i)) === -1) {
+          str = str.substring(0, i + 1);
+          break;
+        }
+      }
+
+      return whitespace.indexOf(str.charAt(0)) === -1 ? str : '';
+    }
+  }, {
+    key: "ltrim",
+    value: function ltrim(str, charlist) {
+      charlist = !charlist ? " \\s\xA0" : (charlist + '').replace(/([[\]().?/*{}+$^:])/g, '$1');
+      var re = new RegExp('^[' + charlist + ']+', 'g');
+      return (str + '').replace(re, '');
+    }
+  }, {
+    key: "rtrim",
+    value: function rtrim(str, charlist) {
+      charlist = !charlist ? " \\s\xA0" : (charlist + '').replace(/([[\]().?/*{}+$^:])/g, '\\$1');
+      var re = new RegExp('[' + charlist + ']+$', 'g');
+      return (str + '').replace(re, '');
+    }
+  }, {
     key: "pushId",
     value: function pushId() {
       /* source https://gist.github.com/mikelehen/3596a30bd69384624c11 */

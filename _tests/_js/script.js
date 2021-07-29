@@ -673,6 +673,15 @@ test('fmath', () => {
     expect(hlp.fmath('/', 0.39, 100, 12)).toEqual(0.0039);
 });
 
+test('trim', () => {
+    expect(hlp.trim('  foo ')).toEqual('foo');
+    expect(hlp.trim('xxfoox', 'x')).toEqual('foo');
+    expect(hlp.ltrim('  foo ')).toEqual('foo ');
+    expect(hlp.ltrim('xxfoox', 'x')).toEqual('foox');
+    expect(hlp.rtrim('  foo ')).toEqual('  foo');
+    expect(hlp.rtrim('xxfoox', 'x')).toEqual('xxfoo');
+});
+
 test('pushId', () => {
     expect(hlp.pushId().length > 3).toEqual(true);
     expect(hlp.pushId().length > 3).toEqual(true);

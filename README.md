@@ -406,6 +406,14 @@ hlp.fmath('-', 0.1, 0.2) // -0.1
 hlp.fmath('/', 0.2, 0.1) // 2
 hlp.fmath('/', 0.39, 100, 12) // 0.0039 (precision of 12)
 
+// trim helpers
+hlp.trim('  foo ') // 'foo'
+hlp.trim('xxfoox', 'x') // 'foo'
+hlp.ltrim('  foo ') // 'foo '
+hlp.ltrim('xxfoox', 'x') // 'foox'
+hlp.rtrim('  foo ') // '  foo'
+hlp.rtrim('xxfoox', 'x') // 'xxfoo'
+
 // create lexicographically ordered string ids like in firebase 
 hlp.pushId() // -LDiDooGs9PyGHmghk5i
 hlp.pushId() // -LDiDooGs9PyGHmghk5j
