@@ -607,8 +607,8 @@ let formData = new FormData(); formData.append('foo', 'bar'); hlp.post('https://
 
 // on resize vertically/horizontally
 window.addEventListener('resize', () => {}) // inaccurate, triggers too often (especially when scrolling on android/iphone)
-hlp.onResizeHorizontal(() => {}) // only triggers when viewport width changes
-hlp.onResizeVertical(() => {}) // only triggers when viewport height changes
+hlp.onResizeHorizontal(() => {}) // only triggers when viewport width changes; also triggers on first run
+hlp.onResizeVertical(() => {}) // only triggers when viewport height changes; also triggers on first run
 
 // add event listener once
 hlp.addEventListenerOnce(
