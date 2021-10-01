@@ -225,6 +225,10 @@ export default class hlp {
         return random_string;
     }
 
+    static round(value = 0, decimals = 0) {
+        return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
+    }
+
     static isInteger(value) {
         return !isNaN(value) && parseInt(Number(value)) == value && !isNaN(parseInt(value, 10));
     }

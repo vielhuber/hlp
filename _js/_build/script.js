@@ -323,6 +323,13 @@ var hlp = /*#__PURE__*/function () {
       return random_string;
     }
   }, {
+    key: "round",
+    value: function round() {
+      var value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+      var decimals = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+      return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
+    }
+  }, {
     key: "isInteger",
     value: function isInteger(value) {
       return !isNaN(value) && parseInt(Number(value)) == value && !isNaN(parseInt(value, 10));

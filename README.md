@@ -334,6 +334,10 @@ hlp.random_string(16, 'idkfa') // idifafafifaifafk
 hlp.random_int() // 42
 hlp.random_int(7,42) // 17
 
+// proper rounding to n digits
+hlp.round(1.005, 2) // 1.01
+hlp.round(1.005) // 1
+
 // check if variable is integer
 hlp.isInteger('foo') // false
 hlp.isInteger(42) // true

@@ -182,6 +182,14 @@ test('first', () => {
     expect(hlp.first([''])).toBe('');
 });
 
+test('round', () => {
+    expect(hlp.round(1.005, 2)).toBe(1.01);
+    expect(hlp.round(1.005)).toBe(1);
+    expect(hlp.round(1)).toBe(1);
+    expect(hlp.round(1, 2)).toBe(1);
+    expect(hlp.round(1.337, 2)).toBe(1.34);
+});
+
 test('random', () => {
     expect(['foo', 'bar', 'baz'].indexOf(hlp.rand(['foo', 'bar', 'baz'])) > -1).toBe(true);
     expect(hlp.random_string().length).toBe(8);
