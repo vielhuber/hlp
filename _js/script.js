@@ -824,7 +824,7 @@ export default class hlp {
                 }
                 timeout = window.setTimeout(() => {
                     fun();
-                }, 250);
+                }, 50);
             }
         });
         fun();
@@ -843,7 +843,7 @@ export default class hlp {
                 }
                 timeout = window.setTimeout(() => {
                     fun();
-                }, 250);
+                }, 50);
             }
         });
         fun();

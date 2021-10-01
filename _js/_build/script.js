@@ -1019,7 +1019,7 @@ var hlp = /*#__PURE__*/function () {
 
           timeout = window.setTimeout(function () {
             fun();
-          }, 250);
+          }, 50);
         }
       });
       fun();
@@ -1042,7 +1042,7 @@ var hlp = /*#__PURE__*/function () {
 
           timeout = window.setTimeout(function () {
             fun();
-          }, 250);
+          }, 50);
         }
       });
       fun();
