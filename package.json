@@ -1,6 +1,6 @@
 {
     "name": "hlp",
-    "version": "2.9.3",
+    "version": "2.9.4",
     "main": "_js/_build/script.js",
     "files": [
         "_js/_build/*.js",
@@ -33,7 +33,7 @@
         "@babel/preset-env": "^7.15.6",
         "@babel/runtime": "^7.15.4",
         "@prettier/plugin-php": "^0.11.2",
-        "autoprefixer": "^9.8.7",
+        "autoprefixer": "^9.8.8",
         "babel-core": "^7.0.0-bridge.0",
         "babel-jest": "^24.9.0",
         "babel-plugin-array-includes": "^2.0.3",

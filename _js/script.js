@@ -861,6 +861,13 @@ export default class hlp {
         return ret_arr;
     }
 
+    static powerset(array) {
+        if (!Array.isArray(array)) {
+            return array;
+        }
+        return array.reduce((subsets, value) => subsets.concat(subsets.map((set) => [...set, value])), [[]]);
+    }
+
     static charToInt(val) {
         val = val.toUpperCase();
         let base = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',

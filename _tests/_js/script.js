@@ -547,6 +547,15 @@ test('uniqueArray', () => {
     expect(hlp.uniqueArray([''])).toEqual(['']);
 });
 
+test('powerset', () => {
+    expect(hlp.powerset([1, 2, 3])).toEqual([[], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3]]);
+    expect(hlp.powerset([1])).toEqual([[], [1]]);
+    expect(hlp.powerset([])).toEqual([[]]);
+    expect(hlp.powerset('')).toEqual('');
+    expect(hlp.powerset(true)).toEqual(true);
+    expect(hlp.powerset(false)).toEqual(false);
+});
+
 test('char', () => {
     expect(hlp.charToInt('D')).toBe(4);
     expect(hlp.charToInt('d')).toBe(4);

@@ -292,6 +292,9 @@ hlp.highlight('abc def geh ijk lmn opq rst abc def geh ijk lmn opq rst', 'ijk', 
 // return unique array (remove duplicate values, order-safe)
 hlp.uniqueArray(['foo','bar','foo','baz']) // ['foo','bar','baz']
 
+// powerset of array (all subsets of a set)
+hlp.powerset([1,2,3]) // [[], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3]]
+
 // shuffle array
 hlp.shuffle(['foo','bar']) // ['foo','bar']
 hlp.shuffle(['foo','bar']) // ['foo','bar']

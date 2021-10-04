@@ -1063,6 +1063,19 @@ var hlp = /*#__PURE__*/function () {
       return ret_arr;
     }
   }, {
+    key: "powerset",
+    value: function powerset(array) {
+      if (!Array.isArray(array)) {
+        return array;
+      }
+
+      return array.reduce(function (subsets, value) {
+        return subsets.concat(subsets.map(function (set) {
+          return [].concat((0, _toConsumableArray2.default)(set), [value]);
+        }));
+      }, [[]]);
+    }
+  }, {
     key: "charToInt",
     value: function charToInt(val) {
       val = val.toUpperCase();
