@@ -1853,6 +1853,17 @@ export default class hlp {
         });
     }
 
+    static waitUntilVar(varName = '', el = window) {
+        return new Promise((resolve, reject) => {
+            let timeout = setInterval(() => {
+                if (el[varName] !== undefined && el[varName] !== null) {
+                    window.clearInterval(timeout);
+                    resolve();
+                }
+            }, 30);
+        });
+    }
+
     static ready() {
         return new Promise((resolve) => {
             if (document.readyState !== 'loading') {

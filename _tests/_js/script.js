@@ -777,6 +777,18 @@ test('shuffle', () => {
     }
 });
 
+test('waitUntilVar', async () => {
+    let foo = {};
+    setTimeout(() => {
+        window.glob = 'baz';
+        foo.bar = 'baz';
+    }, 1000);
+    await hlp.waitUntilVar('glob');
+    await hlp.waitUntilVar('bar', foo);
+    expect(glob).toBe('baz');
+    expect(foo.bar).toBe('baz');
+});
+
 test('findRecursiveInObject', () => {
     expect(
         hlp.findRecursiveInObject({ foo: { id: 42 }, bar: { foo: { id: 7 } }, baz: { id1: 42, id2: 7 } }, 'id')

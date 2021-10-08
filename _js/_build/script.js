@@ -2236,6 +2236,20 @@ var hlp = /*#__PURE__*/function () {
       });
     }
   }, {
+    key: "waitUntilVar",
+    value: function waitUntilVar() {
+      var varName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+      var el = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : window;
+      return new Promise(function (resolve, reject) {
+        var timeout = setInterval(function () {
+          if (el[varName] !== undefined && el[varName] !== null) {
+            window.clearInterval(timeout);
+            resolve();
+          }
+        }, 30);
+      });
+    }
+  }, {
     key: "ready",
     value: function ready() {
       return new Promise(function (resolve) {

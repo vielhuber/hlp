@@ -572,6 +572,10 @@ hlp.waitUntil('.beacon').then(() => { });
 hlp.waitUntil('.beacon','position').then(() => { });
 hlp.waitUntil('.beacon','position','relative').then(() => { });
 
+// wait until a variable is set
+hlp.waitUntilVar('globalVar').then(() => { });
+hlp.waitUntilVar('objectVar', obj).then(() => { });
+
 // run a function for every dom element, even it is added dynamically later on
 hlp.runForEl('.beacon', el => { el.style.backgroundColor = 'red'; });
 
