@@ -2238,11 +2238,22 @@ var hlp = /*#__PURE__*/function () {
   }, {
     key: "waitUntilVar",
     value: function waitUntilVar() {
-      var varName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-      var el = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : window;
+      var arg1 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+      var arg2 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+      var varName = null,
+          parentContainer = null;
+
+      if (arg2 === null) {
+        varName = arg1;
+        parentContainer = window;
+      } else {
+        varName = arg2;
+        parentContainer = arg1;
+      }
+
       return new Promise(function (resolve, reject) {
         var timeout = setInterval(function () {
-          if (el[varName] !== undefined && el[varName] !== null) {
+          if (parentContainer[varName] !== undefined && parentContainer[varName] !== null) {
             window.clearInterval(timeout);
             resolve();
           }

@@ -1853,10 +1853,19 @@ export default class hlp {
         });
     }
 
-    static waitUntilVar(varName = '', el = window) {
+    static waitUntilVar(arg1 = null, arg2 = null) {
+        let varName = null,
+            parentContainer = null;
+        if (arg2 === null) {
+            varName = arg1;
+            parentContainer = window;
+        } else {
+            varName = arg2;
+            parentContainer = arg1;
+        }
         return new Promise((resolve, reject) => {
             let timeout = setInterval(() => {
-                if (el[varName] !== undefined && el[varName] !== null) {
+                if (parentContainer[varName] !== undefined && parentContainer[varName] !== null) {
                     window.clearInterval(timeout);
                     resolve();
                 }

@@ -784,7 +784,7 @@ test('waitUntilVar', async () => {
         foo.bar = 'baz';
     }, 1000);
     await hlp.waitUntilVar('glob');
-    await hlp.waitUntilVar('bar', foo);
+    await hlp.waitUntilVar(foo, 'bar');
     expect(glob).toBe('baz');
     expect(foo.bar).toBe('baz');
 });
