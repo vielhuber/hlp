@@ -134,7 +134,9 @@
         </div>
 
         <ul class="runForEl">
-            <li>foo</li>
+            <li>
+                <span><span>foo</span></span>
+            </li>
         </ul>
 
         <script type="text/javascript" src="../hlp.js"></script>
@@ -146,11 +148,15 @@
                 console.log('############## load');
             });
 
-            hlp.runForEl('.runForEl li', (el) => {
+            hlp.runForEl('.runForEl li span span', (el) => {
                 el.style.backgroundColor = 'red';
             });
             setInterval(() => {
-                document.querySelector('.runForEl').insertAdjacentHTML('beforeend', '<li>foo</li>');
+                document
+                    .querySelector('.runForEl')
+                    .insertAdjacentHTML('beforeend', '<li><span><span>foo</span></span></li>');
+                document.querySelector('.runForEl').insertAdjacentHTML('beforeend', '<li></li>');
+                document.querySelector('.runForEl li:last-child').innerHTML = '<span><span>foo</span></span>';
             }, 2000);
 
             hlp.triggerAfterAllImagesLoaded('.triggerAfterAllImagesLoaded .container', '.container__image', function() {

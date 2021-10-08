@@ -1921,7 +1921,19 @@ export default class hlp {
                             if (node.nodeType === Node.ELEMENT_NODE) {
                                 window.runForEl_queue.forEach((queue__value) => {
                                     if (node.matches(queue__value.selector)) {
-                                        queue__value.callback(node);
+                                        if (node.runForEl !== true) {
+                                            queue__value.callback(node);
+                                            node.runForEl = true;
+                                        }
+                                    }
+                                    // if you modify lots of html (e.g. with innerHTML), also check childs
+                                    if (node.querySelector(queue__value.selector) !== null) {
+                                        node.querySelectorAll(queue__value.selector).forEach((nodes__value) => {
+                                            if (nodes__value.runForEl !== true) {
+                                                queue__value.callback(nodes__value);
+                                                nodes__value.runForEl = true;
+                                            }
+                                        });
                                     }
                                 });
                             }

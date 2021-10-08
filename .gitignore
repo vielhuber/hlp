@@ -2,3 +2,4 @@
 /.vscode/
 /package-lock.json
 /_tests/_build/
+*.tmp-browserify*
