@@ -1,4 +1,8 @@
-import hlp from './../../_js/script';
+/**
+ * @jest-environment jsdom
+ */
+
+import hlp from '../../_js/script';
 
 test('x', () => {
     expect(hlp.x(undefined)).toBe(false);

@@ -1,9 +1,3 @@
-import '@babel/polyfill/noConflict';
-import 'mdn-polyfills/NodeList.prototype.forEach';
-import 'mdn-polyfills/Node.prototype.remove';
-import 'mdn-polyfills/Node.prototype.before';
-import 'mdn-polyfills/Element.prototype.closest';
-
 export default class hlp {
     static x(input) {
         if (typeof input === 'function') {
