@@ -36,16 +36,15 @@ npm init -y
 npm install hlp
 ```
 
-now embed it directly:
-```html
-<script src="hlp.js"></script> 
-```
-
-or use it as a module:
+now use it as a module:
 ```js
 import hlp from 'hlp';
 ```
 
+or embed it directly:
+```html
+<script src="hlp.js"></script> 
+```
 
 ## usage
 
