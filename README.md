@@ -467,6 +467,7 @@ hlp.getBrowser() // ['ie','edge','firefox','chrome','safari','opera','unknown']
 // smooth scroll to position / element
 hlp.scrollTo( 0, 1000 ).then(() => { console.log('done'); });
 hlp.scrollTo( document.querySelector('.foo'), 1000 ).then(() => { console.log('done'); });
+hlp.scrollTo( 0, 1000, document.querySelector('.bar') ).then(() => { console.log('done'); }); // scoll inside .bar
 
 // get top/left scroll position
 hlp.scrollTop()
@@ -480,6 +481,12 @@ hlp.offsetTop( document.querySelector('.foo') )
 hlp.offsetLeft( document.querySelector('.foo') )
 hlp.offsetRight( document.querySelector('.foo') )
 hlp.offsetBottom( document.querySelector('.foo') )
+
+// get offset of element (including margin)
+hlp.offsetTopWithMargin( document.querySelector('.foo') )
+hlp.offsetLeftWithMargin( document.querySelector('.foo') )
+hlp.offsetRightWithMargin( document.querySelector('.foo') )
+hlp.offsetBottomWithMargin( document.querySelector('.foo') )
 
 // get document size
 hlp.documentWidth()

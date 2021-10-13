@@ -1097,6 +1097,22 @@ export default class hlp {
         );
     }
 
+    static offsetTopWithMargin(el) {
+        return this.offsetTop(el) - parseInt(getComputedStyle(el).marginTop);
+    }
+
+    static offsetLeftWithMargin(el) {
+        return this.offsetLeft(el) - parseInt(getComputedStyle(el).marginLeft);
+    }
+
+    static offsetRightWithMargin(el) {
+        return this.offsetRight(el) + parseInt(getComputedStyle(el).marginRight);
+    }
+
+    static offsetBottomWithMargin(el) {
+        return this.offsetBottom(el) + parseInt(getComputedStyle(el).marginBottom);
+    }
+
     static documentHeight() {
         return Math.max(
             document.body.offsetHeight,
@@ -1133,14 +1149,21 @@ export default class hlp {
         return el.offsetHeight + parseInt(getComputedStyle(el).marginTop) + parseInt(getComputedStyle(el).marginBottom);
     }
 
-    static scrollTo(to, duration = 1000) {
+    static scrollTo(to, duration = 1000, element = document.scrollingElement || document.documentElement) {
         return new Promise((resolve) => {
             if (!hlp.isNumeric(to)) {
-                to = to.getBoundingClientRect().top + window.pageYOffset - document.documentElement.clientTop;
+                if (element === (document.scrollingElement || documentElement)) {
+                    to = this.offsetTopWithMargin(to);
+                } else {
+                    to =
+                        to.getBoundingClientRect().top -
+                        parseInt(getComputedStyle(to).marginTop) -
+                        (element.getBoundingClientRect().top -
+                            element.scrollTop -
+                            parseInt(getComputedStyle(element).marginTop));
+                }
             }
-
-            const element = document.scrollingElement || document.documentElement,
-                start = element.scrollTop,
+            const start = element.scrollTop,
                 change = to - start,
                 startDate = +new Date(),
                 // t = current time

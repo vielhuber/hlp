@@ -1341,6 +1341,26 @@ var hlp = /*#__PURE__*/function () {
       return el.getBoundingClientRect().top + window.pageYOffset - document.documentElement.clientTop + el.offsetHeight;
     }
   }, {
+    key: "offsetTopWithMargin",
+    value: function offsetTopWithMargin(el) {
+      return this.offsetTop(el) - parseInt(getComputedStyle(el).marginTop);
+    }
+  }, {
+    key: "offsetLeftWithMargin",
+    value: function offsetLeftWithMargin(el) {
+      return this.offsetLeft(el) - parseInt(getComputedStyle(el).marginLeft);
+    }
+  }, {
+    key: "offsetRightWithMargin",
+    value: function offsetRightWithMargin(el) {
+      return this.offsetRight(el) + parseInt(getComputedStyle(el).marginRight);
+    }
+  }, {
+    key: "offsetBottomWithMargin",
+    value: function offsetBottomWithMargin(el) {
+      return this.offsetBottom(el) + parseInt(getComputedStyle(el).marginBottom);
+    }
+  }, {
     key: "documentHeight",
     value: function documentHeight() {
       return Math.max(document.body.offsetHeight, document.body.scrollHeight, document.documentElement.clientHeight, document.documentElement.offsetHeight, document.documentElement.scrollHeight);
@@ -1383,14 +1403,20 @@ var hlp = /*#__PURE__*/function () {
   }, {
     key: "scrollTo",
     value: function scrollTo(to) {
+      var _this3 = this;
+
       var duration = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1000;
+      var element = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : document.scrollingElement || document.documentElement;
       return new Promise(function (resolve) {
         if (!hlp.isNumeric(to)) {
-          to = to.getBoundingClientRect().top + window.pageYOffset - document.documentElement.clientTop;
+          if (element === (document.scrollingElement || documentElement)) {
+            to = _this3.offsetTopWithMargin(to);
+          } else {
+            to = to.getBoundingClientRect().top - parseInt(getComputedStyle(to).marginTop) - (element.getBoundingClientRect().top - element.scrollTop - parseInt(getComputedStyle(element).marginTop));
+          }
         }
 
-        var element = document.scrollingElement || document.documentElement,
-            start = element.scrollTop,
+        var start = element.scrollTop,
             change = to - start,
             startDate = +new Date(),
             // t = current time
@@ -1517,12 +1543,12 @@ var hlp = /*#__PURE__*/function () {
   }, {
     key: "triggerAfterAllImagesLoaded",
     value: function triggerAfterAllImagesLoaded(selectorContainer, selectorImage, fn) {
-      var _this3 = this;
+      var _this4 = this;
 
       window.addEventListener('load', function (e) {
         if (document.querySelector(selectorContainer + ' ' + selectorImage) !== null) {
           document.querySelectorAll(selectorContainer + ' ' + selectorImage).forEach(function (el) {
-            _this3.triggerAfterAllImagesLoadedBindLoadEvent(el, selectorContainer, selectorImage, fn);
+            _this4.triggerAfterAllImagesLoadedBindLoadEvent(el, selectorContainer, selectorImage, fn);
           });
         }
       });
@@ -1532,10 +1558,10 @@ var hlp = /*#__PURE__*/function () {
             mutations.forEach(function (mutation) {
               if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
                 mutation.addedNodes.forEach(function (el) {
-                  _this3.triggerAfterAllImagesLoadedHandleEl(el, selectorContainer, selectorImage, fn);
+                  _this4.triggerAfterAllImagesLoadedHandleEl(el, selectorContainer, selectorImage, fn);
                 });
               } else if (mutation.type === 'attributes' && mutation.attributeName === 'src' && mutation.target.classList.contains(selectorImage.replace('.', '')) && mutation.oldValue !== mutation.target.getAttribute('src')) {
-                _this3.triggerAfterAllImagesLoadedHandleEl(mutation.target, selectorContainer, selectorImage, fn);
+                _this4.triggerAfterAllImagesLoadedHandleEl(mutation.target, selectorContainer, selectorImage, fn);
               }
             });
           }).observe(document.querySelector(selectorContainer), {
@@ -1552,7 +1578,7 @@ var hlp = /*#__PURE__*/function () {
   }, {
     key: "triggerAfterAllImagesLoadedHandleEl",
     value: function triggerAfterAllImagesLoadedHandleEl(el, selectorContainer, selectorImage, fn) {
-      var _this4 = this;
+      var _this5 = this;
 
       if (el.nodeType === Node.ELEMENT_NODE) {
         el.classList.remove('loaded-img');
@@ -1561,7 +1587,7 @@ var hlp = /*#__PURE__*/function () {
         if (!el.classList.contains('binded-trigger')) {
           el.classList.add('binded-trigger');
           el.addEventListener('load', function () {
-            _this4.triggerAfterAllImagesLoadedBindLoadEvent(el, selectorContainer, selectorImage, fn);
+            _this5.triggerAfterAllImagesLoadedBindLoadEvent(el, selectorContainer, selectorImage, fn);
           });
         }
       }
@@ -1594,28 +1620,28 @@ var hlp = /*#__PURE__*/function () {
   }, {
     key: "textareaAutoHeight",
     value: function textareaAutoHeight() {
-      var _this5 = this;
+      var _this6 = this;
 
       var selector = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'textarea';
       this.textareaSetHeights(selector);
       this.onResizeHorizontal(function () {
-        _this5.textareaSetHeights(selector);
+        _this6.textareaSetHeights(selector);
       });
       [].forEach.call(document.querySelectorAll(selector), function (el) {
         el.addEventListener('keyup', function (e) {
-          _this5.textareaSetHeight(e.target);
+          _this6.textareaSetHeight(e.target);
         });
       });
     }
   }, {
     key: "textareaSetHeights",
     value: function textareaSetHeights() {
-      var _this6 = this;
+      var _this7 = this;
 
       var selector = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'textarea';
       [].forEach.call(document.querySelectorAll(selector), function (el) {
-        if (_this6.isVisible(el)) {
-          _this6.textareaSetHeight(el);
+        if (_this7.isVisible(el)) {
+          _this7.textareaSetHeight(el);
         }
       });
     }
@@ -1651,7 +1677,7 @@ var hlp = /*#__PURE__*/function () {
   }, {
     key: "animate",
     value: function animate(el, from, to, easing, duration) {
-      var _this7 = this;
+      var _this8 = this;
 
       return new Promise(function (resolve) {
         // on durations smaller than 50, the end event does not trigger!
@@ -1708,7 +1734,7 @@ var hlp = /*#__PURE__*/function () {
                 // set last style inline
                 els__value.setAttribute('style', els__value.getAttribute('style').replace(from + ';', '') + to + ';');
 
-                if (_this7.isVisible(els__value)) {
+                if (_this8.isVisible(els__value)) {
                   var fired = false;
                   hlp.addEventListenerOnce(els__value, 'transitionend', function (event) {
                     fired = true; // transitionend fires also, when animating child elements
@@ -2638,12 +2664,12 @@ var hlp = /*#__PURE__*/function () {
   }, {
     key: "getImageOrientation",
     value: function getImageOrientation(base64) {
-      var _this8 = this;
+      var _this9 = this;
 
       return new Promise(function (resolve, reject) {
         base64 = base64.replace('data:image/jpeg;base64,', '');
 
-        var file = _this8.base64tofile(base64),
+        var file = _this9.base64tofile(base64),
             reader = new FileReader();
 
         reader.onload = function (e) {
@@ -2763,7 +2789,7 @@ var hlp = /*#__PURE__*/function () {
   }, {
     key: "fixImageOrientation",
     value: function fixImageOrientation(base64) {
-      var _this9 = this;
+      var _this10 = this;
 
       return new Promise(function (resolve, reject) {
         if (base64.indexOf('data:') === -1) {
@@ -2775,14 +2801,14 @@ var hlp = /*#__PURE__*/function () {
           base64 = base64.replace('data:image/jpeg;base64,', '');
         }
 
-        _this9.getImageOrientation(base64).then(function (orientation) {
+        _this10.getImageOrientation(base64).then(function (orientation) {
           base64 = 'data:image/jpeg;base64,' + base64;
 
           if (orientation <= 1) {
             resolve(base64);
             return;
           } else {
-            _this9.resetImageOrientation(base64, orientation).then(function (base64_new) {
+            _this10.resetImageOrientation(base64, orientation).then(function (base64_new) {
               resolve(base64_new);
               return;
             });
