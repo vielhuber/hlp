@@ -472,6 +472,9 @@ hlp.scrollTo( document.querySelector('.foo'), 1000 ).then(() => { console.log('d
 hlp.scrollTop()
 hlp.scrollLeft()
 
+// get closest vertical scrollable element (including oneself)
+hlp.closestScrollable( document.querySelector('.foo') )
+
 // get offset of element (excluding margin)
 hlp.offsetTop( document.querySelector('.foo') )
 hlp.offsetLeft( document.querySelector('.foo') )

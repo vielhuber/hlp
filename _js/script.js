@@ -1000,10 +1000,10 @@ export default class hlp {
         }
         var p = Object.keys(x);
         return (
-            Object.keys(y).every(function(i) {
+            Object.keys(y).every(function (i) {
                 return p.indexOf(i) !== -1;
             }) &&
-            p.every(function(i) {
+            p.every(function (i) {
                 return _this.objectsAreEqual(x[i], y[i]);
             })
         );
@@ -1063,6 +1063,18 @@ export default class hlp {
     static scrollLeft() {
         let doc = document.documentElement;
         return (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
+    }
+
+    static closestScrollable(node) {
+        let isElement = node instanceof HTMLElement,
+            overflowY = isElement && window.getComputedStyle(node).overflowY,
+            isScrollable = overflowY && !(overflowY.includes('hidden') || overflowY.includes('visible'));
+        if (!node) {
+            return null;
+        } else if (isScrollable && node.scrollHeight >= node.clientHeight) {
+            return node;
+        }
+        return this.closestScrollable(node.parentNode) || document.scrollingElement || document.body;
     }
 
     static offsetTop(el) {
@@ -1135,19 +1147,19 @@ export default class hlp {
                 // b = start value
                 // c = change in value
                 // d = duration
-                easeInOutQuad = function(t, b, c, d) {
+                easeInOutQuad = function (t, b, c, d) {
                     t /= d / 2;
                     if (t < 1) return (c / 2) * t * t + b;
                     t--;
                     return (-c / 2) * (t * (t - 2) - 1) + b;
                 },
-                easeInOutCirc = function(t, b, c, d) {
+                easeInOutCirc = function (t, b, c, d) {
                     t /= d / 2;
                     if (t < 1) return (-c / 2) * (Math.sqrt(1 - t * t) - 1) + b;
                     t -= 2;
                     return (c / 2) * (Math.sqrt(1 - t * t) + 1) + b;
                 },
-                animateScroll = function() {
+                animateScroll = function () {
                     const currentDate = +new Date();
                     const currentTime = currentDate - startDate;
                     element.scrollTop = parseInt(easeInOutCirc(currentTime, start, change, duration));
@@ -2304,10 +2316,10 @@ export default class hlp {
 
     static debounce(func, wait, immediate) {
         var timeout;
-        return function() {
+        return function () {
             var context = this,
                 args = arguments;
-            var later = function() {
+            var later = function () {
                 timeout = null;
                 if (!immediate) func.apply(context, args);
             };
@@ -2323,13 +2335,13 @@ export default class hlp {
         var timeout = null;
         var previous = 0;
         if (!options) options = {};
-        var later = function() {
+        var later = function () {
             previous = options.leading === false ? 0 : Date.now();
             timeout = null;
             result = func.apply(context, args);
             if (!timeout) context = args = null;
         };
-        return function() {
+        return function () {
             var now = Date.now();
             if (!previous && options.leading === false) previous = now;
             var remaining = wait - (now - previous);

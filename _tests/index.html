@@ -65,6 +65,12 @@
             .triggerAfterAllImagesLoaded .loaded-img {
                 border: 5px solid green;
             }
+            .closestScrollableEl {
+                overflow-x: hidden;
+                overflow-y: scroll;
+                width: 200px;
+                height: 200px;
+            }
         </style>
     </head>
     <body>
@@ -139,6 +145,22 @@
             </li>
         </ul>
 
+        <div class="closestScrollableEl" data-id="1">
+            <div class="closestScrollableEl" data-id="2">
+                <div class="closestScrollableEl" data-id="3">
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
+                        Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus
+                        mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa
+                        quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo,
+                        rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.
+                        Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend
+                        tellus.
+                    </p>
+                </div>
+            </div>
+        </div>
+
         <script type="text/javascript" src="../hlp.js"></script>
         <script type="text/javascript">
             hlp.ready().then(() => {
@@ -146,6 +168,32 @@
             });
             hlp.load().then(() => {
                 console.log('############## load');
+            });
+
+            window.addEventListener('load', (e) => {
+                let closestScrollableEl = document.querySelector(
+                    '.closestScrollableEl .closestScrollableEl .closestScrollableEl p'
+                );
+                closestScrollableEl = hlp.closestScrollable(closestScrollableEl);
+                console.log('closestScrollableEl: ' + closestScrollableEl.getAttribute('data-id'));
+                closestScrollableEl = closestScrollableEl.parentNode;
+                closestScrollableEl = hlp.closestScrollable(closestScrollableEl);
+                console.log('closestScrollableEl: ' + closestScrollableEl.getAttribute('data-id'));
+                closestScrollableEl = closestScrollableEl.parentNode;
+                closestScrollableEl = hlp.closestScrollable(closestScrollableEl);
+                console.log('closestScrollableEl: ' + closestScrollableEl.getAttribute('data-id'));
+                console.log([
+                    'closestScrollableEl',
+                    hlp.closestScrollable(document.querySelector('.closestScrollableEl').parentNode),
+                ]);
+                document.body.style.overflowY = 'scroll';
+                document.documentElement.style.overflowY = 'hidden';
+                console.log([
+                    'closestScrollableEl',
+                    hlp.closestScrollable(document.querySelector('.closestScrollableEl').parentNode),
+                ]);
+                document.body.style.overflowY = '';
+                document.documentElement.style.overflowY = '';
             });
 
             hlp.runForEl('.runForEl li span span', (el) => {
@@ -159,17 +207,21 @@
                 document.querySelector('.runForEl li:last-child').innerHTML = '<span><span>foo</span></span>';
             }, 2000);
 
-            hlp.triggerAfterAllImagesLoaded('.triggerAfterAllImagesLoaded .container', '.container__image', function() {
-                document.querySelector('.status').textContent =
-                    ('0' + new Date().getHours()).slice(-2) +
-                    ':' +
-                    ('0' + new Date().getMinutes()).slice(-2) +
-                    ':' +
-                    ('0' + new Date().getSeconds()).slice(-2);
-            });
-            document.addEventListener('DOMContentLoaded', function() {
-                document.querySelectorAll('.triggerAfterAllImagesLoaded .test').forEach(function(el) {
-                    el.addEventListener('click', function(e) {
+            hlp.triggerAfterAllImagesLoaded(
+                '.triggerAfterAllImagesLoaded .container',
+                '.container__image',
+                function () {
+                    document.querySelector('.status').textContent =
+                        ('0' + new Date().getHours()).slice(-2) +
+                        ':' +
+                        ('0' + new Date().getMinutes()).slice(-2) +
+                        ':' +
+                        ('0' + new Date().getSeconds()).slice(-2);
+                }
+            );
+            document.addEventListener('DOMContentLoaded', function () {
+                document.querySelectorAll('.triggerAfterAllImagesLoaded .test').forEach(function (el) {
+                    el.addEventListener('click', function (e) {
                         let url = null;
                         if (e.currentTarget.getAttribute('data-type') === 'remote') {
                             let d =
@@ -189,16 +241,16 @@
                         if (e.currentTarget.getAttribute('data-action') === 'html') {
                             document.querySelector('.triggerAfterAllImagesLoaded .container').innerHTML =
                                 '\
-                                <img class="container__image" src="' +
+                                            <img class="container__image" src="' +
                                 url +
                                 '" alt="" />\
-                                <img class="container__image" src="' +
+                                            <img class="container__image" src="' +
                                 url +
                                 '" alt="" />\
-                                <img class="container__image" src="' +
+                                            <img class="container__image" src="' +
                                 url +
                                 '" alt="" />\
-                            ';
+                                        ';
                         } else {
                             document
                                 .querySelector(
@@ -214,7 +266,7 @@
             console.log([hlp.urlHost(), hlp.urlHostTopLevel()]);
 
             hlp.cookieSet('foo', 'bar', 7);
-            setTimeout(function() {
+            setTimeout(function () {
                 hlp.cookieDelete('foo');
             }, 10000);
 
@@ -226,7 +278,7 @@
             ]);
 
             hlp.animate(document.querySelector('body'), 'opacity: 1', 'opacity: 0', 'ease-in-out', 500).then(
-                function() {
+                function () {
                     console.log('TRIGGER DONE');
                     document.querySelector('body').style.opacity = 1;
                 }
@@ -238,13 +290,13 @@
                 'opacity: 0',
                 'ease-in-out',
                 5000
-            ).then(function() {
+            ).then(function () {
                 console.log('.animate-hidden DONE');
             });
 
             hlp.wrapTextNodes(document.querySelector('.wrap-text-nodes'), 'p');
 
-            setTimeout(function() {
+            setTimeout(function () {
                 console.log([
                     'visible-in-viewport--1',
                     hlp.isVisibleInViewport(document.querySelector('.visible-in-viewport--1')),
@@ -259,17 +311,19 @@
                 ]);
             }, 3000);
 
-            hlp.getImageOrientation(document.querySelector('#image_1').getAttribute('src')).then(function(orientation) {
+            hlp.getImageOrientation(document.querySelector('#image_1').getAttribute('src')).then(function (
+                orientation
+            ) {
                 console.log(orientation);
             });
-            hlp.fixImageOrientation(document.querySelector('#image_1').getAttribute('src')).then(function(base64) {
+            hlp.fixImageOrientation(document.querySelector('#image_1').getAttribute('src')).then(function (base64) {
                 document.querySelector('#image_2').setAttribute('src', base64);
             });
 
             let formData = new FormData();
             formData.append('foo', 'bar');
             formData.append('bar', 'baz');
-            hlp.post('http://httpbin.org/anything', { data: formData }).then(function(res) {
+            hlp.post('http://httpbin.org/anything', { data: formData }).then(function (res) {
                 console.log(res);
             });
 
@@ -298,7 +352,7 @@
             console.log('matches2: ' + hlp.matches(document.querySelector('.parent'), '.parent'));
 
             hlp.focus('.child');
-            setTimeout(function() {
+            setTimeout(function () {
                 hlp.unfocus();
             }, 5000);
 
@@ -307,20 +361,20 @@
             console.log(hlp.pushId());
             console.log(hlp.pushId());
 
-            hlp.waitUntil('#foo').then(function() {
+            hlp.waitUntil('#foo').then(function () {
                 console.log('#foo available');
             });
-            hlp.waitUntil('#foo', 'background-color').then(function() {
+            hlp.waitUntil('#foo', 'background-color').then(function () {
                 console.log('background color loaded');
             });
-            hlp.waitUntil('#foo', 'position', 'relative').then(function() {
+            hlp.waitUntil('#foo', 'position', 'relative').then(function () {
                 console.log('position relative loaded');
             });
 
-            hlp.onResizeHorizontal(function() {
+            hlp.onResizeHorizontal(function () {
                 console.log('triggered onResizeHorizontal');
             });
-            hlp.onResizeVertical(function() {
+            hlp.onResizeVertical(function () {
                 console.log('triggered onResizeVertical');
             });
 
@@ -335,20 +389,20 @@
                 outerHeightWithMargin: hlp.outerHeightWithMargin(document.getElementById('bar')),
             });
 
-            hlp.scrollTo(document.getElementById('bar'), 100).then(function() {
-                hlp.fadeOut(document.getElementById('bar'), 100).then(function() {
+            hlp.scrollTo(document.getElementById('bar'), 100).then(function () {
+                hlp.fadeOut(document.getElementById('bar'), 100).then(function () {
                     console.log(hlp.isVisible(document.getElementById('bar')));
-                    hlp.fadeIn(document.getElementById('bar'), 100).then(function() {
+                    hlp.fadeIn(document.getElementById('bar'), 100).then(function () {
                         console.log(hlp.isVisible(document.getElementById('bar')));
-                        hlp.scrollTo(0, 100).then(function() {
+                        hlp.scrollTo(0, 100).then(function () {
                             hlp.animate(
                                 document.getElementById('foo'),
                                 'transform: translateX(0)',
                                 'transform: translateX(-100%)',
                                 'ease-in-out',
                                 1000
-                            ).then(function() {
-                                hlp.on('click', '.dynamic', '#bar', function(e) {
+                            ).then(function () {
+                                hlp.on('click', '.dynamic', '#bar', function (e) {
                                     console.log('clicked');
                                     e.preventDefault();
                                 });
@@ -360,21 +414,21 @@
                                     'transform: translateX(1000px); pointer-events: none; opacity: 0.1',
                                     'ease-in-out',
                                     3000
-                                ).then(function() {
+                                ).then(function () {
                                     hlp.animate(
                                         document.querySelectorAll('.animate div'),
                                         'transform: translateX(500px); pointer-events: none; opacity: 0.1',
                                         'transform: translateX(1000px); pointer-events: auto; opacity: 1',
                                         'ease-in-out',
                                         3000
-                                    ).then(function() {
+                                    ).then(function () {
                                         hlp.animate(
                                             document.querySelectorAll('.animate div'),
                                             'opacity: 1',
                                             'opacity: 0.1',
                                             'ease-in-out',
                                             3000
-                                        ).then(function() {
+                                        ).then(function () {
                                             console.log('done');
                                         });
                                     });
@@ -385,16 +439,16 @@
                 });
             });
 
-            hlp.loadJs('https://apis.google.com/js/api.js').then(function() {
+            hlp.loadJs('https://apis.google.com/js/api.js').then(function () {
                 console.log('done');
             });
 
-            hlp.loadJs(['https://apis.google.com/js/api.js', 'https://apis.google.com/js/api.js']).then(function() {
+            hlp.loadJs(['https://apis.google.com/js/api.js', 'https://apis.google.com/js/api.js']).then(function () {
                 console.log('done2');
             });
 
             hlp.loadJsSequentially(['https://apis.google.com/js/api.js', 'https://apis.google.com/js/api.js']).then(
-                function() {
+                function () {
                     console.log('done3');
                 }
             );
@@ -403,13 +457,13 @@
 
             document.querySelector('.special').addEventListener(
                 'input',
-                hlp.debounce(function(e) {
+                hlp.debounce(function (e) {
                     console.log('debounce at ' + e.target.value);
                 }, 1000)
             );
             document.querySelector('.special').addEventListener(
                 'input',
-                hlp.throttle(function(e) {
+                hlp.throttle(function (e) {
                     console.log('throttle at ' + e.target.value);
                 }, 1000)
             );

@@ -1306,6 +1306,21 @@ var hlp = /*#__PURE__*/function () {
       return (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
     }
   }, {
+    key: "closestScrollable",
+    value: function closestScrollable(node) {
+      var isElement = node instanceof HTMLElement,
+          overflowY = isElement && window.getComputedStyle(node).overflowY,
+          isScrollable = overflowY && !(overflowY.includes('hidden') || overflowY.includes('visible'));
+
+      if (!node) {
+        return null;
+      } else if (isScrollable && node.scrollHeight >= node.clientHeight) {
+        return node;
+      }
+
+      return this.closestScrollable(node.parentNode) || document.scrollingElement || document.body;
+    }
+  }, {
     key: "offsetTop",
     value: function offsetTop(el) {
       return el.getBoundingClientRect().top + window.pageYOffset - document.documentElement.clientTop;
