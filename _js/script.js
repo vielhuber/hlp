@@ -1149,8 +1149,11 @@ export default class hlp {
         return el.offsetHeight + parseInt(getComputedStyle(el).marginTop) + parseInt(getComputedStyle(el).marginBottom);
     }
 
-    static scrollTo(to, duration = 1000, element = document.scrollingElement || document.documentElement) {
+    static scrollTo(to, duration = 1000, element = null, offset = 0) {
         return new Promise((resolve) => {
+            if (element === null) {
+                element = document.scrollingElement || document.documentElement;
+            }
             if (!hlp.isNumeric(to)) {
                 if (element === (document.scrollingElement || documentElement)) {
                     to = this.offsetTopWithMargin(to);
@@ -1163,6 +1166,7 @@ export default class hlp {
                             parseInt(getComputedStyle(element).marginTop));
                 }
             }
+            to += offset;
             const start = element.scrollTop,
                 change = to - start,
                 startDate = +new Date(),

@@ -1406,8 +1406,13 @@ var hlp = /*#__PURE__*/function () {
       var _this3 = this;
 
       var duration = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1000;
-      var element = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : document.scrollingElement || document.documentElement;
+      var element = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+      var offset = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
       return new Promise(function (resolve) {
+        if (element === null) {
+          element = document.scrollingElement || document.documentElement;
+        }
+
         if (!hlp.isNumeric(to)) {
           if (element === (document.scrollingElement || documentElement)) {
             to = _this3.offsetTopWithMargin(to);
@@ -1415,6 +1420,8 @@ var hlp = /*#__PURE__*/function () {
             to = to.getBoundingClientRect().top - parseInt(getComputedStyle(to).marginTop) - (element.getBoundingClientRect().top - element.scrollTop - parseInt(getComputedStyle(element).marginTop));
           }
         }
+
+        to += offset;
 
         var start = element.scrollTop,
             change = to - start,
