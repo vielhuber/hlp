@@ -1408,6 +1408,7 @@ var hlp = /*#__PURE__*/function () {
       var duration = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1000;
       var element = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
       var offset = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
+      var only_up = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
       return new Promise(function (resolve) {
         if (element === null) {
           element = document.scrollingElement || document.documentElement;
@@ -1454,6 +1455,11 @@ var hlp = /*#__PURE__*/function () {
             resolve();
           }
         };
+
+        if (only_up === true && change > 0) {
+          resolve();
+          return;
+        }
 
         animateScroll();
       });
