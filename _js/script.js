@@ -1149,7 +1149,7 @@ export default class hlp {
         return el.offsetHeight + parseInt(getComputedStyle(el).marginTop) + parseInt(getComputedStyle(el).marginBottom);
     }
 
-    static scrollTo(to, duration = 1000, element = null, offset = 0) {
+    static scrollTo(to, duration = 1000, element = null, offset = 0, only_down = false) {
         return new Promise((resolve) => {
             if (element === null) {
                 element = document.scrollingElement || document.documentElement;
@@ -1197,6 +1197,11 @@ export default class hlp {
                         resolve();
                     }
                 };
+            if (only_down === true && change < 0) {
+                console.log('OK');
+                resolve();
+                return;
+            }
             animateScroll();
         });
     }
