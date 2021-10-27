@@ -1198,7 +1198,6 @@ export default class hlp {
                     }
                 };
             if (only_down === true && change < 0) {
-                console.log('OK');
                 resolve();
                 return;
             }
