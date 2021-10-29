@@ -293,6 +293,11 @@
             hlp.runForEl('.runForEl li span span', (el) => {
                 el.style.backgroundColor = 'red';
             });
+            hlp.runForEl('.runForEl li span span', (el) => {
+                setTimeout(() => {
+                    el.style.backgroundColor = 'blue';
+                }, 1000);
+            });
             setInterval(() => {
                 document
                     .querySelector('.runForEl')

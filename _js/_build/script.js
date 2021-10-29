@@ -2334,11 +2334,17 @@ var hlp = /*#__PURE__*/function () {
     key: "runForEl",
     value: function runForEl(selector, callback) {
       hlp.ready().then(function () {
-        // also run for existing
+        // add unique id
+        var id = hlp.pushId(); // also run for existing
+
         if (document.querySelector(selector) !== null) {
           document.querySelectorAll(selector).forEach(function (el) {
-            if (el.runForEl !== true) {
-              el.runForEl = true;
+            if (el.runForEl === undefined) {
+              el.runForEl = [];
+            }
+
+            if (!el.runForEl.includes(id)) {
+              el.runForEl.push(id);
               callback(el);
             }
           });
@@ -2363,8 +2369,12 @@ var hlp = /*#__PURE__*/function () {
                 if (node.nodeType === Node.ELEMENT_NODE) {
                   window.runForEl_queue.forEach(function (queue__value) {
                     if (node.matches(queue__value.selector)) {
-                      if (node.runForEl !== true) {
-                        node.runForEl = true;
+                      if (node.runForEl === undefined) {
+                        node.runForEl = [];
+                      }
+
+                      if (!node.runForEl.includes(queue__value.id)) {
+                        node.runForEl.push(queue__value.id);
                         queue__value.callback(node);
                       }
                     } // if you modify lots of html (e.g. with innerHTML), also check childs
@@ -2372,8 +2382,12 @@ var hlp = /*#__PURE__*/function () {
 
                     if (node.querySelector(queue__value.selector) !== null) {
                       node.querySelectorAll(queue__value.selector).forEach(function (nodes__value) {
-                        if (nodes__value.runForEl !== true) {
-                          nodes__value.runForEl = true;
+                        if (nodes__value.runForEl === undefined) {
+                          nodes__value.runForEl = [];
+                        }
+
+                        if (!nodes__value.runForEl.includes(queue__value.id)) {
+                          nodes__value.runForEl.push(queue__value.id);
                           queue__value.callback(nodes__value);
                         }
                       });
@@ -2398,6 +2412,7 @@ var hlp = /*#__PURE__*/function () {
 
 
         window.runForEl_queue.push({
+          id: id,
           selector: selector,
           callback: callback
         });

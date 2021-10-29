@@ -1936,11 +1936,17 @@ export default class hlp {
 
     static runForEl(selector, callback) {
         hlp.ready().then(() => {
+            // add unique id
+            let id = hlp.pushId();
+
             // also run for existing
             if (document.querySelector(selector) !== null) {
                 document.querySelectorAll(selector).forEach((el) => {
-                    if (el.runForEl !== true) {
-                        el.runForEl = true;
+                    if (el.runForEl === undefined) {
+                        el.runForEl = [];
+                    }
+                    if (!el.runForEl.includes(id)) {
+                        el.runForEl.push(id);
                         callback(el);
                     }
                 });
@@ -1961,16 +1967,22 @@ export default class hlp {
                             if (node.nodeType === Node.ELEMENT_NODE) {
                                 window.runForEl_queue.forEach((queue__value) => {
                                     if (node.matches(queue__value.selector)) {
-                                        if (node.runForEl !== true) {
-                                            node.runForEl = true;
+                                        if (node.runForEl === undefined) {
+                                            node.runForEl = [];
+                                        }
+                                        if (!node.runForEl.includes(queue__value.id)) {
+                                            node.runForEl.push(queue__value.id);
                                             queue__value.callback(node);
                                         }
                                     }
                                     // if you modify lots of html (e.g. with innerHTML), also check childs
                                     if (node.querySelector(queue__value.selector) !== null) {
                                         node.querySelectorAll(queue__value.selector).forEach((nodes__value) => {
-                                            if (nodes__value.runForEl !== true) {
-                                                nodes__value.runForEl = true;
+                                            if (nodes__value.runForEl === undefined) {
+                                                nodes__value.runForEl = [];
+                                            }
+                                            if (!nodes__value.runForEl.includes(queue__value.id)) {
+                                                nodes__value.runForEl.push(queue__value.id);
                                                 queue__value.callback(nodes__value);
                                             }
                                         });
@@ -1990,6 +2002,7 @@ export default class hlp {
             }
             // push to queue
             window.runForEl_queue.push({
+                id: id,
                 selector: selector,
                 callback: callback,
             });
