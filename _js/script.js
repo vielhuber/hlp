@@ -1939,7 +1939,10 @@ export default class hlp {
             // also run for existing
             if (document.querySelector(selector) !== null) {
                 document.querySelectorAll(selector).forEach((el) => {
-                    callback(el);
+                    if (el.runForEl !== true) {
+                        el.runForEl = true;
+                        callback(el);
+                    }
                 });
             }
             // setup queue
@@ -1959,16 +1962,16 @@ export default class hlp {
                                 window.runForEl_queue.forEach((queue__value) => {
                                     if (node.matches(queue__value.selector)) {
                                         if (node.runForEl !== true) {
-                                            queue__value.callback(node);
                                             node.runForEl = true;
+                                            queue__value.callback(node);
                                         }
                                     }
                                     // if you modify lots of html (e.g. with innerHTML), also check childs
                                     if (node.querySelector(queue__value.selector) !== null) {
                                         node.querySelectorAll(queue__value.selector).forEach((nodes__value) => {
                                             if (nodes__value.runForEl !== true) {
-                                                queue__value.callback(nodes__value);
                                                 nodes__value.runForEl = true;
+                                                queue__value.callback(nodes__value);
                                             }
                                         });
                                     }
