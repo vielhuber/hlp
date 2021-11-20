@@ -2111,7 +2111,13 @@ var hlp = /*#__PURE__*/function () {
     key: "focus",
     value: function focus(selector) {
       hlp.unfocus();
-      var el = document.querySelector(selector);
+      var el = null;
+
+      if (typeof selector === 'string' || selector instanceof String) {
+        el = document.querySelector(selector);
+      } else {
+        el = selector;
+      }
 
       if (el !== null) {
         var mask = document.createElement('div');

@@ -1736,7 +1736,12 @@ export default class hlp {
 
     static focus(selector) {
         hlp.unfocus();
-        let el = document.querySelector(selector);
+        let el = null;
+        if (typeof selector === 'string' || selector instanceof String) {
+            el = document.querySelector(selector);
+        } else {
+            el = selector;
+        }
         if (el !== null) {
             let mask = document.createElement('div');
             mask.classList.add('hlp-focus-mask');

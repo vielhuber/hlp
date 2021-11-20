@@ -531,6 +531,7 @@ hlp.css( document.querySelector('.foo') )
 
 // visually focus element on page
 hlp.focus('.foo')
+hlp.focus(document.querySelector('.foo'))
 hlp.unfocus()
 
 // on delegate

@@ -451,9 +451,10 @@
             console.log('matches2: ' + hlp.matches(document.querySelector('.parent'), '.parent'));
 
             hlp.focus('.child');
+            //hlp.focus(document.querySelector('.child'));
             setTimeout(function () {
                 hlp.unfocus();
-            }, 1000);
+            }, 2000);
 
             console.log(hlp.capitalize('foo'));
 
