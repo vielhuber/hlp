@@ -562,8 +562,10 @@ hlp.urlArgs(); // ?foo=bar
 hlp.urlOfScript(); // https://tld.com/wp-content/themes/dummy/script.js
 hlp.pathOfScript(); // https://tld.com/wp-content/themes/dummy
 
-// set 100vh for dom element (even for ios devices, see https://nicolas-hoizey.com/2015/02/viewport-height-is-taller-than-the-visible-part-of-the-document-in-some-mobile-browsers.html)
-hlp.real100vh('.foo')
+// set 100vh for a dom element (respecting the visibility of the address bar)
+hlp.real100vh('.foo') // 100vh
+hlp.real100vh('.foo', 60) // 60vh
+hlp.real100vh() // sets up a css variable which can be used with e.g. calc(100 * var(--vh, 1vh)); to mimic 100vh
 
 // remove hover states on ios to prevent double clicks (see https://stackoverflow.com/questions/47802530/a-click-in-ios-safari-triggers-a-hover-state-on-element-underneath-where-you-t);
 hlp.iOsRemoveHover();

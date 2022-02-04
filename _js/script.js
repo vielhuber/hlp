@@ -1341,12 +1341,31 @@ export default class hlp {
         el.style.height = el.scrollHeight + 'px';
     }
 
-    static real100vh(selector) {
-        document.querySelector(selector).style.height = window.innerHeight + 'px';
-        // onResizeHorizontal does not work, we really have to trigger on every resize
-        window.addEventListener('resize', () => {
-            document.querySelector(selector).style.height = window.innerHeight + 'px';
-        });
+    static real100vh(selector = null, percent = 100) {
+        if (selector === null) {
+            // apply trick from https://css-tricks.com/the-trick-to-viewport-units-on-mobile/
+            let fn = () => {
+                let vh = window.innerHeight * 0.01;
+                document.documentElement.style.setProperty('--vh', `${vh}px`);
+            };
+            fn();
+            window.addEventListener('resize', () => {
+                fn();
+            });
+        } else {
+            let fn = () => {
+                console.log(selector);
+                if (document.querySelector(selector) !== null) {
+                    document.querySelectorAll(selector).forEach((selector__value) => {
+                        selector__value.style.height = window.innerHeight * (percent / 100) + 'px';
+                    });
+                }
+            };
+            fn();
+            window.addEventListener('resize', () => {
+                fn();
+            });
+        }
     }
 
     static iOsRemoveHover() {

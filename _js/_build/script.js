@@ -1666,12 +1666,38 @@ var hlp = /*#__PURE__*/function () {
     }
   }, {
     key: "real100vh",
-    value: function real100vh(selector) {
-      document.querySelector(selector).style.height = window.innerHeight + 'px'; // onResizeHorizontal does not work, we really have to trigger on every resize
+    value: function real100vh() {
+      var selector = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+      var percent = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 100;
 
-      window.addEventListener('resize', function () {
-        document.querySelector(selector).style.height = window.innerHeight + 'px';
-      });
+      if (selector === null) {
+        // apply trick from https://css-tricks.com/the-trick-to-viewport-units-on-mobile/
+        var fn = function fn() {
+          var vh = window.innerHeight * 0.01;
+          document.documentElement.style.setProperty('--vh', "".concat(vh, "px"));
+        };
+
+        fn();
+        window.addEventListener('resize', function () {
+          fn();
+        });
+      } else {
+        var _fn = function _fn() {
+          console.log(selector);
+
+          if (document.querySelector(selector) !== null) {
+            document.querySelectorAll(selector).forEach(function (selector__value) {
+              selector__value.style.height = window.innerHeight * (percent / 100) + 'px';
+            });
+          }
+        };
+
+        _fn();
+
+        window.addEventListener('resize', function () {
+          _fn();
+        });
+      }
     }
   }, {
     key: "iOsRemoveHover",
