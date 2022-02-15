@@ -1914,7 +1914,7 @@ export default class hlp {
         });
     }
 
-    static waitUntilVar(arg1 = null, arg2 = null) {
+    static waitUntilVar(arg1 = null, arg2 = null, value = null) {
         let varName = null,
             parentContainer = null;
         if (arg2 === null) {
@@ -1927,8 +1927,10 @@ export default class hlp {
         return new Promise((resolve, reject) => {
             let timeout = setInterval(() => {
                 if (parentContainer[varName] !== undefined && parentContainer[varName] !== null) {
-                    window.clearInterval(timeout);
-                    resolve();
+                    if (value === null || parentContainer[varName] === value) {
+                        window.clearInterval(timeout);
+                        resolve();
+                    }
                 }
             }, 30);
         });

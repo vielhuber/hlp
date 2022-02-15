@@ -2316,6 +2316,7 @@ var hlp = /*#__PURE__*/function () {
     value: function waitUntilVar() {
       var arg1 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
       var arg2 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+      var value = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
       var varName = null,
           parentContainer = null;
 
@@ -2330,8 +2331,10 @@ var hlp = /*#__PURE__*/function () {
       return new Promise(function (resolve, reject) {
         var timeout = setInterval(function () {
           if (parentContainer[varName] !== undefined && parentContainer[varName] !== null) {
-            window.clearInterval(timeout);
-            resolve();
+            if (value === null || parentContainer[varName] === value) {
+              window.clearInterval(timeout);
+              resolve();
+            }
           }
         }, 30);
       });

@@ -474,6 +474,20 @@
             console.log(hlp.pushId());
             console.log(hlp.pushId());
 
+            window.waitUntilVar = false;
+            hlp.waitUntilVar(window, 'waitUntilVar', 2).then(function () {
+                console.log('waitUntilVar #1');
+            });
+            hlp.waitUntilVar(window, 'waitUntilVar', 2).then(function () {
+                console.log('waitUntilVar #2');
+            });
+            setTimeout(() => {
+                window.waitUntilVar = 1;
+            }, 1000);
+            setTimeout(() => {
+                window.waitUntilVar = 2;
+            }, 2000);
+
             hlp.waitUntil('#foo').then(function () {
                 console.log('#foo available');
             });
