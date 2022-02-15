@@ -92,8 +92,6 @@
         "sass": "^1.49.7",
         "tailwindcss": "^3.0.22",
         "terser": "^5.10.0",
-        "uglify": "^0.1.5",
-        "uglify-js": "^3.15.1",
         "vinyl-buffer": "^1.0.1",
         "vinyl-source-stream": "^2.0.0",
         "vue": "^3.2.31",
