@@ -380,24 +380,26 @@ var hlp = /*#__PURE__*/function () {
   }, {
     key: "cookieSet",
     value: function cookieSet(cookie_name, cookie_value, days) {
+      var full_domain = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
       var samesite = '';
 
       if (window.location.protocol.indexOf('https') > -1) {
         samesite = '; SameSite=None; Secure';
       }
 
-      document.cookie = cookie_name + '=' + encodeURIComponent(cookie_value) + '; ' + 'expires=' + new Date(new Date().getTime() + days * 24 * 60 * 60 * 1000).toUTCString() + '; path=/' + samesite + '; domain=' + this.urlHostTopLevel();
+      document.cookie = cookie_name + '=' + encodeURIComponent(cookie_value) + '; ' + 'expires=' + new Date(new Date().getTime() + days * 24 * 60 * 60 * 1000).toUTCString() + '; path=/' + samesite + '; domain=' + (full_domain === true ? this.urlHostTopLevel() : this.urlHost());
     }
   }, {
     key: "cookieDelete",
     value: function cookieDelete(cookie_name) {
+      var full_domain = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
       var samesite = '';
 
       if (window.location.protocol.indexOf('https') > -1) {
         samesite = '; SameSite=None; Secure';
       }
 
-      document.cookie = cookie_name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/' + samesite + '; domain=' + this.urlHostTopLevel();
+      document.cookie = cookie_name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/' + samesite + '; domain=' + (full_domain === true ? this.urlHostTopLevel() : this.urlHost());
     }
   }, {
     key: "getParam",

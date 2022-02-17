@@ -262,7 +262,7 @@ export default class hlp {
         return null;
     }
 
-    static cookieSet(cookie_name, cookie_value, days) {
+    static cookieSet(cookie_name, cookie_value, days, full_domain = true) {
         let samesite = '';
         if (window.location.protocol.indexOf('https') > -1) {
             samesite = '; SameSite=None; Secure';
@@ -277,10 +277,10 @@ export default class hlp {
             '; path=/' +
             samesite +
             '; domain=' +
-            this.urlHostTopLevel();
+            (full_domain === true ? this.urlHostTopLevel() : this.urlHost());
     }
 
-    static cookieDelete(cookie_name) {
+    static cookieDelete(cookie_name, full_domain = true) {
         let samesite = '';
         if (window.location.protocol.indexOf('https') > -1) {
             samesite = '; SameSite=None; Secure';
@@ -290,7 +290,7 @@ export default class hlp {
             '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/' +
             samesite +
             '; domain=' +
-            this.urlHostTopLevel();
+            (full_domain === true ? this.urlHostTopLevel() : this.urlHost());
     }
 
     static getParam(variable) {

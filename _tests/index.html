@@ -377,10 +377,22 @@
 
             console.log([hlp.urlHost(), hlp.urlHostTopLevel()]);
 
-            hlp.cookieSet('foo', 'bar', 7);
-            setTimeout(function () {
+            setTimeout(() => {
+                hlp.cookieSet('foo', 'bar', 7);
+                console.log('cookie: ' + hlp.cookieGet('foo'));
+            }, 0);
+            setTimeout(() => {
                 hlp.cookieDelete('foo');
+                console.log('cookie: ' + hlp.cookieGet('foo'));
+            }, 5000);
+            setTimeout(() => {
+                hlp.cookieSet('foo', 'bar', 42, false);
+                console.log('cookie: ' + hlp.cookieGet('foo'));
             }, 10000);
+            setTimeout(() => {
+                hlp.cookieDelete('foo', false);
+                console.log('cookie: ' + hlp.cookieGet('foo'));
+            }, 15000);
 
             console.log([
                 hlp.html2dom('<p>foo</p>'),

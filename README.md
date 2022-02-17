@@ -437,9 +437,11 @@ check out also the following helpers for the frontend:
 
 ```js
 // cookies
-hlp.cookieSet('foo', 'bar', 7);
+hlp.cookieSet('foo', 'bar', 7)
+hlp.cookieSet('foo', 'bar', 7, false) // only for current domain (no subdomains)
 hlp.cookieGet('foo') // bar
 hlp.cookieDelete('foo')
+hlp.cookieDelete('foo', false) // only for current domain (no subdomains)
 hlp.cookieExists('foo') // false
 
 // get parameter (example url: https://tld.com/?foo=bar&bar=baz)
