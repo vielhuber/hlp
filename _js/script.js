@@ -277,7 +277,7 @@ export default class hlp {
             '; path=/' +
             samesite +
             '; domain=' +
-            (full_domain === true ? this.urlHostTopLevel() : this.urlHost());
+            (full_domain === true ? this.urlHostTopLevel() : '');
     }
 
     static cookieDelete(cookie_name, full_domain = true) {
@@ -290,7 +290,7 @@ export default class hlp {
             '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/' +
             samesite +
             '; domain=' +
-            (full_domain === true ? this.urlHostTopLevel() : this.urlHost());
+            (full_domain === true ? this.urlHostTopLevel() : '');
     }
 
     static getParam(variable) {

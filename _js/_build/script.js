@@ -387,7 +387,7 @@ var hlp = /*#__PURE__*/function () {
         samesite = '; SameSite=None; Secure';
       }
 
-      document.cookie = cookie_name + '=' + encodeURIComponent(cookie_value) + '; ' + 'expires=' + new Date(new Date().getTime() + days * 24 * 60 * 60 * 1000).toUTCString() + '; path=/' + samesite + '; domain=' + (full_domain === true ? this.urlHostTopLevel() : this.urlHost());
+      document.cookie = cookie_name + '=' + encodeURIComponent(cookie_value) + '; ' + 'expires=' + new Date(new Date().getTime() + days * 24 * 60 * 60 * 1000).toUTCString() + '; path=/' + samesite + '; domain=' + (full_domain === true ? this.urlHostTopLevel() : '');
     }
   }, {
     key: "cookieDelete",
@@ -399,7 +399,7 @@ var hlp = /*#__PURE__*/function () {
         samesite = '; SameSite=None; Secure';
       }
 
-      document.cookie = cookie_name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/' + samesite + '; domain=' + (full_domain === true ? this.urlHostTopLevel() : this.urlHost());
+      document.cookie = cookie_name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/' + samesite + '; domain=' + (full_domain === true ? this.urlHostTopLevel() : '');
     }
   }, {
     key: "getParam",
