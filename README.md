@@ -520,6 +520,8 @@ hlp.siblings( document.querySelector('.foo') )
 hlp.siblings( document.querySelector('.foo'), '.bar' )
 hlp.parents( document.querySelector('.foo') )
 hlp.parents( document.querySelector('.foo'), '.bar' )
+hlp.prevUntil( document.querySelector('.foo'), '.bar' ) // prev until selector not including
+hlp.nextUntil( document.querySelector('.foo'), '.bar' ) // next until selector not including
 
 // wrap all text nodes with new node
 hlp.wrapTextNodes( document.querySelector('.foo'), 'p' )

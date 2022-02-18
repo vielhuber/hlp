@@ -2000,6 +2000,36 @@ var hlp = /*#__PURE__*/function () {
       return sibs;
     }
   }, {
+    key: "prevUntil",
+    value: function prevUntil(elem, filter) {
+      var sibs = [];
+
+      while (elem = elem.previousElementSibling) {
+        if (!this.matches(elem, filter)) {
+          sibs.push(elem);
+        } else {
+          break;
+        }
+      }
+
+      return sibs;
+    }
+  }, {
+    key: "nextUntil",
+    value: function nextUntil(elem, filter) {
+      var sibs = [];
+
+      while (elem = elem.nextElementSibling) {
+        if (!this.matches(elem, filter)) {
+          sibs.push(elem);
+        } else {
+          break;
+        }
+      }
+
+      return sibs;
+    }
+  }, {
     key: "siblings",
     value: function siblings(elem, filter) {
       var sibs = [];

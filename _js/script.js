@@ -1639,6 +1639,30 @@ export default class hlp {
         return sibs;
     }
 
+    static prevUntil(elem, filter) {
+        let sibs = [];
+        while ((elem = elem.previousElementSibling)) {
+            if (!this.matches(elem, filter)) {
+                sibs.push(elem);
+            } else {
+                break;
+            }
+        }
+        return sibs;
+    }
+
+    static nextUntil(elem, filter) {
+        let sibs = [];
+        while ((elem = elem.nextElementSibling)) {
+            if (!this.matches(elem, filter)) {
+                sibs.push(elem);
+            } else {
+                break;
+            }
+        }
+        return sibs;
+    }
+
     static siblings(elem, filter) {
         let sibs = [];
         let self = elem;
