@@ -1166,6 +1166,13 @@ export default class hlp {
                             parseInt(getComputedStyle(element).marginTop));
                 }
             }
+            if (!hlp.isNumeric(offset)) {
+                if (offset !== null) {
+                    offset = -1 * offset.offsetHeight;
+                } else {
+                    offset = 0;
+                }
+            }
             to += offset;
             const start = element.scrollTop,
                 change = to - start,

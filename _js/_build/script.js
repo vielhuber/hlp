@@ -1424,6 +1424,14 @@ var hlp = /*#__PURE__*/function () {
           }
         }
 
+        if (!hlp.isNumeric(offset)) {
+          if (offset !== null) {
+            offset = -1 * offset.offsetHeight;
+          } else {
+            offset = 0;
+          }
+        }
+
         to += offset;
 
         var start = element.scrollTop,
