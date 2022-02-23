@@ -1168,7 +1168,11 @@ export default class hlp {
             }
             if (!hlp.isNumeric(offset)) {
                 if (offset !== null) {
-                    offset = -1 * offset.offsetHeight;
+                    if (window.getComputedStyle(offset).position === 'fixed') {
+                        offset = -1 * offset.offsetHeight;
+                    } else {
+                        offset = 0;
+                    }
                 } else {
                     offset = 0;
                 }
