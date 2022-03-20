@@ -442,7 +442,13 @@ hlp.cookieSet('foo', 'bar', 7, false) // only for current domain (no subdomains)
 hlp.cookieGet('foo') // bar
 hlp.cookieDelete('foo')
 hlp.cookieDelete('foo', false) // only for current domain (no subdomains)
-hlp.cookieExists('foo') // false
+hlp.cookieExists('foo') // true|false
+
+// localstorage (with expiration time and object support)
+hlp.localStorageSet('foo', {some: 'data'}, 7)
+hlp.localStorageGet('foo') // {'some': 'data'}
+hlp.localStorageDelete('foo')
+hlp.localStorageExists('foo') // true|false
 
 // get parameter (example url: https://tld.com/?foo=bar&bar=baz)
 hlp.getParam('foo') // foo

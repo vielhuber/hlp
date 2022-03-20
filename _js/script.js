@@ -293,6 +293,38 @@ export default class hlp {
             (full_domain === true ? this.urlHostTopLevel() : '');
     }
 
+    static localStorageSet(key, value, ttl = 0) {
+        ttl = ttl * (24 * 60 * 60 * 1000);
+        let now = new Date(),
+            item = {
+                value: value,
+                expiry: now.getTime() + ttl,
+            };
+        localStorage.setItem(key, JSON.stringify(item));
+    }
+
+    static localStorageGet(key) {
+        let itemStr = localStorage.getItem(key);
+        if (!itemStr) {
+            return null;
+        }
+        let item = JSON.parse(itemStr),
+            now = new Date();
+        if (now.getTime() > item.expiry) {
+            localStorage.removeItem(key);
+            return null;
+        }
+        return item.value;
+    }
+
+    static localStorageDelete(key) {
+        localStorage.removeItem(key);
+    }
+
+    static localStorageExists(key) {
+        return this.localStorageGet(key) !== null;
+    }
+
     static getParam(variable) {
         let url = window.location.search;
         if (this.nx(url)) {

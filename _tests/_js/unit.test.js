@@ -247,6 +247,20 @@ test('cookies', () => {
     expect(hlp.cookieExists('foo')).toBe(false);
 });
 
+test('localstorage', async () => {
+    hlp.localStorageSet('foo', { some: 'data' }, 7);
+    expect(hlp.localStorageGet('foo')).toEqual({ some: 'data' });
+    expect(hlp.localStorageExists('foo')).toBe(true);
+    hlp.localStorageDelete('foo');
+    expect(hlp.localStorageExists('foo')).toBe(false);
+
+    hlp.localStorageSet('bar', { some: 'data' }, 1 / (24 * 60 * 60));
+    await new Promise((resolve) => setTimeout(() => resolve(), 500));
+    expect(hlp.localStorageExists('bar')).toBe(true);
+    await new Promise((resolve) => setTimeout(() => resolve(), 1000));
+    expect(hlp.localStorageExists('bar')).toBe(false);
+});
+
 test('getParam', () => {
     expect(hlp.getParam('foo')).toBe('bar');
     expect(hlp.getParam('bar')).toBe('baz');
@@ -330,43 +344,13 @@ test('isDate', () => {
 
 test('uuid', () => {
     expect(hlp.uuid().split('-').length).toBe(5);
-    expect(
-        hlp
-            .uuid()
-            .split('-')
-            .join('').length
-    ).toBe(32);
+    expect(hlp.uuid().split('-').join('').length).toBe(32);
     expect(hlp.uuid().length).toBe(36);
-    expect(
-        hlp
-            .uuid()
-            .substring(0, 8)
-            .indexOf('-')
-    ).toBe(-1);
-    expect(
-        hlp
-            .uuid()
-            .substring(9, 13)
-            .indexOf('-')
-    ).toBe(-1);
-    expect(
-        hlp
-            .uuid()
-            .substring(14, 18)
-            .indexOf('-')
-    ).toBe(-1);
-    expect(
-        hlp
-            .uuid()
-            .substring(19, 23)
-            .indexOf('-')
-    ).toBe(-1);
-    expect(
-        hlp
-            .uuid()
-            .substring(24, 32)
-            .indexOf('-')
-    ).toBe(-1);
+    expect(hlp.uuid().substring(0, 8).indexOf('-')).toBe(-1);
+    expect(hlp.uuid().substring(9, 13).indexOf('-')).toBe(-1);
+    expect(hlp.uuid().substring(14, 18).indexOf('-')).toBe(-1);
+    expect(hlp.uuid().substring(19, 23).indexOf('-')).toBe(-1);
+    expect(hlp.uuid().substring(24, 32).indexOf('-')).toBe(-1);
 });
 
 test('replaceAll', () => {

@@ -402,6 +402,47 @@ var hlp = /*#__PURE__*/function () {
       document.cookie = cookie_name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/' + samesite + '; domain=' + (full_domain === true ? this.urlHostTopLevel() : '');
     }
   }, {
+    key: "localStorageSet",
+    value: function localStorageSet(key, value) {
+      var ttl = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+      ttl = ttl * (24 * 60 * 60 * 1000);
+      var now = new Date(),
+          item = {
+        value: value,
+        expiry: now.getTime() + ttl
+      };
+      localStorage.setItem(key, JSON.stringify(item));
+    }
+  }, {
+    key: "localStorageGet",
+    value: function localStorageGet(key) {
+      var itemStr = localStorage.getItem(key);
+
+      if (!itemStr) {
+        return null;
+      }
+
+      var item = JSON.parse(itemStr),
+          now = new Date();
+
+      if (now.getTime() > item.expiry) {
+        localStorage.removeItem(key);
+        return null;
+      }
+
+      return item.value;
+    }
+  }, {
+    key: "localStorageDelete",
+    value: function localStorageDelete(key) {
+      localStorage.removeItem(key);
+    }
+  }, {
+    key: "localStorageExists",
+    value: function localStorageExists(key) {
+      return this.localStorageGet(key) !== null;
+    }
+  }, {
     key: "getParam",
     value: function getParam(variable) {
       var url = window.location.search;
