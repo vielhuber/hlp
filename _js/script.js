@@ -1198,18 +1198,22 @@ export default class hlp {
                             parseInt(getComputedStyle(element).marginTop));
                 }
             }
-            if (!hlp.isNumeric(offset)) {
-                if (offset !== null) {
-                    if (window.getComputedStyle(offset).position === 'fixed') {
-                        offset = -1 * offset.offsetHeight;
-                    } else {
-                        offset = 0;
-                    }
-                } else {
-                    offset = 0;
-                }
+            let offset_calc = 0;
+            if (!Array.isArray(offset)) {
+                offset = [offset];
             }
-            to += offset;
+            offset.forEach((offset__value) => {
+                if (hlp.isNumeric(offset__value)) {
+                    offset_calc += offset__value;
+                } else {
+                    if (offset__value !== null) {
+                        if (window.getComputedStyle(offset__value).position === 'fixed') {
+                            offset_calc += -1 * offset__value.offsetHeight;
+                        }
+                    }
+                }
+            });
+            to += offset_calc;
             const start = element.scrollTop,
                 change = to - start,
                 startDate = +new Date(),

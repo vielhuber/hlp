@@ -478,6 +478,7 @@ hlp.scrollTo( document.querySelector('.foo'), 1000 ).then(() => { console.log('d
 hlp.scrollTo( 0, 1000, document.querySelector('.bar') ).then(() => { console.log('done'); }); // scoll inside .bar
 hlp.scrollTo( document.querySelector('.foo'), 1000, null, -200 ).then(() => { console.log('done'); }); // apply offset
 hlp.scrollTo( document.querySelector('.foo'), 1000, null, document.querySelector('.header') ).then(() => { console.log('done'); }); // apply offset (height of dom element only if it exists and is fixed!)
+hlp.scrollTo( document.querySelector('.foo'), 1000, null, [document.querySelector('.header'), -200] ).then(() => { console.log('done'); }); // you can also provide multiple values (of different type)
 hlp.scrollTo( document.querySelector('.foo'), 1000, null, -200, true ).then(() => { console.log('done'); }); // only scroll up (never down)
 
 // get top/left scroll position
