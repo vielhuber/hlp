@@ -2345,7 +2345,12 @@ var hlp = /*#__PURE__*/function () {
   }, {
     key: "urlHostTopLevel",
     value: function urlHostTopLevel() {
-      var host = window.location.host;
+      var host = window.location.host; // ipv4
+
+      if (host.match(/^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/)) {
+        return host;
+      }
+
       host = host.split('.');
 
       while (host.length > 2) {
