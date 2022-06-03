@@ -557,10 +557,14 @@ hlp.on('click', '.selector', '.scope', (e, el) => { });
 // classic debounce
 window.addEventListener('resize', hlp.debounce(() => { console.log('debounce at resize') }, 1000));
 document.querySelector('.container').addEventListener('input', hlp.debounce((e) => { console.log('debounce at '+e.target.value); }, 1000));
+let debounce = hlp.debounce((e) => { console.log('debounce at '+e.target.value); }, 1000); // conditional debounce
+document.querySelector('.container').addEventListener('input', e => { debounce(e); });
 
 // classic throttle
 window.addEventListener('resize', hlp.throttle(() => { console.log('throttle at resize') }, 1000));
 document.querySelector('.container').addEventListener('input', hlp.throttle((e) => { console.log('throttle at '+e.target.value); }, 1000));
+let throttle = hlp.throttle((e) => { console.log('throttle at '+e.target.value); }, 1000); // conditional throttle
+document.querySelector('.container').addEventListener('input', e => { throttle(e); });
 
 // get current url
 hlp.url() // https://github.com/vielhuber/hlp
