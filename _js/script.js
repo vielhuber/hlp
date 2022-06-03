@@ -1666,6 +1666,28 @@ export default class hlp {
         return fragment.querySelector('*');
     }
 
+    static prev(elem, filter) {
+        let prev = elem.previousElementSibling;
+        if (prev === null) {
+            return null;
+        }
+        if (filter === undefined || this.matches(prev, filter)) {
+            return prev;
+        }
+        return null;
+    }
+
+    static next(elem, filter) {
+        let next = elem.nextElementSibling;
+        if (next === null) {
+            return null;
+        }
+        if (filter === undefined || this.matches(next, filter)) {
+            return next;
+        }
+        return null;
+    }
+
     static prevAll(elem, filter) {
         let sibs = [];
         while ((elem = elem.previousElementSibling)) {

@@ -530,6 +530,10 @@ hlp.parents( document.querySelector('.foo') )
 hlp.parents( document.querySelector('.foo'), '.bar' )
 hlp.prevUntil( document.querySelector('.foo'), '.bar' ) // prev until selector not including
 hlp.nextUntil( document.querySelector('.foo'), '.bar' ) // next until selector not including
+hlp.prev( document.querySelector('.foo') )
+hlp.prev( document.querySelector('.foo'), '.bar' )
+hlp.next( document.querySelector('.foo') )
+hlp.next( document.querySelector('.foo'), '.bar' )
 
 // wrap all text nodes with new node
 hlp.wrapTextNodes( document.querySelector('.foo'), 'p' )

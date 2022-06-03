@@ -2032,6 +2032,36 @@ var hlp = /*#__PURE__*/function () {
       return fragment.querySelector('*');
     }
   }, {
+    key: "prev",
+    value: function prev(elem, filter) {
+      var prev = elem.previousElementSibling;
+
+      if (prev === null) {
+        return null;
+      }
+
+      if (filter === undefined || this.matches(prev, filter)) {
+        return prev;
+      }
+
+      return null;
+    }
+  }, {
+    key: "next",
+    value: function next(elem, filter) {
+      var next = elem.nextElementSibling;
+
+      if (next === null) {
+        return null;
+      }
+
+      if (filter === undefined || this.matches(next, filter)) {
+        return next;
+      }
+
+      return null;
+    }
+  }, {
     key: "prevAll",
     value: function prevAll(elem, filter) {
       var sibs = [];
