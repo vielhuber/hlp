@@ -1960,6 +1960,17 @@ var hlp = /*#__PURE__*/function () {
       return !!nodes[i];
     }
   }, {
+    key: "wrap",
+    value: function wrap(el, html) {
+      if (el === null) {
+        return;
+      }
+
+      var wrapper = new DOMParser().parseFromString(html, 'text/html').body.childNodes[0];
+      el.parentNode.insertBefore(wrapper, el.nextSibling);
+      wrapper.appendChild(el);
+    }
+  }, {
     key: "wrapTextNodes",
     value: function wrapTextNodes(el, tag) {
       if (el === null) {

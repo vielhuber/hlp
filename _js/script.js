@@ -1605,6 +1605,15 @@ export default class hlp {
         return !!nodes[i];
     }
 
+    static wrap(el, html) {
+        if (el === null) {
+            return;
+        }
+        let wrapper = new DOMParser().parseFromString(html, 'text/html').body.childNodes[0];
+        el.parentNode.insertBefore(wrapper, el.nextSibling);
+        wrapper.appendChild(el);
+    }
+
     static wrapTextNodes(el, tag) {
         if (el === null) {
             return;

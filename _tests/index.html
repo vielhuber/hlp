@@ -130,6 +130,8 @@
 
         <div class="animate-hidden"></div>
 
+        <div class="wrap">wrap this!</div>
+
         <div class="wrap-text-nodes">
             foo
             <span>bar</span>
@@ -417,6 +419,8 @@
             ).then(function () {
                 console.log('.animate-hidden DONE');
             });
+
+            hlp.wrap(document.querySelector('.wrap'), '<div class="wrapper"></div>');
 
             hlp.wrapTextNodes(document.querySelector('.wrap-text-nodes'), 'p');
 

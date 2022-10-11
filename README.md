@@ -535,6 +535,9 @@ hlp.prev( document.querySelector('.foo'), '.bar' )
 hlp.next( document.querySelector('.foo') )
 hlp.next( document.querySelector('.foo'), '.bar' )
 
+// wrap element
+hlp.wrap( document.querySelector('.foo'), '<div class="wrapper"></div>' )
+
 // wrap all text nodes with new node
 hlp.wrapTextNodes( document.querySelector('.foo'), 'p' )
 
