@@ -17,10 +17,10 @@ jobs:
               uses: actions/setup-node@v3
               with:
                   node-version: 16
+                  cache: 'npm'
 
             - name: NPM
               run: npm install
 
             - name: Test
               run: npm run js:tests
-              shell: bash

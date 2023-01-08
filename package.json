@@ -10,7 +10,7 @@
         "js:browserify": "browserify ./_js/script.js --outfile ./hlp.js --transform babelify",
         "js:minify": "terser --compress --mangle --output ./hlp.js ./hlp.js",
         "js:babel": "npx babel ./_js/script.js --out-dir ./_js/_build/",
-        "js:tests": "jest --verbose --noStackTrace --no-cache || true",
+        "js:tests": "jest --verbose --noStackTrace --no-cache",
         "js": "npm-run-all --sequential js:browserify js:minify js:babel js:tests",
         "watch:js": "onchange ./_js/*.js --initial --poll 25 --delay 0 --await-write-finish 25 -- onerror \"npm run js --silent\" --title \"watch:js\" --message \"build failed\" --sound mute",
         "watch:js-test": "onchange ./_tests/_js/*.js --initial --poll 25 --delay 0 --await-write-finish 25 -- onerror \"npm run js:tests --silent\" --title \"watch:js-test\" --message \"build failed\" --sound mute",
