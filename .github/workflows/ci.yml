@@ -7,7 +7,14 @@ on: [push]
 
 jobs:
     build-test:
-        runs-on: ubuntu-latest
+        runs-on: ${{ matrix.operating-system }}
+
+        strategy:
+            matrix:
+                operating-system: ['ubuntu-latest', 'macos-latest', 'windows-latest']
+                node-versions: ['16.17.0']
+
+        name: ${{ matrix.operating-system }} (Node ${{ matrix.node-versions }})
 
         steps:
             - name: Checkout
@@ -16,7 +23,7 @@ jobs:
             - name: Node
               uses: actions/setup-node@v3
               with:
-                  node-version: 16
+                  node-version: '${{ matrix.node-versions }}'
                   cache: 'npm'
 
             - name: NPM
