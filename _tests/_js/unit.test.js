@@ -612,8 +612,8 @@ test('dateToWeek', () => {
 });
 
 test('weekToDate', () => {
-    expect(hlp.weekToDate(42, 2018)).toEqual(new Date('2018-10-14'));
-    expect(hlp.weekToDate(17, 2023)).toEqual(new Date('2023-04-23'));
+    expect(hlp.compareDates(hlp.weekToDate(42, 2018), new Date('2018-10-15'))).toBe(0);
+    expect(hlp.compareDates(hlp.weekToDate(17, 2023), new Date('2023-04-24'))).toBe(0);
 });
 
 test('addDays', () => {

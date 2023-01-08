@@ -1030,17 +1030,35 @@ var hlp = /*#__PURE__*/function () {
     }
   }, {
     key: "weekToDate",
-    value: function weekToDate(w, y) {
-      var simple = new Date(y, 0, 1 + (w - 1) * 7),
-        dow = simple.getDay(),
-        ISOweekStart = simple;
-      if (dow <= 4) {
-        ISOweekStart.setDate(simple.getDate() - simple.getDay() + 1);
-      } else {
-        ISOweekStart.setDate(simple.getDate() + 8 - simple.getDay());
+    value: function weekToDate(week, year) {
+      if (year == null) {
+        year = new Date().getFullYear();
       }
-      ISOweekStart.setUTCHours(0, 0, 0, 0);
-      return ISOweekStart;
+      var date = new Date();
+      date.setYear(year);
+      date.setDate(1);
+      date.setMonth(0);
+      date.setHours(0);
+      date.setMinutes(0);
+      date.setSeconds(0);
+      date.setMilliseconds(0);
+      var FIRST_DAY_OF_WEEK = 1;
+      var WEEK_LENGTH = 7;
+      var day = date.getDay();
+      day = day === 0 ? 7 : day;
+      var dayOffset = -day + FIRST_DAY_OF_WEEK;
+      if (WEEK_LENGTH - day + 1 < 4) {
+        dayOffset += WEEK_LENGTH;
+      }
+      date = new Date(date.getTime() + dayOffset * 24 * 60 * 60 * 1000);
+      var weekTime = 1000 * 60 * 60 * 24 * 7 * (week - 1);
+      var targetTime = date.getTime() + weekTime;
+      date.setTime(targetTime);
+      date.setHours(0);
+      date.setMinutes(0);
+      date.setSeconds(0);
+      date.setMilliseconds(0);
+      return date;
     }
   }, {
     key: "addDays",
