@@ -1,4 +1,4 @@
-[![Build status](https://github.com/vielhuber/hlp/actions/workflows/ci.yml/badge.svg)](https://github.com/vielhuber/hlp/actions)
+[![build status](https://github.com/vielhuber/hlp/actions/workflows/ci.yml/badge.svg)](https://github.com/vielhuber/hlp/actions)
 
 ## motivation
 tired of writing
