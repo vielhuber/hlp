@@ -522,11 +522,13 @@ test('get/post', async () => {
 test('removeEmpty', () => {
     expect(hlp.removeEmpty(['foo', null, [], '', 'bar'])).toEqual(['foo', 'bar']);
     expect(hlp.removeEmpty(['foo', 'foo', {}])).toEqual(['foo', 'foo']);
+    expect(hlp.removeEmpty([0, 'Foo', 'foo', {}])).toEqual([0, 'Foo', 'foo']);
     expect(hlp.removeEmpty([])).toEqual([]);
     expect(hlp.removeEmpty(null)).toEqual(null);
     expect(hlp.removeEmpty(true)).toEqual(true);
     expect(hlp.removeEmpty(false)).toEqual(false);
     expect(hlp.removeEmpty('')).toEqual('');
+    expect(hlp.removeEmpty(0)).toEqual(0);
 });
 
 test('uniqueArray', () => {
