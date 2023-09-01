@@ -290,6 +290,9 @@ hlp.findAllPositionsCaseInsensitive('FoO', 'this is a FOO and a foobar') // [10,
 hlp.highlight('that is a search string', 'is') // that <strong class="highlight">is</strong> a search string
 hlp.highlight('abc def geh ijk lmn opq rst abc def geh ijk lmn opq rst', 'ijk', true, 5) // '... geh <strong class="highlight">ijk</strong> lmn ... geh <strong class="highlight">ijk</strong> lmn ...'
 
+// remove empty elements from array
+hlp.removeEmpty(['foo',null,[],'','bar']) // ['foo','bar']
+
 // return unique array (remove duplicate values, order-safe)
 hlp.uniqueArray(['foo','bar','foo','baz']) // ['foo','bar','baz']
 

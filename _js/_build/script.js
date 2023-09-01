@@ -918,6 +918,18 @@ var hlp = /*#__PURE__*/function () {
       fun();
     }
   }, {
+    key: "removeEmpty",
+    value: function removeEmpty(array) {
+      var _this3 = this;
+      if (this.nx(array) || !Array.isArray(array)) {
+        return array;
+      }
+      array = array.filter(function (array__value) {
+        return _this3.x(array__value);
+      });
+      return array;
+    }
+  }, {
     key: "uniqueArray",
     value: function uniqueArray(array) {
       var seen = {},
@@ -1264,7 +1276,7 @@ var hlp = /*#__PURE__*/function () {
   }, {
     key: "scrollTo",
     value: function scrollTo(to) {
-      var _this3 = this;
+      var _this4 = this;
       var duration = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1000;
       var element = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
       var offset = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
@@ -1275,7 +1287,7 @@ var hlp = /*#__PURE__*/function () {
         }
         if (!hlp.isNumeric(to)) {
           if (element === (document.scrollingElement || documentElement)) {
-            to = _this3.offsetTopWithMargin(to);
+            to = _this4.offsetTopWithMargin(to);
           } else {
             to = to.getBoundingClientRect().top - parseInt(getComputedStyle(to).marginTop) - (element.getBoundingClientRect().top - element.scrollTop - parseInt(getComputedStyle(element).marginTop));
           }
@@ -1404,11 +1416,11 @@ var hlp = /*#__PURE__*/function () {
   }, {
     key: "triggerAfterAllImagesLoaded",
     value: function triggerAfterAllImagesLoaded(selectorContainer, selectorImage, fn) {
-      var _this4 = this;
+      var _this5 = this;
       window.addEventListener('load', function (e) {
         if (document.querySelector(selectorContainer + ' ' + selectorImage) !== null) {
           document.querySelectorAll(selectorContainer + ' ' + selectorImage).forEach(function (el) {
-            _this4.triggerAfterAllImagesLoadedBindLoadEvent(el, selectorContainer, selectorImage, fn);
+            _this5.triggerAfterAllImagesLoadedBindLoadEvent(el, selectorContainer, selectorImage, fn);
           });
         }
       });
@@ -1418,10 +1430,10 @@ var hlp = /*#__PURE__*/function () {
             mutations.forEach(function (mutation) {
               if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
                 mutation.addedNodes.forEach(function (el) {
-                  _this4.triggerAfterAllImagesLoadedHandleEl(el, selectorContainer, selectorImage, fn);
+                  _this5.triggerAfterAllImagesLoadedHandleEl(el, selectorContainer, selectorImage, fn);
                 });
               } else if (mutation.type === 'attributes' && mutation.attributeName === 'src' && mutation.target.classList.contains(selectorImage.replace('.', '')) && mutation.oldValue !== mutation.target.getAttribute('src')) {
-                _this4.triggerAfterAllImagesLoadedHandleEl(mutation.target, selectorContainer, selectorImage, fn);
+                _this5.triggerAfterAllImagesLoadedHandleEl(mutation.target, selectorContainer, selectorImage, fn);
               }
             });
           }).observe(document.querySelector(selectorContainer), {
@@ -1438,7 +1450,7 @@ var hlp = /*#__PURE__*/function () {
   }, {
     key: "triggerAfterAllImagesLoadedHandleEl",
     value: function triggerAfterAllImagesLoadedHandleEl(el, selectorContainer, selectorImage, fn) {
-      var _this5 = this;
+      var _this6 = this;
       if (el.nodeType === Node.ELEMENT_NODE) {
         el.classList.remove('loaded-img');
         el.closest(selectorContainer).classList.remove('loaded-all');
@@ -1446,7 +1458,7 @@ var hlp = /*#__PURE__*/function () {
         if (!el.classList.contains('binded-trigger')) {
           el.classList.add('binded-trigger');
           el.addEventListener('load', function () {
-            _this5.triggerAfterAllImagesLoadedBindLoadEvent(el, selectorContainer, selectorImage, fn);
+            _this6.triggerAfterAllImagesLoadedBindLoadEvent(el, selectorContainer, selectorImage, fn);
           });
         }
       }
@@ -1477,26 +1489,26 @@ var hlp = /*#__PURE__*/function () {
   }, {
     key: "textareaAutoHeight",
     value: function textareaAutoHeight() {
-      var _this6 = this;
+      var _this7 = this;
       var selector = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'textarea';
       this.textareaSetHeights(selector);
       this.onResizeHorizontal(function () {
-        _this6.textareaSetHeights(selector);
+        _this7.textareaSetHeights(selector);
       });
       [].forEach.call(document.querySelectorAll(selector), function (el) {
         el.addEventListener('keyup', function (e) {
-          _this6.textareaSetHeight(e.target);
+          _this7.textareaSetHeight(e.target);
         });
       });
     }
   }, {
     key: "textareaSetHeights",
     value: function textareaSetHeights() {
-      var _this7 = this;
+      var _this8 = this;
       var selector = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'textarea';
       [].forEach.call(document.querySelectorAll(selector), function (el) {
-        if (_this7.isVisible(el)) {
-          _this7.textareaSetHeight(el);
+        if (_this8.isVisible(el)) {
+          _this8.textareaSetHeight(el);
         }
       });
     }
@@ -1553,7 +1565,7 @@ var hlp = /*#__PURE__*/function () {
   }, {
     key: "animate",
     value: function animate(el, from, to, easing, duration) {
-      var _this8 = this;
+      var _this9 = this;
       return new Promise(function (resolve) {
         // on durations smaller than 50, the end event does not trigger!
         if (duration <= 50) {
@@ -1603,7 +1615,7 @@ var hlp = /*#__PURE__*/function () {
               window.requestAnimationFrame(function () {
                 // set last style inline
                 els__value.setAttribute('style', els__value.getAttribute('style').replace(from + ';', '') + to + ';');
-                if (_this8.isVisible(els__value)) {
+                if (_this9.isVisible(els__value)) {
                   var fired = false;
                   hlp.addEventListenerOnce(els__value, 'transitionend', function (event) {
                     fired = true;
@@ -2529,10 +2541,10 @@ var hlp = /*#__PURE__*/function () {
   }, {
     key: "getImageOrientation",
     value: function getImageOrientation(base64) {
-      var _this9 = this;
+      var _this10 = this;
       return new Promise(function (resolve, reject) {
         base64 = base64.replace('data:image/jpeg;base64,', '');
-        var file = _this9.base64tofile(base64),
+        var file = _this10.base64tofile(base64),
           reader = new FileReader();
         reader.onload = function (e) {
           var view = new DataView(e.target.result);
@@ -2630,7 +2642,7 @@ var hlp = /*#__PURE__*/function () {
   }, {
     key: "fixImageOrientation",
     value: function fixImageOrientation(base64) {
-      var _this10 = this;
+      var _this11 = this;
       return new Promise(function (resolve, reject) {
         if (base64.indexOf('data:') === -1) {
           resolve(base64);
@@ -2639,13 +2651,13 @@ var hlp = /*#__PURE__*/function () {
         if (base64.indexOf('data:image/jpeg;base64,') === 0) {
           base64 = base64.replace('data:image/jpeg;base64,', '');
         }
-        _this10.getImageOrientation(base64).then(function (orientation) {
+        _this11.getImageOrientation(base64).then(function (orientation) {
           base64 = 'data:image/jpeg;base64,' + base64;
           if (orientation <= 1) {
             resolve(base64);
             return;
           } else {
-            _this10.resetImageOrientation(base64, orientation).then(function (base64_new) {
+            _this11.resetImageOrientation(base64, orientation).then(function (base64_new) {
               resolve(base64_new);
               return;
             });

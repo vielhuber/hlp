@@ -875,6 +875,16 @@ export default class hlp {
         fun();
     }
 
+    static removeEmpty(array) {
+        if (this.nx(array) || !Array.isArray(array)) {
+            return array;
+        }
+        array = array.filter((array__value) => {
+            return this.x(array__value);
+        });
+        return array;
+    }
+
     static uniqueArray(array) {
         let seen = {},
             ret_arr = [];
