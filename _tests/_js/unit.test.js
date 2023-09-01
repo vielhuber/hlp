@@ -529,6 +529,7 @@ test('removeEmpty', () => {
     expect(hlp.removeEmpty(false)).toEqual(false);
     expect(hlp.removeEmpty('')).toEqual('');
     expect(hlp.removeEmpty(0)).toEqual(0);
+    expect(hlp.removeEmpty(1)).toEqual(1);
 });
 
 test('uniqueArray', () => {
