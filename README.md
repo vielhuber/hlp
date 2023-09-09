@@ -425,6 +425,10 @@ hlp.ltrim('xxfoox', 'x') // 'foox'
 hlp.rtrim('  foo ') // '  foo'
 hlp.rtrim('xxfoox', 'x') // 'xxfoo'
 
+// truncate/trim long strings
+hlp.truncate_string('Lorem ipsum dolor sit amet, consectetuer.', 20); // Lorem ipsum dolor ...
+hlp.truncate_string('Lorem ipsum dolor sit amet, consectetuer.', 20, '…'); // Lorem ipsum dolor …
+
 // create lexicographically ordered string ids like in firebase 
 hlp.pushId() // -LDiDooGs9PyGHmghk5i
 hlp.pushId() // -LDiDooGs9PyGHmghk5j

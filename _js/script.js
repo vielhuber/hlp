@@ -2239,6 +2239,27 @@ export default class hlp {
         return (str + '').replace(re, '');
     }
 
+    static truncate_string(str, len = 50, chars = '...') {
+        if (this.nx(str) || !(typeof str === 'string' || str instanceof String)) {
+            return str;
+        }
+        if (this.trim(str).length > len) {
+            str = this.trim(str);
+            if (str.indexOf(' ') === -1) {
+                str = str.substring(0, len);
+            } else {
+                str = str.substring(0, len);
+                str = this.trim(str);
+                if (str.lastIndexOf(' ') > -1) {
+                    str = str.substring(0, str.lastIndexOf(' '));
+                    str = this.trim(str);
+                }
+            }
+            str += ' ' + chars;
+        }
+        return str;
+    }
+
     static pushId() {
         /* source https://gist.github.com/mikelehen/3596a30bd69384624c11 */
         let pushIdData = null;
