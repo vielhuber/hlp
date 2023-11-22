@@ -717,7 +717,8 @@ test('truncate_string', () => {
 test('emojiRegex', () => {
     let str = 'This❤️😀👩‍⚖️ is a text full of 🧗‍♀️emojis👩🏼‍❤️‍💋‍👩🏽.';
     expect(str.match(hlp.emojiRegex())).toEqual(['❤️', '😀', '👩‍⚖️', '🧗‍♀️', '👩🏼‍❤️‍💋‍👩🏽']);
-    expect(str.replaceAll(hlp.emojiRegex(), '')).toEqual('This is a text full of emojis.');
+    // node14 support; we use replace with "g" instead of replaceAll
+    expect(str.replace(hlp.emojiRegex(true), '')).toEqual('This is a text full of emojis.');
     expect(str.replace(hlp.emojiRegex(false), '')).toEqual('This😀👩‍⚖️ is a text full of 🧗‍♀️emojis👩🏼‍❤️‍💋‍👩🏽.');
     expect(hlp.emojiRegex().test(str)).toEqual(true);
 });
