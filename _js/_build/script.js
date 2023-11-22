@@ -1,9 +1,12 @@
 "use strict";
 
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
+var _taggedTemplateLiteral2 = _interopRequireDefault(require("@babel/runtime/helpers/taggedTemplateLiteral"));
+var _templateObject;
 class hlp {
   static x(input) {
     if (typeof input === 'function') {
@@ -1973,6 +1976,13 @@ class hlp {
       str += ' ' + chars;
     }
     return str;
+  }
+  static emojiRegex() {
+    let global = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+    return new RegExp(hlp.emojiRegexPattern(), (global === true ? 'g' : '') + 'u');
+  }
+  static emojiRegexPattern() {
+    return String.raw(_templateObject || (_templateObject = (0, _taggedTemplateLiteral2.default)(["p{RI}p{RI}|p{Emoji}(p{EMod}|\uFE0F\u20E3?|[\uDB40\uDC20-\uDB40\uDC7E]+\uDB40\uDC7F)?(\u200D(p{RI}p{RI}|p{Emoji}(p{EMod}|\uFE0F\u20E3?|[\uDB40\uDC20-\uDB40\uDC7E]+\uDB40\uDC7F)?))*"], ["\\p{RI}\\p{RI}|\\p{Emoji}(\\p{EMod}|\\uFE0F\\u20E3?|[\\u{E0020}-\\u{E007E}]+\\u{E007F})?(\\u200D(\\p{RI}\\p{RI}|\\p{Emoji}(\\p{EMod}|\\uFE0F\\u20E3?|[\\u{E0020}-\\u{E007E}]+\\u{E007F})?))*"])));
   }
   static pushId() {
     /* source https://gist.github.com/mikelehen/3596a30bd69384624c11 */

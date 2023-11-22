@@ -2260,6 +2260,14 @@ export default class hlp {
         return str;
     }
 
+    static emojiRegex(global = true) {
+        return new RegExp(hlp.emojiRegexPattern(), (global === true ? 'g' : '') + 'u');
+    }
+
+    static emojiRegexPattern() {
+        return String.raw`\p{RI}\p{RI}|\p{Emoji}(\p{EMod}|\uFE0F\u20E3?|[\u{E0020}-\u{E007E}]+\u{E007F})?(\u200D(\p{RI}\p{RI}|\p{Emoji}(\p{EMod}|\uFE0F\u20E3?|[\u{E0020}-\u{E007E}]+\u{E007F})?))*`;
+    }
+
     static pushId() {
         /* source https://gist.github.com/mikelehen/3596a30bd69384624c11 */
         let pushIdData = null;

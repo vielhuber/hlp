@@ -429,6 +429,13 @@ hlp.rtrim('xxfoox', 'x') // 'xxfoo'
 hlp.truncate_string('Lorem ipsum dolor sit amet, consectetuer.', 20); // Lorem ipsum dolor ...
 hlp.truncate_string('Lorem ipsum dolor sit amet, consectetuer.', 20, '…'); // Lorem ipsum dolor …
 
+// fun with emojis
+let str = 'This❤️😀👩‍⚖️ is a text full of 🧗‍♀️emojis👩🏼‍❤️‍💋‍👩🏽.';
+str.match(hlp.emojiRegex()) // ['❤️', '😀', '👩‍⚖️', '🧗‍♀️', '👩🏼‍❤️‍💋‍👩🏽']
+str.replaceAll(hlp.emojiRegex(), '') // This is a text full of emojis.
+str.replace(hlp.emojiRegex(false), '') // This😀👩‍⚖️ is a text full of 🧗‍♀️emojis👩🏼‍❤️‍💋‍👩🏽.
+hlp.emojiRegex().test(str) // true
+
 // create lexicographically ordered string ids like in firebase 
 hlp.pushId() // -LDiDooGs9PyGHmghk5i
 hlp.pushId() // -LDiDooGs9PyGHmghk5j

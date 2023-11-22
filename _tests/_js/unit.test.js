@@ -714,6 +714,14 @@ test('truncate_string', () => {
     expect(hlp.truncate_string('Lorem ipsum dolor sit amet, consectetuer.', 20)).toEqual('Lorem ipsum dolor ...');
 });
 
+test('emojiRegex', () => {
+    let str = 'This❤️😀👩‍⚖️ is a text full of 🧗‍♀️emojis👩🏼‍❤️‍💋‍👩🏽.';
+    expect(str.match(hlp.emojiRegex())).toEqual(['❤️', '😀', '👩‍⚖️', '🧗‍♀️', '👩🏼‍❤️‍💋‍👩🏽']);
+    expect(str.replaceAll(hlp.emojiRegex(), '')).toEqual('This is a text full of emojis.');
+    expect(str.replace(hlp.emojiRegex(false), '')).toEqual('This😀👩‍⚖️ is a text full of 🧗‍♀️emojis👩🏼‍❤️‍💋‍👩🏽.');
+    expect(hlp.emojiRegex().test(str)).toEqual(true);
+});
+
 test('pushId', () => {
     expect(hlp.pushId().length > 3).toEqual(true);
     expect(hlp.pushId().length > 3).toEqual(true);
