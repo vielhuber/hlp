@@ -20,6 +20,13 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v3
 
+            - name: Install libraries
+              run: |
+                  if [ "$RUNNER_OS" == "macOS" ]; then
+                    python3 -m pip install packaging
+                  fi
+              shell: bash
+
             - name: Node
               uses: actions/setup-node@v3
               with:
