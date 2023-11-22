@@ -18,17 +18,10 @@ jobs:
 
         steps:
             - name: Checkout
-              uses: actions/checkout@v4
-
-            - name: Install libraries
-              run: |
-                  if [ "$RUNNER_OS" == "macOS" ]; then
-                    python3 -m pip install packaging
-                  fi
-              shell: bash
+              uses: actions/checkout@v3
 
             - name: Node
-              uses: actions/setup-node@v4
+              uses: actions/setup-node@v3
               with:
                   node-version: '${{ matrix.node-versions }}'
                   cache: 'npm'
