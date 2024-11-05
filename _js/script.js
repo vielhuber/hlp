@@ -1218,6 +1218,7 @@ export default class hlp {
                     .find-pointer-quad {
                         --hit: 0;
                         position: fixed;
+	                    z-index:2147483647;
                         transform: translateZ(0);
                         &:hover { --hit: 1; }
                     }
