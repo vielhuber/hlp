@@ -531,7 +531,7 @@ hlp.outerWidthWithMargin( document.querySelector('.foo') )
 hlp.outerHeightWithMargin( document.querySelector('.foo') )
 
 // get cursor position (without mouse events)
-hlp.cursorPosition() // { x: ..., y: ... }
+hlp.cursorPosition().then(pos => { console.log(pos); /* pos: { x: ..., y: ... } */ });
 
 // polyfills for ie11
 hlp.closest( document.querySelector('.children'), '.parent' )
