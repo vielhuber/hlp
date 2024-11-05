@@ -1,6 +1,6 @@
 {
     "name": "hlp",
-    "version": "3.4.3",
+    "version": "3.4.4",
     "main": "_js/_build/script.js",
     "files": [
         "_js/_build/*.js",
@@ -12,7 +12,7 @@
         "js:babel": "npx babel ./_js/script.js --out-dir ./_js/_build/",
         "js:tests": "jest --verbose --noStackTrace --no-cache",
         "js": "npm-run-all --sequential js:browserify js:minify js:babel js:tests",
-        "watch:js": "onchange ./_js/*.js --initial --poll 25 --delay 0 --await-write-finish 25 -- onerror \"npm run js --silent\" --title \"watch:js\" --message \"build failed\" --sound mute",
+        "watch:js": "onchange ./_js/*.js ./_tests/index.html --initial --poll 25 --delay 0 --await-write-finish 25 -- onerror \"npm run js --silent\" --title \"watch:js\" --message \"build failed\" --sound mute",
         "watch:js-test": "onchange ./_tests/_js/*.js --initial --poll 25 --delay 0 --await-write-finish 25 -- onerror \"npm run js:tests --silent\" --title \"watch:js-test\" --message \"build failed\" --sound mute",
         "prod": "npm-run-all --parallel js",
         "dev": "npm-run-all --parallel watch:*"

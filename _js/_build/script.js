@@ -1051,6 +1051,103 @@ class hlp {
   static outerHeightWithMargin(el) {
     return el.offsetHeight + parseInt(getComputedStyle(el).marginTop) + parseInt(getComputedStyle(el).marginBottom);
   }
+  static async cursorPosition() {
+    // https://stackoverflow.com/a/43326327/2068362
+    document.head.insertAdjacentHTML('afterbegin', `
+                <style type="text/css">
+                    .find-pointer-quad {
+                        --hit: 0;
+                        position: fixed;
+                        transform: translateZ(0);
+                        &:hover { --hit: 1; }
+                    }
+                </style>
+            `);
+    window.cursorPositionDelay = 50;
+    window.cursorPositionQuads = [];
+    let dim = 10;
+    let createQuad = (_, pos) => {
+      let a = document.createElement('a');
+      a.classList.add('find-pointer-quad');
+      let {
+        style
+      } = a;
+      style.top = pos < 2 ? 0 : `${dim}%`;
+      style.left = pos % 2 === 0 ? 0 : `${dim}%`;
+      style.width = style.height = `${dim}%`;
+      document.body.appendChild(a);
+      return a;
+    };
+    window.cursorPositionQuads = [1, 2, 3, 4].map(createQuad);
+    return this.cursorPositionBisect(dim);
+  }
+  static cursorPositionBisect(dim) {
+    let hit;
+    window.cursorPositionQuads.some(a => {
+      let style = getComputedStyle(a);
+      let result = style.getPropertyValue(`--hit`);
+      if (result === `1`) return hit = {
+        style,
+        a
+      };
+    });
+    if (!hit) {
+      let [q1] = window.cursorPositionQuads;
+      let reset = Math.abs(dim) > 10000;
+      let top = parseFloat(q1.style.top) - dim / 2;
+      let left = parseFloat(q1.style.left) - dim / 2;
+      window.cursorPositionQuads.forEach((_ref6, pos) => {
+        let {
+          style
+        } = _ref6;
+        if (reset) {
+          style.top = pos < 2 ? 0 : `${dim}%`;
+          style.left = pos % 2 === 0 ? 0 : `${dim}%`;
+          style.width = style.height = `${dim}%`;
+        } else {
+          style.top = pos < 2 ? `${top}%` : `${top + dim}%`;
+          style.left = pos % 2 === 0 ? `${left}%` : `${left + dim}%`;
+          style.width = `${dim}%`;
+          style.height = `${dim}%`;
+        }
+      });
+      return new Promise(resolve => {
+        setTimeout(() => resolve(this.cursorPositionBisect(!reset ? 2 * dim : dim)), window.cursorPositionDelay);
+      });
+    }
+    let {
+      style,
+      a
+    } = hit;
+    let {
+      top,
+      left,
+      width,
+      height
+    } = a.getBoundingClientRect();
+    if (width < 3) {
+      window.cursorPositionQuads.forEach(a => a.remove());
+      return {
+        x: Math.round(left + width / 2 + window.scrollX),
+        y: Math.round(top + height / 2 + window.scrollY)
+      };
+    }
+    let ox = a.style.left;
+    let oy = a.style.top;
+    let nextStep = dim / 2;
+    window.cursorPositionQuads.forEach((_ref7, pos) => {
+      let {
+        style
+      } = _ref7;
+      style.top = pos < 2 ? oy : `${nextStep + parseFloat(oy)}%`;
+      style.left = pos % 2 === 0 ? ox : `${nextStep + parseFloat(ox)}%`;
+      style.width = `${nextStep}%`;
+      style.height = `${nextStep}%`;
+    });
+    return new Promise(resolve => {
+      setTimeout(() => resolve(this.cursorPositionBisect(nextStep)), window.cursorPositionDelay);
+    });
+  }
   static scrollTo(to) {
     let duration = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1000;
     let element = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
@@ -1309,7 +1406,7 @@ class hlp {
               }
             });
           }
-          new_style = new_style.join(';') + from + ';';
+          new_style = new_style.join(';') + ';' + from + ';';
           els__value.setAttribute('style', new_style);
           window.requestAnimationFrame(() => {
             // add transition property

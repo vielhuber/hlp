@@ -45,7 +45,7 @@ import hlp from 'hlp';
 
 or embed it directly:
 ```html
-<script src="hlp.js"></script> 
+<script src="hlp.js"></script>
 ```
 
 ## usage
@@ -436,7 +436,7 @@ str.replaceAll(hlp.emojiRegex(), '') // This is a text full of emojis.
 str.replace(hlp.emojiRegex(false), '') // This😀👩‍⚖️ is a text full of 🧗‍♀️emojis👩🏼‍❤️‍💋‍👩🏽.
 hlp.emojiRegex().test(str) // true
 
-// create lexicographically ordered string ids like in firebase 
+// create lexicographically ordered string ids like in firebase
 hlp.pushId() // -LDiDooGs9PyGHmghk5i
 hlp.pushId() // -LDiDooGs9PyGHmghk5j
 
@@ -529,6 +529,9 @@ hlp.windowHeightWithoutScrollbar()
 // get width with margin
 hlp.outerWidthWithMargin( document.querySelector('.foo') )
 hlp.outerHeightWithMargin( document.querySelector('.foo') )
+
+// get cursor position (without mouse events)
+hlp.cursorPosition() // { x: ..., y: ... }
 
 // polyfills for ie11
 hlp.closest( document.querySelector('.children'), '.parent' )
