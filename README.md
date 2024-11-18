@@ -232,6 +232,9 @@ hlp.addDays(d1, 2);
 hlp.compareDates(d1, d2) // 1
 hlp.compareDates('2020-01-01', '2020-01-17 17:42:19') // -1
 
+// format number
+hlp.formatNumber(1337.427, 2, ',','.') // 1.337,43
+
 // spaceship operator
 hlp.spaceship(5,7) // -1
 hlp.spaceship(9,7) // 1

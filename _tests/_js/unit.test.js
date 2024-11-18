@@ -328,6 +328,21 @@ test('formatDate', () => {
     expect(hlp.formatDate('d.m.Y', '')).toBe(hlp.formatDate('d.m.Y', new Date()));
 });
 
+test('formatNumber', () => {
+    expect(hlp.formatNumber(1337.427, 2, ',', '.')).toBe('1.337,43');
+    expect(hlp.formatNumber(1337.427)).toBe('1,337');
+    expect(hlp.formatNumber('1337.427')).toBe('1,337');
+    expect(hlp.formatNumber(null)).toBe('0');
+    expect(hlp.formatNumber(false)).toBe('0');
+    expect(hlp.formatNumber(true)).toBe('0');
+    expect(hlp.formatNumber('')).toBe('0');
+    expect(hlp.formatNumber(42)).toBe('42');
+    expect(hlp.formatNumber(42, 2)).toBe('42.00');
+    expect(hlp.formatNumber('42')).toBe('42');
+    expect(hlp.formatNumber('42', 2)).toBe('42.00');
+    expect(hlp.formatNumber(13371337.427, 2, ',', '.')).toBe('13.371.337,43');
+});
+
 test('isDate', () => {
     expect(hlp.isDate('2018-01-01')).toBe(true);
     expect(hlp.isDate('2018-02-29')).toBe(false);

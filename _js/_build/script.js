@@ -431,6 +431,30 @@ class hlp {
     }
     return false;
   }
+  static formatNumber(number) {
+    let decimals = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+    let dec_point = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '.';
+    let thousands_sep = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : ',';
+    number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
+    var n = !isFinite(+number) ? 0 : +number,
+      prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+      sep = typeof thousands_sep === 'undefined' ? ',' : thousands_sep,
+      dec = typeof dec_point === 'undefined' ? '.' : dec_point,
+      s = '',
+      toFixedFix = function (n, prec) {
+        var k = Math.pow(10, prec);
+        return '' + Math.round(n * k) / k;
+      };
+    s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+    if (s[0].length > 3) {
+      s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+    }
+    if ((s[1] || '').length < prec) {
+      s[1] = s[1] || '';
+      s[1] += new Array(prec - s[1].length + 1).join('0');
+    }
+    return s.join(dec);
+  }
   static formatDate(format) {
     let date = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
     if (date === false || date === true || date === null || date === '') {
@@ -817,7 +841,6 @@ class hlp {
     .replace(/[\s_-]+/g, '-') // swap any length of whitespace, underscore, hyphen characters with a single -
     .replace(/^-+|-+$/g, ''); // remove leading, trailing -
   }
-
   static incChar(char) {
     let shift = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
     return this.intToChar(this.charToInt(char) + shift);
@@ -2423,7 +2446,6 @@ class hlp {
         }
       }
     }
-
     return paths;
   }
 }
