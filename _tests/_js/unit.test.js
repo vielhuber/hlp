@@ -322,6 +322,7 @@ test('formatDate', () => {
     expect(hlp.formatDate('d.m.Y', '2018-01-01')).toBe('01.01.2018');
     expect(hlp.formatDate('d.m.Y H:i:s', '2018-01-01')).toBe('01.01.2018 00:00:00');
     expect(hlp.formatDate('d.m.Y H:i:s', new Date('2018-01-01 13:13:13'))).toBe('01.01.2018 13:13:13');
+    expect(hlp.formatDate('d.m.Y H:i:s', '2005-04-15T22:00:00.000000Z')).toBe('15.04.2005 22:00:00');
     expect(hlp.formatDate('d.m.Y', null)).toBe(hlp.formatDate('d.m.Y', new Date()));
     expect(hlp.formatDate('d.m.Y', true)).toBe(hlp.formatDate('d.m.Y', new Date()));
     expect(hlp.formatDate('d.m.Y', false)).toBe(hlp.formatDate('d.m.Y', new Date()));

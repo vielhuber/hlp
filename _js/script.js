@@ -518,7 +518,7 @@ export default class hlp {
         if (date === false || date === true || date === null || date === '') {
             date = new Date();
         } else if (typeof date !== 'object') {
-            date = new Date(date.replace(/-/g, '/'));
+            date = new Date(date.replace(/-/g, '/').replace(/T|Z/g, ' '));
         }
         let string = '',
             mo = date.getMonth(),
