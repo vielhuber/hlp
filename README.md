@@ -631,6 +631,9 @@ hlp.waitUntil('.beacon').then(() => { });
 hlp.waitUntil('.beacon','position').then(() => { });
 hlp.waitUntil('.beacon','position','relative').then(() => { });
 
+// wait for elements (that appear also afterwards)
+hlp.waitUntilEach('.el', ($el) => { });
+
 // wait until a variable is set or has a specific value
 hlp.waitUntilVar('globalVar').then(() => { });
 hlp.waitUntilVar(obj, 'objectVar').then(() => { });

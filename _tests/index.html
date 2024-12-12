@@ -530,6 +530,17 @@
                 console.log('position relative loaded');
             });
 
+            hlp.waitUntilEach('.waitUntilEach', function ($el) {
+                console.log(['waitUntilEach', $el]);
+            });
+            document.body.insertAdjacentHTML('beforeend', '<div class="waitUntilEach"></div>');
+            setTimeout(() => {
+                document.body.insertAdjacentHTML('beforeend', '<div class="waitUntilEach"></div>');
+            }, 1000);
+            setTimeout(() => {
+                document.body.insertAdjacentHTML('beforeend', '<div class="waitUntilEach"></div>');
+            }, 2000);
+
             hlp.onResizeHorizontal(function () {
                 console.log('triggered onResizeHorizontal');
             });

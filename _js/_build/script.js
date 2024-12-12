@@ -1909,6 +1909,32 @@ class hlp {
       }, 30);
     });
   }
+  static waitUntilEach(selector, callback) {
+    let observer = new MutationObserver(() => {
+      let elements = document.querySelectorAll(selector);
+      if (elements.length > 0) {
+        elements.forEach(element => {
+          if (!element.__processed) {
+            element.__processed = true;
+            callback(element);
+          }
+        });
+      }
+    });
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+    let initialElements = document.querySelectorAll(selector);
+    if (initialElements.length > 0) {
+      initialElements.forEach(element => {
+        if (!element.__processed) {
+          element.__processed = true;
+          callback(element);
+        }
+      });
+    }
+  }
   static waitUntilVar() {
     let arg1 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
     let arg2 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
