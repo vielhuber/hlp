@@ -428,7 +428,7 @@ hlp.ltrim('xxfoox', 'x') // 'foox'
 hlp.rtrim('  foo ') // '  foo'
 hlp.rtrim('xxfoox', 'x') // 'xxfoo'
 
-// truncate/trim long strings
+// truncate long strings
 hlp.truncate_string('Lorem ipsum dolor sit amet, consectetuer.', 20); // Lorem ipsum dolor ...
 hlp.truncate_string('Lorem ipsum dolor sit amet, consectetuer.', 20, '…'); // Lorem ipsum dolor …
 

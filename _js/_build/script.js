@@ -2105,19 +2105,24 @@ class hlp {
     if (this.nx(str) || !(typeof str === 'string' || str instanceof String)) {
       return str;
     }
-    if (this.trim(str).length > len) {
-      str = this.trim(str);
-      if (str.indexOf(' ') === -1) {
+    if (str.indexOf(' ') === -1) {
+      if (str.length > len) {
         str = str.substring(0, len);
-      } else {
-        str = str.substring(0, len);
-        str = this.trim(str);
-        if (str.lastIndexOf(' ') > -1) {
-          str = str.substring(0, str.lastIndexOf(' '));
-          str = this.trim(str);
-        }
+        str = hlp.rtrim(str);
+        str += ' ' + chars;
       }
-      str += ' ' + chars;
+    } else {
+      if (str.length > len) {
+        str = hlp.rtrim(str);
+        // cut of whole word
+        while (str.length > len && str.lastIndexOf(' ') > -1 && str.substring(len - 1, len) != ' ') {
+          str = str.substring(0, str.lastIndexOf(' '));
+          str = hlp.rtrim(str);
+        }
+        str = str.substring(0, len);
+        str = hlp.rtrim(str);
+        str += ' ' + chars;
+      }
     }
     return str;
   }

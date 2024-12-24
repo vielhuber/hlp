@@ -713,6 +713,7 @@ test('trim', () => {
     expect(hlp.ltrim('  foo ')).toEqual('foo ');
     expect(hlp.ltrim('xxfoox', 'x')).toEqual('foox');
     expect(hlp.rtrim('  foo ')).toEqual('  foo');
+    expect(hlp.rtrim('  foo                   ')).toEqual('  foo');
     expect(hlp.rtrim('xxfoox', 'x')).toEqual('xxfoo');
 });
 
@@ -725,9 +726,18 @@ test('truncate_string', () => {
     expect(hlp.truncate_string(true, 50)).toEqual(true);
     expect(hlp.truncate_string('aaaaaaaaa '.repeat(5), 50)).toEqual('aaaaaaaaa '.repeat(5));
     expect(hlp.truncate_string('aaaaaaaaaa'.repeat(5) + 'a', 50)).toEqual('aaaaaaaaaa'.repeat(5) + ' ...');
-    expect(hlp.truncate_string('aaaaaaaaa '.repeat(5) + 'a', 50)).toEqual('aaaaaaaaa '.repeat(4) + '...');
-    expect(hlp.truncate_string('aaaaaaaaa '.repeat(5) + 'a', 50, '…')).toEqual('aaaaaaaaa '.repeat(4) + '…');
+    expect(hlp.truncate_string('aaaaaaaaa '.repeat(5) + 'a', 50)).toEqual('aaaaaaaaa '.repeat(5) + '...');
+    expect(hlp.truncate_string('aaaaaaaaa '.repeat(5) + 'a', 49)).toEqual('aaaaaaaaa '.repeat(5) + '...');
+    expect(hlp.truncate_string('aaaaaaaaa '.repeat(5) + 'a', 50, '…')).toEqual('aaaaaaaaa '.repeat(5) + '…');
+    expect(hlp.truncate_string('aaaaaaaaa '.repeat(5) + 'a', 49, '…')).toEqual('aaaaaaaaa '.repeat(5) + '…');
+    expect(hlp.truncate_string('aaaaaaaaaa'.repeat(5) + 'a', 50, '…')).toEqual('aaaaaaaaaa'.repeat(5) + ' …');
+    expect(hlp.truncate_string('aaaaaaaaaa '.repeat(5), 53, '…')).toEqual('aaaaaaaaaa '.repeat(4) + '…');
     expect(hlp.truncate_string('Lorem ipsum dolor sit amet, consectetuer.', 20)).toEqual('Lorem ipsum dolor ...');
+    expect(hlp.truncate_string('   foo   ', 9)).toEqual('   foo   ');
+    expect(hlp.truncate_string('    foo    ', 9)).toEqual('    foo ...');
+    expect(hlp.truncate_string('Lorem ipsum dolor sit amet', 12)).toEqual('Lorem ipsum ...');
+    expect(hlp.truncate_string('Lorem ipsum dolor sit amet', 11)).toEqual('Lorem ipsum ...');
+    expect(hlp.truncate_string('Lorem ipsum dolor sit amet', 10)).toEqual('Lorem ...');
 });
 
 test('emojiRegex', () => {
