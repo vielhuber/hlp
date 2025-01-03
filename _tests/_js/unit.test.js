@@ -746,6 +746,7 @@ test('emojiRegex', () => {
     // node14 support; we use replace with "g" instead of replaceAll
     expect(str.replace(hlp.emojiRegex(true), '')).toEqual('This is a text full of emojis.');
     expect(str.replace(hlp.emojiRegex(false), '')).toEqual('This😀👩‍⚖️ is a text full of 🧗‍♀️emojis👩🏼‍❤️‍💋‍👩🏽.');
+    expect('false2'.replace(hlp.emojiRegex(false), '')).toEqual('false2');
     expect(hlp.emojiRegex().test(str)).toEqual(true);
 });
 
