@@ -750,6 +750,22 @@ test('emojiRegex', () => {
     expect(hlp.emojiRegex().test(str)).toEqual(true);
 });
 
+test('serialize', () => {
+    expect(hlp.serialize({ foo: 'bar' })).toEqual('a:1:{s:3:"foo";s:3:"bar";}');
+    expect(hlp.serialize(null)).toEqual('N;');
+    expect(hlp.serialize('')).toEqual('s:0:"";');
+    expect(hlp.serialize('foo')).toEqual('s:3:"foo";');
+    expect(hlp.serialize(true)).toEqual('b:1;');
+    expect(hlp.serialize(false)).toEqual('b:0;');
+
+    expect(hlp.unserialize('a:1:{s:3:"foo";s:3:"bar";}')).toEqual({ foo: 'bar' });
+    expect(hlp.unserialize('N;')).toEqual(null);
+    expect(hlp.unserialize('s:0:"";')).toEqual('');
+    expect(hlp.unserialize('s:3:"foo";')).toEqual('foo');
+    expect(hlp.unserialize('b:1;')).toEqual(true);
+    expect(hlp.unserialize('b:0;')).toEqual(false);
+});
+
 test('pushId', () => {
     expect(hlp.pushId().length > 3).toEqual(true);
     expect(hlp.pushId().length > 3).toEqual(true);

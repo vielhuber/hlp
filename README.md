@@ -370,6 +370,10 @@ hlp.isNumeric('42') // true
 hlp.isNumeric('42.7') // true
 hlp.isNumeric('a') // false
 
+// serialize/unserialize
+hlp.serialize({ foo: 'bar' }); // 'a:1:{s:3:"foo";s:3:"bar";}'
+hlp.unserialize('a:1:{s:3:"foo";s:3:"bar";}'); // {foo:'bar'}
+
 // json parsing
 hlp.jsonStringToObject('["foo","bar","baz"]') // ['foo','bar','baz']
 hlp.jsonStringToObject('["foo","bar","baz",]') // null

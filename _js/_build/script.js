@@ -2133,6 +2133,215 @@ class hlp {
   static emojiRegexPattern() {
     return String.raw`\p{RI}\p{RI}|\p{Extended_Pictographic}(\p{EMod}|\uFE0F\u20E3?|[\u{E0020}-\u{E007E}]+\u{E007F})?(\u200D(\p{RI}\p{RI}|\p{Extended_Pictographic}(\p{EMod}|\uFE0F\u20E3?|[\u{E0020}-\u{E007E}]+\u{E007F})?))*`;
   }
+  static serialize(mixedValue) {
+    let val, key, okey;
+    let ktype = '';
+    let vals = '';
+    let count = 0;
+    const _utf8Size = function (str) {
+      return ~-encodeURI(str).split(/%..|./).length;
+    };
+    const _getType = function (inp) {
+      let match;
+      let key;
+      let cons;
+      let types;
+      let type = typeof inp;
+      if (type === 'object' && !inp) {
+        return 'null';
+      }
+      if (type === 'object') {
+        if (!inp.constructor) {
+          return 'object';
+        }
+        cons = inp.constructor.toString();
+        match = cons.match(/(\w+)\(/);
+        if (match) {
+          cons = match[1].toLowerCase();
+        }
+        types = ['boolean', 'number', 'string', 'array'];
+        for (key in types) {
+          if (cons === types[key]) {
+            type = types[key];
+            break;
+          }
+        }
+      }
+      return type;
+    };
+    const type = _getType(mixedValue);
+    switch (type) {
+      case 'function':
+        val = '';
+        break;
+      case 'boolean':
+        val = 'b:' + (mixedValue ? '1' : '0');
+        break;
+      case 'number':
+        val = (Math.round(mixedValue) === mixedValue ? 'i' : 'd') + ':' + mixedValue;
+        break;
+      case 'string':
+        val = 's:' + _utf8Size(mixedValue) + ':"' + mixedValue + '"';
+        break;
+      case 'array':
+      case 'object':
+        val = 'a';
+        for (key in mixedValue) {
+          if (mixedValue.hasOwnProperty(key)) {
+            ktype = _getType(mixedValue[key]);
+            if (ktype === 'function') {
+              continue;
+            }
+            okey = key.match(/^[0-9]+$/) ? parseInt(key, 10) : key;
+            vals += this.serialize(okey) + this.serialize(mixedValue[key]);
+            count++;
+          }
+        }
+        val += ':' + count + ':{' + vals + '}';
+        break;
+      case 'undefined':
+      default:
+        val = 'N';
+        break;
+    }
+    if (type !== 'object' && type !== 'array') {
+      val += ';';
+    }
+    return val;
+  }
+  static unserialize(str) {
+    try {
+      if (typeof str !== 'string') {
+        return false;
+      }
+      const store = [];
+      const cache = value => {
+        store.push(value[0]);
+        return value;
+      };
+      cache.get = index => {
+        if (index >= store.length) {
+          throw RangeError(`Can't resolve reference ${index + 1}`);
+        }
+        return store[index];
+      };
+      const expectType = s => {
+        const types = /^(?:N(?=;)|[bidsSaOCrR](?=:)|[^:]+(?=:))/g;
+        const type = (types.exec(s) || [])[0];
+        if (!type) throw SyntaxError('Invalid input: ' + s);
+        switch (type) {
+          case 'N':
+            return cache([null, 2]);
+          case 'b':
+            return cache(expectBool(s));
+          case 'i':
+            return cache(expectInt(s));
+          case 'd':
+            return cache(expectFloat(s));
+          case 's':
+            return cache(expectString(s));
+          case 'S':
+            return cache(expectEscapedString(s));
+          case 'a':
+            return expectArray(s);
+          case 'O':
+            return expectObject(s);
+          case 'C':
+            throw Error('Not yet implemented');
+          case 'r':
+          case 'R':
+            return expectReference(s);
+          default:
+            throw SyntaxError(`Invalid or unsupported data type: ${type}`);
+        }
+      };
+      const expectBool = s => {
+        const reBool = /^b:([01]);/;
+        const [match, boolMatch] = reBool.exec(s) || [];
+        if (!boolMatch) throw SyntaxError('Invalid bool value, expected 0 or 1');
+        return [boolMatch === '1', match.length];
+      };
+      const expectInt = s => {
+        const reInt = /^i:([+-]?\d+);/;
+        const [match, intMatch] = reInt.exec(s) || [];
+        if (!intMatch) throw SyntaxError('Expected an integer value');
+        return [parseInt(intMatch, 10), match.length];
+      };
+      const expectFloat = s => {
+        const reFloat = /^d:(NAN|-?INF|(?:\d+\.\d*|\d*\.\d+|\d+)(?:[eE][+-]\d+)?);/;
+        const [match, floatMatch] = reFloat.exec(s) || [];
+        if (!floatMatch) throw SyntaxError('Expected a float value');
+        return [floatMatch === 'NAN' ? Number.NaN : floatMatch === '-INF' ? Number.NEGATIVE_INFINITY : floatMatch === 'INF' ? Number.POSITIVE_INFINITY : parseFloat(floatMatch), match.length];
+      };
+      const expectString = s => {
+        const reStrLength = /^s:(\d+):"/g;
+        const [match, byteLenMatch] = reStrLength.exec(s) || [];
+        if (!match) throw SyntaxError('Expected a string value');
+        const len = parseInt(byteLenMatch, 10);
+        s = s.substr(match.length);
+        const strMatch = s.substr(0, len);
+        s = s.substr(len);
+        if (!s.startsWith('";')) throw SyntaxError('Expected ";');
+        return [strMatch, match.length + len + 2];
+      };
+      const expectEscapedString = s => {
+        const reStrLength = /^S:(\d+):"/g;
+        const [match, strLenMatch] = reStrLength.exec(s) || [];
+        if (!match) throw SyntaxError('Expected an escaped string value');
+        const len = parseInt(strLenMatch, 10);
+        s = s.substr(match.length);
+        const strMatch = s.substr(0, len);
+        s = s.substr(len);
+        if (!s.startsWith('";')) throw SyntaxError('Expected ";');
+        return [strMatch, match.length + len + 2];
+      };
+      const expectReference = s => {
+        const reRef = /^[rR]:(\d+);/;
+        const [match, refIndex] = reRef.exec(s) || [];
+        if (!match) throw SyntaxError('Expected reference value');
+        return [cache.get(parseInt(refIndex, 10) - 1), match.length];
+      };
+      const expectArray = s => {
+        const reArrayLength = /^a:(\d+):\{/;
+        const [arrayLiteralBeginMatch, arrayLengthMatch] = reArrayLength.exec(s) || [];
+        if (!arrayLengthMatch) throw SyntaxError('Expected array length annotation');
+        s = s.substr(arrayLiteralBeginMatch.length);
+        const items = {};
+        cache([items]);
+        for (let i = 0; i < parseInt(arrayLengthMatch, 10); i++) {
+          const key = expectType(s);
+          s = s.substr(key[1]);
+          const value = expectType(s);
+          s = s.substr(value[1]);
+          items[key[0]] = value[0];
+        }
+        if (s.charAt(0) !== '}') throw SyntaxError('Expected }');
+        return [items, arrayLiteralBeginMatch.length + 1];
+      };
+      const expectObject = s => {
+        const reObjectLiteral = /^O:(\d+):"([^\"]+)":(\d+):\{/;
+        const [match,, className, propCountMatch] = reObjectLiteral.exec(s) || [];
+        if (!match) throw SyntaxError('Invalid input');
+        if (className !== 'stdClass') throw SyntaxError(`Unsupported object type: ${className}`);
+        let obj = {};
+        cache([obj]);
+        s = s.substr(match.length);
+        for (let i = 0; i < parseInt(propCountMatch, 10); i++) {
+          const prop = expectType(s);
+          s = s.substr(prop[1]);
+          const value = expectType(s);
+          s = s.substr(value[1]);
+          obj[prop[0]] = value[0];
+        }
+        if (s.charAt(0) !== '}') throw SyntaxError('Expected }');
+        return [obj, match.length + 1];
+      };
+      return expectType(str)[0];
+    } catch (err) {
+      console.error(err);
+      return false;
+    }
+  }
   static pushId() {
     /* source https://gist.github.com/mikelehen/3596a30bd69384624c11 */
     let pushIdData = null;
