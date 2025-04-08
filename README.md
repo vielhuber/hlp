@@ -344,6 +344,13 @@ hlp.random_string(16, 'idkfa') // idifafafifaifafk
 hlp.random_int() // 42
 hlp.random_int(7,42) // 17
 
+// generate password
+hlp.password_generate(
+  20, // length
+  ['a-z', 'A-Z', '0-9', '$!?'], // password contains at minimum one character of each value
+  'lI' // exclude confusing chars
+)
+
 // proper rounding to n digits
 hlp.round(1.005, 2) // 1.01
 hlp.round(1.005) // 1

@@ -207,6 +207,19 @@ test('random', () => {
     expect(hlp.isInteger(hlp.random_int(7, 42))).toBe(true);
 });
 
+test('password_generate', () => {
+    expect(hlp.password_generate(20, ['a-z', 'A-Z', '0-9', '$!?'], 'lI').length).toBe(20);
+    expect(hlp.password_generate(7, ['a-z', 'A-Z', '0-9', '$!?'], 'lI').length).toBe(7);
+    expect(hlp.password_generate().length).toBe(20);
+    expect(hlp.password_generate(3, ['a-z', 'A-Z', '0-9', '$!?'], null)).toBe(null);
+    expect(hlp.password_generate(3, null)).toBe(null);
+    expect(hlp.password_generate(20, ['a-z', 'A-Z', '0-9', '$!?'], 'lI').match(/[a-z]/) !== null).toBe(true);
+    expect(hlp.password_generate(20, ['a-z', 'A-Z', '0-9', '$!?'], 'lI').match(/[A-Z]/) !== null).toBe(true);
+    expect(hlp.password_generate(20, ['a-z', 'A-Z', '0-9', '$!?'], 'lI').match(/[0-9]/) !== null).toBe(true);
+    expect(hlp.password_generate(20, ['a-z', 'A-Z', '0-9', '$!?'], 'lI').match(/[\$|\!|\?]/) !== null).toBe(true);
+    expect(hlp.password_generate(20, ['a-z', 'A-Z', '0-9', '$!?'], 'lI').match(/[l|I]/) !== null).toBe(false);
+});
+
 test('isInteger', () => {
     expect(hlp.isInteger('foo')).toBe(false);
     expect(hlp.isInteger(42)).toBe(true);

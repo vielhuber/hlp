@@ -431,6 +431,51 @@ class hlp {
     }
     return false;
   }
+  static password_generate() {
+    let length = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 20;
+    let chars = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ['a-z', 'A-Z', '0-9', '$!?'];
+    let exclude = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'lI';
+    if (chars === null || !chars.length || length < chars.length) {
+      return null;
+    }
+    let charGroups = [];
+    for (let group of chars) {
+      let expanded = [];
+      if (group === 'a-z') {
+        expanded = Array.from({
+          length: 26
+        }, (_, i) => String.fromCharCode(97 + i));
+      } else if (group === 'A-Z') {
+        expanded = Array.from({
+          length: 26
+        }, (_, i) => String.fromCharCode(65 + i));
+      } else if (group === '0-9') {
+        expanded = Array.from({
+          length: 10
+        }, (_, i) => String.fromCharCode(48 + i));
+      } else {
+        expanded = group.split('');
+      }
+      if (exclude) {
+        expanded = expanded.filter(c => !exclude.includes(c));
+      }
+      if (expanded.length === 0) {
+        return null;
+      }
+      charGroups.push(expanded);
+    }
+    let passwordChars = charGroups.map(group => group[Math.floor(Math.random() * group.length)]);
+    let allChars = charGroups.flat();
+    while (passwordChars.length < length) {
+      let i = Math.floor(Math.random() * allChars.length);
+      passwordChars.push(allChars[i]);
+    }
+    for (let i = passwordChars.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      [passwordChars[i], passwordChars[j]] = [passwordChars[j], passwordChars[i]];
+    }
+    return passwordChars.join('');
+  }
   static formatNumber(number) {
     let decimals = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
     let dec_point = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '.';
