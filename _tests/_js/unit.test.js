@@ -522,6 +522,7 @@ test('get/post', async () => {
     expect(response.method).toBe('POST');
     expect(response.data).toBe(hlp.jsonObjectToString({ foo: 'bar', bar: 'baz' }));
     expect(response.headers.Bar).toBe('baz');
+    await new Promise((resolve) => setTimeout(() => resolve(), 1000));
     await hlp
         .get('https://httpbin.org/status/404', { throttle: 0, allow_errors: false })
         .then(() => {
@@ -530,6 +531,7 @@ test('get/post', async () => {
         .catch(() => {
             expect(true).toBe(true);
         });
+    await new Promise((resolve) => setTimeout(() => resolve(), 1000));
     await hlp
         .get('https://httpbin.org/status/404', { throttle: 0, allow_errors: true })
         .then(() => {
@@ -538,6 +540,7 @@ test('get/post', async () => {
         .catch(() => {
             expect(true).toBe(false);
         });
+    await new Promise((resolve) => setTimeout(() => resolve(), 1000));
     await hlp
         .get('https://httpbin.org/status/404', { throttle: 0 })
         .then(() => {

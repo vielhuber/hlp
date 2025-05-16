@@ -1470,12 +1470,16 @@ class hlp {
           let prev_style = els__value.getAttribute('style');
           if (prev_style !== null) {
             prev_style.split(';').forEach(prev_style__value => {
-              if (!properties.includes(prev_style__value.split(':')[0].trim())) {
+              if (prev_style__value != '' && !properties.includes(prev_style__value.split(':')[0].trim())) {
                 new_style.push(prev_style__value);
               }
             });
           }
-          new_style = new_style.join(';') + ';' + from + ';';
+          if (new_style.length > 0) {
+            new_style = new_style.join(';') + ';' + from + ';';
+          } else {
+            new_style = from + ';';
+          }
           els__value.setAttribute('style', new_style);
           window.requestAnimationFrame(() => {
             // add transition property
@@ -1498,7 +1502,9 @@ class hlp {
                   }
 
                   // remove previous styles property
-                  document.head.removeChild(style);
+                  if (document.head.contains(style)) {
+                    document.head.removeChild(style);
+                  }
 
                   // remove random class
                   els__value.classList.remove(random_class);
@@ -1516,7 +1522,9 @@ class hlp {
                 // in some edge cases, transitionend does not fire
                 setTimeout(() => {
                   if (fired === false) {
-                    document.head.removeChild(style);
+                    if (document.head.contains(style)) {
+                      document.head.removeChild(style);
+                    }
                     els__value.classList.remove(random_class);
                     toFinish--;
                     if (toFinish <= 0) {
@@ -1525,7 +1533,9 @@ class hlp {
                   }
                 }, duration * 1.5);
               } else {
-                document.head.removeChild(style);
+                if (document.head.contains(style)) {
+                  document.head.removeChild(style);
+                }
                 els__value.classList.remove(random_class);
                 toFinish--;
                 if (toFinish <= 0) {
