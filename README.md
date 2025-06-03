@@ -222,6 +222,9 @@ hlp.addDays(new Date('2018-01-01'), 7) // new Date('2018-01-08')
 hlp.addDays(new Date('2018-02-22'), 658) // new Date('2019-12-12')
 hlp.addDays(new Date('2018-02-22'), 1) // new Date('2018-02-21')
 
+// diff in months of two dates
+hlp.diffInMonths(new Date('2025-02-01'), new Date('2025-03-18')) // 1.548...
+
 // compare dates
 let d1 = new Date();
 let d2 = new Date();

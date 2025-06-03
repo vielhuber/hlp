@@ -971,6 +971,16 @@ class hlp {
     result.setDate(result.getDate() + days);
     return result;
   }
+  static diffInMonths(date1, date2) {
+    let d1 = new Date(date1),
+      d2 = new Date(date2),
+      yearDiff = d2.getFullYear() - d1.getFullYear(),
+      monthDiff = d2.getMonth() - d1.getMonth(),
+      dayDiff = d2.getDate() - d1.getDate(),
+      daysInMonth = new Date(d2.getFullYear(), d2.getMonth() + 1, 0).getDate(),
+      months = yearDiff * 12 + monthDiff + dayDiff / daysInMonth;
+    return months;
+  }
   static objectsAreEqual(x, y) {
     var _this = this;
     if (x === null || x === undefined || y === null || y === undefined) {

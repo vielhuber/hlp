@@ -667,6 +667,13 @@ test('addDays', () => {
     expect(hlp.addDays(new Date('2018-02-22'), -1)).toEqual(new Date('2018-02-21'));
 });
 
+test.only('diffInMonths', () => {
+    expect(Math.round(hlp.diffInMonths(new Date('2025-02-01'), new Date('2025-03-18')) * 1000) / 1000).toEqual(1.548);
+    expect(Math.round(hlp.diffInMonths('2025-02-01', '2025-03-18') * 1000) / 1000).toEqual(1.548);
+    expect(Math.round(hlp.diffInMonths(null, null) * 1000) / 1000).toEqual(0);
+    expect(Math.round(hlp.diffInMonths(true, false) * 1000) / 1000).toEqual(0);
+});
+
 test('compareDates', () => {
     let d1 = new Date();
     let d2 = new Date();
