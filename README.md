@@ -452,6 +452,7 @@ str.match(hlp.emojiRegex()) // ['❤️', '😀', '👩‍⚖️', '🧗‍♀�
 str.replaceAll(hlp.emojiRegex(), '') // This is a text full of emojis.
 str.replace(hlp.emojiRegex(false), '') // This😀👩‍⚖️ is a text full of 🧗‍♀️emojis👩🏼‍❤️‍💋‍👩🏽.
 hlp.emojiRegex().test(str) // true
+hlp.emojiSplit(str) // ['T','h','i','s','❤️','😀','👩‍⚖️',' ','i','s',' ','a',' ','t','e','x','t',' ','f','u','l','l',' ','o','f',' ','🧗‍♀️','e','m','o','j','i','s','👩🏼‍❤️‍💋‍👩🏽','.']
 
 // create lexicographically ordered string ids like in firebase
 hlp.pushId() // -LDiDooGs9PyGHmghk5i

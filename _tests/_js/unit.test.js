@@ -667,7 +667,7 @@ test('addDays', () => {
     expect(hlp.addDays(new Date('2018-02-22'), -1)).toEqual(new Date('2018-02-21'));
 });
 
-test.only('diffInMonths', () => {
+test('diffInMonths', () => {
     expect(Math.round(hlp.diffInMonths(new Date('2025-02-01'), new Date('2025-03-18')) * 1000) / 1000).toEqual(1.548);
     expect(Math.round(hlp.diffInMonths('2025-02-01', '2025-03-18') * 1000) / 1000).toEqual(1.548);
     expect(Math.round(hlp.diffInMonths(null, null) * 1000) / 1000).toEqual(0);
@@ -771,6 +771,50 @@ test('emojiRegex', () => {
     expect(str.replace(hlp.emojiRegex(false), '')).toEqual('This😀👩‍⚖️ is a text full of 🧗‍♀️emojis👩🏼‍❤️‍💋‍👩🏽.');
     expect('false2'.replace(hlp.emojiRegex(false), '')).toEqual('false2');
     expect(hlp.emojiRegex().test(str)).toEqual(true);
+    expect(hlp.emojiSplit(str)).toEqual([
+        'T',
+        'h',
+        'i',
+        's',
+        '❤️',
+        '😀',
+        '👩‍⚖️',
+        ' ',
+        'i',
+        's',
+        ' ',
+        'a',
+        ' ',
+        't',
+        'e',
+        'x',
+        't',
+        ' ',
+        'f',
+        'u',
+        'l',
+        'l',
+        ' ',
+        'o',
+        'f',
+        ' ',
+        '🧗‍♀️',
+        'e',
+        'm',
+        'o',
+        'j',
+        'i',
+        's',
+        '👩🏼‍❤️‍💋‍👩🏽',
+        '.',
+    ]);
+    expect(hlp.emojiSplit('foo ')).toEqual(['f', 'o', 'o', ' ']);
+    expect(hlp.emojiSplit('')).toEqual([]);
+    expect(hlp.emojiSplit('  ')).toEqual([' ', ' ']);
+    expect(hlp.emojiSplit(null)).toEqual(null);
+    expect(hlp.emojiSplit(false)).toEqual(false);
+    expect(hlp.emojiSplit(true)).toEqual(true);
+    expect(hlp.emojiSplit([])).toEqual([]);
 });
 
 test('serialize', () => {

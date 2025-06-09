@@ -2478,6 +2478,13 @@ export default class hlp {
         return String.raw`\p{RI}\p{RI}|\p{Extended_Pictographic}(\p{EMod}|\uFE0F\u20E3?|[\u{E0020}-\u{E007E}]+\u{E007F})?(\u200D(\p{RI}\p{RI}|\p{Extended_Pictographic}(\p{EMod}|\uFE0F\u20E3?|[\u{E0020}-\u{E007E}]+\u{E007F})?))*`;
     }
 
+    static emojiSplit(str) {
+        if (!(typeof str === 'string' || str instanceof String)) {
+            return str;
+        }
+        return [...new Intl.Segmenter().segment(str)].map((x) => x.segment);
+    }
+
     static serialize(mixedValue) {
         let val, key, okey;
         let ktype = '';
