@@ -571,6 +571,7 @@ hlp.prev( document.querySelector('.foo') )
 hlp.prev( document.querySelector('.foo'), '.bar' )
 hlp.next( document.querySelector('.foo') )
 hlp.next( document.querySelector('.foo'), '.bar' )
+hlp.querySelectorAllShadowDom('.foo') // finds all elements with that selector (also in nested shadowdom elements)
 
 // wrap element
 hlp.wrap( document.querySelector('.foo'), '<div class="wrapper"></div>' )

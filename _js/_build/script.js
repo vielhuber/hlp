@@ -1836,6 +1836,28 @@ class hlp {
       return 0;
     }
   }
+  static querySelectorAllShadowDom(selector) {
+    let traverse = function ($parent) {
+      $els = [];
+      if ($parent.querySelector('*') !== null) {
+        $parent.querySelectorAll('*').forEach($el => {
+          $els.push($el);
+          if ($el.shadowRoot !== undefined && $el.shadowRoot !== null) {
+            $els = $els.concat(traverse($el.shadowRoot));
+          }
+        });
+      }
+      return $els;
+    };
+    let fragment = document.createDocumentFragment();
+    $els = traverse(document);
+    $els.forEach($el => {
+      if ($el.matches(selector)) {
+        fragment.appendChild($el.cloneNode());
+      }
+    });
+    return fragment.childNodes;
+  }
   static focus(selector) {
     hlp.unfocus();
     let el = null;
