@@ -336,7 +336,7 @@ hlp.getProp({
 }, 'c.a.a') // 7
 ```
 
-check out also the following helpers for the frontend:
+### frontend
 
 ```js
 // cookies
@@ -600,7 +600,7 @@ hlp.animate(
 
 ## notes
 
-## alternative safe patterns
+### alternative safe patterns
 
 ```js
 if( Object.keys(obj).length === 0 && obj.constructor === Object ) {}
@@ -667,10 +667,9 @@ if( hlp.false(() => vrbl)  )
 if( hlp.v(() => vrbl) === 'foo' )
 if( hlp.v(() => vrbl) == 1337 )
 echo hlp.v(() => vrbl)
+// that works because javascript only evaluates the content of the inner callback (or closure) when it is actually executed.
 hlp.loop((() => vrbl), (vrbl__value, vrbl__key) => { })
-
 ```
-that works because javascript only evaluates the content of the inner callback (or closure) when it is actually executed.
 
 ## php implementation
 
