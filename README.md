@@ -1,35 +1,10 @@
 [![build status](https://github.com/vielhuber/hlp/actions/workflows/ci.yml/badge.svg)](https://github.com/vielhuber/hlp/actions)
 
+# ⛏️ hlp ⛏️
+
 ## motivation
-tired of writing
 
-```js
-if( Object.keys(obj).length === 0 && obj.constructor === Object )
-{
-
-}
-```
-
-or
-
-```js
-if (typeof arr !== 'undefined' && arr.length > 0)
-{
-
-}
-```
-
-or
-
-```js
-for(const [obj__key, obj__value] of Object.entries(obj))
-{
-
-}
-```
-
-?
-
+hlp is a lightweight javascript utility library that provides essential helpers for everyday coding tasks. it offers intuitive methods for variable existence checks, type validation, string manipulation, date operations, and more. designed with simplicity in mind, hlp eliminates boilerplate code and makes common programming patterns more concise and readable, allowing developers to focus on building features rather than writing repetitive utility code.
 
 ## installation
 
@@ -50,81 +25,13 @@ or embed it directly:
 
 ## usage
 
-### existence
 ```js
 // check existence
-if( hlp.x(vrbl) )
-{
-
-}
+if( hlp.x(vrbl) ) { }
 
 // check non-existence
-if( hlp.nx(vrbl) )
-{
+if( hlp.nx(vrbl) ) {}
 
-}
-```
-
-### equality
-```js
-// js has a lot of pitfalls, when comparing loosely
-if( '' == [] ) // true
-if( '' == [''] ) // true
-if( '' == 0 ) // true
-if( ' ' == false ) // true
-if( [0] == false ) // true
-if( [0] == '0' ) // true
-if( [] == false ) // true
-if( [''] == false ) // true
-if( 0 == false ) // true
-if( 0 == [] ) // true
-if( 0 == [''] ) // true
-if( [0] == false ) // true
-if( [0] == 0 ) // true
-
-// also don't forget those delicacies
-0 === -0 // true
-NaN === NaN // false
-(![]+[])[+[]]+(![]+[])[+!+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]] === 'fail' // true
-
-// this non-strict equality is symmetric, but not transitive
-a = ''; b = 0; c = [0];
-a == b; // true
-b == c; // true
-c == a; // false
-
-// to overcome this issue, we...
-
-// ...use strict comparison when possible
-if( vrbl === 'foo' )
-{
-
-}
-
-// ...use loose comparison when appropriate
-if( hlp.getParam('number') == 1337 )
-{
-
-}
-
-// ...check for truthness / falsiness with these helper methods
-if( hlp.true(vrbl) )
-{
-
-}
-
-if( hlp.false(vrbl) )
-{
-
-}
-
-// be aware, that hlp.true is not always the logic negation of hlp.false
-hlp.true(null) // false
-hlp.false(null) // false
-```
-
-### value
-```js
 // get variable if exists, otherwise ''
 hlp.v( vrbl )
 
@@ -133,53 +40,15 @@ hlp.v( vrbl, 'default' )
 
 // get first variable that exists, otherwise ''
 hlp.v( vrbl1, vrbl2, vrbl3 )
-```
 
-### loop
-```js
 // loop over arrays/objects only if possible
-hlp.loop(['foo','bar','baz'], (vrbl__value) =>
-{
-
-});
-hlp.loop(['foo','bar','baz'], (vrbl__value, vrbl__key) =>
-{
-
-});
-hlp.loop({bar: 'foo', baz: 'bar', foo: 'baz'}, (vrbl__value, vrbl__key) =>
-{
-
-});
+hlp.loop(['foo','bar','baz'], (vrbl__value) => {});
+hlp.loop(['foo','bar','baz'], (vrbl__value, vrbl__key) => {});
+hlp.loop({bar: 'foo', baz: 'bar', foo: 'baz'}, (vrbl__value, vrbl__key) => {});
 hlp.loop([], (vrbl__value, vrbl__key) => { }) // does nothing
 hlp.loop({}, (vrbl__value, vrbl__key) => { }) // does nothing
 hlp.loop(null, (vrbl__value, vrbl__key) => { }) // does nothing
-```
 
-
-### try
-
-```js
-// if you are unsure, if a variable is even set before checking its existence,
-// simply put it inside this helper function
-if( hlp.x(() => vrbl) )
-if( hlp.nx(() => vrbl)  )
-if( hlp.true(() => vrbl) )
-if( hlp.false(() => vrbl)  )
-if( hlp.v(() => vrbl) === 'foo' )
-if( hlp.v(() => vrbl) == 1337 )
-echo hlp.v(() => vrbl)
-hlp.loop((() => vrbl), (vrbl__value, vrbl__key) => { })
-
-```
-that works because javascript only evaluates the content of the inner callback (or closure) when it is actually executed.
-
-
-
-### helpers
-
-there are also some other neat little helpers available:
-
-```js
 // capitalize
 hlp.capitalize('foo') // Foo
 
@@ -729,11 +598,83 @@ hlp.animate(
 ).then(() => { console.log('done'); });
 ```
 
+## notes
+
+## alternative safe patterns
+
+```js
+if( Object.keys(obj).length === 0 && obj.constructor === Object ) {}
+if (typeof arr !== 'undefined' && arr.length > 0) {}
+for(const [obj__key, obj__value] of Object.entries(obj)) {}
+```
+
+### equality
+
+```js
+// js has a lot of pitfalls, when comparing loosely
+if( '' == [] ) // true
+if( '' == [''] ) // true
+if( '' == 0 ) // true
+if( ' ' == false ) // true
+if( [0] == false ) // true
+if( [0] == '0' ) // true
+if( [] == false ) // true
+if( [''] == false ) // true
+if( 0 == false ) // true
+if( 0 == [] ) // true
+if( 0 == [''] ) // true
+if( [0] == false ) // true
+if( [0] == 0 ) // true
+
+// also don't forget those delicacies
+0 === -0 // true
+NaN === NaN // false
+(![]+[])[+[]]+(![]+[])[+!+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]] === 'fail' // true
+
+// this non-strict equality is symmetric, but not transitive
+a = ''; b = 0; c = [0];
+a == b; // true
+b == c; // true
+c == a; // false
+
+// to overcome this issue, we...
+
+// ...use strict comparison when possible
+if( vrbl === 'foo' ) {}
+
+// ...use loose comparison when appropriate
+if( hlp.getParam('number') == 1337 ) {}
+
+// ...check for truthness / falsiness with these helper methods
+if( hlp.true(vrbl) ) {}
+
+if( hlp.false(vrbl) ) {}
+
+// be aware, that hlp.true is not always the logic negation of hlp.false
+hlp.true(null) // false
+hlp.false(null) // false
+```
+
+### try
+
+```js
+// if you are unsure, if a variable is even set before checking its existence,
+// simply put it inside this helper function
+if( hlp.x(() => vrbl) )
+if( hlp.nx(() => vrbl)  )
+if( hlp.true(() => vrbl) )
+if( hlp.false(() => vrbl)  )
+if( hlp.v(() => vrbl) === 'foo' )
+if( hlp.v(() => vrbl) == 1337 )
+echo hlp.v(() => vrbl)
+hlp.loop((() => vrbl), (vrbl__value, vrbl__key) => { })
+
+```
+that works because javascript only evaluates the content of the inner callback (or closure) when it is actually executed.
 
 ## php implementation
 
 there is also a php implemenation [stringhelper](https://github.com/vielhuber/stringhelper) with similiar functions available.
-
 
 ## appendix
 

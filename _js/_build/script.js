@@ -1,9 +1,12 @@
 "use strict";
 
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
+var _taggedTemplateLiteral2 = _interopRequireDefault(require("@babel/runtime/helpers/taggedTemplateLiteral"));
+var _templateObject;
 class hlp {
   static x(input) {
     if (typeof input === 'function') {
@@ -1131,17 +1134,7 @@ class hlp {
   }
   static async cursorPosition() {
     // https://stackoverflow.com/a/43326327/2068362
-    document.head.insertAdjacentHTML('afterbegin', `
-                <style type="text/css">
-                    .find-pointer-quad {
-                        --hit: 0;
-                        position: fixed;
-	                    z-index:2147483647;
-                        transform: translateZ(0);
-                        &:hover { --hit: 1; }
-                    }
-                </style>
-            `);
+    document.head.insertAdjacentHTML('afterbegin', "\n                <style type=\"text/css\">\n                    .find-pointer-quad {\n                        --hit: 0;\n                        position: fixed;\n\t                    z-index:2147483647;\n                        transform: translateZ(0);\n                        &:hover { --hit: 1; }\n                    }\n                </style>\n            ");
     window.cursorPositionDelay = 50;
     window.cursorPositionQuads = [];
     let dim = 10;
@@ -1151,9 +1144,9 @@ class hlp {
       let {
         style
       } = a;
-      style.top = pos < 2 ? 0 : `${dim}%`;
-      style.left = pos % 2 === 0 ? 0 : `${dim}%`;
-      style.width = style.height = `${dim}%`;
+      style.top = pos < 2 ? 0 : "".concat(dim, "%");
+      style.left = pos % 2 === 0 ? 0 : "".concat(dim, "%");
+      style.width = style.height = "".concat(dim, "%");
       document.body.appendChild(a);
       return a;
     };
@@ -1164,8 +1157,8 @@ class hlp {
     let hit;
     window.cursorPositionQuads.some(a => {
       let style = getComputedStyle(a);
-      let result = style.getPropertyValue(`--hit`);
-      if (result === `1`) return hit = {
+      let result = style.getPropertyValue("--hit");
+      if (result === "1") return hit = {
         style,
         a
       };
@@ -1180,14 +1173,14 @@ class hlp {
           style
         } = _ref6;
         if (reset) {
-          style.top = pos < 2 ? 0 : `${dim}%`;
-          style.left = pos % 2 === 0 ? 0 : `${dim}%`;
-          style.width = style.height = `${dim}%`;
+          style.top = pos < 2 ? 0 : "".concat(dim, "%");
+          style.left = pos % 2 === 0 ? 0 : "".concat(dim, "%");
+          style.width = style.height = "".concat(dim, "%");
         } else {
-          style.top = pos < 2 ? `${top}%` : `${top + dim}%`;
-          style.left = pos % 2 === 0 ? `${left}%` : `${left + dim}%`;
-          style.width = `${dim}%`;
-          style.height = `${dim}%`;
+          style.top = pos < 2 ? "".concat(top, "%") : "".concat(top + dim, "%");
+          style.left = pos % 2 === 0 ? "".concat(left, "%") : "".concat(left + dim, "%");
+          style.width = "".concat(dim, "%");
+          style.height = "".concat(dim, "%");
         }
       });
       return new Promise(resolve => {
@@ -1218,10 +1211,10 @@ class hlp {
       let {
         style
       } = _ref7;
-      style.top = pos < 2 ? oy : `${nextStep + parseFloat(oy)}%`;
-      style.left = pos % 2 === 0 ? ox : `${nextStep + parseFloat(ox)}%`;
-      style.width = `${nextStep}%`;
-      style.height = `${nextStep}%`;
+      style.top = pos < 2 ? oy : "".concat(nextStep + parseFloat(oy), "%");
+      style.left = pos % 2 === 0 ? ox : "".concat(nextStep + parseFloat(ox), "%");
+      style.width = "".concat(nextStep, "%");
+      style.height = "".concat(nextStep, "%");
     });
     return new Promise(resolve => {
       setTimeout(() => resolve(this.cursorPositionBisect(nextStep)), window.cursorPositionDelay);
@@ -1414,7 +1407,7 @@ class hlp {
       // apply trick from https://css-tricks.com/the-trick-to-viewport-units-on-mobile/
       let fn = () => {
         let vh = window.innerHeight * 0.01;
-        document.documentElement.style.setProperty('--vh', `${vh}px`);
+        document.documentElement.style.setProperty('--vh', "".concat(vh, "px"));
       };
       fn();
       window.addEventListener('resize', () => {
@@ -2218,7 +2211,7 @@ class hlp {
     return new RegExp(hlp.emojiRegexPattern(), (global === true ? 'g' : '') + 'u');
   }
   static emojiRegexPattern() {
-    return String.raw`\p{RI}\p{RI}|\p{Extended_Pictographic}(\p{EMod}|\uFE0F\u20E3?|[\u{E0020}-\u{E007E}]+\u{E007F})?(\u200D(\p{RI}\p{RI}|\p{Extended_Pictographic}(\p{EMod}|\uFE0F\u20E3?|[\u{E0020}-\u{E007E}]+\u{E007F})?))*`;
+    return String.raw(_templateObject || (_templateObject = (0, _taggedTemplateLiteral2.default)(["p{RI}p{RI}|p{Extended_Pictographic}(p{EMod}|\uFE0F\u20E3?|[\uDB40\uDC20-\uDB40\uDC7E]+\uDB40\uDC7F)?(\u200D(p{RI}p{RI}|p{Extended_Pictographic}(p{EMod}|\uFE0F\u20E3?|[\uDB40\uDC20-\uDB40\uDC7E]+\uDB40\uDC7F)?))*"], ["\\p{RI}\\p{RI}|\\p{Extended_Pictographic}(\\p{EMod}|\\uFE0F\\u20E3?|[\\u{E0020}-\\u{E007E}]+\\u{E007F})?(\\u200D(\\p{RI}\\p{RI}|\\p{Extended_Pictographic}(\\p{EMod}|\\uFE0F\\u20E3?|[\\u{E0020}-\\u{E007E}]+\\u{E007F})?))*"])));
   }
   static emojiSplit(str) {
     if (!(typeof str === 'string' || str instanceof String)) {
@@ -2314,7 +2307,7 @@ class hlp {
       };
       cache.get = index => {
         if (index >= store.length) {
-          throw RangeError(`Can't resolve reference ${index + 1}`);
+          throw RangeError("Can't resolve reference ".concat(index + 1));
         }
         return store[index];
       };
@@ -2345,7 +2338,7 @@ class hlp {
           case 'R':
             return expectReference(s);
           default:
-            throw SyntaxError(`Invalid or unsupported data type: ${type}`);
+            throw SyntaxError("Invalid or unsupported data type: ".concat(type));
         }
       };
       const expectBool = s => {
@@ -2415,7 +2408,7 @@ class hlp {
         const reObjectLiteral = /^O:(\d+):"([^\"]+)":(\d+):\{/;
         const [match,, className, propCountMatch] = reObjectLiteral.exec(s) || [];
         if (!match) throw SyntaxError('Invalid input');
-        if (className !== 'stdClass') throw SyntaxError(`Unsupported object type: ${className}`);
+        if (className !== 'stdClass') throw SyntaxError("Unsupported object type: ".concat(className));
         let obj = {};
         cache([obj]);
         s = s.substr(match.length);
@@ -2552,7 +2545,7 @@ class hlp {
     let file = null;
     try {
       file = new File([blob], filename);
-    } catch {
+    } catch (_unused) {
       // ie 11
       file = new Blob([blob], filename);
     }
