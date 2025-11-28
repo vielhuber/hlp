@@ -3,7 +3,7 @@ name: CI
 env:
     CI: true
 
-on: [push]
+on:
     workflow_dispatch:
     push:
         tags:
