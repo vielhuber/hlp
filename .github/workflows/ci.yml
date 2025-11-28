@@ -17,7 +17,7 @@ jobs:
         strategy:
             matrix:
                 operating-system: ['ubuntu-latest', 'macos-latest', 'windows-latest']
-                node-versions: ['16.17.0', '18.12.1', '19.3.0', '22.20.0']
+                node-versions: ['lts/*']
 
         name: ${{ matrix.operating-system }} (Node ${{ matrix.node-versions }})
 

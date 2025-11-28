@@ -510,12 +510,12 @@ test('br2nl', () => {
 
 test('get/post', async () => {
     let response;
-    response = await hlp.get('http://httpbin.org/anything');
+    response = await hlp.get('https://httpbun.com/anything');
     expect(response.method).toBe('GET');
-    response = await hlp.post('http://httpbin.org/anything', { data: { foo: 'bar', bar: 'baz' } });
+    response = await hlp.post('https://httpbun.com/anything', { data: { foo: 'bar', bar: 'baz' } });
     expect(response.method).toBe('POST');
     expect(response.data).toBe(hlp.jsonObjectToString({ foo: 'bar', bar: 'baz' }));
-    response = await hlp.post('http://httpbin.org/anything', {
+    response = await hlp.post('https://httpbun.com/anything', {
         data: { foo: 'bar', bar: 'baz' },
         headers: { Bar: 'baz' },
     });
@@ -853,7 +853,7 @@ test('getProp', () => {
 test('blobs', async () => {
     let string, blob, base64, response;
 
-    string = await hlp.get('http://httpbin.org/image/png');
+    string = await hlp.get('https://picsum.photos/200');
 
     blob = hlp.stringtoblob(string);
     response = await hlp.blobtostring(blob);
