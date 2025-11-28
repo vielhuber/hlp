@@ -4,6 +4,11 @@ env:
     CI: true
 
 on: [push]
+    workflow_dispatch:
+    push:
+        tags:
+            - 'v*'
+            - '[0-9]*'
 
 jobs:
     build-test:
@@ -12,7 +17,7 @@ jobs:
         strategy:
             matrix:
                 operating-system: ['ubuntu-latest', 'macos-latest', 'windows-latest']
-                node-versions: ['14.18.0', '16.17.0', '18.12.1', '19.3.0']
+                node-versions: ['16.17.0', '18.12.1', '19.3.0', '22.20.0']
 
         name: ${{ matrix.operating-system }} (Node ${{ matrix.node-versions }})
 
