@@ -394,23 +394,54 @@ export default class hlp {
     }
 
     static isPageSpeed() {
-        if (
-            navigator.userAgent.match(
-                /(Mozilla\/5\.0 \(Linux; Android 11; moto g power \(2022\)\) AppleWebKit\/537\.36 \(KHTML, like Gecko\) Chrome\/109\.0.0.0 Mobile Safari\/537\.36)|(Mozilla\/5\.0 \(Macintosh; Intel Mac OS X 10_15_7\) AppleWebKit\/537\.36 \(KHTML, like Gecko\) Chrome\/109\.0\.0\.0 Safari\/537\.36)|(Speed Insights)|(Chrome-Lighthouse)|(PSTS[\d\.]+)/
-            )
-        ) {
+        const ua = navigator.userAgent || '';
+        let score = 0;
+
+        if (/Lighthouse|HeadlessChrome|Chrome-Lighthouse|Speed Insights|PTST|PageSpeed/i.test(ua)) {
             return true;
         }
-        if (/HeadlessChromium|Lighthouse|PTST/.test(navigator.userAgent)) {
-            return true;
-        }
+
         if (navigator.webdriver) {
             return true;
         }
+
         if (!navigator.languages || navigator.languages.length === 0) {
-            return true;
+            score += 3;
         }
-        return false;
+
+        if (/moto g power|Moto G4/i.test(ua)) {
+            score += 2;
+        }
+
+        if (/Chrome\/\d{3}\.0\.0\.0/i.test(ua)) {
+            score += 1;
+        }
+
+        if (typeof window !== 'undefined') {
+            const w = window.innerWidth;
+            const h = window.innerHeight;
+            if ((w === 1350 && h === 940) || (w === 412 && (h === 823 || h === 915)) || (w === 360 && h === 640)) {
+                score += 2;
+            }
+        }
+
+        if (navigator.plugins && navigator.plugins.length === 0) {
+            score += 1;
+        }
+
+        if (!navigator.connection && !navigator.deviceMemory && !navigator.hardwareConcurrency) {
+            score += 1;
+        }
+
+        if (typeof navigator.permissions === 'undefined') {
+            score += 1;
+        }
+
+        if (/Chrome/i.test(ua) && typeof window.chrome === 'undefined') {
+            score += 2;
+        }
+
+        return score >= 4;
     }
 
     static isMac() {
