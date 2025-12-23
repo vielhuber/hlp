@@ -87,6 +87,8 @@
         </style>
     </head>
     <body>
+        <div class="pagespeed"></div>
+
         <div class="visible-in-viewport visible-in-viewport--1"></div>
         <div class="visible-in-viewport visible-in-viewport--2"></div>
         <div class="visible-in-viewport visible-in-viewport--3"></div>
@@ -427,6 +429,8 @@
             hlp.wrap(document.querySelector('.wrap'), '<div class="wrapper"></div>');
 
             hlp.wrapTextNodes(document.querySelector('.wrap-text-nodes'), 'p');
+
+            document.querySelector('.pagespeed').textContent = 'pagespeed: ' + (hlp.isPageSpeed() ? 'true' : 'false');
 
             setTimeout(function () {
                 console.log([

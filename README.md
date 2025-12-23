@@ -395,6 +395,7 @@ hlp.isLinux()
 
 // browser detection helpers
 hlp.getBrowser() // ['ie','edge','firefox','chrome','safari','opera','unknown']
+hlp.isPageSpeed()
 
 // smooth scroll to position / element
 hlp.scrollTo( 0, 1000 ).then(() => { console.log('done'); });
