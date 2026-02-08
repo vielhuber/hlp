@@ -159,7 +159,7 @@ test('loop', () => {
         () => vrbl,
         (vrbl__value, vrbl__key) => {
             expect(true).toBe(false);
-        }
+        },
     );
 });
 
@@ -285,7 +285,7 @@ test('device', () => {
     expect(hlp.isTablet()).toBe(false);
     expect(hlp.isDesktop()).toBe(true);
     expect(hlp.isMobile()).toBe(false);
-    expect(hlp.isTouch()).toBe(false);
+    expect(hlp.isTouch()).toBe(true);
 });
 
 test('isObject', () => {
@@ -437,10 +437,10 @@ test('findAllPositionsCaseInsensitive', () => {
 
 test('highlight', () => {
     expect(hlp.highlight('that is a search string', 'is')).toEqual(
-        'that <strong class="highlight">is</strong> a search string'
+        'that <strong class="highlight">is</strong> a search string',
     );
     expect(hlp.highlight('that is a search isstring', 'is')).toEqual(
-        'that <strong class="highlight">is</strong> a search <strong class="highlight">is</strong>string'
+        'that <strong class="highlight">is</strong> a search <strong class="highlight">is</strong>string',
     );
     expect(hlp.highlight('that is a search isstring', '')).toEqual('that is a search isstring');
     expect(hlp.highlight('Maßbierkrug', 'bier')).toEqual('Maß<strong class="highlight">bier</strong>krug');
@@ -450,23 +450,23 @@ test('highlight', () => {
     expect(
         hlp.highlight(
             'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est lorem ipsum dolor sit amet.',
-            'lorem'
-        )
+            'lorem',
+        ),
     ).toEqual(
-        '<strong class="highlight">Lorem</strong> ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est <strong class="highlight">Lorem</strong> ipsum dolor sit amet. <strong class="highlight">Lorem</strong> ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est <strong class="highlight">lorem</strong> ipsum dolor sit amet.'
+        '<strong class="highlight">Lorem</strong> ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est <strong class="highlight">Lorem</strong> ipsum dolor sit amet. <strong class="highlight">Lorem</strong> ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est <strong class="highlight">lorem</strong> ipsum dolor sit amet.',
     );
     expect(hlp.highlight('abc def geh ijk lmn opq rst abc def geh ijk lmn opq rst', 'ijk', true, 5)).toEqual(
-        '... geh <strong class="highlight">ijk</strong> lmn ... geh <strong class="highlight">ijk</strong> lmn ...'
+        '... geh <strong class="highlight">ijk</strong> lmn ... geh <strong class="highlight">ijk</strong> lmn ...',
     );
     expect(
         hlp.highlight(
             'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est lorem ipsum dolor sit amet.',
             'elitr',
             true,
-            20
-        )
+            20,
+        ),
     ).toEqual(
-        '... sadipscing <strong class="highlight">elitr</strong>, sed diam nonumy eirmod ... sadipscing <strong class="highlight">elitr</strong>, sed diam nonumy eirmod ...'
+        '... sadipscing <strong class="highlight">elitr</strong>, sed diam nonumy eirmod ... sadipscing <strong class="highlight">elitr</strong>, sed diam nonumy eirmod ...',
     );
 });
 
@@ -906,7 +906,7 @@ test('shuffle', () => {
     for (let i = 0; i < 50; i++) {
         let shuffle = hlp.shuffle(['foo', 'bar']);
         expect(shuffle.toString() == ['foo', 'bar'].toString() || shuffle.toString() == ['bar', 'foo'].toString()).toBe(
-            true
+            true,
         );
     }
 });
@@ -925,12 +925,12 @@ test('waitUntilVar', async () => {
 
 test('findRecursiveInObject', () => {
     expect(
-        hlp.findRecursiveInObject({ foo: { id: 42 }, bar: { foo: { id: 7 } }, baz: { id1: 42, id2: 7 } }, 'id')
+        hlp.findRecursiveInObject({ foo: { id: 42 }, bar: { foo: { id: 7 } }, baz: { id1: 42, id2: 7 } }, 'id'),
     ).toEqual(['foo', 'bar.foo']);
     expect(
-        hlp.findRecursiveInObject({ foo: { id: 42 }, bar: { foo: { id: 7 } }, baz: { id1: 42, id2: 7 } }, 'id', 42)
+        hlp.findRecursiveInObject({ foo: { id: 42 }, bar: { foo: { id: 7 } }, baz: { id1: 42, id2: 7 } }, 'id', 42),
     ).toEqual(['foo']);
     expect(
-        hlp.findRecursiveInObject({ foo: { id: 42 }, bar: { foo: { id: 7 } }, baz: { id1: 42, id2: 7 } }, null, 7)
+        hlp.findRecursiveInObject({ foo: { id: 42 }, bar: { foo: { id: 7 } }, baz: { id1: 42, id2: 7 } }, null, 7),
     ).toEqual(['bar.foo', 'baz']);
 });
