@@ -1,17 +1,8 @@
 {
     "name": "hlp",
-    "version": "3.7.4",
+    "version": "3.7.5",
     "main": "_js/_build/script.js",
-    "module": "_js/script.js",
-    "exports": {
-        ".": {
-            "import": "./_js/script.js",
-            "require": "./_js/_build/script.js",
-            "default": "./_js/_build/script.js"
-        }
-    },
     "files": [
-        "_js/script.js",
         "_js/_build/*.js",
         "hlp.js"
     ],
