@@ -2485,7 +2485,7 @@ class hlp {
       pushIdData = window.pushIdDataGlobal;
     }
     // node.js
-    if (global !== undefined) {
+    if (typeof global !== 'undefined') {
       if (global.pushIdDataGlobal === undefined) {
         global.pushIdDataGlobal = {};
       }

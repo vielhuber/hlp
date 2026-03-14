@@ -1,6 +1,6 @@
 {
     "name": "hlp",
-    "version": "3.7.3",
+    "version": "3.7.4",
     "main": "_js/_build/script.js",
     "module": "_js/script.js",
     "exports": {
