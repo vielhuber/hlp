@@ -3,4 +3,7 @@ module.exports = {
     testEnvironmentOptions: {
         url: 'https://tld.com/?foo=bar&bar=baz',
     },
+    transform: {
+        '^.+\\.(t|j)s$': 'babel-jest',
+    },
 };

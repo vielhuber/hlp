@@ -1,19 +1,27 @@
 {
     "name": "hlp",
-    "version": "3.7.5",
+    "version": "3.7.6",
     "main": "_js/_build/script.js",
+    "module": "hlp.esm.js",
+    "exports": {
+        ".": {
+            "import": "./hlp.esm.js",
+            "require": "./_js/_build/script.js"
+        }
+    },
     "files": [
         "_js/_build/*.js",
-        "hlp.js"
+        "hlp.js",
+        "hlp.esm.js"
     ],
     "scripts": {
         "js:vite": "vite build --logLevel error",
         "js:minify": "terser --compress --mangle --output ./hlp.js ./hlp.js",
-        "js:babel": "npx babel ./_js/script.js --out-dir ./_js/_build/",
+        "js:babel": "npx babel ./_js/script.ts --out-dir ./_js/_build/ --extensions .ts",
         "js:tests": "jest --verbose --noStackTrace --no-cache",
         "js": "npm-run-all --sequential js:vite js:minify js:babel js:tests",
-        "watch:js": "onchange ./_js/*.js ./_tests/index.html --initial --poll 25 --delay 0 --await-write-finish 25 -- onerror \"npm run js --silent\" --title \"watch:js\" --message \"build failed\" --sound mute",
-        "watch:js-test": "onchange ./_tests/_js/*.js --initial --poll 25 --delay 0 --await-write-finish 25 -- onerror \"npm run js:tests --silent\" --title \"watch:js-test\" --message \"build failed\" --sound mute",
+        "watch:js": "onchange ./_js/*.ts ./_tests/index.html --initial --poll 25 --delay 0 --await-write-finish 25 -- onerror \"npm run js --silent\" --title \"watch:js\" --message \"build failed\" --sound mute",
+        "watch:js-test": "onchange ./_tests/_js/*.ts --initial --poll 25 --delay 0 --await-write-finish 25 -- onerror \"npm run js:tests --silent\" --title \"watch:js-test\" --message \"build failed\" --sound mute",
         "prod": "npm-run-all --parallel js",
         "dev": "npm-run-all --parallel watch:*"
     },
@@ -37,7 +45,9 @@
         "@babel/polyfill": "^7.12.1",
         "@babel/preset-env": "^7.29.0",
         "@babel/preset-react": "^7.28.5",
+        "@babel/preset-typescript": "^7.28.5",
         "@prettier/plugin-php": "^0.24.0",
+        "@types/jest": "^30.0.0",
         "autoprefixer": "^10.4.27",
         "babel-core": "^7.0.0-bridge.0",
         "babel-jest": "^30",
@@ -81,9 +91,10 @@
         "sass": "^1.98.0",
         "tailwindcss": "^4.2.1",
         "terser": "^5.46.0",
-        "vite": "^8.0.0",
+        "typescript": "^5.9.3",
         "vinyl-buffer": "^1.0.1",
         "vinyl-source-stream": "^2.0.0",
+        "vite": "^8.0.0",
         "whatwg-fetch": "^3.6.20"
     },
     "browserslist": [

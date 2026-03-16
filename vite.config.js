@@ -3,12 +3,11 @@ import { defineConfig } from 'vite';
 export default defineConfig({
     build: {
         outDir: '',
-        rollupOptions: {
-            input: './_js/script.js',
-            output: {
-                entryFileNames: 'hlp.js',
-                format: 'iife'
-            },
+        lib: {
+            entry: './_js/script.ts',
+            name: 'hlp',
+            formats: ['iife', 'es'],
+            fileName: (format) => (format === 'es' ? 'hlp.esm.js' : 'hlp.js'),
         },
         sourcemap: true,
         minify: false,
