@@ -1,4 +1,10 @@
 [![build status](https://github.com/vielhuber/hlp/actions/workflows/ci.yml/badge.svg)](https://github.com/vielhuber/hlp/actions)
+[![GitHub Tag](https://img.shields.io/github/v/tag/vielhuber/hlp)](https://github.com/vielhuber/hlp/tags)
+[![Code Style](https://img.shields.io/badge/code_style-psr--12-ff69b4.svg)](https://www.php-fig.org/psr/psr-12/)
+[![License](https://img.shields.io/github/license/vielhuber/hlp)](https://github.com/vielhuber/hlp/blob/main/LICENSE.md)
+[![Last Commit](https://img.shields.io/github/last-commit/vielhuber/hlp)](https://github.com/vielhuber/hlp/commits)
+[![node version](https://img.shields.io/node/v/hlp)](https://www.npmjs.com/package/hlp)
+[![npm Downloads](https://img.shields.io/npm/dt/hlp)](https://www.npmjs.com/package/hlp)
 
 # ⛏️ hlp ⛏️
 
