@@ -4,6 +4,9 @@
 
 import hlp from '../../_js/script';
 
+declare const un: any;
+declare const vrbl: any;
+
 test('x', () => {
     expect(hlp.x(undefined)).toBe(false);
     expect(hlp.x(null)).toBe(false);
@@ -132,8 +135,8 @@ test('loop', () => {
             expect(arr__value).toBe('baz');
         }
     });
-    var arr = [];
-    hlp.loop(arr, (arr__key, arr__value) => {
+    var arrEmpty: string[] = [];
+    hlp.loop(arrEmpty, (arr__key, arr__value) => {
         expect(true).toBe(false);
     });
     var obj = { bar: 'foo', foo: 'bar', baz: 'baz' };
@@ -148,8 +151,8 @@ test('loop', () => {
             expect(obj__value).toBe('baz');
         }
     });
-    var obj = {};
-    hlp.loop(obj, (obj__key, obj__value) => {
+    var objEmpty = {};
+    hlp.loop(objEmpty, (obj__key, obj__value) => {
         expect(true).toBe(false);
     });
     hlp.loop(null, (key, value) => {
@@ -268,9 +271,9 @@ test('localstorage', async () => {
     expect(hlp.localStorageExists('foo')).toBe(false);
 
     hlp.localStorageSet('bar', { some: 'data' }, 1 / (24 * 60 * 60));
-    await new Promise((resolve) => setTimeout(() => resolve(), 500));
+    await new Promise<void>((resolve) => setTimeout(() => resolve(), 500));
     expect(hlp.localStorageExists('bar')).toBe(true);
-    await new Promise((resolve) => setTimeout(() => resolve(), 1000));
+    await new Promise<void>((resolve) => setTimeout(() => resolve(), 1000));
     expect(hlp.localStorageExists('bar')).toBe(false);
 });
 
@@ -522,7 +525,7 @@ test('get/post', async () => {
     expect(response.method).toBe('POST');
     expect(response.data).toBe(hlp.jsonObjectToString({ foo: 'bar', bar: 'baz' }));
     expect(response.headers.Bar).toBe('baz');
-    await new Promise((resolve) => setTimeout(() => resolve(), 1000));
+    await new Promise<void>((resolve) => setTimeout(() => resolve(), 1000));
     await hlp
         .get('https://httpbin.org/status/404', { throttle: 0, allow_errors: false })
         .then(() => {
@@ -531,7 +534,7 @@ test('get/post', async () => {
         .catch(() => {
             expect(true).toBe(true);
         });
-    await new Promise((resolve) => setTimeout(() => resolve(), 1000));
+    await new Promise<void>((resolve) => setTimeout(() => resolve(), 1000));
     await hlp
         .get('https://httpbin.org/status/404', { throttle: 0, allow_errors: true })
         .then(() => {
@@ -540,7 +543,7 @@ test('get/post', async () => {
         .catch(() => {
             expect(true).toBe(false);
         });
-    await new Promise((resolve) => setTimeout(() => resolve(), 1000));
+    await new Promise<void>((resolve) => setTimeout(() => resolve(), 1000));
     await hlp
         .get('https://httpbin.org/status/404', { throttle: 0 })
         .then(() => {
@@ -912,14 +915,14 @@ test('shuffle', () => {
 });
 
 test('waitUntilVar', async () => {
-    let foo = {};
+    let foo: any = {};
     setTimeout(() => {
-        window.glob = 'baz';
+        (window as any).glob = 'baz';
         foo.bar = 'baz';
     }, 1000);
     await hlp.waitUntilVar('glob');
     await hlp.waitUntilVar(foo, 'bar');
-    expect(glob).toBe('baz');
+    expect((window as any).glob).toBe('baz');
     expect(foo.bar).toBe('baz');
 });
 

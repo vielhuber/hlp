@@ -117,6 +117,9 @@ class hlp {
     return false;
   }
   static v() {
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
     if (this.nx(arguments)) {
       return '';
     }
@@ -142,7 +145,8 @@ class hlp {
       });
     }
   }
-  static map(obj, fn, ctx) {
+  static map(obj, fn) {
+    let ctx = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
     return Object.keys(obj).reduce((a, b) => {
       a[b] = fn.call(ctx || null, b, obj[b]);
       return a;
@@ -193,8 +197,8 @@ class hlp {
       return input[Math.floor(Math.random() * input.length)];
     }
     if (typeof input === 'object') {
-      var input = Object.values(input);
-      return input[Math.floor(Math.random() * input.length)];
+      var inputArr = Object.values(input);
+      return inputArr[Math.floor(Math.random() * inputArr.length)];
     }
     return null;
   }
@@ -435,10 +439,12 @@ class hlp {
     }
     return browser_name;
   }
-  static isObject(a) {
+  static isObject() {
+    let a = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
     return !!a && a.constructor === Object;
   }
-  static isArray(a) {
+  static isArray() {
+    let a = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
     return !!a && a.constructor === Array;
   }
   static isString(string) {
@@ -524,20 +530,19 @@ class hlp {
       prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
       sep = typeof thousands_sep === 'undefined' ? ',' : thousands_sep,
       dec = typeof dec_point === 'undefined' ? '.' : dec_point,
-      s = '',
       toFixedFix = function (n, prec) {
         var k = Math.pow(10, prec);
         return '' + Math.round(n * k) / k;
       };
-    s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
-    if (s[0].length > 3) {
-      s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+    let sArr = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+    if (sArr[0].length > 3) {
+      sArr[0] = sArr[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
     }
-    if ((s[1] || '').length < prec) {
-      s[1] = s[1] || '';
-      s[1] += new Array(prec - s[1].length + 1).join('0');
+    if ((sArr[1] || '').length < prec) {
+      sArr[1] = sArr[1] || '';
+      sArr[1] += new Array(prec - sArr[1].length + 1).join('0');
     }
-    return s.join(dec);
+    return sArr.join(dec);
   }
   static formatDate(format) {
     let date = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
@@ -722,7 +727,8 @@ class hlp {
     let regExp = new RegExp(value, 'gi');
     return (str.match(regExp) || []).length;
   }
-  static indexOfCaseInsensitive(searchStr, str, offset) {
+  static indexOfCaseInsensitive(searchStr, str) {
+    let offset = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
     return str.toLowerCase().indexOf(searchStr.toLowerCase(), offset);
   }
   static highlight(string, query) {
@@ -980,7 +986,7 @@ class hlp {
       year = new Date().getFullYear();
     }
     let date = new Date();
-    date.setYear(year);
+    date.setFullYear(year);
     date.setDate(1);
     date.setMonth(0);
     date.setHours(0);
@@ -1190,8 +1196,8 @@ class hlp {
       let {
         style
       } = a;
-      style.top = pos < 2 ? 0 : `${dim}%`;
-      style.left = pos % 2 === 0 ? 0 : `${dim}%`;
+      style.top = pos < 2 ? '0' : `${dim}%`;
+      style.left = pos % 2 === 0 ? '0' : `${dim}%`;
       style.width = style.height = `${dim}%`;
       document.body.appendChild(a);
       return a;
@@ -1219,8 +1225,8 @@ class hlp {
           style
         } = _ref6;
         if (reset) {
-          style.top = pos < 2 ? 0 : `${dim}%`;
-          style.left = pos % 2 === 0 ? 0 : `${dim}%`;
+          style.top = pos < 2 ? '0' : `${dim}%`;
+          style.left = pos % 2 === 0 ? '0' : `${dim}%`;
           style.width = style.height = `${dim}%`;
         } else {
           style.top = pos < 2 ? `${top}%` : `${top + dim}%`;
@@ -1276,17 +1282,18 @@ class hlp {
         element = document.scrollingElement || document.documentElement;
       }
       if (!hlp.isNumeric(to)) {
-        if (element === (document.scrollingElement || documentElement)) {
+        if (element === (document.scrollingElement || document.documentElement)) {
           to = this.offsetTopWithMargin(to);
         } else {
           to = to.getBoundingClientRect().top - parseInt(getComputedStyle(to).marginTop) - (element.getBoundingClientRect().top - element.scrollTop - parseInt(getComputedStyle(element).marginTop));
         }
       }
       let offset_calc = 0;
-      if (!Array.isArray(offset)) {
-        offset = [offset];
+      let offsetArr = offset;
+      if (!Array.isArray(offsetArr)) {
+        offsetArr = [offsetArr];
       }
-      offset.forEach(offset__value => {
+      offsetArr.forEach(offset__value => {
         if (hlp.isNumeric(offset__value)) {
           offset_calc += offset__value;
         } else {
@@ -1494,11 +1501,11 @@ class hlp {
       from.split(';').forEach(from__value => {
         properties.push(from__value.split(':')[0].trim());
       });
-      let transition = [];
+      let transitionArr = [];
       properties.forEach(properties__value => {
-        transition.push(properties__value + ' ' + Math.round(duration / 1000 * 10) / 10 + 's ' + easing);
+        transitionArr.push(properties__value + ' ' + Math.round(duration / 1000 * 10) / 10 + 's ' + easing);
       });
-      transition = 'transition: ' + transition.join(', ') + ' !important;';
+      let transition = 'transition: ' + transitionArr.join(', ') + ' !important;';
       let els = null;
       if (NodeList.prototype.isPrototypeOf(el)) {
         els = Array.from(el);
@@ -1515,17 +1522,18 @@ class hlp {
         els__value.classList.add(random_class);
         window.requestAnimationFrame(() => {
           // set from style inline (don't fully remove previous style)
-          let new_style = [];
+          let new_style_arr = [];
+          let new_style = '';
           let prev_style = els__value.getAttribute('style');
           if (prev_style !== null) {
             prev_style.split(';').forEach(prev_style__value => {
               if (prev_style__value != '' && !properties.includes(prev_style__value.split(':')[0].trim())) {
-                new_style.push(prev_style__value);
+                new_style_arr.push(prev_style__value);
               }
             });
           }
-          if (new_style.length > 0) {
-            new_style = new_style.join(';') + ';' + from + ';';
+          if (new_style_arr.length > 0) {
+            new_style = new_style_arr.join(';') + ';' + from + ';';
           } else {
             new_style = from + ';';
           }
@@ -1597,7 +1605,9 @@ class hlp {
       });
     });
   }
-  static addEventListenerOnce(target, type, listener, addOptions, removeOptions) {
+  static addEventListenerOnce(target, type, listener) {
+    let addOptions = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : undefined;
+    let removeOptions = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : undefined;
     target.addEventListener(type, function fn(event) {
       let result = listener.apply(this, arguments, addOptions);
       if (result !== false) {
@@ -1877,7 +1887,7 @@ class hlp {
   }
   static querySelectorAllShadowDom(selector) {
     let traverse = function ($parent) {
-      $els = [];
+      let $els = [];
       if ($parent.querySelector('*') !== null) {
         $parent.querySelectorAll('*').forEach($el => {
           $els.push($el);
@@ -1889,7 +1899,7 @@ class hlp {
       return $els;
     };
     let fragment = document.createDocumentFragment();
-    $els = traverse(document);
+    let $els = traverse(document);
     $els.forEach($el => {
       if ($el.matches(selector)) {
         fragment.appendChild($el.cloneNode());
@@ -1909,19 +1919,19 @@ class hlp {
       let mask = document.createElement('div');
       mask.classList.add('hlp-focus-mask');
       mask.style.position = 'fixed';
-      mask.style.top = 0;
-      mask.style.bottom = 0;
-      mask.style.left = 0;
-      mask.style.right = 0;
+      mask.style.top = '0';
+      mask.style.bottom = '0';
+      mask.style.left = '0';
+      mask.style.right = '0';
       mask.style.backgroundColor = 'rgba(0,0,0,0.8)';
-      mask.style.zIndex = 2147483646;
+      mask.style.zIndex = '2147483646';
       el.before(mask);
-      el.setAttribute('data-focussed', 1);
+      el.setAttribute('data-focussed', '1');
       el.setAttribute('data-focussed-orig-z-index', el.style.zIndex);
       el.setAttribute('data-focussed-orig-position', el.style.position);
       el.setAttribute('data-focussed-orig-background-color', el.style.backgroundColor);
       el.setAttribute('data-focussed-orig-box-shadow', el.style.boxShadow);
-      el.style.zIndex = 2147483647;
+      el.style.zIndex = '2147483647';
       el.style.position = 'relative';
       el.style.backgroundColor = '#ffffff';
       el.style.boxShadow = '0px 0px 0px 20px #fff';
@@ -2191,7 +2201,8 @@ class hlp {
     }[op];
     return Math.round(n * 10 * Math.pow(10, precision)) / (10 * Math.pow(10, precision));
   }
-  static trim(str, charlist) {
+  static trim(str) {
+    let charlist = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
     let whitespace = [' ', '\n', '\r', '\t', '\f', '\x0b', '\xa0', '\u2000', '\u2001', '\u2002', '\u2003', '\u2004', '\u2005', '\u2006', '\u2007', '\u2008', '\u2009', '\u200a', '\u200b', '\u2028', '\u2029', '\u3000'].join('');
     let l = 0;
     let i = 0;
@@ -2215,12 +2226,14 @@ class hlp {
     }
     return whitespace.indexOf(str.charAt(0)) === -1 ? str : '';
   }
-  static ltrim(str, charlist) {
+  static ltrim(str) {
+    let charlist = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
     charlist = !charlist ? ' \\s\u00A0' : (charlist + '').replace(/([[\]().?/*{}+$^:])/g, '$1');
     const re = new RegExp('^[' + charlist + ']+', 'g');
     return (str + '').replace(re, '');
   }
-  static rtrim(str, charlist) {
+  static rtrim(str) {
+    let charlist = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
     charlist = !charlist ? ' \\s\u00A0' : (charlist + '').replace(/([[\]().?/*{}+$^:])/g, '\\$1');
     const re = new RegExp('[' + charlist + ']+$', 'g');
     return (str + '').replace(re, '');
@@ -2606,9 +2619,7 @@ class hlp {
     return this.blobtofile(this.base64toblob(base64, contentType), filename);
   }
   static blobtourl(blob) {
-    return URL.createObjectURL(blob, {
-      type: 'text/plain'
-    });
+    return URL.createObjectURL(blob);
   }
   static stringtourl(string) {
     return this.blobtourl(this.stringtoblob(string));

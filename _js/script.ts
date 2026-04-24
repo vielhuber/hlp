@@ -122,7 +122,7 @@ export default class hlp {
         return false;
     }
 
-    static v() {
+    static v(...args: any[]) {
         if (this.nx(arguments)) {
             return '';
         }
@@ -149,7 +149,7 @@ export default class hlp {
         }
     }
 
-    static map(obj, fn, ctx) {
+    static map(obj, fn, ctx = null) {
         return Object.keys(obj).reduce((a, b) => {
             a[b] = fn.call(ctx || null, b, obj[b]);
             return a;
@@ -201,8 +201,8 @@ export default class hlp {
             return input[Math.floor(Math.random() * input.length)];
         }
         if (typeof input === 'object') {
-            var input = Object.values(input);
-            return input[Math.floor(Math.random() * input.length)];
+            var inputArr = Object.values(input);
+            return inputArr[Math.floor(Math.random() * inputArr.length)];
         }
         return null;
     }
@@ -220,11 +220,11 @@ export default class hlp {
     }
 
     static round(value = 0, decimals = 0) {
-        return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
+        return Number(Math.round((value + 'e' + decimals) as any) + 'e-' + decimals);
     }
 
     static isInteger(value) {
-        return !isNaN(value) && parseInt(Number(value)) == value && !isNaN(parseInt(value, 10));
+        return !isNaN(value) && parseInt(Number(value) as any) == value && !isNaN(parseInt(value, 10));
     }
 
     static random_int(min = 0, max = 99999) {
@@ -262,7 +262,7 @@ export default class hlp {
         return null;
     }
 
-    static cookieSet(cookie_name, cookie_value, days, full_domain = true) {
+    static cookieSet(cookie_name, cookie_value, days?, full_domain = true) {
         let samesite = '';
         if (window.location.protocol.indexOf('https') > -1) {
             samesite = '; SameSite=None; Secure';
@@ -353,7 +353,7 @@ export default class hlp {
 
     static isPhone() {
         // based on detectmobilebrowsers.com
-        let a = navigator.userAgent || navigator.vendor || window.opera;
+        let a = navigator.userAgent || navigator.vendor || (window as any).opera;
         return (
             /(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(
                 a,
@@ -366,7 +366,7 @@ export default class hlp {
 
     static isTablet() {
         // based on detectmobilebrowsers.com
-        let a = navigator.userAgent || navigator.vendor || window.opera;
+        let a = navigator.userAgent || navigator.vendor || (window as any).opera;
         return (
             /(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino|android|ipad|playbook|silk/i.test(
                 a,
@@ -429,7 +429,7 @@ export default class hlp {
             score += 1;
         }
 
-        if (!navigator.connection && !navigator.deviceMemory && !navigator.hardwareConcurrency) {
+        if (!(navigator as any).connection && !(navigator as any).deviceMemory && !navigator.hardwareConcurrency) {
             score += 1;
         }
 
@@ -437,7 +437,7 @@ export default class hlp {
             score += 1;
         }
 
-        if (/Chrome/i.test(ua) && typeof window.chrome === 'undefined') {
+        if (/Chrome/i.test(ua) && typeof (window as any).chrome === 'undefined') {
             score += 2;
         }
 
@@ -481,8 +481,8 @@ export default class hlp {
 
     static getBrowser() {
         let browser_name = '',
-            isIE = /*@cc_on!@*/ false || !!document.documentMode,
-            isEdge = !isIE && !!window.StyleMedia;
+            isIE = /*@cc_on!@*/ false || !!(document as any).documentMode,
+            isEdge = !isIE && !!(window as any).StyleMedia;
 
         if (navigator.userAgent.indexOf('Opera') != -1 || navigator.userAgent.indexOf('OPR') != -1) {
             browser_name = 'opera';
@@ -492,7 +492,7 @@ export default class hlp {
             browser_name = 'safari';
         } else if (navigator.userAgent.indexOf('Firefox') != -1) {
             browser_name = 'firefox';
-        } else if (navigator.userAgent.indexOf('MSIE') != -1 || !!document.documentMode == true) {
+        } else if (navigator.userAgent.indexOf('MSIE') != -1 || !!(document as any).documentMode == true) {
             //IF IE > 10
             browser_name = 'ie';
         } else if (isEdge) {
@@ -504,11 +504,11 @@ export default class hlp {
         return browser_name;
     }
 
-    static isObject(a) {
+    static isObject(a = null) {
         return !!a && a.constructor === Object;
     }
 
-    static isArray(a) {
+    static isArray(a = null) {
         return !!a && a.constructor === Array;
     }
 
@@ -586,20 +586,19 @@ export default class hlp {
             prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
             sep = typeof thousands_sep === 'undefined' ? ',' : thousands_sep,
             dec = typeof dec_point === 'undefined' ? '.' : dec_point,
-            s = '',
             toFixedFix = function (n, prec) {
                 var k = Math.pow(10, prec);
                 return '' + Math.round(n * k) / k;
             };
-        s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
-        if (s[0].length > 3) {
-            s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+        let sArr: string[] = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+        if (sArr[0].length > 3) {
+            sArr[0] = sArr[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
         }
-        if ((s[1] || '').length < prec) {
-            s[1] = s[1] || '';
-            s[1] += new Array(prec - s[1].length + 1).join('0');
+        if ((sArr[1] || '').length < prec) {
+            sArr[1] = sArr[1] || '';
+            sArr[1] += new Array(prec - sArr[1].length + 1).join('0');
         }
-        return s.join(dec);
+        return sArr.join(dec);
     }
 
     static formatDate(format, date = null) {
@@ -723,7 +722,7 @@ export default class hlp {
             return null;
         }
         try {
-            return JSON.parse(string);
+            return JSON.parse(string as any);
         } catch (error) {
             return null;
         }
@@ -734,7 +733,7 @@ export default class hlp {
             return false;
         }
         try {
-            let json = JSON.parse(string);
+            let json = JSON.parse(string as any);
             return true;
         } catch (error) {
             return false;
@@ -816,7 +815,7 @@ export default class hlp {
         return (str.match(regExp) || []).length;
     }
 
-    static indexOfCaseInsensitive(searchStr, str, offset) {
+    static indexOfCaseInsensitive(searchStr, str, offset = 0) {
         return str.toLowerCase().indexOf(searchStr.toLowerCase(), offset);
     }
 
@@ -917,7 +916,7 @@ export default class hlp {
                 }
                 if (this.x(args.headers)) {
                     Object.entries(args.headers).forEach(([headers__key, headers__value]) => {
-                        xhr.setRequestHeader(headers__key, headers__value);
+                        xhr.setRequestHeader(headers__key, headers__value as string);
                     });
                 }
                 xhr.onload = () => {
@@ -1028,7 +1027,7 @@ export default class hlp {
 
     static intToChar(num) {
         for (var ret = '', a = 1, b = 26; (num -= a) >= 0; a = b, b *= 26) {
-            ret = String.fromCharCode(parseInt((num % b) / a) + 65) + ret;
+            ret = String.fromCharCode(parseInt(((num % b) / a) as any) + 65) + ret;
         }
         return ret;
     }
@@ -1098,7 +1097,7 @@ export default class hlp {
         d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
         d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
         let yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1)),
-            weekNo = Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
+            weekNo = Math.ceil((((d as any) - (yearStart as any)) / 86400000 + 1) / 7);
         return weekNo;
     }
 
@@ -1107,7 +1106,7 @@ export default class hlp {
             year = new Date().getFullYear();
         }
         let date = new Date();
-        date.setYear(year);
+        date.setFullYear(year);
         date.setDate(1);
         date.setMonth(0);
         date.setHours(0);
@@ -1204,7 +1203,7 @@ export default class hlp {
         if (speed <= 25) {
             speed = 25;
         }
-        return new Promise((resolve) => {
+        return new Promise<void>((resolve) => {
             el.style.opacity = 1;
             (function fade() {
                 if ((el.style.opacity -= 25 / speed) < 0) {
@@ -1221,7 +1220,7 @@ export default class hlp {
         if (speed <= 25) {
             speed = 25;
         }
-        return new Promise((resolve) => {
+        return new Promise<void>((resolve) => {
             el.style.opacity = 0;
             el.style.display = 'block';
             (function fade() {
@@ -1347,8 +1346,8 @@ export default class hlp {
             `,
         );
 
-        window.cursorPositionDelay = 50;
-        window.cursorPositionQuads = [];
+        (window as any).cursorPositionDelay = 50;
+        (window as any).cursorPositionQuads = [];
 
         let dim = 10;
         let createQuad = (_, pos) => {
@@ -1356,34 +1355,34 @@ export default class hlp {
             a.classList.add('find-pointer-quad');
 
             let { style } = a;
-            style.top = pos < 2 ? 0 : `${dim}%`;
-            style.left = pos % 2 === 0 ? 0 : `${dim}%`;
+            style.top = pos < 2 ? '0' : `${dim}%`;
+            style.left = pos % 2 === 0 ? '0' : `${dim}%`;
             style.width = style.height = `${dim}%`;
             document.body.appendChild(a);
             return a;
         };
-        window.cursorPositionQuads = [1, 2, 3, 4].map(createQuad);
+        (window as any).cursorPositionQuads = [1, 2, 3, 4].map(createQuad);
 
         return this.cursorPositionBisect(dim);
     }
 
     static cursorPositionBisect(dim) {
         let hit;
-        window.cursorPositionQuads.some((a) => {
+        (window as any).cursorPositionQuads.some((a) => {
             let style = getComputedStyle(a);
             let result = style.getPropertyValue(`--hit`);
             if (result === `1`) return (hit = { style, a });
         });
 
         if (!hit) {
-            let [q1] = window.cursorPositionQuads;
+            let [q1] = (window as any).cursorPositionQuads;
             let reset = Math.abs(dim) > 10000;
             let top = parseFloat(q1.style.top) - dim / 2;
             let left = parseFloat(q1.style.left) - dim / 2;
-            window.cursorPositionQuads.forEach(({ style }, pos) => {
+            (window as any).cursorPositionQuads.forEach(({ style }, pos) => {
                 if (reset) {
-                    style.top = pos < 2 ? 0 : `${dim}%`;
-                    style.left = pos % 2 === 0 ? 0 : `${dim}%`;
+                    style.top = pos < 2 ? '0' : `${dim}%`;
+                    style.left = pos % 2 === 0 ? '0' : `${dim}%`;
                     style.width = style.height = `${dim}%`;
                 } else {
                     style.top = pos < 2 ? `${top}%` : `${top + dim}%`;
@@ -1395,7 +1394,7 @@ export default class hlp {
             return new Promise((resolve) => {
                 setTimeout(
                     () => resolve(this.cursorPositionBisect(!reset ? 2 * dim : dim)),
-                    window.cursorPositionDelay,
+                    (window as any).cursorPositionDelay,
                 );
             });
         }
@@ -1403,7 +1402,7 @@ export default class hlp {
         let { style, a } = hit;
         let { top, left, width, height } = a.getBoundingClientRect();
         if (width < 3) {
-            window.cursorPositionQuads.forEach((a) => a.remove());
+            (window as any).cursorPositionQuads.forEach((a) => a.remove());
             return {
                 x: Math.round(left + width / 2 + window.scrollX),
                 y: Math.round(top + height / 2 + window.scrollY),
@@ -1413,7 +1412,7 @@ export default class hlp {
         let ox = a.style.left;
         let oy = a.style.top;
         let nextStep = dim / 2;
-        window.cursorPositionQuads.forEach(({ style }, pos) => {
+        (window as any).cursorPositionQuads.forEach(({ style }, pos) => {
             style.top = pos < 2 ? oy : `${nextStep + parseFloat(oy)}%`;
             style.left = pos % 2 === 0 ? ox : `${nextStep + parseFloat(ox)}%`;
             style.width = `${nextStep}%`;
@@ -1421,17 +1420,17 @@ export default class hlp {
         });
 
         return new Promise((resolve) => {
-            setTimeout(() => resolve(this.cursorPositionBisect(nextStep)), window.cursorPositionDelay);
+            setTimeout(() => resolve(this.cursorPositionBisect(nextStep)), (window as any).cursorPositionDelay);
         });
     }
 
     static scrollTo(to, duration = 1000, element = null, offset = 0, only_up = false) {
-        return new Promise((resolve) => {
+        return new Promise<void>((resolve) => {
             if (element === null) {
                 element = document.scrollingElement || document.documentElement;
             }
             if (!hlp.isNumeric(to)) {
-                if (element === (document.scrollingElement || documentElement)) {
+                if (element === (document.scrollingElement || document.documentElement)) {
                     to = this.offsetTopWithMargin(to);
                 } else {
                     to =
@@ -1443,10 +1442,11 @@ export default class hlp {
                 }
             }
             let offset_calc = 0;
-            if (!Array.isArray(offset)) {
-                offset = [offset];
+            let offsetArr: any = offset;
+            if (!Array.isArray(offsetArr)) {
+                offsetArr = [offsetArr];
             }
-            offset.forEach((offset__value) => {
+            offsetArr.forEach((offset__value) => {
                 if (hlp.isNumeric(offset__value)) {
                     offset_calc += offset__value;
                 } else {
@@ -1503,7 +1503,7 @@ export default class hlp {
         let promises = [];
         hlp.loop(urls, (urls__value, urls__key) => {
             promises.push(
-                new Promise((resolve, reject) => {
+                new Promise<void>((resolve, reject) => {
                     let script = document.createElement('script');
                     script.src = urls__value;
                     script.onload = () => {
@@ -1545,8 +1545,8 @@ export default class hlp {
                         } else if (
                             mutation.type === 'attributes' &&
                             mutation.attributeName === 'src' &&
-                            mutation.target.classList.contains(selectorImage.replace('.', '')) &&
-                            mutation.oldValue !== mutation.target.getAttribute('src')
+                            (mutation.target as Element).classList.contains(selectorImage.replace('.', '')) &&
+                            mutation.oldValue !== (mutation.target as Element).getAttribute('src')
                         ) {
                             this.triggerAfterAllImagesLoadedHandleEl(
                                 mutation.target,
@@ -1672,7 +1672,7 @@ export default class hlp {
     }
 
     static animate(el, from, to, easing, duration) {
-        return new Promise((resolve) => {
+        return new Promise<void>((resolve) => {
             // on durations smaller than 50, the end event does not trigger!
             if (duration <= 50) {
                 duration = 50;
@@ -1681,11 +1681,11 @@ export default class hlp {
             from.split(';').forEach((from__value) => {
                 properties.push(from__value.split(':')[0].trim());
             });
-            let transition = [];
+            let transitionArr = [];
             properties.forEach((properties__value) => {
-                transition.push(properties__value + ' ' + Math.round((duration / 1000) * 10) / 10 + 's ' + easing);
+                transitionArr.push(properties__value + ' ' + Math.round((duration / 1000) * 10) / 10 + 's ' + easing);
             });
-            transition = 'transition: ' + transition.join(', ') + ' !important;';
+            let transition = 'transition: ' + transitionArr.join(', ') + ' !important;';
 
             let els = null;
             if (NodeList.prototype.isPrototypeOf(el)) {
@@ -1706,7 +1706,8 @@ export default class hlp {
 
                 window.requestAnimationFrame(() => {
                     // set from style inline (don't fully remove previous style)
-                    let new_style = [];
+                    let new_style_arr: any[] = [];
+                    let new_style: string = '';
                     let prev_style = els__value.getAttribute('style');
                     if (prev_style !== null) {
                         prev_style.split(';').forEach((prev_style__value) => {
@@ -1714,12 +1715,12 @@ export default class hlp {
                                 prev_style__value != '' &&
                                 !properties.includes(prev_style__value.split(':')[0].trim())
                             ) {
-                                new_style.push(prev_style__value);
+                                new_style_arr.push(prev_style__value);
                             }
                         });
                     }
-                    if (new_style.length > 0) {
-                        new_style = new_style.join(';') + ';' + from + ';';
+                    if (new_style_arr.length > 0) {
+                        new_style = new_style_arr.join(';') + ';' + from + ';';
                     } else {
                         new_style = from + ';';
                     }
@@ -1799,9 +1800,9 @@ export default class hlp {
         });
     }
 
-    static addEventListenerOnce(target, type, listener, addOptions, removeOptions) {
+    static addEventListenerOnce(target, type, listener, addOptions = undefined, removeOptions = undefined) {
         target.addEventListener(type, function fn(event) {
-            let result = listener.apply(this, arguments, addOptions);
+            let result = (listener as any).apply(this, arguments, addOptions);
             if (result !== false) {
                 target.removeEventListener(type, fn, removeOptions);
             }
@@ -1876,8 +1877,8 @@ export default class hlp {
             return;
         }
         Array.from(el.childNodes)
-            .filter((node) => node.nodeType === 3 && node.textContent.trim().length > 1)
-            .forEach((node) => {
+            .filter((node: any) => node.nodeType === 3 && node.textContent.trim().length > 1)
+            .forEach((node: any) => {
                 const wrapper = document.createElement(tag);
                 node.after(wrapper);
                 wrapper.appendChild(node);
@@ -2033,10 +2034,10 @@ export default class hlp {
             try {
                 let rules = sheets[sheets__key].rules || sheets[sheets__key].cssRules;
                 for (let rules__key in rules) {
-                    if (this.matches(el, rules[rules__key].selectorText)) {
+                    if (this.matches(el, (rules[rules__key] as any).selectorText)) {
                         o = Object.assign(
                             o,
-                            this.css2json(rules[rules__key].style),
+                            this.css2json((rules[rules__key] as any).style),
                             this.css2json(el.getAttribute('style')),
                         );
                     }
@@ -2114,7 +2115,7 @@ export default class hlp {
 
     static querySelectorAllShadowDom(selector) {
         let traverse = function ($parent) {
-            $els = [];
+            let $els: any[] = [];
             if ($parent.querySelector('*') !== null) {
                 $parent.querySelectorAll('*').forEach(($el) => {
                     $els.push($el);
@@ -2126,7 +2127,7 @@ export default class hlp {
             return $els;
         };
         let fragment = document.createDocumentFragment();
-        $els = traverse(document);
+        let $els: any[] = traverse(document);
         $els.forEach(($el) => {
             if ($el.matches(selector)) {
                 fragment.appendChild($el.cloneNode());
@@ -2139,7 +2140,7 @@ export default class hlp {
         hlp.unfocus();
         let el = null;
         if (typeof selector === 'string' || selector instanceof String) {
-            el = document.querySelector(selector);
+            el = document.querySelector(selector as string);
         } else {
             el = selector;
         }
@@ -2147,19 +2148,19 @@ export default class hlp {
             let mask = document.createElement('div');
             mask.classList.add('hlp-focus-mask');
             mask.style.position = 'fixed';
-            mask.style.top = 0;
-            mask.style.bottom = 0;
-            mask.style.left = 0;
-            mask.style.right = 0;
+            mask.style.top = '0';
+            mask.style.bottom = '0';
+            mask.style.left = '0';
+            mask.style.right = '0';
             mask.style.backgroundColor = 'rgba(0,0,0,0.8)';
-            mask.style.zIndex = 2147483646;
+            mask.style.zIndex = '2147483646';
             el.before(mask);
-            el.setAttribute('data-focussed', 1);
+            el.setAttribute('data-focussed', '1');
             el.setAttribute('data-focussed-orig-z-index', el.style.zIndex);
             el.setAttribute('data-focussed-orig-position', el.style.position);
             el.setAttribute('data-focussed-orig-background-color', el.style.backgroundColor);
             el.setAttribute('data-focussed-orig-box-shadow', el.style.boxShadow);
-            el.style.zIndex = 2147483647;
+            el.style.zIndex = '2147483647';
             el.style.position = 'relative';
             el.style.backgroundColor = '#ffffff';
             el.style.boxShadow = '0px 0px 0px 20px #fff';
@@ -2241,7 +2242,7 @@ export default class hlp {
     }
 
     static urlHostTopLevel() {
-        let host = window.location.host;
+        let host: any = window.location.host;
         // ipv4
         if (host.match(/^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/)) {
             return host;
@@ -2268,7 +2269,7 @@ export default class hlp {
 
     static urlOfScript() {
         if (document.currentScript) {
-            return document.currentScript.src;
+            return (document.currentScript as HTMLScriptElement).src;
         } else {
             let scripts = document.getElementsByTagName('script');
             return scripts[scripts.length - 1].src;
@@ -2282,7 +2283,7 @@ export default class hlp {
     }
 
     static waitUntil(selector, css_option = null, css_value = null) {
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
             let timeout = setInterval(() => {
                 if (
                     document.querySelector(selector) !== null &&
@@ -2304,7 +2305,7 @@ export default class hlp {
         let observer = new MutationObserver(() => {
             let elements = document.querySelectorAll(selector);
             if (elements.length > 0) {
-                elements.forEach((element) => {
+                elements.forEach((element: any) => {
                     if (!element.__processed) {
                         element.__processed = true;
                         callback(element);
@@ -2318,7 +2319,7 @@ export default class hlp {
         });
         let initialElements = document.querySelectorAll(selector);
         if (initialElements.length > 0) {
-            initialElements.forEach((element) => {
+            initialElements.forEach((element: any) => {
                 if (!element.__processed) {
                     element.__processed = true;
                     callback(element);
@@ -2337,7 +2338,7 @@ export default class hlp {
             varName = arg2;
             parentContainer = arg1;
         }
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
             let timeout = setInterval(() => {
                 if (parentContainer[varName] !== undefined && parentContainer[varName] !== null) {
                     if (value === null || parentContainer[varName] === value) {
@@ -2350,7 +2351,7 @@ export default class hlp {
     }
 
     static ready() {
-        return new Promise((resolve) => {
+        return new Promise<void>((resolve) => {
             if (document.readyState !== 'loading') {
                 return resolve();
             } else {
@@ -2362,7 +2363,7 @@ export default class hlp {
     }
 
     static load() {
-        return new Promise((resolve) => {
+        return new Promise<void>((resolve) => {
             if (document.readyState === 'complete') {
                 return resolve();
             } else {
@@ -2380,7 +2381,7 @@ export default class hlp {
 
             // also run for existing
             if (document.querySelector(selector) !== null) {
-                document.querySelectorAll(selector).forEach((el) => {
+                document.querySelectorAll(selector).forEach((el: any) => {
                     if (el.runForEl === undefined) {
                         el.runForEl = [];
                     }
@@ -2391,20 +2392,20 @@ export default class hlp {
                 });
             }
             // setup queue
-            if (window.runForEl_queue === undefined) {
-                window.runForEl_queue = [];
+            if ((window as any).runForEl_queue === undefined) {
+                (window as any).runForEl_queue = [];
             }
             // setup observer
-            if (window.runForEl_observer === undefined) {
-                window.runForEl_observer = new MutationObserver((mutations) => {
+            if ((window as any).runForEl_observer === undefined) {
+                (window as any).runForEl_observer = new MutationObserver((mutations) => {
                     mutations.forEach((mutations__value) => {
                         if (!mutations__value.addedNodes) {
                             return;
                         }
                         for (let i = 0; i < mutations__value.addedNodes.length; i++) {
-                            let node = mutations__value.addedNodes[i];
+                            let node: any = mutations__value.addedNodes[i];
                             if (node.nodeType === Node.ELEMENT_NODE) {
-                                window.runForEl_queue.forEach((queue__value) => {
+                                (window as any).runForEl_queue.forEach((queue__value) => {
                                     if (node.matches(queue__value.selector)) {
                                         if (node.runForEl === undefined) {
                                             node.runForEl = [];
@@ -2440,7 +2441,7 @@ export default class hlp {
                 });
             }
             // push to queue
-            window.runForEl_queue.push({
+            (window as any).runForEl_queue.push({
                 id: id,
                 selector: selector,
                 callback: callback,
@@ -2458,7 +2459,7 @@ export default class hlp {
         return Math.round(n * 10 * Math.pow(10, precision)) / (10 * Math.pow(10, precision));
     }
 
-    static trim(str, charlist) {
+    static trim(str, charlist = null) {
         let whitespace = [
             ' ',
             '\n',
@@ -2506,13 +2507,13 @@ export default class hlp {
         return whitespace.indexOf(str.charAt(0)) === -1 ? str : '';
     }
 
-    static ltrim(str, charlist) {
+    static ltrim(str, charlist = null) {
         charlist = !charlist ? ' \\s\u00A0' : (charlist + '').replace(/([[\]().?/*{}+$^:])/g, '$1');
         const re = new RegExp('^[' + charlist + ']+', 'g');
         return (str + '').replace(re, '');
     }
 
-    static rtrim(str, charlist) {
+    static rtrim(str, charlist = null) {
         charlist = !charlist ? ' \\s\u00A0' : (charlist + '').replace(/([[\]().?/*{}+$^:])/g, '\\$1');
         const re = new RegExp('[' + charlist + ']+$', 'g');
         return (str + '').replace(re, '');
@@ -2556,7 +2557,7 @@ export default class hlp {
         if (!(typeof str === 'string' || str instanceof String)) {
             return str;
         }
-        return [...new Intl.Segmenter().segment(str)].map((x) => x.segment);
+        return [...new (Intl as any).Segmenter().segment(str)].map((x) => x.segment);
     }
 
     static serialize(mixedValue) {
@@ -2595,7 +2596,7 @@ export default class hlp {
             }
             return type;
         };
-        const type = _getType(mixedValue);
+        const type: any = _getType(mixedValue);
         switch (type) {
             case 'function':
                 val = '';
@@ -2796,17 +2797,17 @@ export default class hlp {
         let pushIdData = null;
         // browser
         if (window !== undefined) {
-            if (window.pushIdDataGlobal === undefined) {
-                window.pushIdDataGlobal = {};
+            if ((window as any).pushIdDataGlobal === undefined) {
+                (window as any).pushIdDataGlobal = {};
             }
-            pushIdData = window.pushIdDataGlobal;
+            pushIdData = (window as any).pushIdDataGlobal;
         }
         // node.js
         if (typeof global !== 'undefined') {
-            if (global.pushIdDataGlobal === undefined) {
-                global.pushIdDataGlobal = {};
+            if ((global as any).pushIdDataGlobal === undefined) {
+                (global as any).pushIdDataGlobal = {};
             }
-            pushIdData = global.pushIdDataGlobal;
+            pushIdData = (global as any).pushIdDataGlobal;
         }
         // first run
         if (hlp.objectsAreEqual(pushIdData, {})) {
@@ -2876,7 +2877,7 @@ export default class hlp {
         return new Promise((resolve) => {
             let reader = new FileReader();
             reader.onload = () => {
-                var dataUrl = reader.result;
+                var dataUrl: any = reader.result;
                 var base64 = dataUrl.split(',')[1];
                 resolve(base64);
             };
@@ -2903,7 +2904,7 @@ export default class hlp {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result.split(',')[1]);
+            reader.onload = () => resolve((reader.result as string).split(',')[1]);
             reader.onerror = (error) => reject(error);
         });
     }
@@ -2914,7 +2915,7 @@ export default class hlp {
             file = new File([blob], filename);
         } catch {
             // ie 11
-            file = new Blob([blob], filename);
+            file = new Blob([blob], filename as any);
         }
         return file;
     }
@@ -2928,7 +2929,7 @@ export default class hlp {
     }
 
     static blobtourl(blob) {
-        return URL.createObjectURL(blob, { type: 'text/plain' });
+        return URL.createObjectURL(blob);
     }
 
     static stringtourl(string) {
@@ -2957,7 +2958,7 @@ export default class hlp {
             let file = this.base64tofile(base64),
                 reader = new FileReader();
             reader.onload = (e) => {
-                var view = new DataView(e.target.result);
+                var view = new DataView((e.target as any).result);
                 if (view.getUint16(0, false) != 0xffd8) {
                     resolve(-2);
                     return;
@@ -3058,7 +3059,7 @@ export default class hlp {
             if (base64.indexOf('data:image/jpeg;base64,') === 0) {
                 base64 = base64.replace('data:image/jpeg;base64,', '');
             }
-            this.getImageOrientation(base64).then((orientation) => {
+            this.getImageOrientation(base64).then((orientation: any) => {
                 base64 = 'data:image/jpeg;base64,' + base64;
                 if (orientation <= 1) {
                     resolve(base64);
@@ -3158,7 +3159,7 @@ export default class hlp {
 
 /* expose all functions to window */
 if (typeof window !== 'undefined') {
-    window.hlp = {};
+    (window as any).hlp = {};
     Object.getOwnPropertyNames(hlp).forEach((value, key) => {
         if (
             value === 'length' ||
@@ -3169,6 +3170,6 @@ if (typeof window !== 'undefined') {
         ) {
             return;
         }
-        window.hlp[value] = hlp[value];
+        (window as any).hlp[value] = hlp[value];
     });
 }
