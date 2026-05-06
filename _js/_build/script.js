@@ -1,9 +1,13 @@
 "use strict";
 
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
+var _taggedTemplateLiteral2 = _interopRequireDefault(require("@babel/runtime/helpers/taggedTemplateLiteral"));
+var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/slicedToArray"));
+var _templateObject;
 class hlp {
   static x(input) {
     if (typeof input === 'function') {
@@ -140,7 +144,9 @@ class hlp {
       });
     } else if (typeof input === 'object') {
       Object.entries(input).forEach(_ref => {
-        let [input__key, input__value] = _ref;
+        let _ref2 = (0, _slicedToArray2.default)(_ref, 2),
+          input__key = _ref2[0],
+          input__value = _ref2[1];
         fun(input__value, input__key);
       });
     }
@@ -164,8 +170,10 @@ class hlp {
     }
     if (typeof input === 'object') {
       var ret = null;
-      Object.entries(input).forEach(_ref2 => {
-        let [input__key, input__value] = _ref2;
+      Object.entries(input).forEach(_ref3 => {
+        let _ref4 = (0, _slicedToArray2.default)(_ref3, 2),
+          input__key = _ref4[0],
+          input__value = _ref4[1];
         if (ret === null) {
           ret = input__value;
         }
@@ -184,8 +192,10 @@ class hlp {
     }
     if (typeof input === 'object') {
       let ret = null;
-      Object.entries(input).forEach(_ref3 => {
-        let [input__key, input__value] = _ref3;
+      Object.entries(input).forEach(_ref5 => {
+        let _ref6 = (0, _slicedToArray2.default)(_ref5, 2),
+          input__key = _ref6[0],
+          input__value = _ref6[1];
         ret = input__value;
       });
       return ret;
@@ -230,7 +240,9 @@ class hlp {
       return false;
     }
     if (min > max) {
-      [min, max] = [max, min];
+      var _ref7 = [max, min];
+      min = _ref7[0];
+      max = _ref7[1];
     }
     return ~~(Math.random() * (max - min + 1)) + min;
   }
@@ -517,7 +529,9 @@ class hlp {
     }
     for (let i = passwordChars.length - 1; i > 0; i--) {
       let j = Math.floor(Math.random() * (i + 1));
-      [passwordChars[i], passwordChars[j]] = [passwordChars[j], passwordChars[i]];
+      var _ref8 = [passwordChars[j], passwordChars[i]];
+      passwordChars[i] = _ref8[0];
+      passwordChars[j] = _ref8[1];
     }
     return passwordChars.join('');
   }
@@ -635,8 +649,10 @@ class hlp {
     if (hash.has(obj)) return hash.get(obj); // cyclic reference
     const result = obj instanceof Date ? new Date(obj) : obj instanceof RegExp ? new RegExp(obj.source, obj.flags) : obj.constructor ? new obj.constructor() : Object.create(null);
     hash.set(obj, result);
-    if (obj instanceof Map) Array.from(obj, _ref4 => {
-      let [key, val] = _ref4;
+    if (obj instanceof Map) Array.from(obj, _ref9 => {
+      let _ref0 = (0, _slicedToArray2.default)(_ref9, 2),
+        key = _ref0[0],
+        val = _ref0[1];
       return result.set(key, hlp.deepCopy(val, hash));
     });
     return Object.assign(result, ...Object.keys(obj).map(key => ({
@@ -816,8 +832,10 @@ class hlp {
           xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
         }
         if (this.x(args.headers)) {
-          Object.entries(args.headers).forEach(_ref5 => {
-            let [headers__key, headers__value] = _ref5;
+          Object.entries(args.headers).forEach(_ref1 => {
+            let _ref10 = (0, _slicedToArray2.default)(_ref1, 2),
+              headers__key = _ref10[0],
+              headers__value = _ref10[1];
             xhr.setRequestHeader(headers__key, headers__value);
           });
         }
@@ -1176,29 +1194,17 @@ class hlp {
   }
   static async cursorPosition() {
     // https://stackoverflow.com/a/43326327/2068362
-    document.head.insertAdjacentHTML('afterbegin', `
-                <style type="text/css">
-                    .find-pointer-quad {
-                        --hit: 0;
-                        position: fixed;
-	                    z-index:2147483647;
-                        transform: translateZ(0);
-                        &:hover { --hit: 1; }
-                    }
-                </style>
-            `);
+    document.head.insertAdjacentHTML('afterbegin', "\n                <style type=\"text/css\">\n                    .find-pointer-quad {\n                        --hit: 0;\n                        position: fixed;\n\t                    z-index:2147483647;\n                        transform: translateZ(0);\n                        &:hover { --hit: 1; }\n                    }\n                </style>\n            ");
     window.cursorPositionDelay = 50;
     window.cursorPositionQuads = [];
     let dim = 10;
     let createQuad = (_, pos) => {
       let a = document.createElement('a');
       a.classList.add('find-pointer-quad');
-      let {
-        style
-      } = a;
-      style.top = pos < 2 ? '0' : `${dim}%`;
-      style.left = pos % 2 === 0 ? '0' : `${dim}%`;
-      style.width = style.height = `${dim}%`;
+      let style = a.style;
+      style.top = pos < 2 ? '0' : "".concat(dim, "%");
+      style.left = pos % 2 === 0 ? '0' : "".concat(dim, "%");
+      style.width = style.height = "".concat(dim, "%");
       document.body.appendChild(a);
       return a;
     };
@@ -1209,46 +1215,43 @@ class hlp {
     let hit;
     window.cursorPositionQuads.some(a => {
       let style = getComputedStyle(a);
-      let result = style.getPropertyValue(`--hit`);
-      if (result === `1`) return hit = {
+      let result = style.getPropertyValue("--hit");
+      if (result === "1") return hit = {
         style,
         a
       };
     });
     if (!hit) {
-      let [q1] = window.cursorPositionQuads;
+      let _cursorPositionQuads = (0, _slicedToArray2.default)(window.cursorPositionQuads, 1),
+        q1 = _cursorPositionQuads[0];
       let reset = Math.abs(dim) > 10000;
       let top = parseFloat(q1.style.top) - dim / 2;
       let left = parseFloat(q1.style.left) - dim / 2;
-      window.cursorPositionQuads.forEach((_ref6, pos) => {
-        let {
-          style
-        } = _ref6;
+      window.cursorPositionQuads.forEach((_ref11, pos) => {
+        let style = _ref11.style;
         if (reset) {
-          style.top = pos < 2 ? '0' : `${dim}%`;
-          style.left = pos % 2 === 0 ? '0' : `${dim}%`;
-          style.width = style.height = `${dim}%`;
+          style.top = pos < 2 ? '0' : "".concat(dim, "%");
+          style.left = pos % 2 === 0 ? '0' : "".concat(dim, "%");
+          style.width = style.height = "".concat(dim, "%");
         } else {
-          style.top = pos < 2 ? `${top}%` : `${top + dim}%`;
-          style.left = pos % 2 === 0 ? `${left}%` : `${left + dim}%`;
-          style.width = `${dim}%`;
-          style.height = `${dim}%`;
+          style.top = pos < 2 ? "".concat(top, "%") : "".concat(top + dim, "%");
+          style.left = pos % 2 === 0 ? "".concat(left, "%") : "".concat(left + dim, "%");
+          style.width = "".concat(dim, "%");
+          style.height = "".concat(dim, "%");
         }
       });
       return new Promise(resolve => {
         setTimeout(() => resolve(this.cursorPositionBisect(!reset ? 2 * dim : dim)), window.cursorPositionDelay);
       });
     }
-    let {
-      style,
-      a
-    } = hit;
-    let {
-      top,
-      left,
-      width,
-      height
-    } = a.getBoundingClientRect();
+    let _hit = hit,
+      style = _hit.style,
+      a = _hit.a;
+    let _a$getBoundingClientR = a.getBoundingClientRect(),
+      top = _a$getBoundingClientR.top,
+      left = _a$getBoundingClientR.left,
+      width = _a$getBoundingClientR.width,
+      height = _a$getBoundingClientR.height;
     if (width < 3) {
       window.cursorPositionQuads.forEach(a => a.remove());
       return {
@@ -1259,14 +1262,12 @@ class hlp {
     let ox = a.style.left;
     let oy = a.style.top;
     let nextStep = dim / 2;
-    window.cursorPositionQuads.forEach((_ref7, pos) => {
-      let {
-        style
-      } = _ref7;
-      style.top = pos < 2 ? oy : `${nextStep + parseFloat(oy)}%`;
-      style.left = pos % 2 === 0 ? ox : `${nextStep + parseFloat(ox)}%`;
-      style.width = `${nextStep}%`;
-      style.height = `${nextStep}%`;
+    window.cursorPositionQuads.forEach((_ref12, pos) => {
+      let style = _ref12.style;
+      style.top = pos < 2 ? oy : "".concat(nextStep + parseFloat(oy), "%");
+      style.left = pos % 2 === 0 ? ox : "".concat(nextStep + parseFloat(ox), "%");
+      style.width = "".concat(nextStep, "%");
+      style.height = "".concat(nextStep, "%");
     });
     return new Promise(resolve => {
       setTimeout(() => resolve(this.cursorPositionBisect(nextStep)), window.cursorPositionDelay);
@@ -1460,7 +1461,7 @@ class hlp {
       // apply trick from https://css-tricks.com/the-trick-to-viewport-units-on-mobile/
       let fn = () => {
         let vh = window.innerHeight * 0.01;
-        document.documentElement.style.setProperty('--vh', `${vh}px`);
+        document.documentElement.style.setProperty('--vh', "".concat(vh, "px"));
       };
       fn();
       window.addEventListener('resize', () => {
@@ -2270,7 +2271,7 @@ class hlp {
     return new RegExp(hlp.emojiRegexPattern(), (global === true ? 'g' : '') + 'u');
   }
   static emojiRegexPattern() {
-    return String.raw`\p{RI}\p{RI}|\p{Extended_Pictographic}(\p{EMod}|\uFE0F\u20E3?|[\u{E0020}-\u{E007E}]+\u{E007F})?(\u200D(\p{RI}\p{RI}|\p{Extended_Pictographic}(\p{EMod}|\uFE0F\u20E3?|[\u{E0020}-\u{E007E}]+\u{E007F})?))*`;
+    return String.raw(_templateObject || (_templateObject = (0, _taggedTemplateLiteral2.default)(["p{RI}p{RI}|p{Extended_Pictographic}(p{EMod}|\uFE0F\u20E3?|[\uDB40\uDC20-\uDB40\uDC7E]+\uDB40\uDC7F)?(\u200D(p{RI}p{RI}|p{Extended_Pictographic}(p{EMod}|\uFE0F\u20E3?|[\uDB40\uDC20-\uDB40\uDC7E]+\uDB40\uDC7F)?))*"], ["\\p{RI}\\p{RI}|\\p{Extended_Pictographic}(\\p{EMod}|\\uFE0F\\u20E3?|[\\u{E0020}-\\u{E007E}]+\\u{E007F})?(\\u200D(\\p{RI}\\p{RI}|\\p{Extended_Pictographic}(\\p{EMod}|\\uFE0F\\u20E3?|[\\u{E0020}-\\u{E007E}]+\\u{E007F})?))*"])));
   }
   static emojiSplit(str) {
     if (!(typeof str === 'string' || str instanceof String)) {
@@ -2366,7 +2367,7 @@ class hlp {
       };
       cache.get = index => {
         if (index >= store.length) {
-          throw RangeError(`Can't resolve reference ${index + 1}`);
+          throw RangeError("Can't resolve reference ".concat(index + 1));
         }
         return store[index];
       };
@@ -2397,30 +2398,42 @@ class hlp {
           case 'R':
             return expectReference(s);
           default:
-            throw SyntaxError(`Invalid or unsupported data type: ${type}`);
+            throw SyntaxError("Invalid or unsupported data type: ".concat(type));
         }
       };
       const expectBool = s => {
         const reBool = /^b:([01]);/;
-        const [match, boolMatch] = reBool.exec(s) || [];
+        const _ref13 = reBool.exec(s) || [],
+          _ref14 = (0, _slicedToArray2.default)(_ref13, 2),
+          match = _ref14[0],
+          boolMatch = _ref14[1];
         if (!boolMatch) throw SyntaxError('Invalid bool value, expected 0 or 1');
         return [boolMatch === '1', match.length];
       };
       const expectInt = s => {
         const reInt = /^i:([+-]?\d+);/;
-        const [match, intMatch] = reInt.exec(s) || [];
+        const _ref15 = reInt.exec(s) || [],
+          _ref16 = (0, _slicedToArray2.default)(_ref15, 2),
+          match = _ref16[0],
+          intMatch = _ref16[1];
         if (!intMatch) throw SyntaxError('Expected an integer value');
         return [parseInt(intMatch, 10), match.length];
       };
       const expectFloat = s => {
         const reFloat = /^d:(NAN|-?INF|(?:\d+\.\d*|\d*\.\d+|\d+)(?:[eE][+-]\d+)?);/;
-        const [match, floatMatch] = reFloat.exec(s) || [];
+        const _ref17 = reFloat.exec(s) || [],
+          _ref18 = (0, _slicedToArray2.default)(_ref17, 2),
+          match = _ref18[0],
+          floatMatch = _ref18[1];
         if (!floatMatch) throw SyntaxError('Expected a float value');
         return [floatMatch === 'NAN' ? Number.NaN : floatMatch === '-INF' ? Number.NEGATIVE_INFINITY : floatMatch === 'INF' ? Number.POSITIVE_INFINITY : parseFloat(floatMatch), match.length];
       };
       const expectString = s => {
         const reStrLength = /^s:(\d+):"/g;
-        const [match, byteLenMatch] = reStrLength.exec(s) || [];
+        const _ref19 = reStrLength.exec(s) || [],
+          _ref20 = (0, _slicedToArray2.default)(_ref19, 2),
+          match = _ref20[0],
+          byteLenMatch = _ref20[1];
         if (!match) throw SyntaxError('Expected a string value');
         const len = parseInt(byteLenMatch, 10);
         s = s.substr(match.length);
@@ -2431,7 +2444,10 @@ class hlp {
       };
       const expectEscapedString = s => {
         const reStrLength = /^S:(\d+):"/g;
-        const [match, strLenMatch] = reStrLength.exec(s) || [];
+        const _ref21 = reStrLength.exec(s) || [],
+          _ref22 = (0, _slicedToArray2.default)(_ref21, 2),
+          match = _ref22[0],
+          strLenMatch = _ref22[1];
         if (!match) throw SyntaxError('Expected an escaped string value');
         const len = parseInt(strLenMatch, 10);
         s = s.substr(match.length);
@@ -2442,13 +2458,19 @@ class hlp {
       };
       const expectReference = s => {
         const reRef = /^[rR]:(\d+);/;
-        const [match, refIndex] = reRef.exec(s) || [];
+        const _ref23 = reRef.exec(s) || [],
+          _ref24 = (0, _slicedToArray2.default)(_ref23, 2),
+          match = _ref24[0],
+          refIndex = _ref24[1];
         if (!match) throw SyntaxError('Expected reference value');
         return [cache.get(parseInt(refIndex, 10) - 1), match.length];
       };
       const expectArray = s => {
         const reArrayLength = /^a:(\d+):\{/;
-        const [arrayLiteralBeginMatch, arrayLengthMatch] = reArrayLength.exec(s) || [];
+        const _ref25 = reArrayLength.exec(s) || [],
+          _ref26 = (0, _slicedToArray2.default)(_ref25, 2),
+          arrayLiteralBeginMatch = _ref26[0],
+          arrayLengthMatch = _ref26[1];
         if (!arrayLengthMatch) throw SyntaxError('Expected array length annotation');
         s = s.substr(arrayLiteralBeginMatch.length);
         const items = {};
@@ -2465,9 +2487,13 @@ class hlp {
       };
       const expectObject = s => {
         const reObjectLiteral = /^O:(\d+):"([^\"]+)":(\d+):\{/;
-        const [match,, className, propCountMatch] = reObjectLiteral.exec(s) || [];
+        const _ref27 = reObjectLiteral.exec(s) || [],
+          _ref28 = (0, _slicedToArray2.default)(_ref27, 4),
+          match = _ref28[0],
+          className = _ref28[2],
+          propCountMatch = _ref28[3];
         if (!match) throw SyntaxError('Invalid input');
-        if (className !== 'stdClass') throw SyntaxError(`Unsupported object type: ${className}`);
+        if (className !== 'stdClass') throw SyntaxError("Unsupported object type: ".concat(className));
         let obj = {};
         cache([obj]);
         s = s.substr(match.length);
@@ -2604,7 +2630,7 @@ class hlp {
     let file = null;
     try {
       file = new File([blob], filename);
-    } catch {
+    } catch (_unused) {
       // ie 11
       file = new Blob([blob], filename);
     }
@@ -2820,7 +2846,10 @@ class hlp {
     let path = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
     let paths = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : [];
     if (object !== null && typeof object === 'object') {
-      for (const [object__key, object__value] of Object.entries(object)) {
+      for (const _ref29 of Object.entries(object)) {
+        var _ref30 = (0, _slicedToArray2.default)(_ref29, 2);
+        const object__key = _ref30[0];
+        const object__value = _ref30[1];
         if (object__value !== null && typeof object__value === 'object') {
           this.findRecursiveInObject(object__value, key, value, (path === '' ? '' : path + '.') + object__key, paths);
         } else if ((key === null || object__key === key) && (value === null || object__value === value)) {
