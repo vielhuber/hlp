@@ -3,4 +3,4 @@
 /_tests/_build/
 *.tmp-browserify*
 /bin/act
-package-lock.json
+/package-lock.json

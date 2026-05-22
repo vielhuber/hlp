@@ -507,7 +507,7 @@ var hlp = class hlp {
 				i += words__value.length + 1;
 			});
 			string = words.join(" ");
-			while (string.indexOf(dots + " ...") > -1) string = this.replaceAll(string, dots + " ...", dots);
+			while (string.indexOf("... ...") > -1) string = this.replaceAll(string, "... ...", dots);
 			string = string.trim();
 		}
 		let positions = this.findAllPositionsCaseInsensitive(query, string);
