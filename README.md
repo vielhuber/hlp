@@ -10,7 +10,7 @@
 
 ## motivation
 
-this is a lightweight javascript utility library that provides essential helpers for everyday coding tasks. it offers intuitive methods for variable existence checks, type validation, string manipulation, date operations, and more. designed with simplicity in mind, `hlp` eliminates boilerplate code and makes common programming patterns more concise and readable, allowing developers to focus on building features rather than writing repetitive utility code.
+a somewhat lightweight javascript utility library that provides essential helpers for everyday coding tasks. it offers intuitive methods for variable existence checks, type validation, string manipulation, date operations, and more. designed with simplicity in mind, `hlp` eliminates boilerplate code and makes common programming patterns more concise and readable, allowing developers to focus on building features rather than writing repetitive utility code.
 
 ## installation
 
