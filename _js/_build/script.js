@@ -736,12 +736,10 @@ class hlp {
     return indices;
   }
   static countAllOccurences(value, str) {
-    let regExp = new RegExp(value, 'g');
-    return (str.match(regExp) || []).length;
+    return this.findAllPositions(value, str).length;
   }
   static countAllOccurencesCaseInsensitive(value, str) {
-    let regExp = new RegExp(value, 'gi');
-    return (str.match(regExp) || []).length;
+    return this.findAllPositionsCaseInsensitive(value, str).length;
   }
   static indexOfCaseInsensitive(searchStr, str) {
     let offset = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;

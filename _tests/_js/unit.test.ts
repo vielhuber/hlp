@@ -416,6 +416,7 @@ test('countAllOccurences', () => {
     expect(hlp.countAllOccurences('foofoo', 'foofoofoo')).toEqual(1);
     expect(hlp.countAllOccurences('is', 'isisisisisis')).toEqual(6);
     expect(hlp.countAllOccurences('IS', 'isisisisisis')).toEqual(0);
+    expect(hlp.countAllOccurences('(a+)+$', '(a+)+$ (a+)+$ aaaaa')).toEqual(2);
 });
 
 test('countAllOccurencesCaseInsensitive', () => {
@@ -424,6 +425,7 @@ test('countAllOccurencesCaseInsensitive', () => {
     expect(hlp.countAllOccurencesCaseInsensitive(' ', 'this is a')).toEqual(2);
     expect(hlp.countAllOccurencesCaseInsensitive('foofoo', 'FOOFOOFOO')).toEqual(1);
     expect(hlp.countAllOccurencesCaseInsensitive('IS', 'isisisisisis')).toEqual(6);
+    expect(hlp.countAllOccurencesCaseInsensitive('A+B', 'a+b A+B ab')).toEqual(2);
 });
 
 test('findAllPositions', () => {
