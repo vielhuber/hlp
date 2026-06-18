@@ -448,7 +448,7 @@ hlp.outerHeightWithMargin( document.querySelector('.foo') )
 // get cursor position (without mouse events)
 hlp.cursorPosition().then(pos => { console.log(pos); /* pos: { x: ..., y: ... } */ });
 
-// polyfills for ie11
+// dom compatibility helpers
 hlp.closest( document.querySelector('.children'), '.parent' )
 hlp.matches( document.querySelector('.parent'), '.parent' ) // true
 hlp.remove( document.querySelector('.foo') ) // also works if .foo does not exist
@@ -476,7 +476,7 @@ hlp.wrap( document.querySelector('.foo'), '<div class="wrapper"></div>' )
 // wrap all text nodes with new node
 hlp.wrapTextNodes( document.querySelector('.foo'), 'p' )
 
-// html string to dom (also supports ie11 and td nodes that cannot be root nodes)
+// html string to dom (also supports td nodes that cannot be root nodes)
 hlp.html2dom('<p>foo</p>')
 hlp.html2dom('<td>bar</td>')
 
@@ -583,7 +583,7 @@ hlp.triggerAfterAllImagesLoaded('.container', '.container__image', () => {});
 hlp.ready().then(() => {});
 hlp.load().then(() => {});
 
-// easy ajax requests (without the fetch api; also works in ie11)
+// easy ajax requests (without the fetch api)
 hlp.get('https://httpbin.org/anything').then((response) => { }).catch((error) => { }) // { "method": "GET", ... }
 hlp.get('/relpath').then((response) => { }).catch((error) => { }) // if a full url is omitted, the call is done on the baseurl
 hlp.get('https://httpbin.org/anything', { throttle: 1000 }).then((response) => { }).catch((error) => { }) // same but with a throttle of 1 second

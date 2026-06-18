@@ -4,6 +4,6 @@ module.exports = {
         url: 'https://tld.com/?foo=bar&bar=baz',
     },
     transform: {
-        '^.+\\.(t|j)s$': 'babel-jest',
+        '^.+\\.(t|j)s$': '@swc/jest',
     },
 };
