@@ -4,6 +4,7 @@
 [![License](https://img.shields.io/github/license/vielhuber/hlp)](https://github.com/vielhuber/hlp/blob/main/LICENSE.md)
 [![Last Commit](https://img.shields.io/github/last-commit/vielhuber/hlp)](https://github.com/vielhuber/hlp/commits)
 [![node version](https://img.shields.io/node/v/hlp)](https://www.npmjs.com/package/hlp)
+[![npm Version](https://img.shields.io/npm/v/hlp)](https://www.npmjs.com/package/hlp)
 [![npm Downloads](https://img.shields.io/npm/dt/hlp)](https://www.npmjs.com/package/hlp)
 
 # ⛏️ hlp ⛏️
