@@ -163,7 +163,7 @@ var hlp = class hlp {
 		document.cookie = cookie_name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/" + samesite + "; domain=" + (full_domain === true ? this.urlHostTopLevel() : "");
 	}
 	static localStorageSet(key, value, ttl = 0) {
-		ttl = ttl * (1440 * 60 * 1e3);
+		ttl = ttl * 864e5;
 		let item = {
 			value,
 			expiry: (/* @__PURE__ */ new Date()).getTime() + ttl
@@ -675,7 +675,7 @@ var hlp = class hlp {
 		let dayOffset = -day + FIRST_DAY_OF_WEEK;
 		if (WEEK_LENGTH - day + 1 < 4) dayOffset += WEEK_LENGTH;
 		date = new Date(date.getTime() + dayOffset * 24 * 60 * 60 * 1e3);
-		let weekTime = 1e3 * 60 * 60 * 24 * 7 * (week - 1);
+		let weekTime = 6048e5 * (week - 1);
 		let targetTime = date.getTime() + weekTime;
 		date.setTime(targetTime);
 		date.setHours(0);
@@ -1703,9 +1703,7 @@ var hlp = class hlp {
 				}
 				val += ":" + count + ":{" + vals + "}";
 				break;
-			default:
-				val = "N";
-				break;
+			default: val = "N";
 		}
 		if (type !== "object" && type !== "array") val += ";";
 		return val;
@@ -2000,10 +1998,7 @@ var hlp = class hlp {
 					case 7:
 						ctx.transform(0, -1, -1, 0, height, width);
 						break;
-					case 8:
-						ctx.transform(0, -1, 1, 0, 0, width);
-						break;
-					default: break;
+					case 8: ctx.transform(0, -1, 1, 0, 0, width);
 				}
 				ctx.drawImage(img, 0, 0);
 				let base64 = canvas.toDataURL();
