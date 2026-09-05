@@ -549,8 +549,10 @@ var hlp = class hlp {
 					xhr.setRequestHeader(headers__key, headers__value);
 				});
 				xhr.onload = () => {
-					if (xhr.readyState != 4 || args.allow_errors !== true && xhr.status != 200 && xhr.status != 304) if (this.isJsonString(xhr.responseText)) reject(this.jsonStringToObject(xhr.responseText));
-					else reject(xhr.responseText);
+					if (xhr.readyState != 4 || args.allow_errors !== true && xhr.status != 200 && xhr.status != 304) {
+						if (this.isJsonString(xhr.responseText)) reject(this.jsonStringToObject(xhr.responseText));
+						else reject(xhr.responseText);
+					}
 					if (this.isJsonString(xhr.responseText)) resolve(this.jsonStringToObject(xhr.responseText));
 					else resolve(xhr.responseText);
 				};
@@ -892,8 +894,10 @@ var hlp = class hlp {
 	static scrollTo(to, duration = 1e3, element = null, offset = 0, only_up = false) {
 		return new Promise((resolve) => {
 			if (element === null) element = document.scrollingElement || document.documentElement;
-			if (!hlp.isNumeric(to)) if (element === (document.scrollingElement || document.documentElement)) to = this.offsetTopWithMargin(to);
-			else to = to.getBoundingClientRect().top - parseInt(getComputedStyle(to).marginTop) - (element.getBoundingClientRect().top - element.scrollTop - parseInt(getComputedStyle(element).marginTop));
+			if (!hlp.isNumeric(to)) {
+				if (element === (document.scrollingElement || document.documentElement)) to = this.offsetTopWithMargin(to);
+				else to = to.getBoundingClientRect().top - parseInt(getComputedStyle(to).marginTop) - (element.getBoundingClientRect().top - element.scrollTop - parseInt(getComputedStyle(element).marginTop));
+			}
 			let offset_calc = 0;
 			let offsetArr = offset;
 			if (!Array.isArray(offsetArr)) offsetArr = [offsetArr];
