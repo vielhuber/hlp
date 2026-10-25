@@ -1,4 +1,4 @@
-//#region _js/script.ts
+// _js/script.ts
 var hlp = class hlp {
 	static x(input) {
 		if (typeof input === "function") try {
@@ -2098,7 +2098,6 @@ if (typeof window !== "undefined") {
 		window.hlp[value] = hlp[value];
 	});
 }
-//#endregion
 export { hlp as default };
 
 //# sourceMappingURL=hlp.esm.js.map

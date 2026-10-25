@@ -2,7 +2,7 @@ Object.defineProperties(exports, {
 	__esModule: { value: true },
 	[Symbol.toStringTag]: { value: "Module" }
 });
-//#region _js/script.ts
+// _js/script.ts
 var hlp = class hlp {
 	static x(input) {
 		if (typeof input === "function") try {
@@ -2102,5 +2102,4 @@ if (typeof window !== "undefined") {
 		window.hlp[value] = hlp[value];
 	});
 }
-//#endregion
 exports.default = hlp;
